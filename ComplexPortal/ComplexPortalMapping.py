@@ -14,6 +14,7 @@ List of things to do:
   - Add multi threading (Add try except to avoid unexopect closing)
   - Replace the API call in extracting_UniprotFromPDBe() for accessing sifts file in the cluster
   - Add a logger
+  - Use biopython to execute blastp, so it will not be necessary to save the fasta files
   - Add taxonomy in blastp, so you can compare the taxonomy id of the hits and query
   - Generalize this code to work with any type of annotation instead of just complex portal and uniprot
 """
