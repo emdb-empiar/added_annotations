@@ -1,31 +1,122 @@
-#!/usr/bin/env/python
-
-import os, re, sys
-import argparse
+import os, argparse, re, sys, csv, subprocess, pickle, copyreg, ssl, json
 from pathlib import Path
-from urllib.request import urlopen
-from urllib.error import HTTPError
-import json
-import ssl
-from lxml import etree
 import lxml.etree as ET
-import subprocess
-import operator
-import glob
-import pickle, copyreg
-import csv
+from glob import glob
+from Bio import SearchIO
+from urllib.request import urlopen
 
-#CP_baseurl = r'https://www.ebi.ac.uk/intact/complex-ws/search/'
-#pdb_baseurl = r'https://www.ebi.ac.uk/pdbe/graph-api/mappings/uniprot/'
-#workDir = r'/homes/amudha/project/'
-###headerDir = r'/nfs/nobackup/msd/emdep_test/EM_prepare2/structures/'
-#headerDir = r'/nfs/nobackup/msd/pdb_em_test/EM_ftp/structures/'
-#PDBeDir = r"/nfs/public/ro/pdbe/release-data/complex/"
-###PDBeDir = r"/nfs/msd/work2/msdsd/complex_portal/"
-###PDBeDir = r"/nfs/nobackup/msd/complexes/"
-#
-CP_baseurl = r'https://www.ebi.ac.uk/intact/complex-ws/search/'
 pdb_baseurl = r'https://www.ebi.ac.uk/pdbe/graph-api/mappings/uniprot/'
+CP_ftp = "/Users/neli/EBI/annotations/data/cpx/" #TODO Change to their FTP path
+BLAST_DB = "uniprot_sprot" #uniprotkb_swissprot
+
+"""
+List of things to do:
+  - Add multi threading (Add try except to avoid unexopect closing)
+  - Replace the API call in extracting_UniprotFromPDBe() for accessing sifts file in the cluster
+  - Add a logger
+  - Add taxonomy in blastp, so you can compare the taxonomy id of the hits and query
+  - Generalize this code to work with any type of annotation instead of just complex portal and uniprot
+"""
+
+class PDBeCPX:
+    """
+    PDBeCPX Mapping extracted from complex_portal_output_complete_complexes.csv
+    """
+
+    def __init__(self,row):
+        self.pdbe_complex_id = row[0]
+        self.cpx_id = row[1]
+        self.components = row[2]
+        self.pdb_list = row[3].split(',')
+        self.emdb_list = row[5].split(',')
+        self.taxonomy = row[6]
+
+        self.pdb_list = [x for x in self.pdb_list if x != '']
+        self.emdb_list = [x for x in self.emdb_list if x != '']
+
+    def __str__(self):
+        return "%s\t%s\t%s\t%s\t%s\t%s" % (self.pdbe_complex_id,self.cpx_id,self.components,str(self.pdb_list),str(self.emdb_list),self.taxonomy)
+
+    def get_annotations(self):
+        annotations = []
+        for emdb_id in self.emdb_list:
+            annotation = Annotation(emdb_id,self.pdbe_complex_id,self.cpx_id,"PDB_ID")
+            annotations.append(annotation)
+        return annotations
+
+    def get_pdb_relations(self):
+        relations = {}
+        for pdb_id in self.pdb_list:
+            relations[pdb_id.lower()] = self.cpx_id
+        return relations
+
+class MolCPX:
+    """
+    PDBeCPX Mapping extracted from complex_portal_output_complete_complexes.csv
+    """
+
+    def __init__(self,row):
+        self.database = row[0]
+        self.accession = row[1]
+        self.mol_name = row[2]
+        self.stoichiometry = row[3]
+        self.polymer_type = row[4]
+        self.taxonomy = row[5]
+        self.cpx_id = row[6]
+
+    def __str__(self):
+        return "%s\t%s\t%s\t%s\t%s\t%s" % (self.database,self.accession,self.mol_name,self.polymer_type,self.cpx_id,self.taxonomy)
+
+    def is_uniprot(self):
+        return self.database == 'UNP'
+
+class CPX:
+    """
+    Complex Portal entry obtained from their FTP area
+    """
+    def __init__(self,row):
+        self.cpx_id = row[0]
+        self.name = row[1]
+        self.taxonomy = row[3]
+        self.identifiers = re.sub(r'\(\d+\)','', row[4]).split('|')
+        self.confidence = row[5]
+        self.GO = re.sub(r'\(.+?\)','', row[6]).split('|')
+
+class CPX_database:
+    """
+    Class containing all the CPX entries from ther FTP area
+    """
+    def __init__(self):
+        self.entries = {}
+        self.id_mapped = {}
+
+    def add_row(self,row):
+        cpx = CPX(row)
+        self.entries[cpx.cpx_id] = cpx
+        for identifier in cpx.identifiers:
+            self.id_mapped[identifier] = cpx.cpx_id
+
+    def get_from_cpx(self,cpx_id):
+        return self.entries[cpx_id]
+
+    #Use this method to return CPX entry based on Uniprot, CHEBI or PubMed ids
+    def get_from_identifier(self,ext_id):
+        return self.id_mapped[ext_id]
+
+class Annotation:
+    """
+    EMDB-CPX annotation
+    """
+
+    def __init__(self, emdb_id, group_by, cpx_id, method, cpx_title=""):
+        self.emdb_id = emdb_id
+        self.group_by = group_by
+        self.cpx_id = cpx_id
+        self.cpx_title = cpx_title #Maybe remove or add in the end
+        self.method = method
+
+    def __str__(self):
+        return "%s\t%s\t%s\t%s\t%s" % (self.emdb_id, self.group_by, self.cpx_id, self.cpx_title, self.method)
 
 class CPMapping:
     """
@@ -34,563 +125,197 @@ class CPMapping:
     """
 
     def __init__(self, workDir, headerDir, PDBeDir):
-        ###### Path for the files ##########
+        self.cpx_db = CPX_database()
+        self.annotations = []
         self.workDir = workDir
-        self.mapFile = os.path.join(str(workDir) + "/ComplexPortal/" + "EMDB_CPX_map.tsv")
-        self.sort_mapFile = os.path.join(str(workDir) + "/ComplexPortal/" + "EMDB_CPX_map_sorted.tsv")
-        self.outFile_uniprot = os.path.join(str(workDir) + "/ComplexPortal/" + "Extracted_UNIPROT_PBDe_BLASTP.tsv")
-        self.pdbefile = os.path.join(str(PDBeDir) + "/" + "complex_portal_output_complete_complexes.csv")
-        self.pdbeSciFile = os.path.join(str(PDBeDir) + "/" + "pdb_complex_protein_details_complete_complexes.csv")
-        self.taxidFile = os.path.join(str(workDir) + "/" + 'ncbi_taxid_scientific_names.txt')
-        ##### Remove if files exists ##########
-        if os.path.exists(self.outFile_uniprot):
-            os.remove(self.outFile_uniprot)
-        else:
-            pass
-        if os.path.exists(self.mapFile):
-            os.remove(self.mapFile)
-        if os.path.exists(self.sort_mapFile):
-            os.remove(self.sort_mapFile)
+        self.headerDir = headerDir
+        self.pdb_relations = {} #Pdb_id -> cpx_id
+        self.cpx_relations = {} #pdb_cpx_id -> cpx_id
+        self.uniprot_relations = {} #Unp_id -> pdb_cpx_id
+        self.uniprot_map = set()
+
+        self.pdbefile = os.path.join(PDBeDir, "complex_portal_output_complete_complexes.csv")
+        self.pdbeSciFile = os.path.join(PDBeDir, "pdb_complex_protein_details_complete_complexes.csv")
+
+        #Parse Complex Portal tables
+        for fn in glob(os.path.join(str(CP_ftp), '*.tsv')):
+            with open(fn,'r') as f:
+                reader = csv.reader(f,delimiter='\t')
+                next(reader, None)  # skip the headers
+                batch_data = list(reader)
+                for line in batch_data:
+                    self.cpx_db.add_row(line)
+
+        #Parse complex_portal_output_complete_complexes.csv
+        with open(self.pdbefile,'r') as f:
+            reader = csv.reader(f)
+            next(reader, None)  # skip the headers
+            batch_data = list(reader)
+            for line in batch_data:
+                row = PDBeCPX(line)
+                self.annotations += row.get_annotations()
+                #Merge two dictionaries, requires python >= 3.5
+                self.pdb_relations = {**self.pdb_relations, **row.get_pdb_relations()}
+                self.cpx_relations[row.pdbe_complex_id] = row.cpx_id
+
+        #Parse pdb_complex_protein_details_complete_complexes.csv
+        with open(self.pdbeSciFile,'r') as f:
+            reader = csv.reader(f)
+            next(reader, None)  # skip the headers
+            batch_data = list(reader)
+            for line in batch_data:
+                row = MolCPX(line)
+                if row.is_uniprot():
+                    unp_id = row.accession
+                    if unp_id in self.uniprot_relations:
+                        self.uniprot_relations[unp_id].add(row.cpx_id)
+                    else:
+                        self.uniprot_relations[unp_id] = set([row.cpx_id])
+    
+    def execute(self):
         ###### Fetch header files for query ########
-        for self.fn in glob.glob(os.path.join(str(headerDir), '*')):
-                self.id_num = self.fn.split("-",1)[1]
-                xml_filename = "emd-" + self.id_num + "-v30.xml"
-                xml_dirpath = os.path.join(str(headerDir), self.fn, "header")
-                self.xml_filepath = os.path.join(xml_dirpath, xml_filename)
-                self.xml_cp_filename = "EMD-" + self.id_num
-                xml_cp_dirpath = os.path.join(str(workDir), "out")
-                self.xml_cp_filepath = os.path.join(xml_cp_dirpath, self.xml_cp_filename)
-                if not os.path.exists(self.xml_cp_filepath):
-                    os.mkdir(self.xml_cp_filepath)
-                print(self.xml_filepath)
-                self.out_cp_filepath = (self.xml_cp_filepath + "/")
+        for fn in glob(os.path.join(str(self.headerDir), '*')):
+            print(fn)
+            id_num = fn.split('-')[1]
+            xml_filename = "emd-" + id_num + "-v30.xml"
+            xml_dirpath = os.path.join(str(self.headerDir), fn, "header")
+            xml_filepath = os.path.join(xml_dirpath, xml_filename)
+            
+            ####### Extract the ids and store author provided annotations #######
+            uniprot_ids, pdb_ids = self.extracting_IDs(xml_filepath, self.pdbefile)
+            
+            ####### Fetching Uniprot from PDB ids #######
+            for pdb_id in pdb_ids:
+                self.extracting_UniprotFromPDBe("EMD-" + id_num, pdb_id)
 
-                ######## Extract IDs (EMDB, PDB and UNIPROT) from header file ###########
-                self.query = self.extracting_IDs(self.xml_filepath, self.pdbefile)
+            ####### CREATING FASTA SEQUENCE AND RUNNING BLAST ########
+            self.uniprot_map = self.uniprot_map.union(self.create_fasta_run_blastp(id_num, xml_filepath))
 
-                ####### CREATING FASTA FILE FOR BLAST ########
-                if 'PDB_ID' not in self.query[1:]:
-                    #print(self.query[self.query.index('PDB_ID') - 1])
-                    self.create_fasta_run_blastp(self.out_cp_filepath, self.xml_filepath)
-                    out_fasta = os.path.join(self.out_cp_filepath, "*.out")
-                    for self.out_fasta_file in glob.glob(out_fasta):
-                    #os.chdir(self.out_cp_filepath)
-                    #for self.out_fasta_file in glob.glob("*.out"):
-                        print(self.out_fasta_file)
-                        self.split_files(self.out_fasta_file)
-                        self.purge(self.out_cp_filepath)
-                    os.chdir(self.out_cp_filepath)
-                    all_uni = []
-                    ######## Extract UNIPROT #######
-                    for filena in glob.glob("*.txt"):
-                        self.filena = filena
-                        self.fs = (self.out_cp_filepath + filena)
-                        #print("CHE", self.outFile_uniprot, self.fs)
-                        bl_uniprot = self.extract_uniprot_from_blast(self.outFile_uniprot, self.fs)
-                        #print("UNI", filena, bl_uniprot)
-                        all_uni.extend(bl_uniprot)
-                    self.query.extend(all_uni)
-
-                if 'PDB_ID' in self.query[1:]:
-                    #print(self.query[self.query.index('PDB_ID') - 1])
-                    self.uni_ID_name = self.extracting_UniprotFromPDBe(self.query, self.outFile_uniprot)
-                self.query.extend(self.uni_ID_name)
-
-                #print("QUERY+METHOD", self.query)
-                ############## QUERING EXTRACTED EMDB, PDB and UNIPROT IDs ###########
-                QI_CP_ID_name = self.quering_IDs(self.query, self.mapFile)
-                self.CPID = QI_CP_ID_name[0]
-                self.CPname = QI_CP_ID_name[1]
-                self.writing_outFile(self.out_cp_filepath, self.fn, self.CPID, self.CPname)
-
-
-                self.scientific_name_query = self.extracting_scientific_name(self.xml_filepath)
-                #print("Number of SciName queries", len(self.scientific_name_query))
-                if len(self.scientific_name_query) > 0:
-                    QP_CP_ID_name = self.quering_pdbeSciFile(self.query, self.xml_filepath, self.mapFile,
-                                                               self.scientific_name_query, self.pdbefile,
-                                                               self.pdbeSciFile)
-                    ############## IF COMPLEX PORTAL REST API NEEDS TO BE USED FOR QUERY ###############
-                    #self.CP_ID_name = self.quering_sciName(self.query, self.xml_filepath,
-                    #                                       self.mapFile,  self.scientific_name_query)
-                    self.CPID = QP_CP_ID_name[0]
-                    self.CPname = QP_CP_ID_name[1]
-                    self.writing_outFile(self.out_cp_filepath, self.fn, self.CPID, self.CPname)
-
-        self.sort_outFile(self.mapFile, self.sort_mapFile)
-
-    def EMD_entry_ID(self, xml_filepath):
-        """
-        Get the EMDB entry ID number
-        """
-        with open(xml_filepath, 'r') as filexml:
-            tree = ET.parse(filexml)
-            root = tree.getroot()
-            emdb_value = root.attrib
-            emd_id = emdb_value.get('emdb_id')
-        return emd_id
+            ####### CONVERTING UNIPROT DATA TO CPX ########
+            self.map_uniprot_to_cpx()
+            
 
     def extracting_IDs(self, xml_filepath, pdbefile):
         """
         Extract the IDs (EMDB, PDB from both header file and PDBe files and UNIPROT)
         """
-        query = []
+        uniprot_ids = set()
+        pdb_ids = set()
+        
         with open(xml_filepath, 'r') as filexml:
             tree = ET.parse(filexml)
             root = tree.getroot()
             a = root.attrib
             emd_id = a.get('emdb_id')
-            query.extend([emd_id, 'EMDB_ID'])
             for x in list(root.iter('pdb_reference')):
-                qs = x.find('pdb_id').text
-                query.extend([qs, "PDB_ID"])
-                if pdbefile:
-                    with open(pdbefile, 'r') as pdbef:
-                        for line in pdbef:
-                            if qs not in line:
-                                pass
-                            else:
-                                if qs in line:
-                                    pdbe_com = line.split(',')[1]
-                                    cid = "complex_id:" + pdbe_com
-                                    query.extend([cid, "PDBe"])
+                qs = x.find('pdb_id').text.lower()
+                pdb_ids.add(qs)
+                if qs in self.pdb_relations:
+                    cpx_id = self.pdb_relations[qs]
+                    self.annotations.append(Annotation(emd_id,qs,cpx_id,"PDBe"))
             if list(root.iter('protein_or_peptide')):
                for x in list(root.iter('protein_or_peptide')):
                    qs = x.find('sequence')
                    if qs.find('external_references') is not None:
                         if qs.find('external_references').attrib['type'] == 'UNIPROTKB':
                             q = qs.find('external_references').text
-                            query.extend([q, "UNIPROT"])
-                   else:
-                       pass
-        print("Extracted_IDs + METHOD", query)
-        return query
+                            uniprot_ids.add(q)
+                            self.uniprot_map.add((emd_id,q,"AUTHOR"))
+        return uniprot_ids,pdb_ids
 
-    def extracting_scientific_name(self, xml_filepath):
-        """
-        Extracting the scientific name from the header file
-        """
-        filexml = open(xml_filepath, 'r')
-        tree = ET.parse(filexml)
-        root = tree.getroot()
-        query = []
-        if list(root.iter('protein_or_peptide')):
-            for x in list(root.iter('protein_or_peptide')):
-                mol_id = x.attrib['macromolecule_id']
-                qs = x.find('name').text
-                for ns in (root.iter('natural_source')):
-                   for child in root:
-                       if 'organism' in child.attrib:
-                           nat_sou = ns.find('organism').text
-                           tid = ns.find('organism')
-                           taxid = tid.attrib['ncbi']
-                           query.extend([qs, nat_sou, taxid])
-        print("SCINAME", query)
-        return query
-
-
-    def create_fasta_run_blastp(self, out_cp_filepath, xml_filepath):
+    def create_fasta_run_blastp(self, emd_id, xml_filepath):
         """
         Creating the fasta format file to run BLASTP
         """
         filexml = open(xml_filepath, 'r')
         tree = ET.parse(filexml)
         root = tree.getroot()
-        a = root.attrib
-        emd_id = a.get('emdb_id')
-        fasta_file = (out_cp_filepath + emd_id + ".fasta")
-        with open(fasta_file, "w") as f:
-            if list(root.iter('protein_or_peptide')):
-                for x in list(root.iter('protein_or_peptide')):
-                    mol_id = x.attrib['macromolecule_id']
-                    n = x.find('name').text
-                    nat_sou = "UNKNOWN"
-                    for ns in list(root.iter('natural_source')):
-                        if ns.find('organism').text is not None:
-                            nat_sou = ns.find('organism').text
-                        else:
-                            nat_sou = "unidentified"
-                    qs = x.find('sequence')
-                    if qs.find('string') is not None:
+        uniprot_map = set()
+        if list(root.iter('protein_or_peptide')):
+            for x in list(root.iter('protein_or_peptide')):
+                qs = x.find('sequence')
+                if qs.find('string') is not None:
+                    fasta_file = os.path.join(self.workDir, emd_id + ".fasta")
+                    with open(fasta_file, "w") as f:
                         seq = qs.find('string').text
-                        unk = re.findall('(UNK)+', seq)
-                        if unk:
-                            pass
-                        else:
-                            if not unk:
-                                seq = seq.replace("(UNK)", "X")
-                                seq = seq.replace("UNK", "X")
-                                with open(fasta_file, "a") as file:
-                                    file.write(">" + emd_id + "|" + mol_id + "|" + nat_sou + "|" + n + '\n' + seq + '\n')
-                    else:
-                        if os.path.exists(fasta_file):
-                            os.remove(fasta_file)
-            else:
-                if fasta_file:
-                    os.remove(fasta_file)
-            if os.path.exists(fasta_file):
-                db_path = (str(self.workDir) + "/" + "uniprot_sprot")
-                qout = (out_cp_filepath + emd_id + ".out")
-                command = ["blastp", "-query", "%s" % fasta_file, "-db", "%s" % db_path, "-out",
-                           "%s" % qout, "-evalue",
-                           "1e-40"]
-                subprocess.call(command)
-        return
+                        seq = re.sub(r'\(\s*UNK\s*\)','X', seq)
+                        seq = seq.replace("\n","")
+                        f.write(">seq\n%s" % seq)
 
-    def files(self, out_cp_filepath, xml_cp_filename):
-        """
-        Create filenames with running index as prefix
-        """
-        n = 0
-        while True:
-            n += 1
-            sp_fn = (out_cp_filepath + '%d_' % n + xml_cp_filename + ".txt")
-            yield open(sp_fn, 'w')
+                    db_path = os.path.join(self.workDir, BLAST_DB)#
+                    qout = os.path.join(self.workDir, emd_id + ".out")
+                    command = ["blastp", "-query", fasta_file, "-db", db_path, "-out",qout, "-evalue", "1e-40"]
+                    subprocess.call(command)
+                    uniprot_id = self.extract_uniprot_from_blast(qout)
+                    if uniprot_id:
+                        uniprot_map.add(("EMD-" + emd_id,uniprot_id,"BLAST"))
 
-    def split_files(self, out_fasta_file):
-        """
-        Split as separate files from fasta file for each sequence
-        """
-        pat = 'Query='
-        fs = self.files(self.out_cp_filepath, self.xml_cp_filename)
-        outfile = next(fs)
-        with open(out_fasta_file) as wfile:
-            for line in wfile:
-                if pat not in line:
-                    outfile.write(line)
-                else:
-                    items = line.split(pat)
-                    outfile.write(items[0])
-                    for item in items[1:]:
-                        outfile = next(fs)
-                        outfile.write(pat + item)
+        return uniprot_map
 
-    def purge(self, out_cp_filepath):
-        """
-        Purge if file exists
-        """
-        pattern = "1_EMD"
-        for f in os.listdir(out_cp_filepath):
-            if re.search(pattern, f):
-                os.remove(os.path.join(out_cp_filepath, f))
-
-    def extract_uniprot_from_blast(self, outFile_uniprot, fs):
+    def extract_uniprot_from_blast(self, out_file):
         """
         Extracting the UNIPROT ID from BLASTP output
         """
-        ext_uniprot = []
-        with open(fs) as f:
-            print("File_blast", fs)
-            emd_seq_tag = os.path.splitext(os.path.basename(fs))[0]
-            spe_arr = ['Homo sapiens', 'Mus musculus', 'Saccharomyces cerevisiae (strain ATCC 204508 / S288c)',
-                       'Arabidopsis thaliana', 'Escherichia coli (strain K12)', 'Caenorhabditis elegans',
-                       'Rattus norvegicus', 'Gallus gallus', 'Bos taurus', 'Drosophila melanogaster',
-                       'Schizosaccharomyces pombe (strain 972 / ATCC 24843)', 'Canis lupus familiaris',
-                       'Danio rerio', 'Xenopus laevis', 'Oryctolagus cuniculus', 'Sus scrofa', 'Lymnaea stagnalis',
-                       'Pseudomonas aeruginosa (strain ATCC 15692)', 'Tetronarce californica', 'Torpedo marmorata']
-            resl = [next(f) for x in range(6)]
-            strings = re.findall(r'Length=\d*', str(resl), re.S)
-            seq_len = strings[0].split("=")[-1]
-            sep_n = re.findall('EMD-(.*)Length=', str(resl), re.S)
-            spe_name = sep_n[0].split("|")[-2]
-            for result in re.findall('>(.*?)Query', f.read(), re.S):
-                ident = re.findall(r'Identities = \d*/\d*', result) #Identities = \d*/\d* \(\d+%\)
-                ident_len = int(ident[0].split("/")[-1])
-                iden = re.findall(r'Identities = \d*/\d* \(\d*', result, re.S)
-                ident_per = int(iden[0].split("(")[-1])
-                if int(seq_len) == ident_len:
-                #if percentage_match <= ident_len:    #### FOR PERCENTAGE MATCHING OF INPUT SEQ
-                    if ident_per >= 100:
-                        unip = re.findall('sp(.*)OS=', result, re.S)
-                        uniprot = unip[0].split("|")[-2]
-                        uniprot_n = unip[0].split("|")[-1]
-                        uniprot_name = uniprot_n.replace('\n', '')
-                        ev = re.findall('Expect =(.*)Method', result, re.S)
-                        evalue = ("Evalue=" + ev[0].split(",")[0])
-                        sp_n = re.findall('OS=(.*)=', result, re.S)
-                        bsp_name = sp_n[0].split("OX")[0]
-                        bsp_name = bsp_name.replace('\n', '')
-                        print("SPECIES_NAME", spe_name, "VS",  bsp_name)
-                        if any(x in bsp_name for x in spe_arr):
-                              #unip_out = (emd_seq_tag + "," + uniprot + "," + uniprot_name + "," +
-                                          #bsp_name + "," + evalue + '\n')
-                              #uni_file += uniprot
-                              ext_uniprot.extend([uniprot, 'BLAST'])
-                        with open(outFile_uniprot, "a") as fo:
-                            EMDBID = emd_seq_tag.split('_')[1]
-                            fo.write(EMDBID + "\t" + uniprot + "\n")
-        print("Extracted_uniprot", ext_uniprot)
-        return ext_uniprot
+        spe_arr = ['Homo sapiens', 'Mus musculus', 'Saccharomyces cerevisiae (strain ATCC 204508 / S288c)',
+                   'Arabidopsis thaliana', 'Escherichia coli (strain K12)', 'Caenorhabditis elegans',
+                   'Rattus norvegicus', 'Gallus gallus', 'Bos taurus', 'Drosophila melanogaster',
+                   'Schizosaccharomyces pombe (strain 972 / ATCC 24843)', 'Canis lupus familiaris',
+                   'Danio rerio', 'Xenopus laevis', 'Oryctolagus cuniculus', 'Sus scrofa', 'Lymnaea stagnalis',
+                   'Pseudomonas aeruginosa (strain ATCC 15692)', 'Tetronarce californica', 'Torpedo marmorata']
 
-    def grep_identities(self, fs):
-        """
-        Grep the Identities from the header file
-        """
-        file_object = open(self.fs, 'r')
-        strings = re.findall(r'Identities = \d*/\d* \(\d+%\)', file_object.read())
-        print(strings)
+        qresult = SearchIO.read(out_file, 'blast-text')
+        seq_len = qresult.seq_len
+        for result in qresult:
+            desc = result._description
+            uniprot_id = result.id.replace("SP:","")
+            sp_n = re.findall('OS=(.*)=', desc, re.S)[0].split("OX")[0].strip()
+            if sp_n in spe_arr:
+                for hit in result:
+                    ident_num = hit.ident_num
+                    coverage = ident_num/seq_len
+                    if coverage < 1.0:
+                        continue
+                    return uniprot_id
+        return None
 
-    def grep_seq_len_name(self, fs):
-        """
-        Grep the sequence length
-        """
-        global whole, sep_name
-        file_object = open(self.fs, 'r')
-        for result in re.findall('Query=(.*?)Sequences', file_object.read(), re.S):
-            strings = re.findall(r'Length=\d*', result, re.S)
-            whole = strings[0].split("=")[-1]
-            sep_n = re.findall('EMD-(.*)Length=', result, re.S)
-            sep_name = sep_n[0].split("|")[-2]
-        return whole, sep_name
-
-    def quering_IDs(self, query, mapFile):
-        """
-        Querying the complex portal database for extracted IDs
-        """
-        if len(self.query) <= 0:
-            pass
-        else:
-            CP_ID = []
-            CP_name = []
-            CP_n = ""
-            queryID = self.query[::2]
-            meth = self.query[1::2]
-            for y in range(len(queryID)):
-                EMDBID = queryID[0]
-                queryString = queryID[y]
-                method = meth[y]
-                url = CP_baseurl + (queryString)
-                def save_sslcontext(obj):
-                    return obj.__class__, (obj.protocol,)
-                copyreg.pickle(ssl.SSLContext, save_sslcontext)
-                context = ssl.create_default_context()
-                foo = pickle.dumps(context)
-                gcontext = pickle.loads(foo)
-                cpjson = urlopen(url, context=gcontext).read()
-                cpjdata = json.loads(cpjson.decode('utf-8'))
-                size = cpjdata['size']
-                for ind in range(size):
-                    CP_ind = cpjdata['elements'][ind]['complexAC']
-                    #if CP_ind not in [str(y) for x in CP_ID for y in x.split()]:
-                    CP_ID.append(CP_ind)
-                    CP_n = cpjdata['elements'][ind]['complexName']
-                    CP_name.append(CP_n)
-                    with open(self.mapFile, 'a') as f:
-                      f.write(EMDBID + "\t" + queryString + "\t" + CP_ind + "\t" + CP_n + "\t" + method + '\n')
-            print("OUTPUT_TO_FILE", CP_ID, CP_name)
-        return CP_ID, CP_name
-
-    def extracting_UniprotFromPDBe(self, query, outFile_uniprot):
+    def extracting_UniprotFromPDBe(self, emdb_id, pdb_id):
         """
         Extracting the UNIPROT ID from PDBe API if model exists for the entry
         """
-        if len(self.query) <= 0:
-            pass
-        else:
-            if len(self.query) > 0:
-                keys = []
-                uni_ID = []
-                queryID = []
-                EMDBID = (self.query[self.query.index('EMDB_ID') - 1])
-                if 'PDB_ID' in self.query[1:]:
-                    queryID.append(self.query[self.query.index('PDB_ID') - 1])
-                    for y in range(len(queryID)):
-                        queryString = queryID[y]
-                        url = pdb_baseurl + (queryString)
-                        def save_sslcontext(obj):
-                            return obj.__class__, (obj.protocol,)
-                        copyreg.pickle(ssl.SSLContext, save_sslcontext)
-                        context = ssl.create_default_context()
-                        foo = pickle.dumps(context)
-                        gcontext = pickle.loads(foo)
-                        try:
-                            pdbjson = urlopen(url, context=gcontext).read()
-                            pdbjdata = json.loads(pdbjson.decode('utf-8'))
-                            jdata = pdbjdata[queryString]['UniProt']
-                            for key in jdata.keys():
-                                uni_ID.extend([key, "UNIPROT_from_PDBe"])
-                                keys.append(key)
-                            with open(outFile_uniprot, "a") as fo:
-                                fo.write(EMDBID + '\t' + str(keys) + '\n')
-                        except HTTPError:
-                            pass
-                    print("UNI_ID", uni_ID)
-        return uni_ID
+        url = pdb_baseurl + pdb_id
+        def save_sslcontext(obj):
+            return obj.__class__, (obj.protocol,)
+        copyreg.pickle(ssl.SSLContext, save_sslcontext)
+        context = ssl.create_default_context()
+        foo = pickle.dumps(context)
+        gcontext = pickle.loads(foo)
+        try:
+            pdbjson = urlopen(url, context=gcontext).read()
+            pdbjdata = json.loads(pdbjson.decode('utf-8'))
+            jdata = pdbjdata[pdb_id]['UniProt']
+            for key in jdata.keys():
+                self.uniprot_map.add((emdb_id, key, "UNIPROT_from_PDBe"))
+        except Exception as e:
+            print(str(e))
 
-    def quering_sciName(self, query, xml_filepath, mapFile, scientific_name_query):
-        """
-        Querying the complex portal for the extracted scientific name
-        """
-        cpj_quering_ID = self.quering_IDs(self.query, self.mapFile)
-        print("Query_sciName", cpj_quering_ID)
-        CP_ID = cpj_quering_ID[0]
-        CP_name = cpj_quering_ID[1]
-        CP_n = ""
-        print(CP_ID, CP_name)
-        if len(self.scientific_name_query) <= 0:
-            pass
-        else:
-            mol_id = len(self.scientific_name_query)
-            ind = int(mol_id/3)
-            for y in range(ind):
-                sci_ind = int((3*y))
-                spe_ind = int((3*y)+1)
-                tax_id = int((3*y)+2)
-                sci_qs = self.scientific_name_query[sci_ind]
-                sci_queryString = sci_qs.replace(' ', '%20')
-                sci_queryString = sci_queryString.replace("'", "%27")
-                sci_queryString = sci_queryString.replace("(", "%28")
-                sci_queryString = sci_queryString.replace(")", "%29")
-                sci_queryString = sci_queryString.replace(",", "%2C")
-                sci_queryString = sci_queryString.replace("-", "%2D")
-                sci_queryString = sci_queryString.replace("/", "%2F")
-                spe_qs = self.scientific_name_query[spe_ind]
-                spe_queryString = spe_qs.replace(' ', '%20')
-                spe_queryString = spe_queryString.replace('(', '%28')
-                spe_queryString = spe_queryString.replace(')', '%29')
-                spe_queryString = spe_queryString.replace("'", "%27")
-                spe_queryString = spe_queryString.replace(',', '%2C')
-                spe_queryString = spe_queryString.replace('-', '%2D')
-                spe_queryString = spe_queryString.replace('/', '%2F')
-                url = CP_baseurl + 'complex_alias:' + "%22" + (sci_queryString) + "%22" + \
-                      "?first=0&number=30&filters=species_f:%28%22" + (spe_queryString) +"%22%29&facets=species_f"
-                def save_sslcontext(obj):
-                    return obj.__class__, (obj.protocol,)
-                copyreg.pickle(ssl.SSLContext, save_sslcontext)
-                context = ssl.create_default_context()
-                foo = pickle.dumps(context)
-                gcontext = pickle.loads(foo)
-                cpjson = urlopen(url, context=gcontext).read()
-                cpjdata = json.loads(cpjson.decode('utf-8'))
-                print(cpjdata)
-                size = cpjdata['size']
-                for ind in range(size):
-                    CP_ind = cpjdata['elements'][ind]['complexAC']
-                    if CP_ind not in [str(y) for x in CP_ID for y in x.split()]:
-                       CP_ID.append(CP_ind)
-                       CP_n = cpjdata['elements'][ind]['complexName']
-                       CP_name.append(CP_n)
-                    EMDBID = self.EMD_entry_ID(self.xml_filepath)
-                    with open(self.mapFile, 'a') as f:
-                      f.write(EMDBID + "\t" + sci_queryString + "\t" + CP_ind + "\t" + CP_n + "\t"
-                              + "Scientific name" + '\n')
-        print("FINAL", CP_ID, CP_name)
-        return CP_ID, CP_name
+    def map_uniprot_to_cpx(self):
+        for emdb_id, uniprot, method in self.uniprot_map:
+            if uniprot in self.uniprot_relations:
+                cpx_id = self.uniprot_relations[uniprot]
+                self.annotations.append(Annotation(emdb_id,uniprot,cpx_id,method))
 
-    def quering_pdbeSciFile(self, query,xml_filepath, mapFile, scientific_name_query, pdbefile, pdbeSciFile):
-        """
-        Querying the files created by the PDBe to check for scientific name of the EMDB entry
-        """
-        cpj_quering_ID = self.quering_IDs(self.query, self.mapFile)
-        print("QUERY_PDBe", cpj_quering_ID)
-        CP_ID = cpj_quering_ID[0]
-        CP_name = cpj_quering_ID[1]
-        CP_n = ""
-        if len(self.scientific_name_query) <= 0:
-            pass
-        else:
-            mol_id = len(self.scientific_name_query)
-            ind = int(mol_id/3)
-            for y in range(ind):
-                sci_ind = int((3*y))
-                spe_ind = int((3*y)+1)
-                tax_id = int((3*y)+2)
-                sci_queryString = self.scientific_name_query[sci_ind]
-                spe_qs = self.scientific_name_query[spe_ind]
-                taxid = self.scientific_name_query[tax_id]
-                print("QUERY_SCINAME:" + sci_queryString + "," + spe_qs + "," + taxid)
-                pdbesf = open(self.pdbeSciFile, 'r')
-                for ln in pdbesf:
-                    if sci_queryString not in ln:
-                        pass
-                    else:
-                        t = ln.split(',')[-2]
-                        pcpx = ln.split(',')[-1]
-                        if len(t) <= 1:
-                            pass
-                        else:
-                            if int(t) == int(taxid):
-                                f = open(pdbefile, 'r')
-                                for x in f:
-                                    if pcpx not in x:
-                                        pass
-                                    else:
-                                        pdbcpx = x.split(',')[1]
-                                        cid = "complex_id:" + pdbcpx
-                                        url = CP_baseurl + (cid)
-                                        def save_sslcontext(obj):
-                                            return obj.__class__, (obj.protocol,)
-                                        copyreg.pickle(ssl.SSLContext, save_sslcontext)
-                                        context = ssl.create_default_context()
-                                        foo = pickle.dumps(context)
-                                        gcontext = pickle.loads(foo)
-                                        cpjson = urlopen(url, context=gcontext).read()
-                                        cpjdata = json.loads(cpjson.decode('utf-8'))
-                                        print(cpjdata)
-                                        size = cpjdata['size']
-                                        for ind in range(size):
-                                            CP_ind = cpjdata['elements'][ind]['complexAC']
-                                            if CP_ind not in [str(y) for x in CP_ID for y in x.split()]:
-                                               CP_ID.append(CP_ind)
-                                               CP_n = cpjdata['elements'][ind]['complexName']
-                                               CP_name.append(CP_n)
-                                            EMDBID = self.EMD_entry_ID(self.xml_filepath)
-                                            with open(self.mapFile, 'a') as f:
-                                              f.write(EMDBID + "\t" + sci_queryString + "\t" + CP_ind + "\t" +
-                                                      CP_n + "\t" + "PDBe" + '\n')
-        print("FINAL", CP_ID, CP_name)
-        return CP_ID, CP_name
+    def write_cpx_map(self):
+        filepath = os.path.join(self.workDir, "emdb_cpx.tsv")
+        with open(filepath, 'w') as f:
+            for cpx in self.annotations:
+                f.write("%s\t%s\t%s\t%s\n" % (cpx.emdb_id, cpx.group_by, cpx.cpx_id, cpx.method))
 
-    def sort_outFile(self, mapFile, sort_mapFile):
-        """
-        Sort the EMDB mapping to complex portal output file with EMDB_ID numbers
-        """
-        data = csv.reader(open(self.mapFile), delimiter='\t')
-        sortedlist = sorted(data, key=operator.itemgetter(0))
-        with open(self.sort_mapFile, "a") as f:
-            f.write("EMDB_ID" + "\t" + "queryString" + "\t" + "Complex_ID" + "\t" +
-                    "Complex_Name" + "\t" + "MethodOfQuery" + '\n')
-            fileWriter = csv.writer(f, delimiter='\t')
-            for row in sortedlist:
-                fileWriter.writerow(row)
-        return
+    def write_uniprot_map(self):
+        filepath = os.path.join(self.workDir, "emdb_unp.tsv")
+        with open(filepath, 'w') as f:
+            for emdb_id, uniprot, method in self.uniprot_map:
+                f.write("%s\t%s\t%s\n" % (emdb_id, uniprot, method))
 
-    def addNextCP_ID(self, xml_filepath, CP_ID, CP_name, size):
-        """
-        Adding complex portal ID and name after mapping to the EMDB header file
-        """
-        filexml = open(xml_filepath, 'r')
-        parser = ET.XMLParser(remove_blank_text=True)
-        tree = ET.parse(filexml, parser)
-        root = tree.getroot()
-        a = root.find('sample')
-        if size == 0:
-            pass
-        else:
-            b = ET.SubElement(a, "complex_reference")
-            for ind in range(size):
-                cp = ET.SubElement(b, "complex_ID")
-                cp.text = CP_ID[ind]
-                cpn = ET.SubElement(b, "complex_name")
-                cpn.text = CP_name[ind]
-        return tree
-
-    def writing_outFile(self, out_cp_filepath, id_num, CPID, CPname):
-        """
-        Writing the EMDB mapping to complex portal entries
-        """
-        out_file = (self.out_cp_filepath + "CP_EMD-" + self.id_num)
-        print(out_file)
-        if os.path.exists(out_file):
-            os.remove(out_file)
-        if len(CPID) <= 0:
-            cpString = etree.tostring(self.addNextCP_ID(self.xml_filepath, "None", "None", len(CPID)), pretty_print=True)
-            with open(out_file, "ab") as file:
-              file.write(cpString)
-        else:
-            cpString = etree.tostring(self.addNextCP_ID(self.xml_filepath, CPID, CPname, len(CPID)), pretty_print=True)
-            with open(out_file, "ab") as file:
-              file.write(cpString)
 
 if __name__== "__main__":
     ######### Command : python /Users/amudha/project/ComplexPortal/ComplexPortalMapping.py -w /Users/amudha/project/
@@ -612,4 +337,8 @@ if __name__== "__main__":
     parser.add_argument('-f', '--headerDir', type=Path, help="Directory path to the EMDB version 3.0 header files.")
     parser.add_argument('-p', '--PDBeDir', type=Path, help="Directory path to the PDBe files.")
     args = parser.parse_args()
-    CPMapping(args.workDir, args.headerDir, args.PDBeDir)
+    cpx_mapping = CPMapping(args.workDir, args.headerDir, args.PDBeDir)
+    cpx_mapping.execute()
+    cpx_mapping.write_cpx_map()
+    cpx_mapping.write_uniprot_map()
+
