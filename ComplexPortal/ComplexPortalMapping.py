@@ -18,6 +18,7 @@ List of things to do:
   - Add config files to set up the paths (so we can run locally and in the cluster without having to change the code)
   - Add taxonomy in blastp, so you can compare the taxonomy id of the hits and query
   - Generalize this code to work with any type of annotation instead of just complex portal and uniprot
+  - Adapt the unit tests to work with this version
 """
 
 class PDBeCPX:
