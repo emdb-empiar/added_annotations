@@ -100,11 +100,15 @@ class CPX_database:
             self.id_mapped[identifier] = cpx.cpx_id
 
     def get_from_cpx(self,cpx_id):
-        return self.entries[cpx_id]
+        if cpx_id in self.entries:
+            return self.entries[cpx_id]
+        return None
 
     #Use this method to return CPX entry based on Uniprot, CHEBI or PubMed ids
     def get_from_identifier(self,ext_id):
-        return self.id_mapped[ext_id]
+        if ext_id in self.id_mapped:
+            return self.id_mapped[ext_id]
+        return None
 
 class Annotation:
     """
@@ -195,7 +199,9 @@ class CPMapping:
             self.uniprot_map = self.uniprot_map.union(self.create_fasta_run_blastp(id_num, xml_filepath))
 
             ####### CONVERTING UNIPROT DATA TO CPX ########
-            self.map_uniprot_to_cpx()
+            self.map_uniprot_to_cpx("EMD-" + id_num, uniprot_ids)
+
+        self.parse_annotations()
             
 
     def extracting_IDs(self, xml_filepath, pdbefile):
@@ -301,11 +307,17 @@ class CPMapping:
         except Exception as e:
             print(str(e))
 
-    def map_uniprot_to_cpx(self):
+    def parse_annotations(self):
         for emdb_id, uniprot, method in self.uniprot_map:
             if uniprot in self.uniprot_relations:
                 cpx_id = self.uniprot_relations[uniprot]
                 self.annotations.append(Annotation(emdb_id,uniprot,cpx_id,method))
+
+    def map_uniprot_to_cpx(self, emdb_id, uniprot_ids):
+        for uniprot in uniprot_ids:
+            cpx = self.cpx_db.get_from_identifier(uniprot)
+            if cpx:
+                self.annotations.append(Annotation(emdb_id,uniprot,cpx.cpx_id,"UNIPROT"))
 
     def write_cpx_map(self):
         filepath = os.path.join(self.workDir, "emdb_cpx.tsv")
