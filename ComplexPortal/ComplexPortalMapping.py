@@ -83,7 +83,7 @@ class CPX:
         self.taxonomy = row[3]
         self.identifiers = re.sub(r'\(\d+\)','', row[4]).split('|')
         self.confidence = row[5]
-        self.GO = re.sub(r'\(.+?\)','', row[6]).split('|')
+        self.GO = re.sub(r'\(.+?\)','', row[7]).split('|')
 
 class CPX_database:
     """
