@@ -5,18 +5,19 @@ from glob import glob
 from Bio import SearchIO
 from urllib.request import urlopen
 
+pdb_sifts_ftp = r'/Users/amudha/project/uniprot_pdb.csv'
+#pdb_sifts_ftp = r'/nfs/ftp/pub/databases/msd/sifts/cvs/uniprot_pdb.csv'
+#CP_ftp = r'/nfs/ftp/pub/databases/intact/complex/current/complextab/'
+CP_ftp = "/Users/amudha/project/cpx_data/complextab/"
 pdb_baseurl = r'https://www.ebi.ac.uk/pdbe/graph-api/mappings/uniprot/'
-CP_ftp = "/Users/neli/EBI/annotations/data/cpx/" #TODO Change to their FTP path
-BLAST_DB = "uniprot_sprot" #uniprotkb_swissprot
+BLAST_DB = "uniprot_sprot"  # uniprotkb_swissprot
 
 """
 List of things to do:
   - Add multi threading (Add try except to avoid unexopect closing)
-  - Replace the API call in extracting_UniprotFromPDBe() for accessing sifts file in the cluster
   - Add a logger
   - Use biopython to execute blastp, so it will not be necessary to save the fasta files
   - Add config files to set up the paths (so we can run locally and in the cluster without having to change the code)
-  - Add taxonomy in blastp, so you can compare the taxonomy id of the hits and query
   - Generalize this code to work with any type of annotation instead of just complex portal and uniprot
   - Adapt the unit tests to work with this version
 """
@@ -26,7 +27,7 @@ class PDBeCPX:
     PDBeCPX Mapping extracted from complex_portal_output_complete_complexes.csv
     """
 
-    def __init__(self,row):
+    def __init__(self, row):
         self.pdbe_complex_id = row[0]
         self.cpx_id = row[1]
         self.components = row[2]
@@ -38,12 +39,13 @@ class PDBeCPX:
         self.emdb_list = [x for x in self.emdb_list if x != '']
 
     def __str__(self):
-        return "%s\t%s\t%s\t%s\t%s\t%s" % (self.pdbe_complex_id,self.cpx_id,self.components,str(self.pdb_list),str(self.emdb_list),self.taxonomy)
+        return "%s\t%s\t%s\t%s\t%s\t%s" % (
+        self.pdbe_complex_id, self.cpx_id, self.components, str(self.pdb_list), str(self.emdb_list), self.taxonomy)
 
     def get_annotations(self):
         annotations = []
         for emdb_id in self.emdb_list:
-            annotation = Annotation(emdb_id,self.pdbe_complex_id,self.cpx_id,"PDB_ID")
+            annotation = Annotation(emdb_id, self.pdbe_complex_id, self.cpx_id, "PDB_ID")
             annotations.append(annotation)
         return annotations
 
@@ -53,12 +55,13 @@ class PDBeCPX:
             relations[pdb_id.lower()] = self.cpx_id
         return relations
 
+
 class MolCPX:
     """
-    PDBeCPX Mapping extracted from complex_portal_output_complete_complexes.csv
+    PDBeCPX Mapping extracted from pdb_complex_protein_details_complete_complexes.csv
     """
 
-    def __init__(self,row):
+    def __init__(self, row):
         self.database = row[0]
         self.accession = row[1]
         self.mol_name = row[2]
@@ -68,47 +71,62 @@ class MolCPX:
         self.cpx_id = row[6]
 
     def __str__(self):
-        return "%s\t%s\t%s\t%s\t%s\t%s" % (self.database,self.accession,self.mol_name,self.polymer_type,self.cpx_id,self.taxonomy)
+        return "%s\t%s\t%s\t%s\t%s\t%s" % (
+        self.database, self.accession, self.mol_name, self.polymer_type, self.cpx_id, self.taxonomy)
 
     def is_uniprot(self):
         return self.database == 'UNP'
+
 
 class CPX:
     """
     Complex Portal entry obtained from their FTP area
     """
-    def __init__(self,row):
+
+    def __init__(self, row):
         self.cpx_id = row[0]
         self.name = row[1]
         self.taxonomy = row[3]
-        self.identifiers = re.sub(r'\(\d+\)','', row[4]).split('|')
+        self.identifiers = re.sub(r'\(\d+\)', '', row[4]).split('|')
         self.confidence = row[5]
-        self.GO = re.sub(r'\(.+?\)','', row[7]).split('|')
+        self.GO = re.sub(r'\(.+?\)', '', row[7]).split('|')
+        self.cross_ref = re.findall(r':(.*?)\(', row[8], re.S)
 
 class CPX_database:
     """
-    Class containing all the CPX entries from ther FTP area
+    Class containing all the CPX entries from their FTP area
     """
+
     def __init__(self):
         self.entries = {}
         self.id_mapped = {}
+        self.emdb_id_mapped = {}
 
-    def add_row(self,row):
+    def add_row(self, row):
         cpx = CPX(row)
         self.entries[cpx.cpx_id] = cpx
         for identifier in cpx.identifiers:
             self.id_mapped[identifier] = cpx.cpx_id
+        for cross_ref in cpx.cross_ref:
+            self.emdb_id_mapped[cross_ref] = cpx.cpx_id
 
-    def get_from_cpx(self,cpx_id):
+    def get_from_cpx(self, cpx_id):
         if cpx_id in self.entries:
             return self.entries[cpx_id]
         return None
 
-    #Use this method to return CPX entry based on Uniprot, CHEBI or PubMed ids
-    def get_from_identifier(self,ext_id):
+    # Use this method to return CPX entry based on Uniprot, CHEBI or PubMed ids
+    def get_from_identifier(self, ext_id):
         if ext_id in self.id_mapped:
             return self.id_mapped[ext_id]
         return None
+
+    # Use this method to return CPX entry based on EMDB_ID
+    def get_from_cross_ref(self, emd_id):
+        if emd_id in self.emdb_id_mapped:
+            return self.emdb_id_mapped[emd_id]
+        return None
+
 
 class Annotation:
     """
@@ -119,11 +137,12 @@ class Annotation:
         self.emdb_id = emdb_id
         self.group_by = group_by
         self.cpx_id = cpx_id
-        self.cpx_title = cpx_title #Maybe remove or add in the end
+        self.cpx_title = cpx_title  # Maybe remove or add in the end
         self.method = method
 
     def __str__(self):
         return "%s\t%s\t%s\t%s\t%s" % (self.emdb_id, self.group_by, self.cpx_id, self.cpx_title, self.method)
+
 
 class CPMapping:
     """
@@ -136,37 +155,39 @@ class CPMapping:
         self.annotations = []
         self.workDir = workDir
         self.headerDir = headerDir
-        self.pdb_relations = {} #Pdb_id -> cpx_id
-        self.cpx_relations = {} #pdb_cpx_id -> cpx_id
-        self.uniprot_relations = {} #Unp_id -> pdb_cpx_id
+        self.pdb_relations = {}  # Pdb_id -> cpx_id
+        self.cpx_relations = {}  # pdb_cpx_id -> cpx_id
+        self.uniprot_relations = {}  # Unp_id -> pdb_cpx_id
         self.uniprot_map = set()
+        self.tax_ids = []
 
         self.pdbefile = os.path.join(PDBeDir, "complex_portal_output_complete_complexes.csv")
         self.pdbeSciFile = os.path.join(PDBeDir, "pdb_complex_protein_details_complete_complexes.csv")
 
-        #Parse Complex Portal tables
+        # Parse Complex Portal tables
         for fn in glob(os.path.join(str(CP_ftp), '*.tsv')):
-            with open(fn,'r') as f:
-                reader = csv.reader(f,delimiter='\t')
+            self.tax_ids.append(os.path.basename(fn).split('.')[0])
+            with open(fn, 'r') as f:
+                reader = csv.reader(f, delimiter='\t')
                 next(reader, None)  # skip the headers
                 batch_data = list(reader)
                 for line in batch_data:
                     self.cpx_db.add_row(line)
 
-        #Parse complex_portal_output_complete_complexes.csv
-        with open(self.pdbefile,'r') as f:
+        # Parse complex_portal_output_complete_complexes.csv
+        with open(self.pdbefile, 'r') as f:
             reader = csv.reader(f)
             next(reader, None)  # skip the headers
             batch_data = list(reader)
             for line in batch_data:
                 row = PDBeCPX(line)
                 self.annotations += row.get_annotations()
-                #Merge two dictionaries, requires python >= 3.5
+                # Merge two dictionaries, requires python >= 3.5
                 self.pdb_relations = {**self.pdb_relations, **row.get_pdb_relations()}
                 self.cpx_relations[row.pdbe_complex_id] = row.cpx_id
 
-        #Parse pdb_complex_protein_details_complete_complexes.csv
-        with open(self.pdbeSciFile,'r') as f:
+        # Parse pdb_complex_protein_details_complete_complexes.csv
+        with open(self.pdbeSciFile, 'r') as f:
             reader = csv.reader(f)
             next(reader, None)  # skip the headers
             batch_data = list(reader)
@@ -178,7 +199,7 @@ class CPMapping:
                         self.uniprot_relations[unp_id].add(row.cpx_id)
                     else:
                         self.uniprot_relations[unp_id] = set([row.cpx_id])
-    
+
     def execute(self):
         ###### Fetch header files for query ########
         for fn in glob(os.path.join(str(self.headerDir), '*')):
@@ -187,13 +208,14 @@ class CPMapping:
             xml_filename = "emd-" + id_num + "-v30.xml"
             xml_dirpath = os.path.join(str(self.headerDir), fn, "header")
             xml_filepath = os.path.join(xml_dirpath, xml_filename)
-            
+
             ####### Extract the ids and store author provided annotations #######
             uniprot_ids, pdb_ids = self.extracting_IDs(xml_filepath, self.pdbefile)
-            
+
             ####### Fetching Uniprot from PDB ids #######
             for pdb_id in pdb_ids:
-                self.extracting_UniprotFromPDBe("EMD-" + id_num, pdb_id)
+                ###self.extracting_UniprotFromPDBe("EMD-" + id_num, pdb_id) ## PDBe API call
+                self.extracting_Uniprot_PDBeSifts("EMD-" + id_num, pdb_id)
 
             ####### CREATING FASTA SEQUENCE AND RUNNING BLAST ########
             self.uniprot_map = self.uniprot_map.union(self.create_fasta_run_blastp(id_num, xml_filepath))
@@ -201,8 +223,10 @@ class CPMapping:
             ####### CONVERTING UNIPROT DATA TO CPX ########
             self.map_uniprot_to_cpx("EMD-" + id_num, uniprot_ids)
 
+            ####### CONVERTING EMDB DATA TO CPX ########
+            self.map_emdb_to_cpx("EMD-" + id_num)
+
         self.parse_annotations()
-            
 
     def extracting_IDs(self, xml_filepath, pdbefile):
         """
@@ -210,7 +234,7 @@ class CPMapping:
         """
         uniprot_ids = set()
         pdb_ids = set()
-        
+
         with open(xml_filepath, 'r') as filexml:
             tree = ET.parse(filexml)
             root = tree.getroot()
@@ -221,16 +245,16 @@ class CPMapping:
                 pdb_ids.add(qs)
                 if qs in self.pdb_relations:
                     cpx_id = self.pdb_relations[qs]
-                    self.annotations.append(Annotation(emd_id,qs,cpx_id,"PDBe"))
+                    self.annotations.append(Annotation(emd_id, qs, cpx_id, "PDBe"))
             if list(root.iter('protein_or_peptide')):
-               for x in list(root.iter('protein_or_peptide')):
-                   qs = x.find('sequence')
-                   if qs.find('external_references') is not None:
+                for x in list(root.iter('protein_or_peptide')):
+                    qs = x.find('sequence')
+                    if qs.find('external_references') is not None:
                         if qs.find('external_references').attrib['type'] == 'UNIPROTKB':
                             q = qs.find('external_references').text
                             uniprot_ids.add(q)
-                            self.uniprot_map.add((emd_id,q,"AUTHOR"))
-        return uniprot_ids,pdb_ids
+                            self.uniprot_map.add((emd_id, q, "AUTHOR"))
+        return uniprot_ids, pdb_ids
 
     def create_fasta_run_blastp(self, emd_id, xml_filepath):
         """
@@ -247,17 +271,17 @@ class CPMapping:
                     fasta_file = os.path.join(self.workDir, emd_id + ".fasta")
                     with open(fasta_file, "w") as f:
                         seq = qs.find('string').text
-                        seq = re.sub(r'\(\s*UNK\s*\)','X', seq)
-                        seq = seq.replace("\n","")
+                        seq = re.sub(r'\(\s*UNK\s*\)', 'X', seq)
+                        seq = seq.replace("\n", "")
                         f.write(">seq\n%s" % seq)
 
-                    db_path = os.path.join(self.workDir, BLAST_DB)#
+                    db_path = os.path.join(self.workDir, BLAST_DB)  #
                     qout = os.path.join(self.workDir, emd_id + ".out")
-                    command = ["blastp", "-query", fasta_file, "-db", db_path, "-out",qout, "-evalue", "1e-40"]
-                    subprocess.call(command)
+                    blastp_command = ["blastp", "-query", fasta_file, "-db", db_path, "-out", qout, "-evalue", "1e-40"]
+                    subprocess.call(blastp_command)
                     uniprot_id = self.extract_uniprot_from_blast(qout)
                     if uniprot_id:
-                        uniprot_map.add(("EMD-" + emd_id,uniprot_id,"BLAST"))
+                        uniprot_map.add(("EMD-" + emd_id, uniprot_id, "BLAST"))
 
         return uniprot_map
 
@@ -265,23 +289,16 @@ class CPMapping:
         """
         Extracting the UNIPROT ID from BLASTP output
         """
-        spe_arr = ['Homo sapiens', 'Mus musculus', 'Saccharomyces cerevisiae (strain ATCC 204508 / S288c)',
-                   'Arabidopsis thaliana', 'Escherichia coli (strain K12)', 'Caenorhabditis elegans',
-                   'Rattus norvegicus', 'Gallus gallus', 'Bos taurus', 'Drosophila melanogaster',
-                   'Schizosaccharomyces pombe (strain 972 / ATCC 24843)', 'Canis lupus familiaris',
-                   'Danio rerio', 'Xenopus laevis', 'Oryctolagus cuniculus', 'Sus scrofa', 'Lymnaea stagnalis',
-                   'Pseudomonas aeruginosa (strain ATCC 15692)', 'Tetronarce californica', 'Torpedo marmorata']
-
         qresult = SearchIO.read(out_file, 'blast-text')
         seq_len = qresult.seq_len
         for result in qresult:
             desc = result._description
-            uniprot_id = result.id.replace("SP:","")
-            sp_n = re.findall('OS=(.*)=', desc, re.S)[0].split("OX")[0].strip()
-            if sp_n in spe_arr:
+            uniprot_id = result.id.replace("SP:", "")
+            tax_id = re.findall('OX=(.*)=', desc, re.S)[0].split("GN")[0].strip()
+            if tax_id in self.tax_ids:
                 for hit in result:
                     ident_num = hit.ident_num
-                    coverage = ident_num/seq_len
+                    coverage = ident_num / seq_len
                     if coverage < 1.0:
                         continue
                     return uniprot_id
@@ -292,8 +309,10 @@ class CPMapping:
         Extracting the UNIPROT ID from PDBe API if model exists for the entry
         """
         url = pdb_baseurl + pdb_id
+
         def save_sslcontext(obj):
             return obj.__class__, (obj.protocol,)
+
         copyreg.pickle(ssl.SSLContext, save_sslcontext)
         context = ssl.create_default_context()
         foo = pickle.dumps(context)
@@ -307,39 +326,57 @@ class CPMapping:
         except Exception as e:
             print(str(e))
 
+    def extracting_Uniprot_PDBeSifts(self, emdb_id, pdb_id):
+        """
+        Extracting the UNIPROT ID from PDBe SIFTS files if model exists for the entry
+        """
+        with open(pdb_sifts_ftp, 'r') as sifts_file:
+            reader = csv.reader(sifts_file, delimiter=',')
+            next(reader, None)
+            for row in reader:
+                for column in row:
+                    if pdb_id in column:
+                        self.uniprot_map.add((emdb_id, row[0], "UNIPROT_PDBe_SIFTS"))
+
     def parse_annotations(self):
         for emdb_id, uniprot, method in self.uniprot_map:
             if uniprot in self.uniprot_relations:
                 cpx_id = self.uniprot_relations[uniprot]
-                self.annotations.append(Annotation(emdb_id,uniprot,cpx_id,method))
+                self.annotations.append(Annotation(emdb_id, uniprot, cpx_id, method))
 
     def map_uniprot_to_cpx(self, emdb_id, uniprot_ids):
         for uniprot in uniprot_ids:
             cpx = self.cpx_db.get_from_identifier(uniprot)
             if cpx:
-                self.annotations.append(Annotation(emdb_id,uniprot,cpx.cpx_id,"UNIPROT"))
+                self.annotations.append(Annotation(emdb_id, uniprot, cpx, "UNIPROT"))
+
+    def map_emdb_to_cpx(self, emdb_id):
+        cpx = self.cpx_db.get_from_cross_ref(emdb_id)
+        if cpx:
+            self.annotations.append(Annotation(emdb_id, emdb_id, cpx, "EMDB_ID"))
 
     def write_cpx_map(self):
         filepath = os.path.join(self.workDir, "emdb_cpx.tsv")
         with open(filepath, 'w') as f:
+            f.write("%s\t%s\t%s\t%s\n" % ("EMDB_ID", "QUERY_ID", "COMPLEX_PORTAL_ID", "QUERY_METHOD"))
             for cpx in self.annotations:
                 f.write("%s\t%s\t%s\t%s\n" % (cpx.emdb_id, cpx.group_by, cpx.cpx_id, cpx.method))
 
     def write_uniprot_map(self):
         filepath = os.path.join(self.workDir, "emdb_unp.tsv")
         with open(filepath, 'w') as f:
+            f.write("%s\t%s\t%s\n" % ("EMDB_ID", "UNIPROT_ID", "QUERY_METHOD"))
             for emdb_id, uniprot, method in self.uniprot_map:
                 f.write("%s\t%s\t%s\n" % (emdb_id, uniprot, method))
 
 
-if __name__== "__main__":
-    ######### Command : python /Users/amudha/project/ComplexPortal/ComplexPortalMapping.py -w /Users/amudha/project/
-    # -f /Users/amudha/project/EMD_XML/ -p /Users/amudha/project/pdbeFiles/ ############################
+if __name__ == "__main__":
+    ######### Command : python /Users/amudha/project/ComplexPortal/ComplexPortalMapping.py
+    # -w /Users/amudha/project/ -f /Users/amudha/project/EMD_XML/ -p /Users/amudha/project/pdbeFiles/ ############################
 
     prog = "ComplexPortalMapping"
     usage = """
             Mapping EMDB entries to Complex portal.
-
             Example:
             python ComplexPortalMapping.py -w '[{"/path/to/working/folder"}]'
             -f '[{"/path/to/EMDB/header/files/folder"}]'
@@ -356,4 +393,3 @@ if __name__== "__main__":
     cpx_mapping.execute()
     cpx_mapping.write_cpx_map()
     cpx_mapping.write_uniprot_map()
-
