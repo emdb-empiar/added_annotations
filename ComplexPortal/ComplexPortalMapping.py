@@ -4,6 +4,18 @@ import lxml.etree as ET
 from glob import glob
 from Bio import SearchIO
 from urllib.request import urlopen
+#from Bio.Blast.Applications import NcbiblastpCommandline ## Biopython for BLASTP
+import logging
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
+
+formatter = logging.Formatter('%(funcName)s:%(message)s')
+
+file_handler = logging.FileHandler('logging_annotations.log', mode ='w')
+file_handler.setLevel(logging.DEBUG)
+file_handler.setFormatter(formatter)
+logger.addHandler(file_handler)
 
 pdb_sifts_ftp = r'/Users/amudha/project/uniprot_pdb.csv'
 #pdb_sifts_ftp = r'/nfs/ftp/pub/databases/msd/sifts/cvs/uniprot_pdb.csv'
@@ -15,8 +27,6 @@ BLAST_DB = "uniprot_sprot"  # uniprotkb_swissprot
 """
 List of things to do:
   - Add multi threading (Add try except to avoid unexopect closing)
-  - Add a logger
-  - Use biopython to execute blastp, so it will not be necessary to save the fasta files
   - Add config files to set up the paths (so we can run locally and in the cluster without having to change the code)
   - Generalize this code to work with any type of annotation instead of just complex portal and uniprot
   - Adapt the unit tests to work with this version
@@ -47,6 +57,7 @@ class PDBeCPX:
         for emdb_id in self.emdb_list:
             annotation = Annotation(emdb_id, self.pdbe_complex_id, self.cpx_id, "PDB_ID")
             annotations.append(annotation)
+            logger.debug(annotation)
         return annotations
 
     def get_pdb_relations(self):
@@ -277,11 +288,15 @@ class CPMapping:
 
                     db_path = os.path.join(self.workDir, BLAST_DB)  #
                     qout = os.path.join(self.workDir, emd_id + ".out")
+                    #### Using biopython for Blastp ##
+                    #blastp_command = NcbiblastpCommandline(query=fasta_file, db=db_path, out=qout, evalue='1e-40')
+                    #blastp_command()
                     blastp_command = ["blastp", "-query", fasta_file, "-db", db_path, "-out", qout, "-evalue", "1e-40"]
                     subprocess.call(blastp_command)
-                    uniprot_id = self.extract_uniprot_from_blast(qout)
-                    if uniprot_id:
-                        uniprot_map.add(("EMD-" + emd_id, uniprot_id, "BLAST"))
+                    if os.path.isfile(qout):
+                        uniprot_id = self.extract_uniprot_from_blast(qout)
+                        if uniprot_id:
+                            uniprot_map.add(("EMD-" + emd_id, uniprot_id, "BLAST"))
 
         return uniprot_map
 
@@ -349,11 +364,13 @@ class CPMapping:
             cpx = self.cpx_db.get_from_identifier(uniprot)
             if cpx:
                 self.annotations.append(Annotation(emdb_id, uniprot, cpx, "UNIPROT"))
+                logger.debug(Annotation(emdb_id, uniprot, cpx, "UNIPROT"))
 
     def map_emdb_to_cpx(self, emdb_id):
         cpx = self.cpx_db.get_from_cross_ref(emdb_id)
         if cpx:
             self.annotations.append(Annotation(emdb_id, emdb_id, cpx, "EMDB_ID"))
+            logger.debug(Annotation(emdb_id, emdb_id, cpx, "EMDB_ID"))
 
     def write_cpx_map(self):
         filepath = os.path.join(self.workDir, "emdb_cpx.tsv")
