@@ -1,5 +1,4 @@
-import os, argparse, re, sys, csv, subprocess, pickle, copyreg, ssl, json
-from pathlib import Path
+import os, re, csv, subprocess, pickle, copyreg, ssl, json
 import lxml.etree as ET
 from glob import glob
 from Bio import SearchIO
@@ -12,7 +11,7 @@ logger.setLevel(logging.DEBUG)
 
 formatter = logging.Formatter('%(funcName)s:%(message)s')
 
-file_handler = logging.FileHandler('logging_annotations.log', mode ='w')
+file_handler = logging.FileHandler('logging_ComplexPortal.log', mode ='w')
 file_handler.setLevel(logging.DEBUG)
 file_handler.setFormatter(formatter)
 logger.addHandler(file_handler)
@@ -23,14 +22,6 @@ pdb_sifts_ftp = r'/Users/amudha/project/uniprot_pdb.csv'
 CP_ftp = "/Users/amudha/project/cpx_data/complextab/"
 pdb_baseurl = r'https://www.ebi.ac.uk/pdbe/graph-api/mappings/uniprot/'
 BLAST_DB = "uniprot_sprot"  # uniprotkb_swissprot
-
-"""
-List of things to do:
-  - Add multi threading (Add try except to avoid unexopect closing)
-  - Add config files to set up the paths (so we can run locally and in the cluster without having to change the code)
-  - Generalize this code to work with any type of annotation instead of just complex portal and uniprot
-  - Adapt the unit tests to work with this version
-"""
 
 class PDBeCPX:
     """
@@ -154,7 +145,6 @@ class Annotation:
     def __str__(self):
         return "%s\t%s\t%s\t%s\t%s" % (self.emdb_id, self.group_by, self.cpx_id, self.cpx_title, self.method)
 
-
 class CPMapping:
     """
     Extracting the IDs from the EMDB entry and for map only entries running the BLASTP search to get UNIPROT IDs.
@@ -221,7 +211,7 @@ class CPMapping:
             xml_filepath = os.path.join(xml_dirpath, xml_filename)
 
             ####### Extract the ids and store author provided annotations #######
-            uniprot_ids, pdb_ids = self.extracting_IDs(xml_filepath, self.pdbefile)
+            uniprot_ids, pdb_ids = self.extracting_IDs(xml_filepath)
 
             ####### Fetching Uniprot from PDB ids #######
             for pdb_id in pdb_ids:
@@ -239,7 +229,7 @@ class CPMapping:
 
         self.parse_annotations()
 
-    def extracting_IDs(self, xml_filepath, pdbefile):
+    def extracting_IDs(self, xml_filepath):
         """
         Extract the IDs (EMDB, PDB from both header file and PDBe files and UNIPROT)
         """
@@ -339,7 +329,7 @@ class CPMapping:
             for key in jdata.keys():
                 self.uniprot_map.add((emdb_id, key, "UNIPROT_from_PDBe"))
         except Exception as e:
-            print(str(e))
+            logger.WARNING(e)
 
     def extracting_Uniprot_PDBeSifts(self, emdb_id, pdb_id):
         """
@@ -385,28 +375,3 @@ class CPMapping:
             f.write("%s\t%s\t%s\n" % ("EMDB_ID", "UNIPROT_ID", "QUERY_METHOD"))
             for emdb_id, uniprot, method in self.uniprot_map:
                 f.write("%s\t%s\t%s\n" % (emdb_id, uniprot, method))
-
-
-if __name__ == "__main__":
-    ######### Command : python /Users/amudha/project/ComplexPortal/ComplexPortalMapping.py
-    # -w /Users/amudha/project/ -f /Users/amudha/project/EMD_XML/ -p /Users/amudha/project/pdbeFiles/ ############################
-
-    prog = "ComplexPortalMapping"
-    usage = """
-            Mapping EMDB entries to Complex portal.
-            Example:
-            python ComplexPortalMapping.py -w '[{"/path/to/working/folder"}]'
-            -f '[{"/path/to/EMDB/header/files/folder"}]'
-            -p '[{"/path/to/PDBe/files/folder"}]'
-          """
-    parser = argparse.ArgumentParser(prog=prog, usage=usage, add_help=False,
-                                     formatter_class=argparse.RawTextHelpFormatter)
-    parser.add_argument("-h", "--help", action="help", help="Show this help message and exit.")
-    parser.add_argument('-w', '--workDir', type=Path, help="Main working directory path .")
-    parser.add_argument('-f', '--headerDir', type=Path, help="Directory path to the EMDB version 3.0 header files.")
-    parser.add_argument('-p', '--PDBeDir', type=Path, help="Directory path to the PDBe files.")
-    args = parser.parse_args()
-    cpx_mapping = CPMapping(args.workDir, args.headerDir, args.PDBeDir)
-    cpx_mapping.execute()
-    cpx_mapping.write_cpx_map()
-    cpx_mapping.write_uniprot_map()
