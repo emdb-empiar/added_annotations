@@ -2,7 +2,7 @@ import os, argparse
 from pathlib import Path
 import logging
 import ComplexPortalMapping
-import ChEMBLMapping
+import ComponentsMapping
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
@@ -33,7 +33,7 @@ if __name__ == "__main__":
             python AddedAnnotations.py -w '[{"/path/to/working/folder"}]'
             -f '[{"/path/to/EMDB/header/files/folder"}]'
             -p '[{"/path/to/PDBe/files/folder"}]'
-            --CPX --chEMBL 
+            --CPX --components 
           """
     parser = argparse.ArgumentParser(prog=prog, usage=usage, add_help=False,
                                      formatter_class=argparse.RawTextHelpFormatter)
@@ -42,13 +42,14 @@ if __name__ == "__main__":
     parser.add_argument('-f', '--headerDir', type=Path, help="Directory path to the EMDB version 3.0 header files.")
     parser.add_argument('-p', '--PDBeDir', type=Path, help="Directory path to the PDBe Complex portal mapping files.")
     parser.add_argument("--CPX", type=bool, nargs='?', const=True, default=False, help="Mapping to Complex Portal.")
-    parser.add_argument("--chEMBL", type=bool, nargs='?', const=True, default=False, help="Mapping to chEMBL.")
+    parser.add_argument("--components", type=bool, nargs='?', const=True, default=False, help="Mapping to chEMBL, "
+                                                                                              "ChEBI and DrugBank.")
     args = parser.parse_args()
     if args.CPX:
         cpx_mapping = ComplexPortalMapping.CPMapping(args.workDir, args.headerDir, args.PDBeDir)
         cpx_mapping.execute()
         cpx_mapping.write_cpx_map()
         cpx_mapping.write_uniprot_map()
-    if args.chEMBL:
-        che_mapping = ChEMBLMapping.ChEMBLMap(args.workDir, args.headerDir)
+    if args.components:
+        che_mapping = ComponentsMapping.ComponentsMap(args.workDir, args.headerDir)
         che_mapping.execute_annotations()
