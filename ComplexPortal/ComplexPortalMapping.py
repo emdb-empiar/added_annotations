@@ -363,7 +363,7 @@ class CPMapping:
             logger.debug(Annotation(emdb_id, emdb_id, cpx, "EMDB_ID"))
 
     def write_cpx_map(self):
-        filepath = os.path.join(self.workDir, "emdb_cpx.tsv")
+        filepath = os.path.join(self.workDir, "git_code/added_annotations/ComplexPortal/emdb_cpx.tsv")
         with open(filepath, 'w') as f:
             f.write("%s\t%s\t%s\t%s\n" % ("EMDB_ID", "QUERY_ID", "COMPLEX_PORTAL_ID", "QUERY_METHOD"))
             for cpx in self.annotations:

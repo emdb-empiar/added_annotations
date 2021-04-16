@@ -1,14 +1,15 @@
-import os, csv
+import os, sys, csv
 import lxml.etree as ET
 from glob import glob
 import logging
 from gemmi import cif
+sys.path.append('/Users/amudha/project/git_code/added_annotations/ComplexPortal/')
 from ComplexPortalMapping import CPMapping
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 formatter = logging.Formatter('%(funcName)s:%(message)s')
-file_handler = logging.FileHandler('logging_chEMBL.log')
+file_handler = logging.FileHandler('../Components/logging_components.log')
 file_handler.setFormatter(formatter)
 logger.addHandler(file_handler)
 
@@ -188,10 +189,11 @@ class ComponentsMap:
         self.chembl_map = set()
         self.chebi_map = set()
         self.drugbank_map = set()
+        self.componentsDir = os.path.join(self.workDir, "git_code/added_annotations/Components")
 
     def execute_annotations(self):
         ####### Extract only the HET_code, resource name and IDs from the PDBe componenets.cif file #####
-        self.extract_resources_from_cif(cif_filepath)
+        self.extract_resources_from_cif(cif_filepath, self.componentsDir)
 
         ###### Fetch header files for query ########
         for fn in glob(os.path.join(str(self.headerDir), '*')):
@@ -210,7 +212,7 @@ class ComponentsMap:
             ######## If HET_code in CCD exists, then map the ChEMBL, ChEBI and DrugBank to EMDB and write to file #####
             for HET in HETs:
                 if HET in self.CCD_HET:
-                    self.external_mapping_from_cif(cif_filepath, "EMD-" + id_num, HET)
+                    self.external_mapping_from_cif(self.componentsDir, "EMD-" + id_num, HET)
                     self.write_chembl_map()
                     self.sort_emdb_chembl_map()
                     self.write_chebi_map()
@@ -266,11 +268,11 @@ class ComponentsMap:
             HET = block.name
             self.CCD_HET.add(HET)
 
-    def extract_resources_from_cif(self, cif_filepath):
+    def extract_resources_from_cif(self, cif_filepath, componentsDir):
         """
         Extract only the external mapping for the HET_CODE from the pdbe components.cif file and write to new file
         """
-        with open(os.path.join(str(cif_filepath), "components_resources_ID.tsv"), 'w') as fileID:
+        with open(os.path.join(str(componentsDir), "components_resources_ID.tsv"), 'w') as fileID:
             fileID.write("%s\t%s\t%s\n" % ("HET_CODE", "SOURCE", "ID"))
             filecif = os.path.join(str(cif_filepath), "components.cif")
             doc = cif.read_file(filecif)
@@ -280,11 +282,11 @@ class ComponentsMap:
                 for element in block.find('_pdbe_chem_comp_external_mappings.', ['comp_id', 'resource', 'resource_id']):
                     fileID.write("%s\t%s\t%s\n" % (element[0], element[1], element[2]))
 
-    def external_mapping_from_cif(self, cif_filepath, emdb_id, HET):
+    def external_mapping_from_cif(self, componentsDir, emdb_id, HET):
         """
         Annotating the extracted HET_CODE to various database
         """
-        with open(os.path.join(str(cif_filepath), "components_resources_ID.tsv"), 'r') as f:
+        with open(os.path.join(str(componentsDir), "components_resources_ID.tsv"), 'r') as f:
             reader = csv.reader(f, delimiter='\t')
             next(reader, None)
             for row in reader:
@@ -304,7 +306,7 @@ class ComponentsMap:
         """
         Write ChEMBL annotations to a file
         """
-        filepath = os.path.join(self.workDir, "emdb_chembl.tsv")
+        filepath = os.path.join(self.componentsDir, "emdb_chembl.tsv")
         with open(filepath, 'w') as f:
             for emdb_id, HETs, chembl_id, method in self.chembl_map:
                 f.write("%s\t%s\t%s\t%s\n" % (emdb_id, HETs, chembl_id, method))
@@ -313,8 +315,8 @@ class ComponentsMap:
         """
         Sort the ChEMBL annotations with respect to EMDB_ID to a file
         """
-        with open(os.path.join(self.workDir, "emdb_chEMBL.tsv"), 'r') as lines:
-            with open(os.path.join(self.workDir, "sorted_emdb_chEMBL.tsv"), 'w') as sort_file:
+        with open(os.path.join(self.componentsDir, "emdb_chEMBL.tsv"), 'r') as lines:
+            with open(os.path.join(self.componentsDir, "sorted_emdb_chEMBL.tsv"), 'w') as sort_file:
                 sort_file.write("%s\t%s\t%s\t%s\n" % ("EMDB_ID", "HET_CODE", "ChEMBL_ID", "QUERY_METHOD"))
                 for line in sorted(lines, key=lambda line: line.split()[0]):
                     sort_file.write(line)
@@ -323,7 +325,7 @@ class ComponentsMap:
         """
         Write ChEBI annotations to a file
         """
-        filepath = os.path.join(self.workDir, "emdb_chebi.tsv")
+        filepath = os.path.join(self.componentsDir, "emdb_chebi.tsv")
         with open(filepath, 'w') as f:
             for emdb_id, HETs, chebi_id, method in self.chebi_map:
                 f.write("%s\t%s\t%s\t%s\n" % (emdb_id, HETs, chebi_id, method))
@@ -332,8 +334,8 @@ class ComponentsMap:
         """
         Sort ChEBI annotations with respect to EMDB_ID to a file
         """
-        with open(os.path.join(self.workDir, "emdb_chebi.tsv"), 'r') as lines:
-            with open(os.path.join(self.workDir, "sorted_emdb_chebi.tsv"), 'w') as sort_file:
+        with open(os.path.join(self.componentsDir, "emdb_chebi.tsv"), 'r') as lines:
+            with open(os.path.join(self.componentsDir, "sorted_emdb_chebi.tsv"), 'w') as sort_file:
                 sort_file.write("%s\t%s\t%s\t%s\n" % ("EMDB_ID", "HET_CODE", "ChEBI_ID", "QUERY_METHOD"))
                 for line in sorted(lines, key=lambda line: line.split()[0]):
                     sort_file.write(line)
@@ -342,7 +344,7 @@ class ComponentsMap:
         """
         Write DrugBank annotations to a file
         """
-        filepath = os.path.join(self.workDir, "emdb_drugbank.tsv")
+        filepath = os.path.join(self.componentsDir, "emdb_drugbank.tsv")
         with open(filepath, 'w') as f:
             for emdb_id, HETs, drugbank_id, method in self.drugbank_map:
                 f.write("%s\t%s\t%s\t%s\n" % (emdb_id, HETs, drugbank_id, method))
@@ -351,8 +353,8 @@ class ComponentsMap:
         """
         Sort DrugBanl annotations with respect to EMDB_ID to a file
         """
-        with open(os.path.join(self.workDir, "emdb_drugbank.tsv"), 'r') as lines:
-            with open(os.path.join(self.workDir, "sorted_emdb_drugbank.tsv"), 'w') as sort_file:
+        with open(os.path.join(self.componentsDir, "emdb_drugbank.tsv"), 'r') as lines:
+            with open(os.path.join(self.componentsDir, "sorted_emdb_drugbank.tsv"), 'w') as sort_file:
                 sort_file.write("%s\t%s\t%s\t%s\n" % ("EMDB_ID", "HET_CODE", "DrugBank_ID", "QUERY_METHOD"))
                 for line in sorted(lines, key=lambda line: line.split()[0]):
                     sort_file.write(line)
