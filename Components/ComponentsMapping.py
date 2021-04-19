@@ -8,13 +8,14 @@ from ComplexPortal.ComplexPortalMapping import CPMapping
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 formatter = logging.Formatter('%(funcName)s:%(message)s')
-file_handler = logging.FileHandler('../Components/logging_components.log')
+file_handler = logging.FileHandler('logging_components.log')
 file_handler.setFormatter(formatter)
 logger.addHandler(file_handler)
 
 #chEMBL_ftp = r'/nfs/ftp/pub/databases/chembl/ChEMBLdb/latest/'
-chEMBL_ftp = "/Users/amudha/project/chEMBLdb/latest/"
-cif_filepath = "/Users/amudha/project/"
+chEMBL_ftp = r'/Users/amudha/project/chEMBLdb/latest/'
+cif_filepath = r'/Users/amudha/project/'
+#cif_filepath = r'/homes/amudha/project/'
 
 ### TO DO LIST
 #### Replace (logger.debug(HET, "NOT IN PDB_CCD") with corresponding resource API, as of now no entry has HET which is not in CCD #
@@ -242,7 +243,7 @@ class ComponentsMap:
                     block = doc.sole_block()  # mmCIF has exactly one block
                     for element in block.find_loop("_pdbx_entity_nonpoly.comp_id"):
                         if element not in HET:
-                            logger.debug(emd_id, element)
+                            logger.debug(element)
                             HET.add(element)
                             self.HET_map.add((emd_id, element, "CCD"))
                 except Exception as e:
@@ -277,9 +278,9 @@ class ComponentsMap:
             doc = cif.read_file(filecif)
             for x in range(len(doc)):
                 block = doc[x]
-                # HET = block.name
+                HET_name = block.find_value('_chem_comp.name')
                 for element in block.find('_pdbe_chem_comp_external_mappings.', ['comp_id', 'resource', 'resource_id']):
-                    fileID.write("%s\t%s\t%s\n" % (element[0], element[1], element[2]))
+                    fileID.write("%s\t%s\t%s\t%s\n" % (element[0], HET_name, element[1], element[2]))
 
     def external_mapping_from_cif(self, componentsDir, emdb_id, HET):
         """
@@ -290,16 +291,16 @@ class ComponentsMap:
             next(reader, None)
             for row in reader:
                 formula = row[0]
-                if (HET == formula and row[1] == "ChEMBL"):
-                    self.chembl_map.add((emdb_id, row[0], row[2], "CCD"))
-                    logger.debug((emdb_id, row[0], row[2], "CCD"))
-                if (HET == formula and row[1] == "ChEBI"):
-                    self.chebi_map.add((emdb_id, row[0], row[2], "CCD"))
-                    logger.debug((emdb_id, row[0], row[2], "CCD"))
-                if (HET == formula and row[1] == "DrugBank"):
-                    self.drugbank_map.add((emdb_id, row[0], row[2], "CCD"))
-                    logger.debug((emdb_id, row[0], row[2], "CCD"))
-                    print(emdb_id, row[0], row[2], "CCD")
+                if (HET == formula and row[2] == "ChEMBL"):
+                    self.chembl_map.add((emdb_id, row[0], row[1], row[2], "CCD"))
+                    logger.debug((emdb_id, row[0], row[1], row[2], "CCD"))
+                if (HET == formula and row[2] == "ChEBI"):
+                    self.chebi_map.add((emdb_id, row[0], row[1], row[2], "CCD"))
+                    logger.debug((emdb_id, row[0], row[1], row[2], "CCD"))
+                if (HET == formula and row[2] == "DrugBank"):
+                    self.drugbank_map.add((emdb_id, row[0], row[1], row[2], "CCD"))
+                    logger.debug((emdb_id, row[0], row[1], row[2], "CCD"))
+                    print(emdb_id, row[0], row[1], row[2], "CCD")
 
     def write_chembl_map(self):
         """
@@ -307,8 +308,8 @@ class ComponentsMap:
         """
         filepath = os.path.join(self.componentsDir, "emdb_chembl.tsv")
         with open(filepath, 'w') as f:
-            for emdb_id, HETs, chembl_id, method in self.chembl_map:
-                f.write("%s\t%s\t%s\t%s\n" % (emdb_id, HETs, chembl_id, method))
+            for emdb_id, HETs, HET_name, chembl_id, method in self.chembl_map:
+                f.write("%s\t%s\t%s\t%s\t%s\n" % (emdb_id, HETs, HET_name, chembl_id, method))
 
     def sort_emdb_chembl_map(self):
         """
@@ -316,7 +317,7 @@ class ComponentsMap:
         """
         with open(os.path.join(self.componentsDir, "emdb_chEMBL.tsv"), 'r') as lines:
             with open(os.path.join(self.componentsDir, "sorted_emdb_chEMBL.tsv"), 'w') as sort_file:
-                sort_file.write("%s\t%s\t%s\t%s\n" % ("EMDB_ID", "HET_CODE", "ChEMBL_ID", "QUERY_METHOD"))
+                sort_file.write("%s\t%s\t%s\t%s\t%s\n" % ("EMDB_ID", "HET_CODE", "COMP_NAME", "ChEMBL_ID", "QUERY_METHOD"))
                 for line in sorted(lines, key=lambda line: line.split()[0]):
                     sort_file.write(line)
 
@@ -326,8 +327,8 @@ class ComponentsMap:
         """
         filepath = os.path.join(self.componentsDir, "emdb_chebi.tsv")
         with open(filepath, 'w') as f:
-            for emdb_id, HETs, chebi_id, method in self.chebi_map:
-                f.write("%s\t%s\t%s\t%s\n" % (emdb_id, HETs, chebi_id, method))
+            for emdb_id, HETs, HET_name, chebi_id, method in self.chebi_map:
+                f.write("%s\t%s\t%s\t%s\t%s\n" % (emdb_id, HETs, HET_name, chebi_id, method))
 
     def sort_emdb_chebi_map(self):
         """
@@ -335,7 +336,7 @@ class ComponentsMap:
         """
         with open(os.path.join(self.componentsDir, "emdb_chebi.tsv"), 'r') as lines:
             with open(os.path.join(self.componentsDir, "sorted_emdb_chebi.tsv"), 'w') as sort_file:
-                sort_file.write("%s\t%s\t%s\t%s\n" % ("EMDB_ID", "HET_CODE", "ChEBI_ID", "QUERY_METHOD"))
+                sort_file.write("%s\t%s\t%s\t%s\t%s\n" % ("EMDB_ID", "HET_CODE", "COMP_NAME", "ChEBI_ID", "QUERY_METHOD"))
                 for line in sorted(lines, key=lambda line: line.split()[0]):
                     sort_file.write(line)
 
@@ -345,8 +346,8 @@ class ComponentsMap:
         """
         filepath = os.path.join(self.componentsDir, "emdb_drugbank.tsv")
         with open(filepath, 'w') as f:
-            for emdb_id, HETs, drugbank_id, method in self.drugbank_map:
-                f.write("%s\t%s\t%s\t%s\n" % (emdb_id, HETs, drugbank_id, method))
+            for emdb_id, HETs, HET_name, drugbank_id, method in self.drugbank_map:
+                f.write("%s\t%s\t%s\t%s\t%s\n" % (emdb_id, HETs, HET_name, drugbank_id, method))
 
     def sort_emdb_drugbank_map(self):
         """
@@ -354,6 +355,6 @@ class ComponentsMap:
         """
         with open(os.path.join(self.componentsDir, "emdb_drugbank.tsv"), 'r') as lines:
             with open(os.path.join(self.componentsDir, "sorted_emdb_drugbank.tsv"), 'w') as sort_file:
-                sort_file.write("%s\t%s\t%s\t%s\n" % ("EMDB_ID", "HET_CODE", "DrugBank_ID", "QUERY_METHOD"))
+                sort_file.write("%s\t%s\t%s\t%s\t%s\n" % ("EMDB_ID", "HET_CODE", "COMP_NAME", "DrugBank_ID", "QUERY_METHOD"))
                 for line in sorted(lines, key=lambda line: line.split()[0]):
                     sort_file.write(line)
