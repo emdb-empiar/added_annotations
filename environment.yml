@@ -27,4 +27,3 @@ dependencies:
     - setuptools==42.0.2
     - urllib3==1.26.3
     - wheel==0.33.6
-prefix: /Users/neli/miniconda3/envs/annotations
