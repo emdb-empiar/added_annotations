@@ -1,10 +1,8 @@
 import os, sys, argparse
 from pathlib import Path
 import logging
-#sys.path.append('/Users/amudha/project/git_code/added_annotations/ComplexPortal/')
 from ComplexPortal import ComplexPortalMapping
-#sys.path.append('/Users/amudha/project/git_code/added_annotations/Components/')
-import ComponentsMapping
+from Components import ComponentsMapping
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
