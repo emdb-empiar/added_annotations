@@ -188,18 +188,24 @@ class CPMapping:
                 self.cpx_relations[row.pdbe_complex_id] = row.cpx_id
 
         # Parse pdb_complex_protein_details_complete_complexes.csv
-        with open(self.pdbeSciFile, 'r') as f:
-            reader = csv.reader(f)
-            next(reader, None)  # skip the headers
-            batch_data = list(reader)
-            for line in batch_data:
-                row = MolCPX(line)
-                if row.is_uniprot():
-                    unp_id = row.accession
-                    if unp_id in self.uniprot_relations:
-                        self.uniprot_relations[unp_id].add(row.cpx_id)
-                    else:
-                        self.uniprot_relations[unp_id] = set([row.cpx_id])
+        #
+        # I had to remove this block for two reasons:
+        # 1: There was a bug mapping PDB-COMPLEX_ID instead of COMPLEX-ID
+        # 2: This was mapping Uniprot->Complex Portal, therefore it will add complexes
+        # unrelated to the structure.
+        #
+        # with open(self.pdbeSciFile, 'r') as f:
+        #     reader = csv.reader(f)
+        #     next(reader, None)  # skip the headers
+        #     batch_data = list(reader)
+        #     for line in batch_data:
+        #         row = MolCPX(line)
+        #         if row.is_uniprot():
+        #             unp_id = row.accession
+        #             if unp_id in self.uniprot_relations:
+        #                 self.uniprot_relations[unp_id].add(row.cpx_id)
+        #             else:
+        #                 self.uniprot_relations[unp_id] = set([row.cpx_id])
 
     def execute(self):
         ###### Fetch header files for query ########
@@ -363,12 +369,16 @@ class CPMapping:
             logger.debug(Annotation(emdb_id, emdb_id, cpx, "EMDB_ID"))
 
     def write_cpx_map(self):
-        filepath = os.path.join(self.workDir, "git_code/added_annotations/ComplexPortal/emdb_cpx.tsv")
+        filepath = os.path.join(self.workDir, "emdb_cpx.tsv")
         with open(filepath, 'w') as f:
             f.write("%s\t%s\t%s\t%s\t%s\n" % ("EMDB_ID", "QUERY_ID", "CPX_ID", "CPX_TITLE", "METHOD"))
             for cpx in self.annotations:
                 cpx_obj = self.cpx_db.get_from_cpx(cpx.cpx_id)
-                f.write("%s\t%s\t%s\t%s\n" % (cpx.emdb_id, cpx.group_by, cpx.cpx_id, cpx_obj.name, cpx.method))
+                if cpx_obj:
+                    cpx_title = cpx_obj.name
+                else:
+                    cpx_title = ""
+                f.write("%s\t%s\t%s\t%s\t%s\n" % (cpx.emdb_id, cpx.group_by, cpx.cpx_id, cpx_title, cpx.method))
 
     def write_uniprot_map(self):
         filepath = os.path.join(self.workDir, "emdb_unp.tsv")
