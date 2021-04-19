@@ -188,18 +188,24 @@ class CPMapping:
                 self.cpx_relations[row.pdbe_complex_id] = row.cpx_id
 
         # Parse pdb_complex_protein_details_complete_complexes.csv
-        with open(self.pdbeSciFile, 'r') as f:
-            reader = csv.reader(f)
-            next(reader, None)  # skip the headers
-            batch_data = list(reader)
-            for line in batch_data:
-                row = MolCPX(line)
-                if row.is_uniprot():
-                    unp_id = row.accession
-                    if unp_id in self.uniprot_relations:
-                        self.uniprot_relations[unp_id].add(row.cpx_id)
-                    else:
-                        self.uniprot_relations[unp_id] = set([row.cpx_id])
+        #
+        # I had to remove this block for two reasons:
+        # 1: There was a bug mapping PDB-COMPLEX_ID instead of COMPLEX-ID
+        # 2: This was mapping Uniprot->Complex Portal, therefore it will add complexes
+        # unrelated to the structure.
+        #
+        # with open(self.pdbeSciFile, 'r') as f:
+        #     reader = csv.reader(f)
+        #     next(reader, None)  # skip the headers
+        #     batch_data = list(reader)
+        #     for line in batch_data:
+        #         row = MolCPX(line)
+        #         if row.is_uniprot():
+        #             unp_id = row.accession
+        #             if unp_id in self.uniprot_relations:
+        #                 self.uniprot_relations[unp_id].add(row.cpx_id)
+        #             else:
+        #                 self.uniprot_relations[unp_id] = set([row.cpx_id])
 
     def execute(self):
         ###### Fetch header files for query ########
