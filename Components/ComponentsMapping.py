@@ -243,7 +243,7 @@ class ComponentsMap:
                     block = doc.sole_block()  # mmCIF has exactly one block
                     for element in block.find_loop("_pdbx_entity_nonpoly.comp_id"):
                         if element not in HET:
-                            logger.debug(element)
+                            logger.debug(emd_id, element)
                             HET.add(element)
                             self.HET_map.add((emd_id, element, "CCD"))
                 except Exception as e:
