@@ -372,7 +372,7 @@ class CPMapping:
                     cpx_title = cpx_obj.name
                 else:
                     cpx_title = ""
-                f.write("%s\t%s\t%s\t%s\n" % (cpx.emdb_id, cpx.group_by, cpx.cpx_id, cpx_title, cpx.method))
+                f.write("%s\t%s\t%s\t%s\t%s\n" % (cpx.emdb_id, cpx.group_by, cpx.cpx_id, cpx_title, cpx.method))
 
     def write_uniprot_map(self):
         filepath = os.path.join(self.workDir, "emdb_unp.tsv")
