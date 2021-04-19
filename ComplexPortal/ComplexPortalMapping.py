@@ -365,9 +365,10 @@ class CPMapping:
     def write_cpx_map(self):
         filepath = os.path.join(self.workDir, "git_code/added_annotations/ComplexPortal/emdb_cpx.tsv")
         with open(filepath, 'w') as f:
-            f.write("%s\t%s\t%s\t%s\n" % ("EMDB_ID", "QUERY_ID", "COMPLEX_PORTAL_ID", "QUERY_METHOD"))
+            f.write("%s\t%s\t%s\t%s\t%s\n" % ("EMDB_ID", "QUERY_ID", "CPX_ID", "CPX_TITLE", "METHOD"))
             for cpx in self.annotations:
-                f.write("%s\t%s\t%s\t%s\n" % (cpx.emdb_id, cpx.group_by, cpx.cpx_id, cpx.method))
+                cpx_obj = self.cpx_db.get_from_cpx(cpx.cpx_id)
+                f.write("%s\t%s\t%s\t%s\n" % (cpx.emdb_id, cpx.group_by, cpx.cpx_id, cpx_obj.name, cpx.method))
 
     def write_uniprot_map(self):
         filepath = os.path.join(self.workDir, "emdb_unp.tsv")
