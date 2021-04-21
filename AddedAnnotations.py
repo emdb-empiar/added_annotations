@@ -50,6 +50,7 @@ if __name__ == "__main__":
         cpx_mapping.execute()
         cpx_mapping.write_cpx_map()
         cpx_mapping.write_uniprot_map()
+        cpx_mapping.sort_emdb_uniprot_map()
     if args.components:
         che_mapping = ComponentsMapping.ComponentsMap(args.workDir, args.headerDir)
         che_mapping.execute_annotations()

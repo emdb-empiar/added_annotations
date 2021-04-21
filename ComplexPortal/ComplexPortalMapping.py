@@ -17,7 +17,7 @@ file_handler.setFormatter(formatter)
 logger.addHandler(file_handler)
 
 pdb_sifts_ftp = r'/Users/amudha/project/uniprot_pdb.csv'
-#pdb_sifts_ftp = r'/nfs/ftp/pub/databases/msd/sifts/cvs/uniprot_pdb.csv'
+#pdb_sifts_ftp = r'/nfs/ftp/pub/databases/msd/sifts/csv/uniprot_pdb.csv'
 #CP_ftp = r'/nfs/ftp/pub/databases/intact/complex/current/complextab/'
 CP_ftp = "/Users/amudha/project/cpx_data/complextab/"
 pdb_baseurl = r'https://www.ebi.ac.uk/pdbe/graph-api/mappings/uniprot/'
@@ -156,6 +156,7 @@ class CPMapping:
         self.annotations = []
         self.workDir = workDir
         self.headerDir = headerDir
+        self.complexDir = os.path.join(self.workDir, "git_code/added_annotations/ComplexPortal")
         self.pdb_relations = {}  # Pdb_id -> cpx_id
         self.cpx_relations = {}  # pdb_cpx_id -> cpx_id
         self.uniprot_relations = {}  # Unp_id -> pdb_cpx_id
@@ -283,37 +284,58 @@ class CPMapping:
                         f.write(">seq\n%s" % seq)
 
                     db_path = os.path.join(self.workDir, BLAST_DB)  #
-                    qout = os.path.join(self.workDir, emd_id + ".out")
+                    qout = os.path.join(self.workDir, emd_id + ".xml")
                     #### Using biopython for Blastp ##
                     #blastp_command = NcbiblastpCommandline(query=fasta_file, db=db_path, out=qout, evalue='1e-40')
                     #blastp_command()
-                    blastp_command = ["blastp", "-query", fasta_file, "-db", db_path, "-out", qout, "-evalue", "1e-40"]
+                    blastp_command = ["blastp", "-query", fasta_file, "-db", db_path, "-out", qout, "-outfmt", "5",
+                                      "-evalue", "1e-40"]
                     subprocess.call(blastp_command)
                     if os.path.isfile(qout):
                         uniprot_id = self.extract_uniprot_from_blast(qout)
                         if uniprot_id:
                             uniprot_map.add(("EMD-" + emd_id, uniprot_id, "BLAST"))
-
         return uniprot_map
 
     def extract_uniprot_from_blast(self, out_file):
         """
-        Extracting the UNIPROT ID from BLASTP output
+        Extracting the UNIPROT ID from BLASTP XML output
         """
-        qresult = SearchIO.read(out_file, 'blast-text')
-        seq_len = qresult.seq_len
-        for result in qresult:
-            desc = result._description
-            uniprot_id = result.id.replace("SP:", "")
-            tax_id = re.findall('OX=(.*)=', desc, re.S)[0].split("GN")[0].strip()
-            if tax_id in self.tax_ids:
-                for hit in result:
-                    ident_num = hit.ident_num
-                    coverage = ident_num / seq_len
+        with open(out_file, 'r') as outFile:
+            tree = ET.parse(outFile)
+            root = tree.getroot()
+            seq_len = root.find('BlastOutput_query-len').text
+            for x in list(root.iter('Hit')):
+                Hit_def = x.find('Hit_def').text
+                Hit_split = Hit_def.split("OS")
+                uniprot_id = Hit_split[0]
+                tax_id = re.findall('OX=(.*)=', Hit_def, re.S)[0].split("GN")[0].strip()
+                ident_num = x.find('Hit_len').text
+                if tax_id in self.tax_ids:
+                    coverage = int(ident_num) / int(seq_len)
                     if coverage < 1.0:
                         continue
                     return uniprot_id
         return None
+
+    # def extract_uniprot_from_blast(self, out_file):
+    #     """
+    #     Extracting the UNIPROT ID from BLASTP plain text output
+    #     """
+    #     qresult = SearchIO.read(out_file, 'blast-text')
+    #     seq_len = qresult.seq_len
+    #     for result in qresult:
+    #         desc = result._description
+    #         uniprot_id = result.id.replace("SP:", "")
+    #         tax_id = re.findall('OX=(.*)=', desc, re.S)[0].split("GN")[0].strip()
+    #         if tax_id in self.tax_ids:
+    #             for hit in result:
+    #                 ident_num = hit.ident_num
+    #                 coverage = ident_num / seq_len
+    #                 if coverage < 1.0:
+    #                     continue
+    #                 return uniprot_id
+    #     return None
 
     def extracting_UniprotFromPDBe(self, emdb_id, pdb_id):
         """
@@ -383,6 +405,16 @@ class CPMapping:
     def write_uniprot_map(self):
         filepath = os.path.join(self.workDir, "emdb_unp.tsv")
         with open(filepath, 'w') as f:
-            f.write("%s\t%s\t%s\n" % ("EMDB_ID", "UNIPROT_ID", "QUERY_METHOD"))
+            #f.write("%s\t%s\t%s\n" % ("EMDB_ID", "UNIPROT_ID", "QUERY_METHOD"))
             for emdb_id, uniprot, method in self.uniprot_map:
                 f.write("%s\t%s\t%s\n" % (emdb_id, uniprot, method))
+
+    def sort_emdb_uniprot_map(self):
+        """
+        Sort Uniprot annotations with respect to EMDB_ID to a file
+        """
+        with open(os.path.join(self.workDir, "emdb_unp.tsv"), 'r') as lines:
+            with open(os.path.join(self.workDir, "sorted_emdb_unp.tsv"), 'w') as sort_file:
+                sort_file.write("%s\t%s\t%s\n" % ("EMDB_ID", "UNIPROT_ID", "QUERY_METHOD"))
+                for line in sorted(lines, key=lambda line: line.split()[0]):
+                    sort_file.write(line)

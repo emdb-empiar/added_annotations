@@ -15,7 +15,7 @@ logger.addHandler(file_handler)
 #chEMBL_ftp = r'/nfs/ftp/pub/databases/chembl/ChEMBLdb/latest/'
 chEMBL_ftp = r'/Users/amudha/project/chEMBLdb/latest/'
 cif_filepath = r'/Users/amudha/project/'
-#cif_filepath = r'/homes/amudha/project/'
+#cif_filepath = r'/nfs/ftp/pub/databases/msd/pdbechem_v2/'
 
 ### TO DO LIST
 #### Replace (logger.debug(HET, "NOT IN PDB_CCD") with corresponding resource API, as of now no entry has HET which is not in CCD #
@@ -351,7 +351,7 @@ class ComponentsMap:
 
     def sort_emdb_drugbank_map(self):
         """
-        Sort DrugBanl annotations with respect to EMDB_ID to a file
+        Sort DrugBank annotations with respect to EMDB_ID to a file
         """
         with open(os.path.join(self.componentsDir, "emdb_drugbank.tsv"), 'r') as lines:
             with open(os.path.join(self.componentsDir, "sorted_emdb_drugbank.tsv"), 'w') as sort_file:
