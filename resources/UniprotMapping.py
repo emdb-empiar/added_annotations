@@ -102,7 +102,7 @@ class UniprotMapping:
 		#### Using biopython for Blastp ##
 		#blastp_command = NcbiblastpCommandline(query=fasta_file, db=db_path, out=qout, evalue='1e-40')
 		#blastp_command()
-		blastp_command = ["blastp", "-query", fasta_file, "-db", db_path, "-out", qout, "-outfmt", "5",
+		blastp_command = [BLASTP_BIN, "-query", fasta_file, "-db", db_path, "-out", qout, "-outfmt", "5",
 						  "-evalue", "1e-40"]
 		subprocess.call(blastp_command)
 		if os.path.isfile(qout):
