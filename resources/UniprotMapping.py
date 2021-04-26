@@ -7,7 +7,7 @@ import requests
 
 #sifts_file = "/Users/neli/EBI/annotations/uniprot_pdb.csv"
 sifts_file = r'/nfs/ftp/pub/databases/msd/sifts/csv/uniprot_pdb.csv'
-BLAST_DB = "uniprot_sprot"  #  uniprotkb_swissprot
+BLAST_DB = "/nfs/public/rw/pdbe/httpd-em/software/ncbi-blast-2.11.0+/database/uniprot_sprot"  #  uniprotkb_swissprot
 BLASTP_BIN = "/nfs/public/rw/pdbe/httpd-em/software/ncbi-blast-2.11.0+/bin/blastp"
 
 uniprot_api = "www.uniprot.org/uniprot/?query=\"%s\" AND database:(type:pdb %s)&format=tab&limit=100&columns=id,organism-id&sort=score"
@@ -97,12 +97,11 @@ class UniprotMapping:
 		fasta_file = os.path.join(self.output_dir, protein.emdb_id + ".fasta")
 		with open(fasta_file, "w") as f:
 			f.write(">seq\n%s" % protein.sequence)
-		db_path = os.path.join(self.output_dir, BLAST_DB)  #
 		qout = os.path.join(self.output_dir, protein.emdb_id + ".xml")
 		#### Using biopython for Blastp ##
 		#blastp_command = NcbiblastpCommandline(query=fasta_file, db=db_path, out=qout, evalue='1e-40')
 		#blastp_command()
-		blastp_command = [BLASTP_BIN, "-query", fasta_file, "-db", db_path, "-out", qout, "-outfmt", "5",
+		blastp_command = [BLASTP_BIN, "-query", fasta_file, "-db", BLAST_DB, "-out", qout, "-outfmt", "5",
 						  "-evalue", "1e-40"]
 		subprocess.call(blastp_command)
 		if os.path.isfile(qout):
