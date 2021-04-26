@@ -1,18 +1,8 @@
 import os, sys, argparse
 from pathlib import Path
-import logging
-from ComplexPortal import ComplexPortalMapping
-from Components import ComponentsMapping
-
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
-
-formatter = logging.Formatter('%(funcName)s:%(message)s')
-
-file_handler = logging.FileHandler('logging_annotations.log', mode ='w')
-file_handler.setLevel(logging.DEBUG)
-file_handler.setFormatter(formatter)
-logger.addHandler(file_handler)
+from resources.ComplexPortalMapping import CPMapping
+from resources.ComponentsMapping import ComponentsMap
+from resources.UniprotMapping import UniprotMapping
 
 """
 List of things to do:
@@ -45,12 +35,17 @@ if __name__ == "__main__":
     parser.add_argument("--components", type=bool, nargs='?', const=True, default=False, help="Mapping to chEMBL, "
                                                                                               "ChEBI and DrugBank.")
     args = parser.parse_args()
+
+    #Uniprot is the first and mandatory since is the base for map many other resources
+    unp_mapping = UniprotMapping(args.headerDir, args.workDir)
+    unp_mapping.execute() #Now you have access to unp_mapping.proteins containg all the EMDB->UNP references
+    unp_mapping.export_tsv()
     if args.CPX:
-        cpx_mapping = ComplexPortalMapping.CPMapping(args.workDir, args.headerDir, args.PDBeDir)
+        cpx_mapping = CPMapping(args.workDir, args.headerDir, args.PDBeDir)
         cpx_mapping.execute()
         cpx_mapping.write_cpx_map()
         cpx_mapping.write_uniprot_map()
         cpx_mapping.sort_emdb_uniprot_map()
     if args.components:
-        che_mapping = ComponentsMapping.ComponentsMap(args.workDir, args.headerDir)
+        che_mapping = ComponentsMap(args.workDir, args.headerDir)
         che_mapping.execute_annotations()
