@@ -318,25 +318,6 @@ class CPMapping:
                     return uniprot_id
         return None
 
-    # def extract_uniprot_from_blast(self, out_file):
-    #     """
-    #     Extracting the UNIPROT ID from BLASTP plain text output
-    #     """
-    #     qresult = SearchIO.read(out_file, 'blast-text')
-    #     seq_len = qresult.seq_len
-    #     for result in qresult:
-    #         desc = result._description
-    #         uniprot_id = result.id.replace("SP:", "")
-    #         tax_id = re.findall('OX=(.*)=', desc, re.S)[0].split("GN")[0].strip()
-    #         if tax_id in self.tax_ids:
-    #             for hit in result:
-    #                 ident_num = hit.ident_num
-    #                 coverage = ident_num / seq_len
-    #                 if coverage < 1.0:
-    #                     continue
-    #                 return uniprot_id
-    #     return None
-
     def extracting_UniprotFromPDBe(self, emdb_id, pdb_id):
         """
         Extracting the UNIPROT ID from PDBe API if model exists for the entry
@@ -391,7 +372,7 @@ class CPMapping:
             logger.debug(Annotation(emdb_id, emdb_id, cpx, "EMDB_ID"))
 
     def write_cpx_map(self):
-        filepath = os.path.join(self.workDir, "emdb_cpx.tsv")
+        filepath = os.path.join(self.complexDir, "emdb_cpx.tsv")
         with open(filepath, 'w') as f:
             f.write("%s\t%s\t%s\t%s\t%s\n" % ("EMDB_ID", "QUERY_ID", "CPX_ID", "CPX_TITLE", "METHOD"))
             for cpx in self.annotations:
@@ -403,9 +384,8 @@ class CPMapping:
                 f.write("%s\t%s\t%s\t%s\t%s\n" % (cpx.emdb_id, cpx.group_by, cpx.cpx_id, cpx_title, cpx.method))
 
     def write_uniprot_map(self):
-        filepath = os.path.join(self.workDir, "emdb_unp.tsv")
+        filepath = os.path.join(self.complexDir, "emdb_unp.tsv")
         with open(filepath, 'w') as f:
-            #f.write("%s\t%s\t%s\n" % ("EMDB_ID", "UNIPROT_ID", "QUERY_METHOD"))
             for emdb_id, uniprot, method in self.uniprot_map:
                 f.write("%s\t%s\t%s\n" % (emdb_id, uniprot, method))
 
@@ -413,8 +393,8 @@ class CPMapping:
         """
         Sort Uniprot annotations with respect to EMDB_ID to a file
         """
-        with open(os.path.join(self.workDir, "emdb_unp.tsv"), 'r') as lines:
-            with open(os.path.join(self.workDir, "sorted_emdb_unp.tsv"), 'w') as sort_file:
+        with open(os.path.join(self.complexDir, "emdb_unp.tsv"), 'r') as lines:
+            with open(os.path.join(self.complexDir, "sorted_emdb_unp.tsv"), 'w') as sort_file:
                 sort_file.write("%s\t%s\t%s\n" % ("EMDB_ID", "UNIPROT_ID", "QUERY_METHOD"))
                 for line in sorted(lines, key=lambda line: line.split()[0]):
                     sort_file.write(line)
