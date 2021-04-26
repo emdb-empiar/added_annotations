@@ -5,9 +5,10 @@ import urllib.parse
 import urllib.request
 import requests
 
-sifts_file = "/Users/neli/EBI/annotations/uniprot_pdb.csv"
-#sifts_file = r'/nfs/ftp/pub/databases/msd/sifts/csv/uniprot_pdb.csv'
-BLAST_DB = "uniprotkb_swissprot"  #  uniprot_sprot
+#sifts_file = "/Users/neli/EBI/annotations/uniprot_pdb.csv"
+sifts_file = r'/nfs/ftp/pub/databases/msd/sifts/csv/uniprot_pdb.csv'
+BLAST_DB = "uniprot_sprot"  #  uniprotkb_swissprot
+BLASTP_BIN = "/nfs/public/rw/pdbe/httpd-em/software/ncbi-blast-2.11.0+/bin/blastp"
 
 uniprot_api = "www.uniprot.org/uniprot/?query=\"%s\" AND database:(type:pdb %s)&format=tab&limit=100&columns=id,organism-id&sort=score"
 
@@ -34,7 +35,7 @@ class Protein:
 			return ("%s\t%s\t%s\t%s\t%s\t%s\n" % (self.emdb_id, self.sample_id, self.sample_name, self.sample_organism, self.uniprot_id, self.method))
 		else:
 			return ""
-			
+
 class UniprotMapping:
 	"""
 	Map EMDB protein samples to Uniprot IDs
