@@ -84,6 +84,7 @@ class UniprotMapping:
 			for protein in proteins:
 				if not protein.method:
 					#If contains model: SIFTS + Uniprot search API
+					found = False
 					if len(protein.pdb_ids) > 0:
 						found = self.query_uniprot(protein)
 					
