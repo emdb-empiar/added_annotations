@@ -4,6 +4,7 @@ import os, re, subprocess
 import urllib.parse
 import urllib.request
 import requests
+import logging
 
 #sifts_file = "/Users/neli/EBI/annotations/uniprot_pdb.csv"
 sifts_file = r'/nfs/ftp/pub/databases/msd/sifts/csv/uniprot_pdb.csv'
@@ -41,8 +42,9 @@ class Protein:
 		return "%s (%s)\n%s (%s) - %s [%s]\nComplexes: %s\nPDB: %s\n%s" % (self.sample_name, self.sample_organism, self.emdb_id, self.sample_id, self.uniprot_id, self.method, str(self.sample_complexes), str(self.pdb_ids), self.sequence)
 
 	def get_tsv(self):
+		complex_str = ';'.join([str(elem) for elem in self.sample_complexes])
 		if self.method:
-			return ("%s\t%s\t%s\t%s\t%s\t%s\n" % (self.emdb_id, self.sample_id, self.sample_name, self.sample_organism, self.uniprot_id, self.method))
+			return ("%s\t%s\t%s\t%s\t%s\t%s\t%s\n" % (self.emdb_id, self.sample_id, self.sample_name, self.sample_organism, self.uniprot_id, self.method, complex_str))
 		else:
 			return ""
 
@@ -79,7 +81,7 @@ class UniprotMapping:
 	def export_tsv(self):
 		filepath = os.path.join(self.output_dir, "emdb_uniprot.tsv")
 		with open(filepath, 'w') as fw:
-			fw.write("#EMDB_ID\tSAMPLE_ID\tSAMPLE_NAME\tNCBI_ID\tUNIPROT_ID\tMETHOD\n")
+			fw.write("#EMDB_ID\tSAMPLE_ID\tSAMPLE_NAME\tNCBI_ID\tUNIPROT_ID\tMETHOD\tSAMPLE_COMPLEX_IDS\n")
 			for protein in self.proteins:
 				fw.write(protein.get_tsv())
 
