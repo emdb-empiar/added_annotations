@@ -41,6 +41,7 @@ if __name__ == "__main__":
     unp_mapping = UniprotMapping(args.headerDir, args.workDir)
     if args.download_uniprot:
       unp_mapping.download_uniprot()
+    unp_mapping.parseUniprot()
     unp_mapping.execute() #Now you have access to unp_mapping.proteins containg all the EMDB->UNP references
     unp_mapping.export_tsv()
     if args.CPX:

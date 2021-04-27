@@ -58,8 +58,6 @@ class UniprotMapping:
 		self.uniprot = {}
 		self.proteins = []
 
-		self.parseUniprot()
-
 	def parseUniprot(self):
 		"""
 		Parse the Uniprot tab file containg all entries with models and resulting in
