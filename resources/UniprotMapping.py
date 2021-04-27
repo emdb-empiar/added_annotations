@@ -152,8 +152,11 @@ class UniprotMapping:
 			for line in f:
 				line = line.decode('utf-8')
 				line = line.strip()
+				temp = line.split('\t')
 				
-				unp_id, ncbi_id, pdbs = line.split('\t')
+				if len(temp) < 3:
+					continue
+				unp_id, ncbi_id, pdbs = temp
 
 				if protein.sample_organism:
 					if ncbi_id == protein.sample_organism:
