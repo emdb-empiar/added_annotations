@@ -144,7 +144,7 @@ class UniprotMapping:
 
 	def query_uniprot(self, protein):
 		pdb_found = False
-		for pdb_id in protein.pdb_ids
+		for pdb_id in protein.pdb_ids:
 			if pdb_id in self.uniprot:
 				uniprot_list = self.uniprot[pdb_id]
 				pdb_found = True
