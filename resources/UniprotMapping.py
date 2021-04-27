@@ -5,9 +5,8 @@ import urllib.parse
 import urllib.request
 import requests
 import logging
+from fuzzywuzzy import fuzz
 
-#sifts_file = "/Users/neli/EBI/annotations/uniprot_pdb.csv"
-sifts_file = r'/nfs/ftp/pub/databases/msd/sifts/csv/uniprot_pdb.csv'
 BLAST_DB = "/nfs/public/rw/pdbe/httpd-em/software/ncbi-blast-2.11.0+/database/uniprot_sprot"  #  uniprotkb_swissprot
 BLASTP_BIN = "/nfs/public/rw/pdbe/httpd-em/software/ncbi-blast-2.11.0+/bin/blastp"
 
@@ -55,28 +54,29 @@ class UniprotMapping:
 	def __init__(self, headerDir, workDir):
 		self.header_dir = headerDir
 		self.output_dir = workDir
-		self.sifts = {}
+		self.uniprot_tab = os.path.join(self.output_dir, "uniprot.tsv")
+		self.uniprot = {}
 		self.proteins = []
 
-		#parse Sifts file
-		self.parseSifts()
+		self.parseUniprot()
 
-
-	def parseSifts(self):
+	def parseUniprot(self):
 		"""
-		Parse the PDB-Uniprot sifts file resulting in a dictionary of pdb_id -> [Uniprot_id]
+		Parse the Uniprot tab file containg all entries with models and resulting in
+		 a dictionary of pdb_id -> [(Uniprot_id, protein_names)]
 		"""
-		with open(sifts_file, 'r') as fr:
+		with open(self.uniprot_tab, 'r') as fr:
+			next(fr) #Skip header
 			for line in fr:
 				line = line.strip()
-				if line[0] != '#':
-					uniprot_id, pdb_list = line.split(',')
-					pdb_list = pdb_list.split(';')
-					for pdb_id in pdb_list:
-						if pdb_id in self.sifts:
-							self.sifts[pdb_id].add(uniprot_id)
-						else:
-							self.sifts[pdb_id] = set([uniprot_id])
+				uniprot_id, pdb_list, protein_names = line.split('\t')
+				pdb_list = pdb_list.split(';')[:-1]
+				for pdb_id in pdb_list:
+					pdb_id = pdb_id.lower()
+					if pdb_id in self.uniprot:
+						self.uniprot[pdb_id].append((uniprot_id, protein_names))
+					else:
+						self.uniprot[pdb_id] = [(uniprot_id, protein_names)]
 
 	def export_tsv(self):
 		filepath = os.path.join(self.output_dir, "emdb_uniprot.tsv")
@@ -95,7 +95,7 @@ class UniprotMapping:
 
 			for protein in proteins:
 				if not protein.method:
-					#If contains model: SIFTS + Uniprot search API
+					#If contain a model: Uniprot search
 					found = False
 					if len(protein.pdb_ids) > 0:
 						found = self.query_uniprot(protein)
@@ -145,45 +145,23 @@ class UniprotMapping:
 		return None
 
 	def query_uniprot(self, protein):
-		params = {
-			'query': '%s AND database:(type:pdb %s)' % (protein.sample_name, protein.pdb_ids[0]),
-			'limit': 100,
-			'format': 'tab',
-			'columns': 'id,organism-id,database(PDB)',
-			'sort': 'score'
-			}
-		data = urllib.parse.urlencode(params)
-		data = data.encode('utf-8')
+		pdb_id = protein.pdb_ids[0]
+		uniprot_list = self.uniprot[pdb_id]
 
-		#url = uniprot_api % (protein.sample_name, protein.pdb_ids[0])
-		#url = url.replace(" ","%20")
-		#url = "https://" + url
-		url = "https://www.uniprot.org/uniprot/"
-		try:
-			req = urllib.request.Request(url,data)
-			with urllib.request.urlopen(req) as f:
-				for line in f:
-					line = line.decode('utf-8')
-					line = line.strip()
-					temp = line.split('\t')
-					
-					if len(temp) < 3:
-						continue
-					unp_id, ncbi_id, pdbs = temp
+		best_score = 0
+		best_match = ""
 
-					if protein.sample_organism:
-						if ncbi_id == protein.sample_organism:
-							protein.uniprot_id = unp_id
-							protein.method = "PDB+UNIPROT"
-							return True
-					else:
-						protein.uniprot_id = unp_id
-						protein.method = "PDB+UNIPROT"
-						return True
-		except:
-			logger.error("%s failed to access Uniprot." % protein.emdb_id)
+		for uniprot_id, uniprot_names in uniprot_list:
+			score = fuzz.token_set_ratio(protein.sample_name, uniprot_names)
+			if score > best_score:
+				best_score = score
+				best_match = uniprot_id
+
+		if best_match and best_score > 80:
+			protein.uniprot_id = best_match
+			protein.method = "PDB+UNIPROT"
+			return True
 		return False
-
 
 	def read_xml(self, xml_file):
 		proteins = []
@@ -238,5 +216,8 @@ class UniprotMapping:
 						protein.sequence = seq
 					proteins.append(protein)
 		return proteins
+
+	def download_uniprot(self):
+		os.system('wget "https://www.uniprot.org/uniprot/?query=database:(type:pdb)&format=tab&limit=100000&columns=id,database(PDB),protein names&sort=score" -O %s' % self.uniprot_tab)
 
 
