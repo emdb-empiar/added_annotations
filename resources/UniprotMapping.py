@@ -12,6 +12,16 @@ BLASTP_BIN = "/nfs/public/rw/pdbe/httpd-em/software/ncbi-blast-2.11.0+/bin/blast
 
 uniprot_api = "www.uniprot.org/uniprot/?query=\"%s\" AND database:(type:pdb %s)&format=tab&limit=100&columns=id,organism-id&sort=score"
 
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
+
+formatter = logging.Formatter('%(funcName)s:%(message)s')
+
+file_handler = logging.FileHandler('logging_uniprot.log', mode ='w')
+file_handler.setLevel(logging.DEBUG)
+file_handler.setFormatter(formatter)
+logger.addHandler(file_handler)
+
 class Protein:
 	"""
 	Defines the attributes of a protein sample in a EMDB entry
@@ -147,26 +157,29 @@ class UniprotMapping:
 		#url = url.replace(" ","%20")
 		#url = "https://" + url
 		url = "https://www.uniprot.org/uniprot/"
-		req = urllib.request.Request(url,data)
-		with urllib.request.urlopen(req) as f:
-			for line in f:
-				line = line.decode('utf-8')
-				line = line.strip()
-				temp = line.split('\t')
-				
-				if len(temp) < 3:
-					continue
-				unp_id, ncbi_id, pdbs = temp
+		try:
+			req = urllib.request.Request(url,data)
+			with urllib.request.urlopen(req) as f:
+				for line in f:
+					line = line.decode('utf-8')
+					line = line.strip()
+					temp = line.split('\t')
+					
+					if len(temp) < 3:
+						continue
+					unp_id, ncbi_id, pdbs = temp
 
-				if protein.sample_organism:
-					if ncbi_id == protein.sample_organism:
+					if protein.sample_organism:
+						if ncbi_id == protein.sample_organism:
+							protein.uniprot_id = unp_id
+							protein.method = "PDB+UNIPROT"
+							return True
+					else:
 						protein.uniprot_id = unp_id
 						protein.method = "PDB+UNIPROT"
 						return True
-				else:
-					protein.uniprot_id = unp_id
-					protein.method = "PDB+UNIPROT"
-					return True
+		except:
+			logger.error("%s failed to access Uniprot." % protein.emdb_id)
 		return False
 
 
