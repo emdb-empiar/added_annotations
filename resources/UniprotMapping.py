@@ -143,14 +143,21 @@ class UniprotMapping:
 		return None
 
 	def query_uniprot(self, protein):
-		pdb_id = protein.pdb_ids[0]
-		uniprot_list = self.uniprot[pdb_id]
+		pdb_found = False
+		for pdb_id in protein.pdb_ids
+			if pdb_id in self.uniprot:
+				uniprot_list = self.uniprot[pdb_id]
+				pdb_found = True
+				break
+
+		if not pdb_found:
+			return False
 
 		best_score = 0
 		best_match = ""
 
 		for uniprot_id, uniprot_names in uniprot_list:
-			score = fuzz.token_set_ratio(protein.sample_name, uniprot_names)
+			score = fuzz.token_set_ratio(protein.sample_name.lower(), uniprot_names.lower())
 			if score > best_score:
 				best_score = score
 				best_match = uniprot_id
