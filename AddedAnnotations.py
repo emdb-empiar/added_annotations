@@ -44,7 +44,7 @@ if __name__ == "__main__":
     #Uniprot is the first and mandatory since is the base for map many other resources
     unp_mapping = UniprotMapping(args.workDir, xml.proteins)
     if args.download_uniprot:
-      unp_mapping.download_uniprot()
+        unp_mapping.download_uniprot()
     unp_mapping.parseUniprot()
     unp_mapping.execute()
     unp_mapping.export_tsv()

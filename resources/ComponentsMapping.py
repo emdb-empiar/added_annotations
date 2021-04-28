@@ -17,7 +17,8 @@ cif_filepath = r'/Users/amudha/project/'
 #cif_filepath = r'/nfs/ftp/pub/databases/msd/pdbechem_v2/'
 
 ### TO DO LIST
-#### Replace (logger.debug(HET, "NOT IN PDB_CCD") with corresponding resource API, as of now no entry has HET which is not in CCD #
+#### Replace (logger.debug(HET, "NOT IN PDB_CCD") with corresponding resource API,
+# as of now no entry has HET which is not in CCD #
 
 class ComponentsMap:
     """
@@ -60,11 +61,8 @@ class ComponentsMap:
                 if HET in self.CCD_HET:
                     self.external_mapping_from_cif(self.componentsDir, "EMD-" + id_num, HET)
                     self.write_chembl_map()
-                    self.sort_emdb_chembl_map()
                     self.write_chebi_map()
-                    self.sort_emdb_chebi_map()
                     self.write_drugbank_map()
-                    self.sort_emdb_drugbank_map()
                 if not HET in self.CCD_HET:
                     logger.debug(HET, "NOT IN PDB_CCD")  #### Replace with corresponding resource API
 
@@ -149,57 +147,30 @@ class ComponentsMap:
 
     def write_chembl_map(self):
         """
-        Write ChEMBL annotations to a file
+        Write ChEMBL annotations to a file (sorted by EMDB_ID)
         """
         filepath = os.path.join(self.componentsDir, "emdb_chembl.tsv")
         with open(filepath, 'w') as f:
-            for emdb_id, HETs, HET_name, chembl_id, method in self.chembl_map:
+            f.write("%s\t%s\t%s\t%s\t%s\n" % ("EMDB_ID", "HET_CODE", "COMP_NAME", "ChEMBL_ID", "QUERY_METHOD"))
+            for emdb_id, HETs, HET_name, chembl_id, method in sorted(self.chembl_map, key=lambda x: x[0]):
                 f.write("%s\t%s\t%s\t%s\t%s\n" % (emdb_id, HETs, HET_name, chembl_id, method))
-
-    def sort_emdb_chembl_map(self):
-        """
-        Sort the ChEMBL annotations with respect to EMDB_ID to a file
-        """
-        with open(os.path.join(self.componentsDir, "emdb_chEMBL.tsv"), 'r') as lines:
-            with open(os.path.join(self.componentsDir, "sorted_emdb_chEMBL.tsv"), 'w') as sort_file:
-                sort_file.write("%s\t%s\t%s\t%s\t%s\n" % ("EMDB_ID", "HET_CODE", "COMP_NAME", "ChEMBL_ID", "QUERY_METHOD"))
-                for line in sorted(lines, key=lambda line: line.split()[0]):
-                    sort_file.write(line)
 
     def write_chebi_map(self):
         """
-        Write ChEBI annotations to a file
+        Write ChEBI annotations to a file (sorted by EMDB_ID)
         """
         filepath = os.path.join(self.componentsDir, "emdb_chebi.tsv")
         with open(filepath, 'w') as f:
-            for emdb_id, HETs, HET_name, chebi_id, method in self.chebi_map:
+            f.write("%s\t%s\t%s\t%s\t%s\n" % ("EMDB_ID", "HET_CODE", "COMP_NAME", "ChEBI_ID", "QUERY_METHOD"))
+            for emdb_id, HETs, HET_name, chebi_id, method in sorted(self.chebi_map, key=lambda x: x[0]):
                 f.write("%s\t%s\t%s\t%s\t%s\n" % (emdb_id, HETs, HET_name, chebi_id, method))
-
-    def sort_emdb_chebi_map(self):
-        """
-        Sort ChEBI annotations with respect to EMDB_ID to a file
-        """
-        with open(os.path.join(self.componentsDir, "emdb_chebi.tsv"), 'r') as lines:
-            with open(os.path.join(self.componentsDir, "sorted_emdb_chebi.tsv"), 'w') as sort_file:
-                sort_file.write("%s\t%s\t%s\t%s\t%s\n" % ("EMDB_ID", "HET_CODE", "COMP_NAME", "ChEBI_ID", "QUERY_METHOD"))
-                for line in sorted(lines, key=lambda line: line.split()[0]):
-                    sort_file.write(line)
 
     def write_drugbank_map(self):
         """
-        Write DrugBank annotations to a file
+        Write DrugBank annotations to a file (sorted by EMDB_ID)
         """
         filepath = os.path.join(self.componentsDir, "emdb_drugbank.tsv")
         with open(filepath, 'w') as f:
-            for emdb_id, HETs, HET_name, drugbank_id, method in self.drugbank_map:
+            f.write("%s\t%s\t%s\t%s\t%s\n" % ("EMDB_ID", "HET_CODE", "COMP_NAME", "DrugBank_ID", "QUERY_METHOD"))
+            for emdb_id, HETs, HET_name, drugbank_id, method in sorted(self.drugbank_map, key=lambda x: x[0]):
                 f.write("%s\t%s\t%s\t%s\t%s\n" % (emdb_id, HETs, HET_name, drugbank_id, method))
-
-    def sort_emdb_drugbank_map(self):
-        """
-        Sort DrugBank annotations with respect to EMDB_ID to a file
-        """
-        with open(os.path.join(self.componentsDir, "emdb_drugbank.tsv"), 'r') as lines:
-            with open(os.path.join(self.componentsDir, "sorted_emdb_drugbank.tsv"), 'w') as sort_file:
-                sort_file.write("%s\t%s\t%s\t%s\t%s\n" % ("EMDB_ID", "HET_CODE", "COMP_NAME", "DrugBank_ID", "QUERY_METHOD"))
-                for line in sorted(lines, key=lambda line: line.split()[0]):
-                    sort_file.write(line)

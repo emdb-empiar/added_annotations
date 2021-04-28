@@ -1,4 +1,5 @@
 import os, re, subprocess
+import lxml.etree as ET
 import urllib.parse
 import urllib.request
 import logging
@@ -141,6 +142,6 @@ class UniprotMapping:
 		return False
 
 	def download_uniprot(self):
-		os.system('wget "https://www.uniprot.org/uniprot/?query=database:(type:pdb)&format=tab&limit=100000&columns=id,database(PDB),protein names&sort=score" -O %s' % self.uniprot_tab)
-
+		os.system('wget "https://www.uniprot.org/uniprot/?query=database:(type:pdb)&format=tab&limit=100000&columns=id,'
+				  'database(PDB),protein names&sort=score" -O %s' % self.uniprot_tab)
 
