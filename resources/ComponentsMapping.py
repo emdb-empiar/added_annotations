@@ -33,6 +33,7 @@ class ComponentsMap:
         self.headerDir = headerDir
         self.CCD_HET = set()
         self.HET_map = set()
+        self.HET_info = set()
         self.chembl_map = set()
         self.chebi_map = set()
         self.drugbank_map = set()
@@ -40,7 +41,7 @@ class ComponentsMap:
 
     def execute_annotations(self):
         ####### Extract only the HET_code, resource name and IDs from the PDBe componenets.cif file #####
-        self.extract_resources_from_cif(cif_filepath, self.componentsDir)
+        self.extract_resources_from_cif(cif_filepath)
 
         ###### Fetch header files for query ########
         for fn in glob(os.path.join(str(self.headerDir), '*')):
@@ -59,7 +60,7 @@ class ComponentsMap:
             ######## If HET_code in CCD exists, then map the ChEMBL, ChEBI and DrugBank to EMDB and write to file #####
             for HET in HETs:
                 if HET in self.CCD_HET:
-                    self.external_mapping_from_cif(self.componentsDir, "EMD-" + id_num, HET)
+                    self.external_mapping_from_cif("EMD-" + id_num, HET)
                     self.write_chembl_map()
                     self.write_chebi_map()
                     self.write_drugbank_map()
@@ -95,10 +96,13 @@ class ComponentsMap:
             if len(list(root.iter('pdb_reference'))) == 0:
                 if list(root.iter('ligand')):
                     for x in list(root.iter('ligand')):
-                        if x is not None:
-                            compound = x.find('formula').text
-                            HET.add(compound)
-                            self.HET_map.add((emd_id, compound, "AUTHOR"))
+                        try:
+                            if x is not None:
+                                compound = x.find('formula').text
+                                HET.add(compound)
+                                self.HET_map.add((emd_id, compound, "AUTHOR"))
+                        except Exception as e:
+                            logger.warning(e)
         return HET, pdb_ids
 
     def get_HET_codes(self, cif_filepath):
@@ -112,38 +116,33 @@ class ComponentsMap:
             HET = block.name
             self.CCD_HET.add(HET)
 
-    def extract_resources_from_cif(self, cif_filepath, componentsDir):
+    def extract_resources_from_cif(self, cif_filepath):
         """
-        Extract only the external mapping for the HET_CODE from the pdbe components.cif file and write to new file
+        Extract only the external mapping for the HET_CODE from the pdbe components.cif file
         """
-        with open(os.path.join(str(componentsDir), "components_resources_ID.tsv"), 'w') as fileID:
-            fileID.write("%s\t%s\t%s\n" % ("HET_CODE", "SOURCE", "ID"))
-            filecif = os.path.join(str(cif_filepath), "components.cif")
-            doc = cif.read_file(filecif)
-            for x in range(len(doc)):
-                block = doc[x]
-                HET_name = block.find_value('_chem_comp.name')
-                for element in block.find('_pdbe_chem_comp_external_mappings.', ['comp_id', 'resource', 'resource_id']):
-                    fileID.write("%s\t%s\t%s\t%s\n" % (element[0], HET_name, element[1], element[2]))
+        filecif = os.path.join(str(cif_filepath), "components.cif")
+        doc = cif.read_file(filecif)
+        for x in range(len(doc)):
+            block = doc[x]
+            HET_name = block.find_value('_chem_comp.name')
+            for element in block.find('_pdbe_chem_comp_external_mappings.', ['comp_id', 'resource', 'resource_id']):
+                self.HET_info.add((element[0], HET_name, element[1], element[2]))
 
-    def external_mapping_from_cif(self, componentsDir, emdb_id, HET):
+    def external_mapping_from_cif(self, emdb_id, HET):
         """
         Annotating the extracted HET_CODE to various database
         """
-        with open(os.path.join(str(componentsDir), "components_resources_ID.tsv"), 'r') as f:
-            reader = csv.reader(f, delimiter='\t')
-            next(reader, None)
-            for row in reader:
-                formula = row[0]
-                if (HET == formula and row[2] == "ChEMBL"):
-                    self.chembl_map.add((emdb_id, row[0], row[1], row[2], "CCD"))
-                    logger.debug((emdb_id, row[0], row[1], row[2], "CCD"))
-                if (HET == formula and row[2] == "ChEBI"):
-                    self.chebi_map.add((emdb_id, row[0], row[1], row[2], "CCD"))
-                    logger.debug((emdb_id, row[0], row[1], row[2], "CCD"))
-                if (HET == formula and row[2] == "DrugBank"):
-                    self.drugbank_map.add((emdb_id, row[0], row[1], row[2], "CCD"))
-                    logger.debug((emdb_id, row[0], row[1], row[2], "CCD"))
+        for row in self.HET_info:
+            formula = row[0]
+            if (HET == formula and row[2] == "ChEMBL"):
+                self.chembl_map.add((emdb_id, row[0], row[1], row[2], "CCD"))
+                logger.debug((emdb_id, row[0], row[1], row[2], "CCD"))
+            if (HET == formula and row[2] == "ChEBI"):
+                self.chebi_map.add((emdb_id, row[0], row[1], row[2], "CCD"))
+                logger.debug((emdb_id, row[0], row[1], row[2], "CCD"))
+            if (HET == formula and row[2] == "DrugBank"):
+                self.drugbank_map.add((emdb_id, row[0], row[1], row[2], "CCD"))
+                logger.debug((emdb_id, row[0], row[1], row[2], "CCD"))
 
     def write_chembl_map(self):
         """
