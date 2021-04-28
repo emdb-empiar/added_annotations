@@ -27,3 +27,5 @@ dependencies:
     - setuptools==42.0.2
     - urllib3==1.26.3
     - wheel==0.33.6
+    - python-Levenshtein==0.12.2
+    - fuzzywuzzy==0.18.0

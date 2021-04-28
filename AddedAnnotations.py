@@ -1,18 +1,8 @@
 import os, sys, argparse
 from pathlib import Path
-import logging
-from ComplexPortal import ComplexPortalMapping
-from Components import ComponentsMapping
-
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
-
-formatter = logging.Formatter('%(funcName)s:%(message)s')
-
-file_handler = logging.FileHandler('logging_annotations.log', mode ='w')
-file_handler.setLevel(logging.DEBUG)
-file_handler.setFormatter(formatter)
-logger.addHandler(file_handler)
+from resources.ComplexPortalMapping import CPMapping
+from resources.ComponentsMapping import ComponentsMap
+from resources.UniprotMapping import UniprotMapping
 
 """
 List of things to do:
@@ -33,7 +23,7 @@ if __name__ == "__main__":
             python AddedAnnotations.py -w '[{"/path/to/working/folder"}]'
             -f '[{"/path/to/EMDB/header/files/folder"}]'
             -p '[{"/path/to/PDBe/files/folder"}]'
-            --CPX --components 
+            --download_uniprot --CPX --components 
           """
     parser = argparse.ArgumentParser(prog=prog, usage=usage, add_help=False,
                                      formatter_class=argparse.RawTextHelpFormatter)
@@ -41,16 +31,23 @@ if __name__ == "__main__":
     parser.add_argument('-w', '--workDir', type=Path, help="Main working directory path .")
     parser.add_argument('-f', '--headerDir', type=Path, help="Directory path to the EMDB version 3.0 header files.")
     parser.add_argument('-p', '--PDBeDir', type=Path, help="Directory path to the PDBe Complex portal mapping files.")
+    parser.add_argument("--download_uniprot", type=bool, nargs='?', const=True, default=False, help="Download uniprot tab file.")
     parser.add_argument("--CPX", type=bool, nargs='?', const=True, default=False, help="Mapping to Complex Portal.")
     parser.add_argument("--components", type=bool, nargs='?', const=True, default=False, help="Mapping to chEMBL, "
                                                                                               "ChEBI and DrugBank.")
     args = parser.parse_args()
+
+    #Uniprot is the first and mandatory since is the base for map many other resources
+    unp_mapping = UniprotMapping(args.headerDir, args.workDir)
+    if args.download_uniprot:
+      unp_mapping.download_uniprot()
+    unp_mapping.parseUniprot()
+    unp_mapping.execute() #Now you have access to unp_mapping.proteins containg all the EMDB->UNP references
+    unp_mapping.export_tsv()
     if args.CPX:
-        cpx_mapping = ComplexPortalMapping.CPMapping(args.workDir, args.headerDir, args.PDBeDir)
+        cpx_mapping = CPMapping(args.workDir, args.headerDir, args.PDBeDir, unp_mapping.proteins)
         cpx_mapping.execute()
         cpx_mapping.write_cpx_map()
-        cpx_mapping.write_uniprot_map()
-        cpx_mapping.sort_emdb_uniprot_map()
     if args.components:
-        che_mapping = ComponentsMapping.ComponentsMap(args.workDir, args.headerDir)
+        che_mapping = ComponentsMap(args.workDir, args.headerDir)
         che_mapping.execute_annotations()
