@@ -3,7 +3,7 @@ import lxml.etree as ET
 from glob import glob
 from Bio import SearchIO
 from urllib.request import urlopen
-#from Bio.Blast.Applications import NcbiblastpCommandline ## Biopython for BLASTP
+from models import CPX, EMDB_complex
 import logging
 
 logger = logging.getLogger(__name__)
@@ -25,49 +25,6 @@ def overlap(set1, set2):
     L = len(set1.union(set2))
     match = len(set1.intersection(set2))
     return float(match)/float(L)
-
-class CPX:
-    """
-    Complex Portal entry obtained from their FTP area
-    """
-
-    def __init__(self, row):
-        self.cpx_id = row[0]
-        self.name = row[1]
-        self.taxonomy = row[3]
-        self.uniprot = set()
-        self.identifiers = re.sub(r'\(\d+\)', '', row[4]).split('|')
-        self.confidence = row[5]
-        self.GO = re.sub(r'\(.+?\)', '', row[7]).split('|')
-        self.cross_ref = re.findall(r':(.*?)\(', row[8], re.S)
-
-        for idt in self.identifiers:
-            if 'CHEBI:' in idt:
-                continue
-            if '-PRO_' in idt:
-                self.uniprot.add(idt.split('-')[0])
-                continue
-            if  '_' in idt:
-                continue
-            self.uniprot.add(idt)
-
-
-class EMDB_complex:
-    """
-    EMDB complex sample obtained from the header files in the Uniprot mapping
-    """
-
-    def __init__(self, emdb_id, sample_id, complex_sample_id):
-        self.emdb_id = emdb_id
-        self.sample_id = sample_id
-        self.complex_sample_id = complex_sample_id
-        self.cpx_list = []
-        self.proteins = set()
-        self.method = ""
-        self.score = 0.0
-
-    def add_protein(self, uniprot_id):
-        self.proteins.add(uniprot_id)
 
 
 class CPX_database:

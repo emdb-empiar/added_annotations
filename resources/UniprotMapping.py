@@ -6,6 +6,7 @@ import urllib.request
 import requests
 import logging
 from fuzzywuzzy import fuzz
+from models import Protein
 
 BLAST_DB = "/nfs/public/rw/pdbe/httpd-em/software/ncbi-blast-2.11.0+/database/uniprot_sprot"  #  uniprotkb_swissprot
 #BLAST_DB = "uniprotkb_swissprot"
@@ -23,31 +24,6 @@ file_handler = logging.FileHandler('logging_uniprot.log', mode ='w')
 file_handler.setLevel(logging.DEBUG)
 file_handler.setFormatter(formatter)
 logger.addHandler(file_handler)
-
-class Protein:
-	"""
-	Defines the attributes of a protein sample in a EMDB entry
-	"""
-	def __init__(self, emdb_id, sample_id):
-		self.emdb_id = emdb_id
-		self.sample_id = sample_id
-		self.sample_name = ""
-		self.sample_organism = None
-		self.pdb_ids = []
-		self.sample_complexes = []
-		self.uniprot_id = None
-		self.method = None
-		self.sequence = ""
-
-	def __str__(self):
-		return "%s (%s)\n%s (%s) - %s [%s]\nComplexes: %s\nPDB: %s\n%s" % (self.sample_name, self.sample_organism, self.emdb_id, self.sample_id, self.uniprot_id, self.method, str(self.sample_complexes), str(self.pdb_ids), self.sequence)
-
-	def get_tsv(self):
-		complex_str = ';'.join([str(elem) for elem in self.sample_complexes])
-		if self.method:
-			return ("%s\t%s\t%s\t%s\t%s\t%s\t%s\n" % (self.emdb_id, self.sample_id, self.sample_name, self.sample_organism, self.uniprot_id, self.method, complex_str))
-		else:
-			return ""
 
 class UniprotMapping:
 	"""

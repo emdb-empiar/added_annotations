@@ -12,6 +12,7 @@ List of things to do:
   - Adapt the unit tests to work with this version
 """
 
+
 if __name__ == "__main__":
     ######### Command : python /Users/amudha/project/ComplexPortal/AddedAnnotations.py
     # -w /Users/amudha/project/ -f /Users/amudha/project/EMD_XML/ -p /Users/amudha/project/pdbeFiles/ --CPX --chEMBL
