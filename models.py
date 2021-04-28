@@ -1,3 +1,5 @@
+import re
+
 class Protein:
 	"""
 	Defines the attributes of a protein sample in a EMDB entry

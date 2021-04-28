@@ -3,6 +3,7 @@ from pathlib import Path
 from resources.ComplexPortalMapping import CPMapping
 from resources.ComponentsMapping import ComponentsMap
 from resources.UniprotMapping import UniprotMapping
+from XMLParser import XMLParser
 
 """
 List of things to do:
@@ -11,7 +12,6 @@ List of things to do:
   - Generalize this code to work with any type of annotation instead of just complex portal and uniprot
   - Adapt the unit tests to work with this version
 """
-
 
 if __name__ == "__main__":
     ######### Command : python /Users/amudha/project/ComplexPortal/AddedAnnotations.py
@@ -38,15 +38,18 @@ if __name__ == "__main__":
                                                                                               "ChEBI and DrugBank.")
     args = parser.parse_args()
 
+    xml = XMLParser(args.headerDir)
+    xml.execute()
+
     #Uniprot is the first and mandatory since is the base for map many other resources
-    unp_mapping = UniprotMapping(args.headerDir, args.workDir)
+    unp_mapping = UniprotMapping(args.workDir, xml.proteins)
     if args.download_uniprot:
       unp_mapping.download_uniprot()
     unp_mapping.parseUniprot()
-    unp_mapping.execute() #Now you have access to unp_mapping.proteins containg all the EMDB->UNP references
+    unp_mapping.execute()
     unp_mapping.export_tsv()
     if args.CPX:
-        cpx_mapping = CPMapping(args.workDir, args.headerDir, args.PDBeDir, unp_mapping.proteins)
+        cpx_mapping = CPMapping(args.workDir, xml.proteins)
         cpx_mapping.execute()
         cpx_mapping.write_cpx_map()
     if args.components:

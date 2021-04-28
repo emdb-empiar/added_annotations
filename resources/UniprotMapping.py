@@ -1,9 +1,6 @@
-from glob import glob
-import lxml.etree as ET
 import os, re, subprocess
 import urllib.parse
 import urllib.request
-import requests
 import logging
 from fuzzywuzzy import fuzz
 from models import Protein
@@ -29,12 +26,11 @@ class UniprotMapping:
 	"""
 	Map EMDB protein samples to Uniprot IDs
 	"""
-	def __init__(self, headerDir, workDir):
-		self.header_dir = headerDir
+	def __init__(self, workDir, proteins):
 		self.output_dir = workDir
 		self.uniprot_tab = os.path.join(self.output_dir, "uniprot.tsv")
 		self.uniprot = {}
-		self.proteins = []
+		self.proteins = proteins
 
 	def parseUniprot(self):
 		"""
@@ -62,31 +58,22 @@ class UniprotMapping:
 				fw.write(protein.get_tsv())
 
 	def execute(self):
-		for fn in glob(os.path.join(str(self.header_dir), '*')):
-			id_num = fn.split('-')[1]
-			xml_filename = "emd-" + id_num + "-v30.xml"
-			xml_dirpath = os.path.join(str(self.header_dir), fn, "header")
-			xml_filepath = os.path.join(xml_dirpath, xml_filename)
-			proteins = self.read_xml(xml_filepath)
-
-			for protein in proteins:
-				if not protein.method:
-					#If contain a model: Uniprot search
-					found = False
-					if len(protein.pdb_ids) > 0:
+		for protein in self.proteins:
+			if not protein.method:
+				#If contain a model: Uniprot search
+				found = False
+				if len(protein.pdb_ids) > 0:
+					try:
+						found = self.query_uniprot(protein)
+					except:
+						logger.error("%s failed accessing the Uniprot" % protein.emdb_id)
+				
+				if not found:
+					if protein.sequence:
 						try:
-							found = self.query_uniprot(protein)
+							self.blastp(protein)
 						except:
-							logger.error("%s failed accessing the Uniprot" % protein.emdb_id)
-					
-					if not found:
-						if protein.sequence:
-							try:
-								self.blastp(protein)
-							except:
-								logger.error("%s failed in blastp" % protein.emdb_id)
-
-			self.proteins += proteins
+							logger.error("%s failed in blastp" % protein.emdb_id)
 
 	def blastp(self, protein):
 		#Create fasta file
@@ -152,60 +139,6 @@ class UniprotMapping:
 			protein.method = "PDB+UNIPROT"
 			return True
 		return False
-
-	def read_xml(self, xml_file):
-		proteins = []
-		pdb_ids = set()
-
-		with open(xml_file, 'r') as filexml:
-			tree = ET.parse(filexml)
-			root = tree.getroot()
-			a = root.attrib
-			emd_id = a.get('emdb_id')
-			prt_cpx = {} #Macromolecule -> Supramolecule
-			for x in list(root.iter('pdb_reference')):
-				pdb_id = x.find('pdb_id').text.lower()
-				pdb_ids.add(pdb_id)
-
-			if list(root.iter('complex_supramolecule')):			
-				for x in list(root.iter('complex_supramolecule')):
-					complex_id = x.attrib['supramolecule_id']
-					for y in list(x.iter('macromolecule_id')):
-						protein_id = y.text
-						if protein_id in prt_cpx:
-							prt_cpx[protein_id].add(complex_id)
-						else:
-							prt_cpx[protein_id] = set(complex_id)
-
-			if list(root.iter('protein_or_peptide')):
-				for x in list(root.iter('protein_or_peptide')):
-					sample_id = x.attrib['macromolecule_id']
-					protein = Protein(emd_id,sample_id)
-					protein.pdb_ids = list(pdb_ids)
-					protein.sample_name = x.find('name').text
-					if sample_id in prt_cpx:
-						protein.sample_complexes = list(prt_cpx[sample_id])
-
-					if x.find('natural_source') is not None:
-						qs = x.find('natural_source')
-						if qs.find('organism') is not None:
-							if 'ncbi' in qs.find('organism').attrib:
-								ncbi_id = qs.find('organism').attrib['ncbi']
-								protein.sample_organism = ncbi_id
-					
-					qs = x.find('sequence')
-					if qs.find('external_references') is not None:
-						if qs.find('external_references').attrib['type'] == 'UNIPROTKB':
-							uniprot_id = qs.find('external_references').text
-							protein.uniprot_id = uniprot_id
-							protein.method = "AUTHOR"
-					if qs.find('string') is not None:
-						seq = qs.find('string').text
-						seq = re.sub(r'\(\s*UNK\s*\)', 'X', seq)
-						seq = seq.replace("\n", "")
-						protein.sequence = seq
-					proteins.append(protein)
-		return proteins
 
 	def download_uniprot(self):
 		os.system('wget "https://www.uniprot.org/uniprot/?query=database:(type:pdb)&format=tab&limit=100000&columns=id,database(PDB),protein names&sort=score" -O %s' % self.uniprot_tab)

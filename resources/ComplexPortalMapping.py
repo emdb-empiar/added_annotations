@@ -1,8 +1,5 @@
-import os, re, csv, subprocess, pickle, copyreg, ssl, json
-import lxml.etree as ET
+import os, csv
 from glob import glob
-from Bio import SearchIO
-from urllib.request import urlopen
 from models import CPX, EMDB_complex
 import logging
 
@@ -17,7 +14,7 @@ file_handler.setFormatter(formatter)
 logger.addHandler(file_handler)
 
 CP_ftp = r'/nfs/ftp/pub/databases/intact/complex/current/complextab/'
-#CP_ftp = "/Users/neli/EBI//annotations/data/cpx/"
+#CP_ftp = "/Users/neli/EBI/annotations/data/cpx/"
 #CP_ftp = "/Users/amudha/project/cpx_data/complextab/"
 MIN_SCORE = 0.5
 
@@ -31,7 +28,6 @@ class CPX_database:
     """
     Class containing all the CPX entries from their FTP area
     """
-
     def __init__(self):
         self.entries = {}
         self.id_mapped = {}
@@ -74,17 +70,14 @@ class CPMapping:
     Querying with the extracted IDs for mapping the EMDB entries to the complex portal if exists.
     """
 
-    def __init__(self, workDir, headerDir, PDBeDir, proteins):
+    def __init__(self, workDir, proteins):
         self.cpx_db = CPX_database()
         self.emdb_complexes = {}
         self.annotations = []
         self.workDir = workDir
-        self.headerDir = headerDir
-        self.tax_ids = []
-
+        
         # Parse Complex Portal tables
         for fn in glob(os.path.join(str(CP_ftp), '*.tsv')):
-            self.tax_ids.append(os.path.basename(fn).split('.')[0])
             with open(fn, 'r') as f:
                 reader = csv.reader(f, delimiter='\t')
                 next(reader, None)  # skip the headers
