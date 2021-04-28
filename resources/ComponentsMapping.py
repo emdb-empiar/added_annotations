@@ -3,7 +3,6 @@ import lxml.etree as ET
 from glob import glob
 import logging
 from gemmi import cif
-from ComplexPortal.ComplexPortalMapping import CPMapping
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
