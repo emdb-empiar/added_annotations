@@ -8,6 +8,8 @@ import logging
 from fuzzywuzzy import fuzz
 
 BLAST_DB = "/nfs/public/rw/pdbe/httpd-em/software/ncbi-blast-2.11.0+/database/uniprot_sprot"  #  uniprotkb_swissprot
+#BLAST_DB = "uniprotkb_swissprot"
+#BLASTP_BIN = "blastp"
 BLASTP_BIN = "/nfs/public/rw/pdbe/httpd-em/software/ncbi-blast-2.11.0+/bin/blastp"
 
 uniprot_api = "www.uniprot.org/uniprot/?query=\"%s\" AND database:(type:pdb %s)&format=tab&limit=100&columns=id,organism-id&sort=score"

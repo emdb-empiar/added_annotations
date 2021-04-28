@@ -45,11 +45,9 @@ if __name__ == "__main__":
     unp_mapping.execute() #Now you have access to unp_mapping.proteins containg all the EMDB->UNP references
     unp_mapping.export_tsv()
     if args.CPX:
-        cpx_mapping = CPMapping(args.workDir, args.headerDir, args.PDBeDir)
+        cpx_mapping = CPMapping(args.workDir, args.headerDir, args.PDBeDir, unp_mapping.proteins)
         cpx_mapping.execute()
         cpx_mapping.write_cpx_map()
-        cpx_mapping.write_uniprot_map()
-        cpx_mapping.sort_emdb_uniprot_map()
     if args.components:
         che_mapping = ComponentsMap(args.workDir, args.headerDir)
         che_mapping.execute_annotations()
