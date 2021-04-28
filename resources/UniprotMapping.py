@@ -96,11 +96,18 @@ class UniprotMapping:
 					#If contain a model: Uniprot search
 					found = False
 					if len(protein.pdb_ids) > 0:
-						found = self.query_uniprot(protein)
+						try:
+							found = self.query_uniprot(protein)
+						except:
+							logger.error("%s failed accessing the Uniprot" % protein.emdb_id)
 					
 					if not found:
 						if protein.sequence:
-							self.blastp(protein)
+							try:
+								self.blastp(protein)
+							except:
+								logger.error("%s failed in blastp" % protein.emdb_id)
+
 			self.proteins += proteins
 
 	def blastp(self, protein):
