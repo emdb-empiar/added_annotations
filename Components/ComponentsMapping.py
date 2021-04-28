@@ -147,7 +147,6 @@ class ComponentsMap:
                 if (HET == formula and row[2] == "DrugBank"):
                     self.drugbank_map.add((emdb_id, row[0], row[1], row[2], "CCD"))
                     logger.debug((emdb_id, row[0], row[1], row[2], "CCD"))
-                    print(emdb_id, row[0], row[1], row[2], "CCD")
 
     def write_chembl_map(self):
         """

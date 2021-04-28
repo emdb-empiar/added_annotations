@@ -399,30 +399,4 @@ class CPMapping:
                 for line in sorted(lines, key=lambda line: line.split()[0]):
                     sort_file.write(line)
 
-class ComplexMapping:
-    """
-    Mapping sample complex to complex portal database
-    """
-
-    def __init__(self, workDir, unp_map):
-        self.unp_db = uniprot_database()
-        self.annotations = []
-        self.workDir = workDir
-        self.complexDir = os.path.join(self.workDir, "git_code/added_annotations/ComplexPortal")
-        self.cpx_relations = {}  # pdb_cpx_id -> cpx_id
-        self.uniprot_relations = {}  # Unp_id -> pdb_cpx_id
-        self.uniprot_map = set()
-        self.tax_ids = []
-        self.unp_map = self.unp_mapping.proteins
-
-        self.unpFile = os.path.join(workDir, "uniprot_table.tsv")
-
-        # Parse uniprot ID and name table
-        for fn in glob(os.path.join(unpFile)):
-            with open(fn, 'r') as f:
-                reader = csv.reader(f, delimiter='\t')
-                next(reader, None)  # skip the headers
-                batch_data = list(reader)
-                for line in batch_data:
-                    self.unp_db.add_row(line)
 
