@@ -47,10 +47,13 @@ class ComponentsMap:
         ###### Mapping HET_CODE TO CHEMBL, CHEBI and DRUGBANK ########
         for ligand in self.ligands:
             HET = ligand.HET
-            if HET in self.CCD_HET:
-                self.external_mapping_from_cif(ligand.emdb_id, ligand.sample_id, HET)
-            if not HET in self.CCD_HET:
-                logger.debug(HET, "NOT IN PDB_CCD")  #### Replace with corresponding resource API
+            if ligand.method == "AUTHOR":
+                self.author_annotations(ligand)
+            else:
+                if HET in self.CCD_HET:
+                    self.external_mapping_from_cif(ligand.emdb_id, ligand.sample_id, HET)
+                if not HET in self.CCD_HET:
+                    logger.debug(HET, "NOT IN PDB_CCD")  #### Replace with corresponding resource API
 
     def get_HET_codes(self, cif_filepath):
         """
@@ -74,6 +77,21 @@ class ComponentsMap:
             HET_name = block.find_value('_chem_comp.name')
             for element in block.find('_pdbe_chem_comp_external_mappings.', ['comp_id', 'resource', 'resource_id']):
                 self.HET_info.add((element[0], HET_name, element[1], element[2]))
+
+    def author_annotations(self, ligand):
+        """
+        Depositor provided annotations to various database
+        """
+        if ligand.HET is not None:
+            if ligand.chembl_id is not None:
+                self.chembl_map.add((ligand.emdb_id, ligand.sample_id, ligand.HET, ligand.lig_name, ligand.chembl_id, ligand.method))
+                logger.debug((ligand.emdb_id, ligand.sample_id, ligand.HET, ligand.lig_name, ligand.chembl_id, ligand.method))
+            if ligand.chebi_id is not None:
+                self.chebi_map.add((ligand.emdb_id, ligand.sample_id, ligand.HET, ligand.lig_name, ligand.chebi_id, ligand.method))
+                logger.debug((ligand.emdb_id, ligand.sample_id, ligand.HET, ligand.lig_name, ligand.chebil_id, ligand.method))
+            if ligand.drugbank_id is not None:
+                self.drugbank_map.add((ligand.emdb_id, ligand.sample_id, ligand.HET, ligand.lig_name, ligand.drugbank_id, ligand.method))
+                logger.debug((ligand.emdb_id, ligand.sample_id, ligand.HET, ligand.lig_name, ligand.drugbank_id, ligand.method))
 
     def external_mapping_from_cif(self, emdb_id, lig_id, HET):
         """
