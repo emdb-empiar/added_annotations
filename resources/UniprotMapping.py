@@ -55,7 +55,7 @@ class UniprotMapping:
 	def export_tsv(self):
 		filepath = os.path.join(self.output_dir, "emdb_uniprot.tsv")
 		with open(filepath, 'w') as fw:
-			fw.write("#EMDB_ID\tSAMPLE_ID\tSAMPLE_NAME\tNCBI_ID\tUNIPROT_ID\tMETHOD\tSAMPLE_COMPLEX_IDS\n")
+			fw.write("EMDB_ID\tSAMPLE_ID\tSAMPLE_NAME\tNCBI_ID\tUNIPROT_ID\tPROVENANCE\tSAMPLE_COMPLEX_IDS\n")
 			for protein in self.proteins:
 				fw.write(protein.get_tsv())
 

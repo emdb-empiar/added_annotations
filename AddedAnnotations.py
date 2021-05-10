@@ -24,7 +24,7 @@ if __name__ == "__main__":
             python AddedAnnotations.py -w '[{"/path/to/working/folder"}]'
             -f '[{"/path/to/EMDB/header/files/folder"}]'
             -p '[{"/path/to/PDBe/files/folder"}]'
-            --download_uniprot --CPX --components 
+            --download_uniprot --uniprot --CPX --components 
           """
     parser = argparse.ArgumentParser(prog=prog, usage=usage, add_help=False,
                                      formatter_class=argparse.RawTextHelpFormatter)
@@ -33,6 +33,7 @@ if __name__ == "__main__":
     parser.add_argument('-f', '--headerDir', type=Path, help="Directory path to the EMDB version 3.0 header files.")
     parser.add_argument('-p', '--PDBeDir', type=Path, help="Directory path to the PDBe Complex portal mapping files.")
     parser.add_argument("--download_uniprot", type=bool, nargs='?', const=True, default=False, help="Download uniprot tab file.")
+    parser.add_argument("--uniprot", type=bool, nargs='?', const=True, default=False, help="Mapping to UNIPROT.")
     parser.add_argument("--CPX", type=bool, nargs='?', const=True, default=False, help="Mapping to Complex Portal.")
     parser.add_argument("--components", type=bool, nargs='?', const=True, default=False, help="Mapping to chEMBL, "
                                                                                               "ChEBI and DrugBank.")
@@ -45,13 +46,14 @@ if __name__ == "__main__":
     unp_mapping = UniprotMapping(args.workDir, xml.proteins)
     if args.download_uniprot:
         unp_mapping.download_uniprot()
-    unp_mapping.parseUniprot()
-    unp_mapping.execute()
-    unp_mapping.export_tsv()
+    if args.uniprot:
+        unp_mapping.parseUniprot()
+        unp_mapping.execute()
+        unp_mapping.export_tsv()
     if args.CPX:
         cpx_mapping = CPMapping(args.workDir, xml.proteins)
         cpx_mapping.execute()
         cpx_mapping.write_cpx_map()
     if args.components:
-        che_mapping = ComponentsMap(args.workDir, args.headerDir)
+        che_mapping = ComponentsMap(args.workDir, xml.ligands)
         che_mapping.execute_annotations()

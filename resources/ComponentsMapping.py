@@ -1,6 +1,4 @@
-import os, sys, csv
-import lxml.etree as ET
-from glob import glob
+import os
 import logging
 from gemmi import cif
 
@@ -27,10 +25,9 @@ class ComponentsMap:
     mapping to various database like ChEMBL, ChEBI and DrugBank.
     """
 
-    def __init__(self, workDir, headerDir):
+    def __init__(self, workDir, ligands):
         self.annotations = []
         self.workDir = workDir
-        self.headerDir = headerDir
         self.CCD_HET = set()
         self.HET_map = set()
         self.HET_info = set()
@@ -43,67 +40,63 @@ class ComponentsMap:
         ####### Extract only the HET_code, resource name and IDs from the PDBe componenets.cif file #####
         self.extract_resources_from_cif(cif_filepath)
 
-        ###### Fetch header files for query ########
-        for fn in glob(os.path.join(str(self.headerDir), '*')):
-            print(fn)
-            id_num = fn.split('-')[1]
-            xml_filename = "emd-" + id_num + "-v30.xml"
-            xml_dirpath = os.path.join(str(self.headerDir), fn, "header")
-            xml_filepath = os.path.join(xml_dirpath, xml_filename)
+        ####### List of all HET codes from PDB CCD ##########
+        self.get_HET_codes(cif_filepath)
 
-            ####### List of all HET codes from PDB CCD ##########
-            self.get_HET_codes(cif_filepath)
+        #emdb_comp = EMDB_components(emdb_id, complex_id, HET)
 
-            ####### Extract the pdb_ids and store author provided annotations #######
-            HETs, pdb_ids = self.extracting_IDs(xml_filepath)
+        print("LIG", ligands)
 
-            ######## If HET_code in CCD exists, then map the ChEMBL, ChEBI and DrugBank to EMDB and write to file #####
-            for HET in HETs:
-                if HET in self.CCD_HET:
-                    self.external_mapping_from_cif("EMD-" + id_num, HET)
-                    self.write_chembl_map()
-                    self.write_chebi_map()
-                    self.write_drugbank_map()
-                if not HET in self.CCD_HET:
-                    logger.debug(HET, "NOT IN PDB_CCD")  #### Replace with corresponding resource API
+            # ####### Extract the pdb_ids and store author provided annotations #######
+            # HETs, pdb_ids = self.extracting_IDs(xml_filepath)
+            #
+            # ######## If HET_code in CCD exists, then map the ChEMBL, ChEBI and DrugBank to EMDB and write to file #####
+            # for HET in HETs:
+            #     if HET in self.CCD_HET:
+            #         self.external_mapping_from_cif("EMD-" + id_num, HET)
+            #         self.write_chembl_map()
+            #         self.write_chebi_map()
+            #         self.write_drugbank_map()
+            #     if not HET in self.CCD_HET:
+            #         logger.debug(HET, "NOT IN PDB_CCD")  #### Replace with corresponding resource API
 
-    def extracting_IDs(self, xml_filepath):
-        """
-        Extract the IDs (EMDB, PDB, HET_code from both EMDB header file. If model exists, HET_CODE from PDBE cif file)
-        """
-        pdb_ids = set()
-        HET = set()
-
-        with open(xml_filepath, 'r') as filexml:
-            tree = ET.parse(filexml)
-            root = tree.getroot()
-            a = root.attrib
-            emd_id = a.get('emdb_id')
-            for x in list(root.iter('pdb_reference')):
-                model = x.find('pdb_id').text.lower()
-                pdb_ids.add(model)
-                try:
-                    cifFile = os.path.join(str(cif_filepath), "mmCIF", model + "_updated.cif")
-                    doc = cif.read_file(cifFile)  # copy all the data from mmCIF file
-                    block = doc.sole_block()  # mmCIF has exactly one block
-                    for element in block.find_loop("_pdbx_entity_nonpoly.comp_id"):
-                        if element not in HET:
-                            logger.debug(element)
-                            HET.add(element)
-                            self.HET_map.add((emd_id, element, "CCD"))
-                except Exception as e:
-                    logger.warning(e)
-            if len(list(root.iter('pdb_reference'))) == 0:
-                if list(root.iter('ligand')):
-                    for x in list(root.iter('ligand')):
-                        try:
-                            if x is not None:
-                                compound = x.find('formula').text
-                                HET.add(compound)
-                                self.HET_map.add((emd_id, compound, "AUTHOR"))
-                        except Exception as e:
-                            logger.warning(e)
-        return HET, pdb_ids
+    # def extracting_IDs(self, xml_filepath):
+    #     """
+    #     Extract the IDs (EMDB, PDB, HET_code from both EMDB header file. If model exists, HET_CODE from PDBE cif file)
+    #     """
+    #     pdb_ids = set()
+    #     HET = set()
+    #
+    #     with open(xml_filepath, 'r') as filexml:
+    #         tree = ET.parse(filexml)
+    #         root = tree.getroot()
+    #         a = root.attrib
+    #         emd_id = a.get('emdb_id')
+    #         for x in list(root.iter('pdb_reference')):
+    #             model = x.find('pdb_id').text.lower()
+    #             pdb_ids.add(model)
+    #             try:
+    #                 cifFile = os.path.join(str(cif_filepath), "mmCIF", model + "_updated.cif")
+    #                 doc = cif.read_file(cifFile)  # copy all the data from mmCIF file
+    #                 block = doc.sole_block()  # mmCIF has exactly one block
+    #                 for element in block.find_loop("_pdbx_entity_nonpoly.comp_id"):
+    #                     if element not in HET:
+    #                         #logger.debug(element)
+    #                         HET.add(element)
+    #                         self.HET_map.add((emd_id, element, "CCD"))
+    #             except Exception as e:
+    #                 logger.warning(e)
+    #         if len(list(root.iter('pdb_reference'))) == 0:
+    #             if list(root.iter('ligand')):
+    #                 for x in list(root.iter('ligand')):
+    #                     try:
+    #                         if x is not None:
+    #                             compound = x.find('formula').text
+    #                             HET.add(compound)
+    #                             self.HET_map.add((emd_id, compound, "AUTHOR"))
+    #                     except Exception as e:
+    #                         logger.warning(e)
+    #     return HET, pdb_ids
 
     def get_HET_codes(self, cif_filepath):
         """
@@ -150,7 +143,7 @@ class ComponentsMap:
         """
         filepath = os.path.join(self.componentsDir, "emdb_chembl.tsv")
         with open(filepath, 'w') as f:
-            f.write("%s\t%s\t%s\t%s\t%s\n" % ("EMDB_ID", "HET_CODE", "COMP_NAME", "ChEMBL_ID", "QUERY_METHOD"))
+            f.write("%s\t%s\t%s\t%s\t%s\n" % ("EMDB_ID", "HET_CODE", "COMP_NAME", "ChEMBL_ID", "PROVENANCE"))
             for emdb_id, HETs, HET_name, chembl_id, method in sorted(self.chembl_map, key=lambda x: x[0]):
                 f.write("%s\t%s\t%s\t%s\t%s\n" % (emdb_id, HETs, HET_name, chembl_id, method))
 
@@ -160,7 +153,7 @@ class ComponentsMap:
         """
         filepath = os.path.join(self.componentsDir, "emdb_chebi.tsv")
         with open(filepath, 'w') as f:
-            f.write("%s\t%s\t%s\t%s\t%s\n" % ("EMDB_ID", "HET_CODE", "COMP_NAME", "ChEBI_ID", "QUERY_METHOD"))
+            f.write("%s\t%s\t%s\t%s\t%s\n" % ("EMDB_ID", "HET_CODE", "COMP_NAME", "ChEBI_ID", "PROVENANCE"))
             for emdb_id, HETs, HET_name, chebi_id, method in sorted(self.chebi_map, key=lambda x: x[0]):
                 f.write("%s\t%s\t%s\t%s\t%s\n" % (emdb_id, HETs, HET_name, chebi_id, method))
 
@@ -170,6 +163,6 @@ class ComponentsMap:
         """
         filepath = os.path.join(self.componentsDir, "emdb_drugbank.tsv")
         with open(filepath, 'w') as f:
-            f.write("%s\t%s\t%s\t%s\t%s\n" % ("EMDB_ID", "HET_CODE", "COMP_NAME", "DrugBank_ID", "QUERY_METHOD"))
+            f.write("%s\t%s\t%s\t%s\t%s\n" % ("EMDB_ID", "HET_CODE", "COMP_NAME", "DrugBank_ID", "PROVENANCE"))
             for emdb_id, HETs, HET_name, drugbank_id, method in sorted(self.drugbank_map, key=lambda x: x[0]):
                 f.write("%s\t%s\t%s\t%s\t%s\n" % (emdb_id, HETs, HET_name, drugbank_id, method))

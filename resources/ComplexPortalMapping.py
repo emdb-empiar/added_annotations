@@ -75,7 +75,7 @@ class CPMapping:
         self.emdb_complexes = {}
         self.annotations = []
         self.workDir = workDir
-        
+
         # Parse Complex Portal tables
         for fn in glob(os.path.join(str(CP_ftp), '*.tsv')):
             with open(fn, 'r') as f:
@@ -133,11 +133,7 @@ class CPMapping:
     def write_cpx_map(self):
         filepath = os.path.join(self.workDir, "emdb_cpx.tsv")
         with open(filepath, 'w') as f:
-            f.write("%s\t%s\t%s\t%s\t%s\t%s\n" % ("EMDB_ID", "EMDB_SAMPLE_ID", "CPX_ID", "CPX_TITLE", "METHOD", "SCORE"))
+            f.write("%s\t%s\t%s\t%s\t%s\t%s\n" % ("EMDB_ID", "EMDB_SAMPLE_ID", "CPX_ID", "CPX_TITLE", "PROVENANCE", "SCORE"))
             for emcpx in self.annotations:
                 for cpx in emcpx.cpx_list:
                     f.write("%s\t%s\t%s\t%s\t%s\t%s\n" % (emcpx.emdb_id, emcpx.sample_id, cpx.cpx_id, cpx.name, emcpx.method, emcpx.score))
-
-
-
-
