@@ -80,16 +80,15 @@ class XMLParser:
 
 			if list(root.iter('ligand')):
 				for x in list(root.iter('ligand')):
-					try:
-						if x is not None:
-							ligand_id = x.attrib['macromolecule_id']
-							ligand = Ligand(emd_id, ligand_id)
-							HET = x.find('formula').text
-							ligand.HET = HET
-							lig_name = x.find('name').text
+					if x is not None:
+						ligand_id = x.attrib['macromolecule_id']
+						ligand = Ligand(emd_id, ligand_id)
+						HET = x.find('formula')
+						if HET:
+							ligand.HET = HET.text
+						lig_name = x.find('name')
+						if lig_name:
 							ligand.lig_name = lig_name
-							ligand.method = "AUTHOR"
-						ligands.append(ligand)
-					except Exception as e:
-						continue
+						ligand.method = "AUTHOR"
+					ligands.append(ligand)
 		return proteins, ligands
