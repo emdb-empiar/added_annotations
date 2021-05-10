@@ -57,3 +57,6 @@ if __name__ == "__main__":
     if args.components:
         che_mapping = ComponentsMap(args.workDir, xml.ligands)
         che_mapping.execute_annotations()
+        che_mapping.write_chembl_map()
+        che_mapping.write_chebi_map()
+        che_mapping.write_drugbank_map()

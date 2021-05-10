@@ -19,14 +19,14 @@ class XMLParser:
 			xml_filename = "emd-" + id_num + "-v30.xml"
 			xml_dirpath = os.path.join(str(self.header_dir), fn, "header")
 			xml_filepath = os.path.join(xml_dirpath, xml_filename)
-			self.proteins += self.read_xml(xml_filepath)[0]
-			self.ligands += self.read_xml(xml_filepath)[1]
+			proteins, ligands = self.read_xml(xml_filepath)
+			self.proteins += proteins
+			self.ligands += ligands
 
 	def read_xml(self, xml_file):
 		proteins = []
 		pdb_ids = set()
 		ligands = []
-		HET = set()
 
 		with open(xml_file, 'r') as filexml:
 			tree = ET.parse(filexml)
@@ -37,16 +37,6 @@ class XMLParser:
 			for x in list(root.iter('pdb_reference')):
 				pdb_id = x.find('pdb_id').text.lower()
 				pdb_ids.add(pdb_id)
-				# try:
-				# 	cifFile = os.path.join(str(cif_filepath), "mmCIF", pdb_id + "_updated.cif")
-				# 	doc = cif.read_file(cifFile)  # copy all the data from mmCIF file
-				# 	block = doc.sole_block()  # mmCIF has exactly one block
-				# 	for element in block.find_loop("_pdbx_entity_nonpoly.comp_id"):
-				# 		if element not in HET:
-				# 			HET.add(element)
-				# 			#self.HET_map.add((emd_id, element, "CCD"))
-				# except Exception as e:
-				# 	continue
 
 			if list(root.iter('complex_supramolecule')):			
 				for x in list(root.iter('complex_supramolecule')):
@@ -88,19 +78,18 @@ class XMLParser:
 						protein.sequence = seq
 					proteins.append(protein)
 
-			if len(list(root.iter('pdb_reference'))) == 0:
-				if list(root.iter('ligand')):
-					for x in list(root.iter('ligand')):
-						try:
-							if x is not None:
-								ligand_id = x.attrib['macromolecule_id']
-								ligand = Ligand(emd_id, ligand_id)
-								HET = x.find('formula').text
-								ligand.HET = HET
-								lig_name = x.find('name').text
-								ligand.lig_name = lig_name
-								ligand.method = "AUTHOR"
-							ligands.append(ligand)
-						except Exception as e:
-							continue
+			if list(root.iter('ligand')):
+				for x in list(root.iter('ligand')):
+					try:
+						if x is not None:
+							ligand_id = x.attrib['macromolecule_id']
+							ligand = Ligand(emd_id, ligand_id)
+							HET = x.find('formula').text
+							ligand.HET = HET
+							lig_name = x.find('name').text
+							ligand.lig_name = lig_name
+							ligand.method = "AUTHOR"
+						ligands.append(ligand)
+					except Exception as e:
+						continue
 		return proteins, ligands
