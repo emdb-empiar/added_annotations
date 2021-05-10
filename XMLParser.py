@@ -83,23 +83,22 @@ class XMLParser:
 					if x is not None:
 						ligand_id = x.attrib['macromolecule_id']
 						ligand = Ligand(emd_id, ligand_id)
-						HET = x.find('formula').text
-						if HET is not None:
-							ligand.HET = HET
-							lig_name = x.find('name').text
+						HET = x.find('formula')
+						if HET:
+							ligand.HET = HET.text
+						lig_name = x.find('name').text
+						if lig_name:
 							ligand.lig_name = lig_name
-						if x.find('external_references') is not None:
+						if x.find('external_references'):
+							ligand.method = "AUTHOR"
 							if x.find('external_references').attrib['type'] == 'CHEMBL':
 								chembl_id = x.find('external_references').text
 								ligand.chembl_id = chembl_id
-								ligand.method = "AUTHOR"
 							if x.find('external_references').attrib['type'] == 'CHEBI':
 								chebi_id = x.find('external_references').text
 								ligand.chebi_id = chebi_id
-								ligand.method = "AUTHOR"
 							if x.find('external_references').attrib['type'] == 'DRUGBANK':
 								drugbank_id = x.find('external_references').text
 								ligand.drugbank_id = drugbank_id
-								ligand.method = "AUTHOR"
 					ligands.append(ligand)
 		return proteins, ligands
