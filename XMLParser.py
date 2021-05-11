@@ -84,7 +84,7 @@ class XMLParser:
 						ligand_id = x.attrib['macromolecule_id']
 						ligand = Ligand(emd_id, ligand_id)
 						HET = x.find('formula')
-						if HET:
+						if HET is not None:
 							ligand.HET = HET.text
 						lig_name = x.find('name').text
 						if lig_name:
