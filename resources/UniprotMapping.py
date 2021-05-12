@@ -79,10 +79,10 @@ class UniprotMapping:
 
 	def blastp(self, protein):
 		#Create fasta file
-		fasta_file = os.path.join(self.output_dir, protein.emdb_id + ".fasta")
+		fasta_file = os.path.join(self.output_dir, "fasta", protein.emdb_id + ".fasta")
 		with open(fasta_file, "w") as f:
 			f.write(">seq\n%s" % protein.sequence)
-		qout = os.path.join(self.output_dir, protein.emdb_id + ".xml")
+		qout = os.path.join(self.output_dir, "fasta", protein.emdb_id + ".xml")
 		#### Using biopython for Blastp ##
 		#blastp_command = NcbiblastpCommandline(query=fasta_file, db=db_path, out=qout, evalue='1e-40')
 		#blastp_command()

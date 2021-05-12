@@ -66,8 +66,6 @@ class EMDB_complex:
 
     def add_protein(self, uniprot_id):
         self.proteins.add(uniprot_id)
-        print("PROT", proteins)
-
 
 class Ligand:
     """
