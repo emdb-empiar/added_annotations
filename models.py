@@ -75,7 +75,7 @@ class Ligand:
         self.emdb_id = emdb_id
         self.sample_id = sample_id
         self.method = None
-        self.HET  = []
+        self.HET  = ""
         self.lig_name = ""
 
     def __str__(self):

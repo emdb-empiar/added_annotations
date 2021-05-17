@@ -53,7 +53,7 @@ class ComponentsMap:
                 if HET in self.CCD_HET:
                     self.external_mapping_from_cif(ligand.emdb_id, ligand.sample_id, HET)
                 if not HET in self.CCD_HET:
-                    logger.debug(HET, "NOT IN PDB_CCD")  #### Replace with corresponding resource API
+                    logger.debug("NOT IN CCD %s" % (HET))  #### Replace with corresponding resource API
 
     def get_HET_codes(self, cif_filepath):
         """
