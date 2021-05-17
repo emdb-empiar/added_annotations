@@ -58,4 +58,3 @@ if __name__ == "__main__":
         che_mapping = ComponentsMap(args.workDir, xml.ligands)
         che_mapping.execute_annotations()
         che_mapping.write_ligands()
-        
