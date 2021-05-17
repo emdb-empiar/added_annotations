@@ -10,8 +10,8 @@ file_handler.setFormatter(formatter)
 logger.addHandler(file_handler)
 
 #components_cif = r'/Users/amudha/project/components.cif'
-#components_cif = r'/nfs/ftp/pub/databases/msd/pdbechem_v2/components.cif'
-components_cif = "/Users/neli/Downloads/components.cif"
+components_cif = r'/nfs/ftp/pub/databases/msd/pdbechem_v2/components.cif'
+#components_cif = "/Users/neli/Downloads/components.cif"
 
 ### TO DO LIST
 #### Replace (logger.debug(HET, "NOT IN PDB_CCD") with corresponding resource API,
