@@ -9,10 +9,9 @@ file_handler = logging.FileHandler('logging_components.log')
 file_handler.setFormatter(formatter)
 logger.addHandler(file_handler)
 
-#chEMBL_ftp = r'/nfs/ftp/pub/databases/chembl/ChEMBLdb/latest/'
-chEMBL_ftp = r'/Users/amudha/project/chEMBLdb/latest/'
-cif_filepath = r'/Users/amudha/project/'
-#cif_filepath = r'/nfs/ftp/pub/databases/msd/pdbechem_v2/'
+#components_cif = r'/Users/amudha/project/components.cif'
+#components_cif = r'/nfs/ftp/pub/databases/msd/pdbechem_v2/components.cif'
+components_cif = "/Users/neli/Downloads/components.cif"
 
 ### TO DO LIST
 #### Replace (logger.debug(HET, "NOT IN PDB_CCD") with corresponding resource API,
@@ -26,115 +25,63 @@ class ComponentsMap:
     """
 
     def __init__(self, workDir, ligands):
-        self.annotations = []
         self.workDir = workDir
-        self.CCD_HET = set()
-        self.HET_map = set()
-        self.HET_info = set()
-        self.chembl_map = set()
-        self.chebi_map = set()
-        self.drugbank_map = set()
         self.ligands = ligands
-        self.componentsDir = os.path.join(self.workDir, "git_code/added_annotations/Components")
 
     def execute_annotations(self):
         ####### Extract only the HET_code, resource name and IDs from the PDBe componenets.cif file #####
-        self.extract_resources_from_cif(cif_filepath)
-
-        ####### List of all HET codes from PDB CCD ##########
-        self.get_HET_codes(cif_filepath)
+        chembl_map, chebi_map, drugbank_map = self.extract_resources_from_cif()
 
         ###### Mapping HET_CODE TO CHEMBL, CHEBI and DRUGBANK ########
         for ligand in self.ligands:
             HET = ligand.HET
             if ligand.method == "AUTHOR":
-                self.author_annotations(ligand)
+                continue
             else:
-                if HET in self.CCD_HET:
-                    self.external_mapping_from_cif(ligand.emdb_id, ligand.sample_id, HET)
-                if not HET in self.CCD_HET:
+                if HET in chembl_map:
+                    ligand.chembl_id = chembl_map[HET]
+                    ligand.method = "CCD"
+                if HET in chebi_map:
+                    ligand.chebi_id = chebi_map[HET]
+                    ligand.method = "CCD"
+                if HET in drugbank_map:
+                    ligand.drugbank_id = drugbank_map[HET]
+                    ligand.method = "CCD"
+                else:
                     logger.debug("NOT IN CCD %s" % (HET))  #### Replace with corresponding resource API
 
-    def get_HET_codes(self, cif_filepath):
-        """
-        Extract only the HET_CODEs from the pdbe components.cif file
-        """
-        filecif = os.path.join(str(cif_filepath), "components.cif")
-        doc = cif.read_file(filecif)
-        for x in range(len(doc)):
-            block = doc[x]
-            HET = block.name
-            self.CCD_HET.add(HET)
-
-    def extract_resources_from_cif(self, cif_filepath):
+    def extract_resources_from_cif(self):
         """
         Extract only the external mapping for the HET_CODE from the pdbe components.cif file
         """
-        filecif = os.path.join(str(cif_filepath), "components.cif")
-        doc = cif.read_file(filecif)
-        for x in range(len(doc)):
-            block = doc[x]
-            HET_name = block.find_value('_chem_comp.name')
-            for element in block.find('_pdbe_chem_comp_external_mappings.', ['comp_id', 'resource', 'resource_id']):
-                self.HET_info.add((element[0], HET_name, element[1], element[2]))
+        chembl_map = {}
+        chebi_map = {}
+        drugbank_map = {}
 
-    def author_annotations(self, ligand):
-        """
-        Depositor provided annotations to various database
-        """
-        if ligand.HET is not None:
-            if ligand.chembl_id is not None:
-                self.chembl_map.add((ligand.emdb_id, ligand.sample_id, ligand.HET, ligand.lig_name, ligand.chembl_id, ligand.method))
-                logger.debug((ligand.emdb_id, ligand.sample_id, ligand.HET, ligand.lig_name, ligand.chembl_id, ligand.method))
-            if ligand.chebi_id is not None:
-                self.chebi_map.add((ligand.emdb_id, ligand.sample_id, ligand.HET, ligand.lig_name, ligand.chebi_id, ligand.method))
-                logger.debug((ligand.emdb_id, ligand.sample_id, ligand.HET, ligand.lig_name, ligand.chebil_id, ligand.method))
-            if ligand.drugbank_id is not None:
-                self.drugbank_map.add((ligand.emdb_id, ligand.sample_id, ligand.HET, ligand.lig_name, ligand.drugbank_id, ligand.method))
-                logger.debug((ligand.emdb_id, ligand.sample_id, ligand.HET, ligand.lig_name, ligand.drugbank_id, ligand.method))
+        doc = cif.read_file(components_cif)
+        for block in doc:
+            HET = block.name
+            name = block.find_value('_chem_comp.name')
+            for db,value in block.find('_pdbe_chem_comp_external_mappings.', ['resource', 'resource_id']):
+                if db == "ChEMBL":
+                    chembl_map[HET] = value
+                elif db == "ChEBI":
+                    chebi_map[HET] = value
+                elif db == "DrugBank":
+                    drugbank_map[HET] = value
 
-    def external_mapping_from_cif(self, emdb_id, lig_id, HET):
-        """
-        Annotating the extracted HET_CODE to various database
-        """
-        for row in self.HET_info:
-            formula = row[0]
-            if (HET == formula and row[2] == "ChEMBL"):
-                self.chembl_map.add((emdb_id, lig_id, row[0], row[1], row[3], "CCD"))
-                logger.debug((emdb_id, lig_id, row[0], row[1], row[3], "CCD"))
-            if (HET == formula and row[2] == "ChEBI"):
-                self.chebi_map.add((emdb_id, lig_id, row[0], row[1], row[3], "CCD"))
-                logger.debug((emdb_id, lig_id, row[0], row[1], row[3], "CCD"))
-            if (HET == formula and row[2] == "DrugBank"):
-                self.drugbank_map.add((emdb_id, lig_id, row[0], row[1], row[3], "CCD"))
-                logger.debug((emdb_id, lig_id, row[0], row[1], row[3], "CCD"))
+        return chembl_map, chebi_map, drugbank_map
 
-    def write_chembl_map(self):
-        """
-        Write ChEMBL annotations to a file (sorted by EMDB_ID)
-        """
-        filepath = os.path.join(self.componentsDir, "emdb_chembl.tsv")
-        with open(filepath, 'w') as f:
-            f.write("%s\t%s\t%s\t%s\t%s\t%s\n" % ("EMDB_ID", "SAMPLE_ID", "HET_CODE", "COMP_NAME", "ChEMBL_ID", "PROVENANCE"))
-            for emdb_id, lig_id, HETs, HET_name, chembl_id, method in sorted(self.chembl_map, key=lambda x: x[0]):
-                f.write("%s\t%s\t%s\t%s\t%s\t%s\n" % (emdb_id, lig_id, HETs, HET_name, chembl_id, method))
+    def write_ligands(self):
+        chembl_file = os.path.join(self.workDir, "emdb_chembl.tsv")
+        chebi_file = os.path.join(self.workDir, "emdb_chebi.tsv")
+        db_file = os.path.join(self.workDir, "emdb_drugbank.tsv")
+        with open(chembl_file, 'w') as f1, open(chebi_file, 'w') as f2, open(db_file, 'w') as f3:
+            f1.write("%s\t%s\t%s\t%s\t%s\t%s\n" % ("EMDB_ID", "SAMPLE_ID", "HET_CODE", "COMP_NAME", "ChEMBL_ID", "PROVENANCE"))
+            f2.write("%s\t%s\t%s\t%s\t%s\t%s\n" % ("EMDB_ID", "SAMPLE_ID", "HET_CODE", "COMP_NAME", "ChEBI_ID", "PROVENANCE"))
+            f3.write("%s\t%s\t%s\t%s\t%s\t%s\n" % ("EMDB_ID", "SAMPLE_ID", "HET_CODE", "COMP_NAME", "DrugBank_ID", "PROVENANCE"))
 
-    def write_chebi_map(self):
-        """
-        Write ChEBI annotations to a file (sorted by EMDB_ID)
-        """
-        filepath = os.path.join(self.componentsDir, "emdb_chebi.tsv")
-        with open(filepath, 'w') as f:
-            f.write("%s\t%s\t%s\t%s\t%s\t%s\n" % ("EMDB_ID", "SAMPLE_ID", "HET_CODE", "COMP_NAME", "ChEBI_ID", "PROVENANCE"))
-            for emdb_id, lig_id, HETs, HET_name, chebi_id, method in sorted(self.chebi_map, key=lambda x: x[0]):
-                f.write("%s\t%s\t%s\t%s\t%s\t%s\n" % (emdb_id, lig_id, HETs, HET_name, chebi_id, method))
-
-    def write_drugbank_map(self):
-        """
-        Write DrugBank annotations to a file (sorted by EMDB_ID)
-        """
-        filepath = os.path.join(self.componentsDir, "emdb_drugbank.tsv")
-        with open(filepath, 'w') as f:
-            f.write("%s\t%s\t%s\t%s\t%s\t%s\n" % ("EMDB_ID", "SAMPLE_ID", "HET_CODE", "COMP_NAME", "DrugBank_ID", "PROVENANCE"))
-            for emdb_id, lig_id, HETs, HET_name, drugbank_id, method in sorted(self.drugbank_map, key=lambda x: x[0]):
-                f.write("%s\t%s\t%s\t%s\t%s\t%s\n" % (emdb_id, lig_id, HETs, HET_name, drugbank_id, method))
+            for ligand in self.ligands:
+                f1.write(ligand.get_chembl_tsv())
+                f2.write(ligand.get_chebi_tsv())
+                f3.write(ligand.get_drugbank_tsv())

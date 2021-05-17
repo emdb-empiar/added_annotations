@@ -74,9 +74,27 @@ class Ligand:
     def __init__(self, emdb_id, sample_id):
         self.emdb_id = emdb_id
         self.sample_id = sample_id
-        self.method = None
+        self.method = ""
         self.HET  = ""
         self.lig_name = ""
+        self.chembl_id = ""
+        self.chebi_id = ""
+        self.drugbank_id = ""
+
+    def get_chembl_tsv(self):
+        if self.chembl_id:
+            return "%s\t%s\t%s\t%s\t%s\t%s\n" % (self.emdb_id, self.sample_id, self.HET, self.lig_name, self.chembl_id, self.method)
+        return ""
+
+    def get_chebi_tsv(self):
+        if self.chebi_id:
+            return "%s\t%s\t%s\t%s\t%s\t%s\n" % (self.emdb_id, self.sample_id, self.HET, self.lig_name, self.chebi_id, self.method)
+        return ""
+
+    def get_drugbank_tsv(self):
+        if self.drugbank_id:
+            return "%s\t%s\t%s\t%s\t%s\t%s\n" % (self.emdb_id, self.sample_id, self.HET, self.lig_name, self.drugbank_id, self.method)
+        return ""
 
     def __str__(self):
         return "%s (%s) %s [%s]\nHET: %s" % (self.emdb_id, self.sample_id, self.lig_name, self.method, str(self.HET))
