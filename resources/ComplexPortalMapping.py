@@ -2,6 +2,7 @@ import os, csv
 from glob import glob
 from models import CPX, EMDB_complex
 import logging
+from multiprocessing import Pool
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
@@ -87,6 +88,7 @@ class CPMapping:
 
         # Parse EMDB proteins
         for protein in proteins:
+            print(protein.uniprot_id)
             #protein is part of a complex and contains a Uniprot ID
             if len(protein.sample_complexes) > 0 and protein.uniprot_id:
                 emdb_id = protein.emdb_id
@@ -101,39 +103,48 @@ class CPMapping:
                         emdb_cpx.add_protein(uniprot_id)
                         self.emdb_complexes[emdb_complex_id] = emdb_cpx
 
-    def execute(self):
-        for emdb_complex in self.emdb_complexes.values():
-            emdb_protein_list = emdb_complex.proteins
-            cpx_found = set()
-            for uniprot_id in emdb_protein_list:
-                cpx_complexes = self.cpx_db.get_from_uniprot(uniprot_id)
-                if cpx_complexes:
-                    for cpx_id in cpx_complexes:
-                        cpx_found.add(cpx_id)
+    def execute(self, threads):
+        with Pool(processes=threads) as pool:
+            self.annotations = pool.map(self.worker, self.emdb_complexes.values())
 
-            max_score = 0.0
-            best_hits = []
-            for cpx_id in cpx_found:
-                cpx = self.cpx_db.get_from_cpx(cpx_id)
-                cpx_uniprot = cpx.uniprot
-                overlap_score = overlap(emdb_protein_list,cpx_uniprot)
-                if overlap_score == max_score:
-                    best_hits.append(cpx)
-                elif overlap_score > max_score:
-                    best_hits = [cpx]
-                    max_score = overlap_score
+            print(self.annotations)
 
-            if max_score >= MIN_SCORE:
-                emdb_complex.cpx_list = best_hits
-                emdb_complex.score = max_score
-                emdb_complex.method = "UNIPROT"
+    def worker(self, emdb_complex):
+        print(emdb_complex.complex_sample_id)
+        emdb_protein_list = emdb_complex.proteins
+        cpx_found = set()
+        for uniprot_id in emdb_protein_list:
+            cpx_complexes = self.cpx_db.get_from_uniprot(uniprot_id)
+            if cpx_complexes:
+                for cpx_id in cpx_complexes:
+                    cpx_found.add(cpx_id)
 
-                self.annotations.append(emdb_complex)
+        max_score = 0.0
+        best_hits = []
+        for cpx_id in cpx_found:
+            cpx = self.cpx_db.get_from_cpx(cpx_id)
+            cpx_uniprot = cpx.uniprot
+            overlap_score = overlap(emdb_protein_list,cpx_uniprot)
+            if overlap_score == max_score:
+                best_hits.append(cpx)
+            elif overlap_score > max_score:
+                best_hits = [cpx]
+                max_score = overlap_score
+
+        if max_score >= MIN_SCORE:
+            emdb_complex.cpx_list = best_hits
+            emdb_complex.score = max_score
+            emdb_complex.method = "UNIPROT"
+
+            return emdb_complex
+        return None
+
 
     def write_cpx_map(self):
         filepath = os.path.join(self.workDir, "emdb_cpx.tsv")
         with open(filepath, 'w') as f:
             f.write("%s\t%s\t%s\t%s\t%s\t%s\n" % ("EMDB_ID", "EMDB_SAMPLE_ID", "CPX_ID", "CPX_TITLE", "PROVENANCE", "SCORE"))
             for emcpx in self.annotations:
-                for cpx in emcpx.cpx_list:
-                    f.write("%s\t%s\t%s\t%s\t%s\t%s\n" % (emcpx.emdb_id, emcpx.sample_id, cpx.cpx_id, cpx.name, emcpx.method, emcpx.score))
+                if emcpx:
+                    for cpx in emcpx.cpx_list:
+                        f.write("%s\t%s\t%s\t%s\t%s\t%s\n" % (emcpx.emdb_id, emcpx.sample_id, cpx.cpx_id, cpx.name, emcpx.method, emcpx.score))

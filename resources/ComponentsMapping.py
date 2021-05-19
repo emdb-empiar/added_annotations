@@ -1,6 +1,7 @@
 import os
 import logging
 from gemmi import cif
+from multiprocessing import Pool
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
@@ -27,28 +28,35 @@ class ComponentsMap:
     def __init__(self, workDir, ligands):
         self.workDir = workDir
         self.ligands = ligands
+        self.chembl_map = {}
+        self.chebi_map = {}
+        self.drugbank_map = {}
 
-    def execute_annotations(self):
+    def execute(self, threads):
         ####### Extract only the HET_code, resource name and IDs from the PDBe componenets.cif file #####
-        chembl_map, chebi_map, drugbank_map = self.extract_resources_from_cif()
+        self.chembl_map, self.chebi_map, self.drugbank_map = self.extract_resources_from_cif()
 
         ###### Mapping HET_CODE TO CHEMBL, CHEBI and DRUGBANK ########
-        for ligand in self.ligands:
-            HET = ligand.HET
-            if ligand.method == "AUTHOR":
-                continue
+        with Pool(processes=threads) as pool:
+            self.ligands = pool.map(self.worker, self.ligands)            
+
+    def worker(self, ligand):
+        HET = ligand.HET
+        if ligand.method == "AUTHOR":
+            return ligand
+        else:
+            if HET in self.chembl_map:
+                ligand.chembl_id = self.chembl_map[HET]
+                ligand.method = "CCD"
+            if HET in self.chebi_map:
+                ligand.chebi_id = self.chebi_map[HET]
+                ligand.method = "CCD"
+            if HET in self.drugbank_map:
+                ligand.drugbank_id = self.drugbank_map[HET]
+                ligand.method = "CCD"
             else:
-                if HET in chembl_map:
-                    ligand.chembl_id = chembl_map[HET]
-                    ligand.method = "CCD"
-                if HET in chebi_map:
-                    ligand.chebi_id = chebi_map[HET]
-                    ligand.method = "CCD"
-                if HET in drugbank_map:
-                    ligand.drugbank_id = drugbank_map[HET]
-                    ligand.method = "CCD"
-                else:
-                    logger.debug("NOT IN CCD %s" % (HET))  #### Replace with corresponding resource API
+                logger.debug("NOT IN CCD %s" % (HET))  #### Replace with corresponding resource API
+        return ligand
 
     def extract_resources_from_cif(self):
         """
