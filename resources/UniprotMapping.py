@@ -5,9 +5,10 @@ import urllib.request
 import logging
 from fuzzywuzzy import fuzz
 from models import Protein
+from multiprocessing import Pool
 
 BLAST_DB = "/nfs/public/rw/pdbe/httpd-em/software/ncbi-blast-2.11.0+/database/uniprot_sprot"  #  uniprotkb_swissprot
-#BLAST_DB = "uniprotkb_swissprot"
+#BLAST_DB = "/Users/neli/EBI/annotations/uniprotkb_swissprot"
 #BLAST_DB = "/Users/amudha/project/uniprot_sprot"
 #BLASTP_BIN = "blastp"
 BLASTP_BIN = "/nfs/public/rw/pdbe/httpd-em/software/ncbi-blast-2.11.0+/bin/blastp"
@@ -59,41 +60,48 @@ class UniprotMapping:
 			for protein in self.proteins:
 				fw.write(protein.get_tsv())
 
-	def execute(self):
-		for protein in self.proteins:
-			if not protein.method:
-				#If contain a model: Uniprot search
-				found = False
-				if len(protein.pdb_ids) > 0:
+	def execute(self, threads):
+		with Pool(processes=threads) as pool:
+			self.proteins = pool.map(self.worker, self.proteins)
+
+	def worker(self, protein):
+		if not protein.method:
+			#If contain a model: Uniprot search
+			found = False
+			if len(protein.pdb_ids) > 0:
+				try:
+					found = self.query_uniprot(protein)
+				except:
+					logger.error("%s failed accessing the Uniprot" % protein.emdb_id)
+			
+			if not found:
+				if protein.sequence:
 					try:
-						found = self.query_uniprot(protein)
+						protein = self.blastp(protein)
 					except:
-						logger.error("%s failed accessing the Uniprot" % protein.emdb_id)
-				
-				if not found:
-					if protein.sequence:
-						try:
-							self.blastp(protein)
-						except:
-							logger.error("%s failed in blastp" % protein.emdb_id)
+						logger.error("%s failed in blastp" % protein.emdb_id)
+
+		return protein
 
 	def blastp(self, protein):
 		#Create fasta file
-		fasta_file = os.path.join(self.output_dir, "fasta", protein.emdb_id + ".fasta")
+		directory = os.path.join(self.output_dir, "fasta")
+		if not os.path.exists(directory):
+			os.makedirs(directory)
+		fasta_file = os.path.join(directory, protein.emdb_id + ".fasta")
 		with open(fasta_file, "w") as f:
 			f.write(">seq\n%s" % protein.sequence)
 		qout = os.path.join(self.output_dir, "fasta", protein.emdb_id + ".xml")
-		#### Using biopython for Blastp ##
-		#blastp_command = NcbiblastpCommandline(query=fasta_file, db=db_path, out=qout, evalue='1e-40')
-		#blastp_command()
 		blastp_command = [BLASTP_BIN, "-query", fasta_file, "-db", BLAST_DB, "-out", qout, "-outfmt", "5",
 						  "-evalue", "1e-40"]
 		subprocess.call(blastp_command)
+		
 		if os.path.isfile(qout):
 			uniprot_id = self.extract_uniprot_from_blast(qout, protein.sample_organism)
 			if uniprot_id:
 				protein.uniprot_id = uniprot_id
 				protein.method = "BLASTP"
+		return protein
 
 	def extract_uniprot_from_blast(self, out_file, ncbi_id):
 		"""

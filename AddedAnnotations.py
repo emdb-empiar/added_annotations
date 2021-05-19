@@ -32,8 +32,8 @@ if __name__ == "__main__":
     parser.add_argument('-w', '--workDir', type=Path, help="Main working directory path .")
     parser.add_argument('-f', '--headerDir', type=Path, help="Directory path to the EMDB version 3.0 header files.")
     parser.add_argument('-p', '--PDBeDir', type=Path, help="Directory path to the PDBe Complex portal mapping files.")
+    parser.add_argument('-t', '--threads', type=int, default=4, help="Number of threads.")
     parser.add_argument("--download_uniprot", type=bool, nargs='?', const=True, default=False, help="Download uniprot tab file.")
-    parser.add_argument("--uniprot", type=bool, nargs='?', const=True, default=False, help="Mapping to UNIPROT.")
     parser.add_argument("--CPX", type=bool, nargs='?', const=True, default=False, help="Mapping to Complex Portal.")
     parser.add_argument("--components", type=bool, nargs='?', const=True, default=False, help="Mapping to chEMBL, "
                                                                                               "ChEBI and DrugBank.")
@@ -46,15 +46,14 @@ if __name__ == "__main__":
     unp_mapping = UniprotMapping(args.workDir, xml.proteins)
     if args.download_uniprot:
         unp_mapping.download_uniprot()
-    if args.uniprot:
-        unp_mapping.parseUniprot()
-        unp_mapping.execute()
-        unp_mapping.export_tsv()
+    unp_mapping.parseUniprot()
+    unp_mapping.execute(args.threads)
+    unp_mapping.export_tsv()
     if args.CPX:
-        cpx_mapping = CPMapping(args.workDir, xml.proteins)
-        cpx_mapping.execute()
+        cpx_mapping = CPMapping(args.workDir, unp_mapping.proteins)
+        cpx_mapping.execute(args.threads)
         cpx_mapping.write_cpx_map()
     if args.components:
         che_mapping = ComponentsMap(args.workDir, xml.ligands)
-        che_mapping.execute_annotations()
+        che_mapping.execute(args.threads)
         che_mapping.write_ligands()
