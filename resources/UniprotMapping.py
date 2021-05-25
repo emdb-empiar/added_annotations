@@ -4,7 +4,7 @@ import urllib.parse
 import urllib.request
 import logging
 from fuzzywuzzy import fuzz
-from models import Protein
+from models import Protein, Model
 from multiprocessing import Pool
 
 BLAST_DB = "/nfs/public/rw/pdbe/httpd-em/software/ncbi-blast-2.11.0+/database/uniprot_sprot"  #  uniprotkb_swissprot
@@ -68,7 +68,7 @@ class UniprotMapping:
 		if not protein.method:
 			#If contain a model: Uniprot search
 			found = False
-			if len(protein.pdb_ids) > 0:
+			if len(protein.pdb) > 0:
 				try:
 					found = self.query_uniprot(protein)
 				except:
@@ -126,7 +126,8 @@ class UniprotMapping:
 
 	def query_uniprot(self, protein):
 		pdb_found = False
-		for pdb_id in protein.pdb_ids:
+		for pdb in protein.pdb:
+			pdb_id = pdb.pdb_id
 			if pdb_id in self.uniprot:
 				uniprot_list = self.uniprot[pdb_id]
 				pdb_found = True

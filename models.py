@@ -9,7 +9,7 @@ class Protein:
         self.sample_id = sample_id
         self.sample_name = ""
         self.sample_organism = None
-        self.pdb_ids = []
+        self.pdb = []
         self.sample_complexes = []
         self.uniprot_id = None
         self.method = None
@@ -98,3 +98,16 @@ class Ligand:
 
     def __str__(self):
         return "%s (%s) %s [%s]\nHET: %s" % (self.emdb_id, self.sample_id, self.lig_name, self.method, str(self.HET))
+
+class Model:
+    """
+    Define the PDB model, preferred assembly and molecular weight
+    """
+    def __init__(self, emdb_id, pdb_id):
+        self.emdb_id = emdb_id
+        self.pdb_id = pdb_id
+        self.assembly = 1
+        self.molecular_weight = 0.0 #Dalton
+
+    def __str__(self):
+        return ("%s\t%s\t%d\t%f\n" % (self.emdb_id, self.pdb_id, self.assembly, self.molecular_weight))

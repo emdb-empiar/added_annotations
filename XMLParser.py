@@ -1,6 +1,6 @@
 import lxml.etree as ET
 from glob import glob
-from models import Protein, Ligand
+from models import Protein, Ligand, Model
 import os, re
 
 class XMLParser:
@@ -12,6 +12,7 @@ class XMLParser:
 		self.header_dir = header_dir
 		self.proteins = []
 		self.ligands = []
+		self.models = []
 
 	def execute(self):
 		for fn in glob(os.path.join(str(self.header_dir), '*')):
@@ -19,13 +20,14 @@ class XMLParser:
 			xml_filename = "emd-" + id_num + "-v30.xml"
 			xml_dirpath = os.path.join(str(self.header_dir), fn, "header")
 			xml_filepath = os.path.join(xml_dirpath, xml_filename)
-			proteins, ligands = self.read_xml(xml_filepath)
+			proteins, ligands, models = self.read_xml(xml_filepath)
 			self.proteins += proteins
 			self.ligands += ligands
+			self.models += models
 
 	def read_xml(self, xml_file):
 		proteins = []
-		pdb_ids = set()
+		pdb_ids = []
 		ligands = []
 
 		with open(xml_file, 'r') as filexml:
@@ -36,7 +38,8 @@ class XMLParser:
 			prt_cpx = {} #Macromolecule -> Supramolecule
 			for x in list(root.iter('pdb_reference')):
 				pdb_id = x.find('pdb_id').text.lower()
-				pdb_ids.add(pdb_id)
+				model = Model(emd_id, pdb_id)
+				pdb_ids.append(model)
 
 			if list(root.iter('complex_supramolecule')):			
 				for x in list(root.iter('complex_supramolecule')):
@@ -52,7 +55,7 @@ class XMLParser:
 				for x in list(root.iter('protein_or_peptide')):
 					sample_id = x.attrib['macromolecule_id']
 					protein = Protein(emd_id,sample_id)
-					protein.pdb_ids = list(pdb_ids)
+					protein.pdb = pdb_ids
 					protein.sample_name = x.find('name').text
 					if sample_id in prt_cpx:
 						protein.sample_complexes = list(prt_cpx[sample_id])
@@ -104,4 +107,4 @@ class XMLParser:
 								ligand.drugbank_id = drugbank_id
 								ligand.method = "AUTHOR"
 					ligands.append(ligand)
-		return proteins, ligands
+		return proteins, ligands, pdb_ids
