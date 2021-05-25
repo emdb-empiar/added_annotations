@@ -65,7 +65,7 @@ class UniprotMapping:
 			self.proteins = pool.map(self.worker, self.proteins)
 
 	def worker(self, protein):
-		if not protein.method:
+		if not protein.provenance:
 			#If contain a model: Uniprot search
 			found = False
 			if len(protein.pdb_ids) > 0:
@@ -100,7 +100,7 @@ class UniprotMapping:
 			uniprot_id = self.extract_uniprot_from_blast(qout, protein.sample_organism)
 			if uniprot_id:
 				protein.uniprot_id = uniprot_id
-				protein.method = "BLASTP"
+				protein.provenance = "BLASTP"
 		return protein
 
 	def extract_uniprot_from_blast(self, out_file, ncbi_id):
@@ -146,7 +146,7 @@ class UniprotMapping:
 
 		if best_match and best_score > 80:
 			protein.uniprot_id = best_match
-			protein.method = "PDB+UNIPROT"
+			protein.provenance = "PDB+UNIPROT"
 			return True
 		return False
 

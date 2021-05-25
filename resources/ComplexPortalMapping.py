@@ -53,13 +53,13 @@ class CPX_database:
             return self.entries[cpx_id]
         return None
 
-    # Use this method to return CPX entry based on Uniprot, CHEBI or PubMed ids
+    # Use this provenance to return CPX entry based on Uniprot, CHEBI or PubMed ids
     def get_from_identifier(self, ext_id):
         if ext_id in self.id_mapped:
             return self.id_mapped[ext_id]
         return None
 
-    # Use this method to return CPX entry based on Uniprot ID
+    # Use this provenance to return CPX entry based on Uniprot ID
     def get_from_uniprot(self, unp_id):
         if unp_id in self.uniprot_map:
             return self.uniprot_map[unp_id]
@@ -134,7 +134,7 @@ class CPMapping:
         if max_score >= MIN_SCORE:
             emdb_complex.cpx_list = best_hits
             emdb_complex.score = max_score
-            emdb_complex.method = "UNIPROT"
+            emdb_complex.provenance = "UNIPROT"
 
             return emdb_complex
         return None
@@ -147,4 +147,4 @@ class CPMapping:
             for emcpx in self.annotations:
                 if emcpx:
                     for cpx in emcpx.cpx_list:
-                        f.write("%s\t%s\t%s\t%s\t%s\t%s\n" % (emcpx.emdb_id, emcpx.sample_id, cpx.cpx_id, cpx.name, emcpx.method, emcpx.score))
+                        f.write("%s\t%s\t%s\t%s\t%s\t%s\n" % (emcpx.emdb_id, emcpx.sample_id, cpx.cpx_id, cpx.name, emcpx.provenance, emcpx.score))

@@ -10,8 +10,8 @@ file_handler = logging.FileHandler('logging_components.log')
 file_handler.setFormatter(formatter)
 logger.addHandler(file_handler)
 
-#components_cif = r'/Users/amudha/project/components.cif'
-components_cif = r'/nfs/ftp/pub/databases/msd/pdbechem_v2/components.cif'
+components_cif = r'/Users/amudha/project/components.cif'
+#components_cif = r'/nfs/ftp/pub/databases/msd/pdbechem_v2/components.cif'
 #components_cif = "/Users/neli/Downloads/components.cif"
 
 ### TO DO LIST
@@ -42,18 +42,15 @@ class ComponentsMap:
 
     def worker(self, ligand):
         HET = ligand.HET
-        if ligand.method == "AUTHOR":
+        if ligand.provenance == "AUTHOR":
             return ligand
         else:
             if HET in self.chembl_map:
                 ligand.chembl_id = self.chembl_map[HET]
-                ligand.method = "CCD"
             if HET in self.chebi_map:
                 ligand.chebi_id = self.chebi_map[HET]
-                ligand.method = "CCD"
             if HET in self.drugbank_map:
                 ligand.drugbank_id = self.drugbank_map[HET]
-                ligand.method = "CCD"
             else:
                 logger.debug("NOT IN CCD %s" % (HET))  #### Replace with corresponding resource API
         return ligand
@@ -77,7 +74,6 @@ class ComponentsMap:
                     chebi_map[HET] = value
                 elif db == "DrugBank":
                     drugbank_map[HET] = value
-
         return chembl_map, chebi_map, drugbank_map
 
     def write_ligands(self):
@@ -85,9 +81,9 @@ class ComponentsMap:
         chebi_file = os.path.join(self.workDir, "emdb_chebi.tsv")
         db_file = os.path.join(self.workDir, "emdb_drugbank.tsv")
         with open(chembl_file, 'w') as f1, open(chebi_file, 'w') as f2, open(db_file, 'w') as f3:
-            f1.write("%s\t%s\t%s\t%s\t%s\t%s\n" % ("EMDB_ID", "SAMPLE_ID", "HET_CODE", "COMP_NAME", "ChEMBL_ID", "PROVENANCE"))
-            f2.write("%s\t%s\t%s\t%s\t%s\t%s\n" % ("EMDB_ID", "SAMPLE_ID", "HET_CODE", "COMP_NAME", "ChEBI_ID", "PROVENANCE"))
-            f3.write("%s\t%s\t%s\t%s\t%s\t%s\n" % ("EMDB_ID", "SAMPLE_ID", "HET_CODE", "COMP_NAME", "DrugBank_ID", "PROVENANCE"))
+            f1.write("%s\t%s\t%s\t%s\t%s\t%s\t%s\n" % ("EMDB_ID", "SAMPLE_ID", "HET_CODE", "COMP_NAME", "NUM_COPIES", "ChEMBL_ID", "PROVENANCE"))
+            f2.write("%s\t%s\t%s\t%s\t%s\t%s\t%s\n" % ("EMDB_ID", "SAMPLE_ID", "HET_CODE", "COMP_NAME", "NUM_COPIES", "ChEBI_ID", "PROVENANCE"))
+            f3.write("%s\t%s\t%s\t%s\t%s\t%s\t%s\n" % ("EMDB_ID", "SAMPLE_ID", "HET_CODE", "COMP_NAME", "NUM_COPIES", "DrugBank_ID", "PROVENANCE"))
 
             for ligand in self.ligands:
                 f1.write(ligand.get_chembl_tsv())
