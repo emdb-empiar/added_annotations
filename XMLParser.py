@@ -72,7 +72,7 @@ class XMLParser:
 						if qs.find('external_references').attrib['type'] == 'UNIPROTKB':
 							uniprot_id = qs.find('external_references').text
 							protein.uniprot_id = uniprot_id
-							protein.method = "AUTHOR"
+							protein.provenance = "AUTHOR"
 					if qs.find('string') is not None:
 						seq = qs.find('string').text
 						#seq = re.sub(r'\(\s*UNK\s*\)', 'X', seq)
@@ -92,19 +92,24 @@ class XMLParser:
 						lig_name = x.find('name').text
 						if lig_name:
 							ligand.lig_name = lig_name
+						lig_copies = x.find('number_of_copies').text
+						if lig_copies:
+							ligand.lig_copies = lig_copies
+						else:
+							ligand.lig_copies = "1"
 
 						for ref in x.iter('external_references'):
 							if ref.attrib['type'] == 'CHEMBL':
 								chembl_id = ref.text
 								ligand.chembl_id = chembl_id
-								ligand.method = "AUTHOR"
+								ligand.provenance = "AUTHOR"
 							if ref.attrib['type'] == 'CHEBI':
 								chebi_id = ref.text
 								ligand.chebi_id = chebi_id
-								ligand.method = "AUTHOR"
+								ligand.provenance = "AUTHOR"
 							if ref.attrib['type'] == 'DRUGBANK':
 								drugbank_id = ref.text
 								ligand.drugbank_id = drugbank_id
-								ligand.method = "AUTHOR"
+								ligand.provenance = "AUTHOR"
 					ligands.append(ligand)
 		return proteins, ligands, pdb_ids
