@@ -50,16 +50,13 @@ if __name__ == "__main__":
     if args.CPX or args.uniprot:
         uniprot = True
 
-    unp_mapping = UniprotMapping(args.workDir, xml.proteins)
-
-    if args.download_uniprot:
-        #unp_mapping = UniprotMapping(args.workDir, xml.proteins)
-        unp_mapping.download_uniprot()
     if uniprot:
-        #unp_mapping = UniprotMapping(args.workDir, xml.proteins)
+        unp_mapping = UniprotMapping(args.workDir, xml.proteins)
         unp_mapping.parseUniprot()
         unp_mapping.execute(args.threads)
         unp_mapping.export_tsv()
+        if args.download_uniprot:
+            unp_mapping.download_uniprot()
     if args.CPX:
         cpx_mapping = CPMapping(args.workDir, unp_mapping.proteins)
         cpx_mapping.execute(args.threads)

@@ -14,9 +14,9 @@ file_handler.setLevel(logging.DEBUG)
 file_handler.setFormatter(formatter)
 logger.addHandler(file_handler)
 
-#CP_ftp = r'/nfs/ftp/pub/databases/intact/complex/current/complextab/'
+CP_ftp = r'/nfs/ftp/pub/databases/intact/complex/current/complextab/'
 #CP_ftp = "/Users/neli/EBI/annotations/data/cpx/"
-CP_ftp = "/Users/amudha/project/ftp_data/cpx_data/complextab/"
+#CP_ftp = "/Users/amudha/project/ftp_data/cpx_data/complextab/"
 MIN_SCORE = 0.5
 
 def overlap(set1, set2):

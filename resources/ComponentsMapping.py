@@ -10,8 +10,8 @@ file_handler = logging.FileHandler('logging_components.log')
 file_handler.setFormatter(formatter)
 logger.addHandler(file_handler)
 
-components_cif = r'/Users/amudha/project/ftp_data/pdbe/components.cif'
-#components_cif = r'/nfs/ftp/pub/databases/msd/pdbechem_v2/components.cif'
+#components_cif = r'/Users/amudha/project/ftp_data/pdbe/components.cif'
+components_cif = r'/nfs/ftp/pub/databases/msd/pdbechem_v2/components.cif'
 #components_cif = "/Users/neli/Downloads/components.cif"
 
 ### TO DO LIST
