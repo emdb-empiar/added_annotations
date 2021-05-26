@@ -59,6 +59,10 @@ class XMLParser:
 					protein.sample_name = x.find('name').text
 					if sample_id in prt_cpx:
 						protein.sample_complexes = list(prt_cpx[sample_id])
+					if x.find('number_of_copies') is not None:
+						protein.sample_copies = x.find('number_of_copies').text
+					else:
+						protein.sample_copies = "1"
 
 					if x.find('natural_source') is not None:
 						qs = x.find('natural_source')

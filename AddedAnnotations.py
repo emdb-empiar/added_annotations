@@ -50,10 +50,13 @@ if __name__ == "__main__":
     if args.CPX or args.uniprot:
         uniprot = True
 
+    unp_mapping = UniprotMapping(args.workDir, xml.proteins)
+
     if args.download_uniprot:
+        #unp_mapping = UniprotMapping(args.workDir, xml.proteins)
         unp_mapping.download_uniprot()
     if uniprot:
-        unp_mapping = UniprotMapping(args.workDir, xml.proteins)
+        #unp_mapping = UniprotMapping(args.workDir, xml.proteins)
         unp_mapping.parseUniprot()
         unp_mapping.execute(args.threads)
         unp_mapping.export_tsv()
@@ -69,4 +72,3 @@ if __name__ == "__main__":
         mw_mapping = StructureMapping(args.workDir, xml.models)
         mw_mapping.execute(args.threads)
         mw_mapping.export_tsv()
-        

@@ -14,9 +14,9 @@ file_handler.setLevel(logging.DEBUG)
 file_handler.setFormatter(formatter)
 logger.addHandler(file_handler)
 
-CP_ftp = r'/nfs/ftp/pub/databases/intact/complex/current/complextab/'
+#CP_ftp = r'/nfs/ftp/pub/databases/intact/complex/current/complextab/'
 #CP_ftp = "/Users/neli/EBI/annotations/data/cpx/"
-#CP_ftp = "/Users/amudha/project/cpx_data/complextab/"
+CP_ftp = "/Users/amudha/project/ftp_data/cpx_data/complextab/"
 MIN_SCORE = 0.5
 
 def overlap(set1, set2):
@@ -53,13 +53,13 @@ class CPX_database:
             return self.entries[cpx_id]
         return None
 
-    # Use this provenance to return CPX entry based on Uniprot, CHEBI or PubMed ids
+    # Use this method to return CPX entry based on Uniprot, CHEBI or PubMed ids
     def get_from_identifier(self, ext_id):
         if ext_id in self.id_mapped:
             return self.id_mapped[ext_id]
         return None
 
-    # Use this provenance to return CPX entry based on Uniprot ID
+    # Use this method to return CPX entry based on Uniprot ID
     def get_from_uniprot(self, unp_id):
         if unp_id in self.uniprot_map:
             return self.uniprot_map[unp_id]
@@ -88,29 +88,27 @@ class CPMapping:
 
         # Parse EMDB proteins
         for protein in proteins:
-            print(protein.uniprot_id)
             #protein is part of a complex and contains a Uniprot ID
             if len(protein.sample_complexes) > 0 and protein.uniprot_id:
                 emdb_id = protein.emdb_id
                 sample_id = protein.sample_id
                 uniprot_id = protein.uniprot_id
+                sample_copies = protein.sample_copies
                 for complex_id in protein.sample_complexes:
                     emdb_complex_id = emdb_id + "_" + str(complex_id)
                     if emdb_complex_id in self.emdb_complexes:
                         self.emdb_complexes[emdb_complex_id].add_protein(uniprot_id)
                     else:
-                        emdb_cpx = EMDB_complex(emdb_id, complex_id, emdb_complex_id)
+                        emdb_cpx = EMDB_complex(emdb_id, complex_id, sample_copies, emdb_complex_id)
                         emdb_cpx.add_protein(uniprot_id)
                         self.emdb_complexes[emdb_complex_id] = emdb_cpx
+
 
     def execute(self, threads):
         with Pool(processes=threads) as pool:
             self.annotations = pool.map(self.worker, self.emdb_complexes.values())
 
-            print(self.annotations)
-
     def worker(self, emdb_complex):
-        print(emdb_complex.complex_sample_id)
         emdb_protein_list = emdb_complex.proteins
         cpx_found = set()
         for uniprot_id in emdb_protein_list:
@@ -139,12 +137,11 @@ class CPMapping:
             return emdb_complex
         return None
 
-
     def write_cpx_map(self):
         filepath = os.path.join(self.workDir, "emdb_cpx.tsv")
         with open(filepath, 'w') as f:
-            f.write("%s\t%s\t%s\t%s\t%s\t%s\n" % ("EMDB_ID", "EMDB_SAMPLE_ID", "CPX_ID", "CPX_TITLE", "PROVENANCE", "SCORE"))
+            f.write("%s\t%s\t%s\t%s\t%s\t%s\t%s\n" % ("EMDB_ID", "EMDB_SAMPLE_ID", "SAMPLE_COPIES", "CPX_ID", "CPX_TITLE", "PROVENANCE", "SCORE"))
             for emcpx in self.annotations:
                 if emcpx:
                     for cpx in emcpx.cpx_list:
-                        f.write("%s\t%s\t%s\t%s\t%s\t%s\n" % (emcpx.emdb_id, emcpx.sample_id, cpx.cpx_id, cpx.name, emcpx.provenance, emcpx.score))
+                        f.write("%s\t%s\t%s\t%s\t%s\t%s\t%s\n" % (emcpx.emdb_id, emcpx.sample_id, emcpx.sample_copies, cpx.cpx_id, cpx.name, emcpx.provenance, emcpx.score))

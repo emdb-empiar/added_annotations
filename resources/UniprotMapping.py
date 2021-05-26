@@ -7,11 +7,11 @@ from fuzzywuzzy import fuzz
 from models import Protein, Model
 from multiprocessing import Pool
 
-BLAST_DB = "/nfs/public/rw/pdbe/httpd-em/software/ncbi-blast-2.11.0+/database/uniprot_sprot"  #  uniprotkb_swissprot
+#BLAST_DB = "/nfs/public/rw/pdbe/httpd-em/software/ncbi-blast-2.11.0+/database/uniprot_sprot"  #  uniprotkb_swissprot
 #BLAST_DB = "/Users/neli/EBI/annotations/uniprotkb_swissprot"
-#BLAST_DB = "/Users/amudha/project/uniprot_sprot"
-#BLASTP_BIN = "blastp"
-BLASTP_BIN = "/nfs/public/rw/pdbe/httpd-em/software/ncbi-blast-2.11.0+/bin/blastp"
+BLAST_DB = "/Users/amudha/project/ftp_data/uniprot_sprot"
+BLASTP_BIN = "blastp"
+#BLASTP_BIN = "/nfs/public/rw/pdbe/httpd-em/software/ncbi-blast-2.11.0+/bin/blastp"
 
 uniprot_api = "www.uniprot.org/uniprot/?query=\"%s\" AND database:(type:pdb %s)&format=tab&limit=100&columns=id,organism-id&sort=score"
 
@@ -56,7 +56,7 @@ class UniprotMapping:
 	def export_tsv(self):
 		filepath = os.path.join(self.output_dir, "emdb_uniprot.tsv")
 		with open(filepath, 'w') as fw:
-			fw.write("EMDB_ID\tSAMPLE_ID\tSAMPLE_NAME\tNCBI_ID\tUNIPROT_ID\tPROVENANCE\tSAMPLE_COMPLEX_IDS\n")
+			fw.write("EMDB_ID\tSAMPLE_ID\tSAMPLE_NAME\tSAMPLE_COPIES\tNCBI_ID\tUNIPROT_ID\tPROVENANCE\tSAMPLE_COMPLEX_IDS\n")
 			for protein in self.proteins:
 				fw.write(protein.get_tsv())
 
