@@ -86,17 +86,17 @@ class Ligand:
 
     def get_chembl_tsv(self):
         if self.chembl_id:
-            return "%s\t%s\t%s\t%s\t%s\t%s\t%s\n" % (self.emdb_id, self.sample_id, self.HET, self.lig_name, self.lig_copies, self.chembl_id, "ChEMBL")
+            return "%s\t%s\t%s\t%s\t%s\t%s\t%s\n" % (self.emdb_id, self.sample_id, self.HET, self.lig_name, self.lig_copies, self.chembl_id, self.provenance)
         return ""
 
     def get_chebi_tsv(self):
         if self.chebi_id:
-            return "%s\t%s\t%s\t%s\t%s\t%s\t%s\n" % (self.emdb_id, self.sample_id, self.HET, self.lig_name, self.lig_copies, self.chebi_id, "ChEBI")
+            return "%s\t%s\t%s\t%s\t%s\t%s\t%s\n" % (self.emdb_id, self.sample_id, self.HET, self.lig_name, self.lig_copies, self.chebi_id, self.provenance)
         return ""
 
     def get_drugbank_tsv(self):
         if self.drugbank_id:
-            return "%s\t%s\t%s\t%s\t%s\t%s\t%s\n" % (self.emdb_id, self.sample_id, self.HET, self.lig_name, self.lig_copies, self.drugbank_id, "DrugBank")
+            return "%s\t%s\t%s\t%s\t%s\t%s\t%s\n" % (self.emdb_id, self.sample_id, self.HET, self.lig_name, self.lig_copies, self.drugbank_id, self.provenance)
         return ""
 
     def __str__(self):

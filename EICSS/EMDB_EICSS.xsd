@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:element name="eicss">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="DBs_list">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element maxOccurs="unbounded" name="DB">
+                                <xs:complexType>
+                                    <xs:attribute name="DB_source" type="DB_source_type"/>
+                                    <xs:attribute name="DB_version" type="xs:token"/>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element minOccurs="0" name="models_list" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element minOccurs="0" name="model_annotation">
+                                <xs:complexType>
+                                    <xs:attribute name="PDBID">
+                                        <xs:simpleType>
+                                            <xs:restriction base="xs:string">
+                                                <xs:maxLength value="4"/>
+                                            </xs:restriction>
+                                        </xs:simpleType>
+                                    </xs:attribute>
+                                    <xs:attribute name="assemblies" type="xs:nonNegativeInteger"/>
+                                    <xs:attribute name="weight" type="xs:string"/>
+                                    <xs:attribute name="provenance" type="provenance_type"/>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="sample_annotation" minOccurs="0">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="sample_name" type="xs:string" minOccurs="0"/>
+                            <xs:element minOccurs="0" name="list_crossRefDBs">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element maxOccurs="unbounded" minOccurs="0"
+                                            name="crossRefDB">
+                                            <xs:complexType>
+                                                <xs:attribute name="DB_source" type="DB_source_type"/>
+                                                <xs:attribute name="provenance"
+                                                  type="provenance_type"/>
+                                                <xs:attribute name="DB_accession_ID" type="xs:ID"/>
+                                            </xs:complexType>
+                                        </xs:element>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element name="list_supra_molecules" minOccurs="0">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="supra_molecule_annotation"
+                                            maxOccurs="unbounded" minOccurs="0">
+                                            <xs:complexType>
+                                                <xs:sequence>
+                                                  <xs:element name="supra_name" type="xs:string"/>
+                                                  <xs:element name="list_crossRefDBs">
+                                                  <xs:complexType>
+                                                  <xs:sequence>
+                                                  <xs:element maxOccurs="unbounded"
+                                                  name="crossRefDB" minOccurs="0">
+                                                  <xs:complexType>
+                                                  <xs:attribute name="DB_source"
+                                                  type="DB_source_type"/>
+                                                  <xs:attribute name="provenance"
+                                                  type="provenance_type"/>
+                                                  <xs:attribute name="DB_accession_ID" type="xs:ID"
+                                                  />
+                                                  </xs:complexType>
+                                                  </xs:element>
+                                                  </xs:sequence>
+                                                  </xs:complexType>
+                                                  </xs:element>
+                                                </xs:sequence>
+                                                <xs:attribute name="supra_kind" type="sample_kind"/>
+                                                <xs:attribute name="supra_ID"
+                                                  type="xs:nonNegativeInteger"/>
+                                                <xs:attribute name="supra_copies"
+                                                  type="xs:nonNegativeInteger"/>
+                                            </xs:complexType>
+                                        </xs:element>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element name="list_macro_molecules" minOccurs="0">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="macro_molecule_annotation"
+                                            maxOccurs="unbounded" minOccurs="0">
+                                            <xs:complexType>
+                                                <xs:sequence>
+                                                  <xs:element name="macro_name" type="xs:string"/>
+                                                  <xs:element name="list_crossRefDBs">
+                                                  <xs:complexType>
+                                                  <xs:sequence>
+                                                  <xs:element name="crossRefDB"
+                                                  maxOccurs="unbounded" minOccurs="0">
+                                                  <xs:complexType>
+                                                  <xs:attribute name="DB_source"
+                                                  type="DB_source_type"/>
+                                                  <xs:attribute name="provenance"
+                                                  type="provenance_type"/>
+                                                  <xs:attribute name="DB_accession_ID" type="xs:ID"
+                                                  />
+                                                  </xs:complexType>
+                                                  </xs:element>
+                                                  </xs:sequence>
+                                                  </xs:complexType>
+                                                  </xs:element>
+                                                </xs:sequence>
+                                                <xs:attribute name="macro_kind" type="sample_kind"/>
+                                                <xs:attribute name="macro_ID"
+                                                  type="xs:nonNegativeInteger"/>
+                                                <xs:attribute name="macro_copies"
+                                                  type="xs:nonNegativeInteger"/>
+                                            </xs:complexType>
+                                        </xs:element>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+            <xs:attribute name="EMDB_ID" type="emdb_id_type"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:simpleType name="emdb_id_type">
+        <xs:restriction base="xs:token">
+            <xs:pattern value="EMD-\d{4,}"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="DB_source_type">
+        <xs:restriction base="xs:token">
+            <xs:enumeration value="UNIPROT"/>
+            <xs:enumeration value="COMPLEXPORTAL"/>
+            <xs:enumeration value="PDBe"/>
+            <xs:enumeration value="CHEMBL"/>
+            <xs:enumeration value="CHEBI"/>
+            <xs:enumeration value="DRUGBANK"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="provenance_type">
+        <xs:restriction base="xs:token">
+            <xs:enumeration value="AUTHOR"/>
+            <xs:enumeration value="UNIPROT"/>
+            <xs:enumeration value="PDBe"/>
+            <xs:enumeration value="PDB+UNIPROT"/>
+            <xs:enumeration value="BLASTP"/>
+            <xs:enumeration value="COMPLEXPORTAL"/>
+            <xs:enumeration value="ChEMBL"/>
+            <xs:enumeration value="ChEBI"/>
+            <xs:enumeration value="DrugBank"/>
+            <xs:enumeration value="CALCULATED"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="sample_kind">
+        <xs:restriction base="xs:token">
+            <xs:enumeration value="complex"/>
+            <xs:enumeration value="protein"/>
+            <xs:enumeration value="ligand"/>
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema>

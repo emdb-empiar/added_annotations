@@ -4,6 +4,7 @@ from resources.ComplexPortalMapping import CPMapping
 from resources.ComponentsMapping import ComponentsMap
 from resources.UniprotMapping import UniprotMapping
 from resources.StructureMapping import StructureMapping
+from resources.EicssXML import EicssXML
 from XMLParser import XMLParser
 
 """
@@ -65,7 +66,11 @@ if __name__ == "__main__":
         che_mapping = ComponentsMap(args.workDir, xml.ligands)
         che_mapping.execute(args.threads)
         che_mapping.write_ligands()
+        #che_mapping.writeXML_ligands()
     if args.model:
         mw_mapping = StructureMapping(args.workDir, xml.models)
         mw_mapping.execute(args.threads)
         mw_mapping.export_tsv()
+
+    write_annotation_xml = EicssXML(args.workDir, xml.proteins, xml.ligands, xml.models)
+    write_annotation_xml.execute()

@@ -3,8 +3,8 @@ import os
 import lxml.etree as ET
 
 #assembly_ftp = '/Users/neli/EBI/annotations/data/pdbe/assembly/'
-#assembly_ftp = '/Users/amudha/project/ftp_data/pdbe/assembly/'
-assembly_ftp = '/nfs/ftp/pub/databases/msd/assemblies/split/'
+assembly_ftp = '/Users/amudha/project/ftp_data/pdbe/assembly/'
+#assembly_ftp = '/nfs/ftp/pub/databases/msd/assemblies/split/'
 
 class StructureMapping:
 	"""
