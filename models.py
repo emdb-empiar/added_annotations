@@ -100,7 +100,8 @@ class Ligand:
         return ""
 
     def __str__(self):
-        return "%s (%s) %s %s [%s]\nHET: %s" % (self.emdb_id, self.sample_id, self.lig_name, self.lig_copies, self.provenance, str(self.HET))
+        return "%s %s %s %s %s %s %s %s %s" % (self.emdb_id, self.sample_id, self.HET, self.lig_name, self.lig_copies,
+                                               self.chembl_id, self.chebi_id, self.drugbank_id, self.provenance)
 
 class Model:
     """

@@ -39,7 +39,8 @@ class ComponentsMap:
 
         ###### Mapping HET_CODE TO CHEMBL, CHEBI and DRUGBANK ########
         with Pool(processes=threads) as pool:
-            self.ligands = pool.map(self.worker, self.ligands)            
+            self.ligands = pool.map(self.worker, self.ligands)
+        return self.ligands
 
     def worker(self, ligand):
         HET = ligand.HET
@@ -48,7 +49,6 @@ class ComponentsMap:
         else:
             if HET in self.chembl_map:
                 ligand.chembl_id = self.chembl_map[HET]
-                print(ligand.chembl_id)
                 ligand.provenance = "CCD"
             if HET in self.chebi_map:
                 ligand.chebi_id = self.chebi_map[HET]
@@ -62,7 +62,7 @@ class ComponentsMap:
 
     def extract_resources_from_cif(self):
         """
-        Extract all the external mapping for the HET_CODE from the pdbe components.cif file
+        Extract only the external mapping for the HET_CODE from the pdbe components.cif file
         """
         chembl_map = {}
         chebi_map = {}
@@ -96,50 +96,62 @@ class ComponentsMap:
                 f3.write(ligand.get_drugbank_tsv())
 
     # def writeXML_ligands(self):
-    #     em_id = ""
+    #     component_DB = set()
     #     headerXML = EICSS.eicss()
     #     DBs_list = EICSS.DBs_listType()
-    #     #DB_source = EICSS.DB_source_type()
-    #     DB = EICSS.DBType()
     #     list_macro_molecules = EICSS.list_macro_moleculesType()
     #     sample_annotation = EICSS.sample_annotationType()
-    #     macro_molecule_annotation = EICSS.macro_molecule_annotationType()
-    #     list_crossRefDBs = EICSS.list_crossRefDBsType()
-    #     crossRefDB = EICSS.crossRefDBType()
     #
+    #     em_id = self.ligands[0].emdb_id
+    #     # print("FIR", em_id)
     #     for ligand in self.ligands:
     #         headerXML.set_EMDB_ID(ligand.emdb_id)
-    #
+    #         # print("AC", ligand.emdb_id, ligand.HET)
+    #         macro_molecule_annotation = EICSS.macro_molecule_annotationType()
+    #         if ligand.emdb_id == em_id:
+    #             # print("K", em_id)
+    #             macro_molecule_annotation.set_macro_kind("%s" % "ligand")
+    #             macro_molecule_annotation.set_macro_ID(int(ligand.sample_id))
+    #             macro_molecule_annotation.set_macro_copies(int(ligand.lig_copies))
+    #             macro_molecule_annotation.set_macro_name("%s" % ligand.lig_name)
+    #             list_macro_molecules.add_macro_molecule_annotation(macro_molecule_annotation)
     #         if ligand.chembl_id:
-    #             EICSS.DB_source_type("%s" % "CHEMBL")
-    #             DB.set_DB_version("%s" % "4.2.0")
-    #             DBs_list.add_DB(DB)
-    #             headerXML.set_DBs_list(DBs_list)
-    #         if ligand.chebi_id:
-    #             EICSS.DB_source_type("%s" % "CHEBI")
-    #             DB.set_DB_version("%s" % "15.21")
-    #             DBs_list.add_DB(DB)
-    #             headerXML.set_DBs_list(DBs_list)
-    #         if ligand.drugbank_id:
-    #             EICSS.DB_source_type("%s" % "DRUGBANK")
-    #             DB.set_DB_version("%s" % "2021.03.30")
-    #             DBs_list.add_DB(DB)
-    #             headerXML.set_DBs_list(DBs_list)
+    #             if "CHEMBL" not in component_DB:
+    #                 DB = EICSS.DBType()
+    #                 DB.set_DB_source("%s" % "CHEMBL")
+    #                 DB.set_DB_version("%s" % "4.2.0")
+    #                 DBs_list.add_DB(DB)
     #
-    #
-    #             # macro_molecule_annotation.set_macro_kind("%s" % "ligand")
-    #             # macro_molecule_annotation.set_macro_ID(int(ligand.sample_id))
-    #             # macro_molecule_annotation.set_macro_copies(int(ligand.lig_copies))
-    #             # macro_molecule_annotation.set_macro_name("%s" % ligand.lig_name)
+    #             # crossRefDB = EICSS.crossRefDBType()
     #             # crossRefDB.set_DB_source("%s" % "ChEMBL")
     #             # crossRefDB.set_provenance("%s" % ligand.provenance)
     #             # crossRefDB.set_DB_accession_ID("%s" % ligand.chembl_id)
+    #             # list_crossRefDBs = EICSS.list_crossRefDBsType()
     #             # list_crossRefDBs.add_crossRefDB(crossRefDB)
     #             # macro_molecule_annotation.set_list_crossRefDBs(list_crossRefDBs)
-    #             # list_macro_molecules.add_macro_molecule_annotation(macro_molecule_annotation)
-    #             # headerXML.set_sample_annotation(list_macro_molecules)
-    #         #print(ligand.emdb_id, ligand)
-    #     xmlFile = os.path.join(self.workDir, ligand.emdb_id + "_eicss.xml")
-    #     with open(xmlFile, 'w') as f:
-    #        headerXML.export(f, 0, name_='eicss')
-
+    #
+    #         component_DB.add("CHEMBL")
+    #         if ligand.chebi_id:
+    #             if "CHEBI" not in component_DB:
+    #                 DB = EICSS.DBType()
+    #                 DB.set_DB_source("%s" % "CHEBI")
+    #                 DB.set_DB_version("%s" % "15.21")
+    #                 DBs_list.add_DB(DB)
+    #         component_DB.add("CHEBI")
+    #         if ligand.drugbank_id:
+    #             if "DRUGBANK" not in component_DB:
+    #                 DB = EICSS.DBType()
+    #                 DB.set_DB_source("%s" % "DRUGBANK")
+    #                 DB.set_DB_version("%s" % "2021.03.30")
+    #                 DBs_list.add_DB(DB)
+    #         component_DB.add("DRUGBANK")
+    #
+    #         # print("BF", em_id, ligand.emdb_id)
+    #         em_id = ligand.emdb_id
+    #         # print("FIN", em_id, ligand.emdb_id)
+    #         headerXML.set_DBs_list(DBs_list)
+    #         headerXML.set_sample_annotation(list_macro_molecules)
+    #
+    #         xmlFile = os.path.join(self.workDir, ligand.emdb_id + "_eicss.xml")
+    #         with open(xmlFile, 'w') as f:
+    #             headerXML.export(f, 0, name_='eicss')

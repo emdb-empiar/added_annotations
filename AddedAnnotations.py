@@ -64,13 +64,13 @@ if __name__ == "__main__":
         cpx_mapping.write_cpx_map()
     if args.components:
         che_mapping = ComponentsMap(args.workDir, xml.ligands)
-        che_mapping.execute(args.threads)
+        lig_map = che_mapping.execute(args.threads)
         che_mapping.write_ligands()
-        #che_mapping.writeXML_ligands()
+        # che_mapping.writeXML_ligands()
     if args.model:
         mw_mapping = StructureMapping(args.workDir, xml.models)
         mw_mapping.execute(args.threads)
         mw_mapping.export_tsv()
 
-    write_annotation_xml = EicssXML(args.workDir, xml.proteins, xml.ligands, xml.models)
+    write_annotation_xml = EicssXML(args.workDir, xml.proteins, lig_map, xml.models)
     write_annotation_xml.execute()
