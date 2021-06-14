@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Mon Jun  7 15:40:05 2021 by generateDS.py version 2.38.6.
+# Generated Mon Jun 14 16:41:55 2021 by generateDS.py version 2.38.6.
 # Python 3.7.6 (default, Dec 30 2019, 19:38:28)  [Clang 11.0.0 (clang-1100.0.33.16)]
 #
 # Command line options:
@@ -90,8 +90,8 @@ supermod.models_listType.subclass = models_listTypeSub
 
 
 class model_annotationTypeSub(supermod.model_annotationType):
-    def __init__(self, PDBID=None, assemblies=None, weight=None, provenance=None, **kwargs_):
-        super(model_annotationTypeSub, self).__init__(PDBID, assemblies, weight, provenance,  **kwargs_)
+    def __init__(self, PDBID=None, assemblies=None, weight=None, units=None, provenance=None, **kwargs_):
+        super(model_annotationTypeSub, self).__init__(PDBID, assemblies, weight, units, provenance,  **kwargs_)
 supermod.model_annotationType.subclass = model_annotationTypeSub
 # end class model_annotationTypeSub
 
@@ -153,8 +153,8 @@ supermod.list_macro_moleculesType.subclass = list_macro_moleculesTypeSub
 
 
 class macro_molecule_annotationTypeSub(supermod.macro_molecule_annotationType):
-    def __init__(self, macro_kind=None, macro_ID=None, macro_copies=None, macro_name=None, list_crossRefDBs=None, **kwargs_):
-        super(macro_molecule_annotationTypeSub, self).__init__(macro_kind, macro_ID, macro_copies, macro_name, list_crossRefDBs,  **kwargs_)
+    def __init__(self, macro_kind=None, macro_ID=None, macro_copies=None, macro_name=None, macro_CCD_ID=None, list_crossRefDBs=None, **kwargs_):
+        super(macro_molecule_annotationTypeSub, self).__init__(macro_kind, macro_ID, macro_copies, macro_name, macro_CCD_ID, list_crossRefDBs,  **kwargs_)
 supermod.macro_molecule_annotationType.subclass = macro_molecule_annotationTypeSub
 # end class macro_molecule_annotationTypeSub
 

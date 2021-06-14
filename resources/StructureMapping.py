@@ -17,6 +17,7 @@ class StructureMapping:
 	def execute(self, threads):
 		with Pool(processes=threads) as pool:
 			self.models = pool.map(self.worker, self.models)
+		return self.models
 
 	def worker(self, model):
 		assembly_file = os.path.join(assembly_ftp, "%s/%s/%s-assembly.xml" % (model.pdb_id[1:3],model.pdb_id,model.pdb_id))

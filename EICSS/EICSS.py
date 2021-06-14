@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Mon Jun  7 15:40:04 2021 by generateDS.py version 2.38.6.
+# Generated Mon Jun 14 16:41:54 2021 by generateDS.py version 2.38.6.
 # Python 3.7.6 (default, Dec 30 2019, 19:38:28)  [Clang 11.0.0 (clang-1100.0.33.16)]
 #
 # Command line options:
@@ -1010,10 +1010,7 @@ class eicss(GeneratedsSuper):
         self.EMDB_ID_nsprefix_ = None
         self.DBs_list = DBs_list
         self.DBs_list_nsprefix_ = None
-        if models_list is None:
-            self.models_list = []
-        else:
-            self.models_list = models_list
+        self.models_list = models_list
         self.models_list_nsprefix_ = None
         self.sample_annotation = sample_annotation
         self.sample_annotation_nsprefix_ = None
@@ -1040,12 +1037,6 @@ class eicss(GeneratedsSuper):
         return self.models_list
     def set_models_list(self, models_list):
         self.models_list = models_list
-    def add_models_list(self, value):
-        self.models_list.append(value)
-    def insert_models_list_at(self, index, value):
-        self.models_list.insert(index, value)
-    def replace_models_list_at(self, index, value):
-        self.models_list[index] = value
     def get_sample_annotation(self):
         return self.sample_annotation
     def set_sample_annotation(self, sample_annotation):
@@ -1068,7 +1059,7 @@ class eicss(GeneratedsSuper):
     def hasContent_(self):
         if (
             self.DBs_list is not None or
-            self.models_list or
+            self.models_list is not None or
             self.sample_annotation is not None
         ):
             return True
@@ -1109,9 +1100,9 @@ class eicss(GeneratedsSuper):
         if self.DBs_list is not None:
             namespaceprefix_ = self.DBs_list_nsprefix_ + ':' if (UseCapturedNS_ and self.DBs_list_nsprefix_) else ''
             self.DBs_list.export(outfile, level, namespaceprefix_, namespacedef_='', name_='DBs_list', pretty_print=pretty_print)
-        for models_list_ in self.models_list:
+        if self.models_list is not None:
             namespaceprefix_ = self.models_list_nsprefix_ + ':' if (UseCapturedNS_ and self.models_list_nsprefix_) else ''
-            models_list_.export(outfile, level, namespaceprefix_, namespacedef_='', name_='models_list', pretty_print=pretty_print)
+            self.models_list.export(outfile, level, namespaceprefix_, namespacedef_='', name_='models_list', pretty_print=pretty_print)
         if self.sample_annotation is not None:
             namespaceprefix_ = self.sample_annotation_nsprefix_ + ':' if (UseCapturedNS_ and self.sample_annotation_nsprefix_) else ''
             self.sample_annotation.export(outfile, level, namespaceprefix_, namespacedef_='', name_='sample_annotation', pretty_print=pretty_print)
@@ -1142,7 +1133,7 @@ class eicss(GeneratedsSuper):
         elif nodeName_ == 'models_list':
             obj_ = models_listType.factory(parent_object_=self)
             obj_.build(child_, gds_collector_=gds_collector_)
-            self.models_list.append(obj_)
+            self.models_list = obj_
             obj_.original_tagname_ = 'models_list'
         elif nodeName_ == 'sample_annotation':
             obj_ = sample_annotationType.factory(parent_object_=self)
@@ -1380,7 +1371,10 @@ class models_listType(GeneratedsSuper):
         self.original_tagname_ = None
         self.parent_object_ = kwargs_.get('parent_object_')
         self.ns_prefix_ = None
-        self.model_annotation = model_annotation
+        if model_annotation is None:
+            self.model_annotation = []
+        else:
+            self.model_annotation = model_annotation
         self.model_annotation_nsprefix_ = None
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
@@ -1401,9 +1395,15 @@ class models_listType(GeneratedsSuper):
         return self.model_annotation
     def set_model_annotation(self, model_annotation):
         self.model_annotation = model_annotation
+    def add_model_annotation(self, value):
+        self.model_annotation.append(value)
+    def insert_model_annotation_at(self, index, value):
+        self.model_annotation.insert(index, value)
+    def replace_model_annotation_at(self, index, value):
+        self.model_annotation[index] = value
     def hasContent_(self):
         if (
-            self.model_annotation is not None
+            self.model_annotation
         ):
             return True
         else:
@@ -1438,9 +1438,9 @@ class models_listType(GeneratedsSuper):
             eol_ = '\n'
         else:
             eol_ = ''
-        if self.model_annotation is not None:
+        for model_annotation_ in self.model_annotation:
             namespaceprefix_ = self.model_annotation_nsprefix_ + ':' if (UseCapturedNS_ and self.model_annotation_nsprefix_) else ''
-            self.model_annotation.export(outfile, level, namespaceprefix_, namespacedef_='', name_='model_annotation', pretty_print=pretty_print)
+            model_annotation_.export(outfile, level, namespaceprefix_, namespacedef_='', name_='model_annotation', pretty_print=pretty_print)
     def build(self, node, gds_collector_=None):
         self.gds_collector_ = gds_collector_
         if SaveElementTreeNode:
@@ -1458,7 +1458,7 @@ class models_listType(GeneratedsSuper):
         if nodeName_ == 'model_annotation':
             obj_ = model_annotationType.factory(parent_object_=self)
             obj_.build(child_, gds_collector_=gds_collector_)
-            self.model_annotation = obj_
+            self.model_annotation.append(obj_)
             obj_.original_tagname_ = 'model_annotation'
 # end class models_listType
 
@@ -1467,7 +1467,7 @@ class model_annotationType(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, PDBID=None, assemblies=None, weight=None, provenance=None, gds_collector_=None, **kwargs_):
+    def __init__(self, PDBID=None, assemblies=None, weight=None, units=None, provenance=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
@@ -1479,6 +1479,8 @@ class model_annotationType(GeneratedsSuper):
         self.assemblies_nsprefix_ = None
         self.weight = _cast(None, weight)
         self.weight_nsprefix_ = None
+        self.units = _cast(None, units)
+        self.units_nsprefix_ = None
         self.provenance = _cast(None, provenance)
         self.provenance_nsprefix_ = None
     def factory(*args_, **kwargs_):
@@ -1508,6 +1510,10 @@ class model_annotationType(GeneratedsSuper):
         return self.weight
     def set_weight(self, weight):
         self.weight = weight
+    def get_units(self):
+        return self.units
+    def set_units(self, units):
+        self.units = units
     def get_provenance(self):
         return self.provenance
     def set_provenance(self, provenance):
@@ -1575,6 +1581,9 @@ class model_annotationType(GeneratedsSuper):
         if self.weight is not None and 'weight' not in already_processed:
             already_processed.add('weight')
             outfile.write(' weight=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.weight), input_name='weight')), ))
+        if self.units is not None and 'units' not in already_processed:
+            already_processed.add('units')
+            outfile.write(' units=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.units), input_name='units')), ))
         if self.provenance is not None and 'provenance' not in already_processed:
             already_processed.add('provenance')
             outfile.write(' provenance=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.provenance), input_name='provenance')), ))
@@ -1607,6 +1616,10 @@ class model_annotationType(GeneratedsSuper):
         if value is not None and 'weight' not in already_processed:
             already_processed.add('weight')
             self.weight = value
+        value = find_attr_value_('units', node)
+        if value is not None and 'units' not in already_processed:
+            already_processed.add('units')
+            self.units = value
         value = find_attr_value_('provenance', node)
         if value is not None and 'provenance' not in already_processed:
             already_processed.add('provenance')
@@ -2622,7 +2635,7 @@ class macro_molecule_annotationType(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, macro_kind=None, macro_ID=None, macro_copies=None, macro_name=None, list_crossRefDBs=None, gds_collector_=None, **kwargs_):
+    def __init__(self, macro_kind=None, macro_ID=None, macro_copies=None, macro_name=None, macro_CCD_ID=None, list_crossRefDBs=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
@@ -2636,6 +2649,8 @@ class macro_molecule_annotationType(GeneratedsSuper):
         self.macro_copies_nsprefix_ = None
         self.macro_name = macro_name
         self.macro_name_nsprefix_ = None
+        self.macro_CCD_ID = macro_CCD_ID
+        self.macro_CCD_ID_nsprefix_ = None
         self.list_crossRefDBs = list_crossRefDBs
         self.list_crossRefDBs_nsprefix_ = None
     def factory(*args_, **kwargs_):
@@ -2657,6 +2672,10 @@ class macro_molecule_annotationType(GeneratedsSuper):
         return self.macro_name
     def set_macro_name(self, macro_name):
         self.macro_name = macro_name
+    def get_macro_CCD_ID(self):
+        return self.macro_CCD_ID
+    def set_macro_CCD_ID(self, macro_CCD_ID):
+        self.macro_CCD_ID = macro_CCD_ID
     def get_list_crossRefDBs(self):
         return self.list_crossRefDBs
     def set_list_crossRefDBs(self, list_crossRefDBs):
@@ -2689,6 +2708,7 @@ class macro_molecule_annotationType(GeneratedsSuper):
     def hasContent_(self):
         if (
             self.macro_name is not None or
+            self.macro_CCD_ID is not None or
             self.list_crossRefDBs is not None
         ):
             return True
@@ -2736,6 +2756,10 @@ class macro_molecule_annotationType(GeneratedsSuper):
             namespaceprefix_ = self.macro_name_nsprefix_ + ':' if (UseCapturedNS_ and self.macro_name_nsprefix_) else ''
             showIndent(outfile, level, pretty_print)
             outfile.write('<%smacro_name>%s</%smacro_name>%s' % (namespaceprefix_ , self.gds_encode(self.gds_format_string(quote_xml(self.macro_name), input_name='macro_name')), namespaceprefix_ , eol_))
+        if self.macro_CCD_ID is not None:
+            namespaceprefix_ = self.macro_CCD_ID_nsprefix_ + ':' if (UseCapturedNS_ and self.macro_CCD_ID_nsprefix_) else ''
+            showIndent(outfile, level, pretty_print)
+            outfile.write('<%smacro_CCD_ID>%s</%smacro_CCD_ID>%s' % (namespaceprefix_ , self.gds_encode(self.gds_format_string(quote_xml(self.macro_CCD_ID), input_name='macro_CCD_ID')), namespaceprefix_ , eol_))
         if self.list_crossRefDBs is not None:
             namespaceprefix_ = self.list_crossRefDBs_nsprefix_ + ':' if (UseCapturedNS_ and self.list_crossRefDBs_nsprefix_) else ''
             self.list_crossRefDBs.export(outfile, level, namespaceprefix_, namespacedef_='', name_='list_crossRefDBs', pretty_print=pretty_print)
@@ -2776,6 +2800,12 @@ class macro_molecule_annotationType(GeneratedsSuper):
             value_ = self.gds_validate_string(value_, node, 'macro_name')
             self.macro_name = value_
             self.macro_name_nsprefix_ = child_.prefix
+        elif nodeName_ == 'macro_CCD_ID':
+            value_ = child_.text
+            value_ = self.gds_parse_string(value_, node, 'macro_CCD_ID')
+            value_ = self.gds_validate_string(value_, node, 'macro_CCD_ID')
+            self.macro_CCD_ID = value_
+            self.macro_CCD_ID_nsprefix_ = child_.prefix
         elif nodeName_ == 'list_crossRefDBs':
             obj_ = list_crossRefDBsType3.factory(parent_object_=self)
             obj_.build(child_, gds_collector_=gds_collector_)

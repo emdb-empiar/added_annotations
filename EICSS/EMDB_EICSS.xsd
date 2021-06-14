@@ -15,10 +15,10 @@
                         </xs:sequence>
                     </xs:complexType>
                 </xs:element>
-                <xs:element minOccurs="0" name="models_list" maxOccurs="unbounded">
+                <xs:element minOccurs="0" name="models_list">
                     <xs:complexType>
-                        <xs:sequence>
-                            <xs:element minOccurs="0" name="model_annotation">
+                        <xs:sequence minOccurs="0">
+                            <xs:element minOccurs="0" name="model_annotation" maxOccurs="unbounded">
                                 <xs:complexType>
                                     <xs:attribute name="PDBID">
                                         <xs:simpleType>
@@ -29,6 +29,7 @@
                                     </xs:attribute>
                                     <xs:attribute name="assemblies" type="xs:nonNegativeInteger"/>
                                     <xs:attribute name="weight" type="xs:string"/>
+                                    <xs:attribute name="units" type="xs:string"/>
                                     <xs:attribute name="provenance" type="provenance_type"/>
                                 </xs:complexType>
                             </xs:element>
@@ -98,6 +99,8 @@
                                             <xs:complexType>
                                                 <xs:sequence>
                                                   <xs:element name="macro_name" type="xs:string"/>
+                                                  <xs:element minOccurs="0" name="macro_CCD_ID"
+                                                  type="xs:ID"/>
                                                   <xs:element name="list_crossRefDBs">
                                                   <xs:complexType>
                                                   <xs:sequence>
