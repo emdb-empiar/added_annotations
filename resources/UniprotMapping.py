@@ -63,6 +63,7 @@ class UniprotMapping:
 	def execute(self, threads):
 		with Pool(processes=threads) as pool:
 			self.proteins = pool.map(self.worker, self.proteins)
+		return self.proteins
 
 	def worker(self, protein):
 		if not protein.provenance:

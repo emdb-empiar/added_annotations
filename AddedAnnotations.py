@@ -54,7 +54,7 @@ if __name__ == "__main__":
     if uniprot:
         unp_mapping = UniprotMapping(args.workDir, xml.proteins)
         unp_mapping.parseUniprot()
-        unp_mapping.execute(args.threads)
+        unip_map = unp_mapping.execute(args.threads)
         unp_mapping.export_tsv()
         if args.download_uniprot:
             unp_mapping.download_uniprot()
@@ -71,5 +71,5 @@ if __name__ == "__main__":
         mw_map = mw_mapping.execute(args.threads)
         mw_mapping.export_tsv()
 
-    write_annotation_xml = EicssXML(args.workDir, xml.proteins, lig_map, mw_map)
+    write_annotation_xml = EicssXML(args.workDir, unip_map, lig_map, mw_map)
     write_annotation_xml.execute()

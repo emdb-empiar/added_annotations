@@ -17,7 +17,13 @@ class Protein:
         self.sample_copies = ""
 
     def __str__(self):
-        return "%s (%s)\n%s (%s) %s - %s [%s]\nComplexes: %s\nPDB: %s\n%s" % (self.sample_name, self.sample_organism, self.emdb_id, self.sample_id, self.sample_copies, self.uniprot_id, self.provenance, str(self.sample_complexes), str(self.pdb_ids), self.sequence)
+        return "%s (%s)\n%s (%s) %s - %s [%s]\nComplexes: %s\nPDB: %s\n%s" % (self.sample_name, self.sample_organism, self.emdb_id, self.sample_id,
+                                                                              self.sample_copies, self.uniprot_id, self.provenance, str(self.sample_complexes),
+                                                                              str(self.pdb), self.sequence)
+    # def __str__(self):
+    #     return "%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n" % (self.sample_name, self.sample_organism, self.emdb_id, self.sample_id,
+    #                                                          self.sample_copies, self.uniprot_id, self.provenance,
+    #                                                          str(self.sample_complexes), str(self.pdb), self.sequence)
 
     def get_tsv(self):
         complex_str = ';'.join([str(elem) for elem in self.sample_complexes])
