@@ -1,12 +1,14 @@
 import os, re
+import itertools
 from EICSS import EICSS
 
 class EicssXML:
     "Writing annotations to output xml file according to the EMDB_EICSS.xsd schema "
 
-    def __init__(self, workDir, unip_map, lig_map, mw_map):
+    def __init__(self, workDir, unip_map, cpx_map, lig_map, mw_map):
         self.workDir = workDir
         self.unip_map = unip_map
+        self.cpx_map = cpx_map
         self.lig_map = lig_map
         self.mw_map = mw_map
 
@@ -31,6 +33,21 @@ class EicssXML:
                 eicss_dict[unip.emdb_id][unip.uniprot_id] = unip.__dict__
             else:
                 eicss_dict[unip.emdb_id][unip.uniprot_id] += unip.__dict__
+        for emcpx in self.cpx_map:
+            if emcpx:
+                for cpx in emcpx.cpx_list:
+                    lcpx = ["emdb_id", emcpx.emdb_id, "sample_id", emcpx.sample_id, "sample_copies",
+                            emcpx.sample_copies,
+                            "cpx_id", cpx.cpx_id, "cpx_name", cpx.name, "provenance", emcpx.provenance, "score",
+                            emcpx.score]
+                    dcpx = dict(itertools.zip_longest(*[iter(lcpx)] * 2, fillvalue=""))
+                    print(dcpx)
+                    if emcpx.emdb_id not in eicss_dict:
+                        eicss_dict[emcpx.emdb_id] = {}
+                    if emcpx.emdb_id not in eicss_dict[emcpx.emdb_id]:
+                        eicss_dict[emcpx.emdb_id][cpx.cpx_id] = dcpx
+                    else:
+                        eicss_dict[emcpx.emdb_id][cpx.cpx_id] += dcpx
         for ligand in self.lig_map:
             if ligand.emdb_id not in eicss_dict:
                 eicss_dict[ligand.emdb_id] = {}
@@ -53,9 +70,9 @@ class EicssXML:
             headerXML.set_EMDB_ID(em_id)
 
             for samp_id in val.keys():
-                print(em_id, samp_id)
+                # print(em_id, samp_id)
                 if samp_id is not None:
-                    if samp_id.isalnum() and not samp_id.isalpha() and not samp_id.isnumeric():
+                    if (samp_id.isalnum() and not samp_id.isalpha() and not samp_id.isnumeric()):
                         if len(samp_id) == 4:
                             pdb_id = val.get(samp_id, {}).get('pdb_id')
                             assembly = val.get(samp_id, {}).get('assembly')
@@ -74,6 +91,7 @@ class EicssXML:
                             model_annotation.set_units("%s" % "Da")
                             model_annotation.set_provenance("%s" % "PDBe")
                             models_list.add_model_annotation(model_annotation)
+
                         if len(samp_id) != 4:
                             list_crossRefDBs = EICSS.list_crossRefDBsType()
                             sample_id = val.get(samp_id, {}).get('sample_id')
@@ -158,6 +176,34 @@ class EicssXML:
                             list_crossRefDBs.add_crossRefDB(crossRefDB)
                             macro_molecule_annotation.set_list_crossRefDBs(list_crossRefDBs)
                         all_DB.add("DRUGBANK")
+                    cpx_sid = re.search(r'%s\-\d+' % "CPX", samp_id)
+                    if cpx_sid is not None:
+                        list_crossRefDBs = EICSS.list_crossRefDBsType()
+                        cpx_sample_id = val.get(samp_id, {}).get('sample_id')
+                        cpx_sample_copies = val.get(samp_id, {}).get('sample_copies')
+                        cpx_sample_name = val.get(samp_id, {}).get('cpx_name')
+                        cpx_id = val.get(samp_id, {}).get('cpx_id')
+                        cpx_provenance = val.get(samp_id, {}).get('provenance')
+
+                        macro_molecule_annotation = EICSS.macro_molecule_annotationType()
+                        macro_molecule_annotation.set_macro_kind("%s" % "complex")
+                        macro_molecule_annotation.set_macro_ID(int(cpx_sample_id))
+                        macro_molecule_annotation.set_macro_copies(int(cpx_sample_copies))
+                        macro_molecule_annotation.set_macro_name("%s" % cpx_sample_name)
+                        list_macro_molecules.add_macro_molecule_annotation(macro_molecule_annotation)
+                        if cpx_id:
+                            if "COMPLEX PORTAL" not in all_DB:
+                                DB = EICSS.DBType()
+                                DB.set_DB_source("%s" % "COMPLEX PORTAL")
+                                DB.set_DB_version("%s" % "1")
+                                DBs_list.add_DB(DB)
+                            crossRefDB = EICSS.crossRefDBType()
+                            crossRefDB.set_DB_source("%s" % "COMPLEX PORTAL")
+                            crossRefDB.set_provenance("%s" % cpx_provenance)
+                            crossRefDB.set_DB_accession_ID("%s" % cpx_id)
+                            list_crossRefDBs.add_crossRefDB(crossRefDB)
+                            macro_molecule_annotation.set_list_crossRefDBs(list_crossRefDBs)
+                        all_DB.add("COMPLEX PORTAL")
 
             headerXML.set_DBs_list(DBs_list)
             headerXML.set_sample_annotation(list_macro_molecules)

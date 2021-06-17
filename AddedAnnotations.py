@@ -60,7 +60,7 @@ if __name__ == "__main__":
             unp_mapping.download_uniprot()
     if args.CPX:
         cpx_mapping = CPMapping(args.workDir, unp_mapping.proteins)
-        cpx_mapping.execute(args.threads)
+        cpx_map = cpx_mapping.execute(args.threads)
         cpx_mapping.write_cpx_map()
     if args.components:
         che_mapping = ComponentsMap(args.workDir, xml.ligands)
@@ -71,5 +71,6 @@ if __name__ == "__main__":
         mw_map = mw_mapping.execute(args.threads)
         mw_mapping.export_tsv()
 
-    write_annotation_xml = EicssXML(args.workDir, unip_map, lig_map, mw_map)
-    write_annotation_xml.execute()
+    if args.uniprot and args.CPX and args.components and args.model:
+        write_annotation_xml = EicssXML(args.workDir, unip_map, cpx_map, lig_map, mw_map)
+        write_annotation_xml.execute()

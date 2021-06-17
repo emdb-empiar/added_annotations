@@ -107,6 +107,7 @@ class CPMapping:
     def execute(self, threads):
         with Pool(processes=threads) as pool:
             self.annotations = pool.map(self.worker, self.emdb_complexes.values())
+        return self.annotations
 
     def worker(self, emdb_complex):
         emdb_protein_list = emdb_complex.proteins
@@ -144,4 +145,5 @@ class CPMapping:
             for emcpx in self.annotations:
                 if emcpx:
                     for cpx in emcpx.cpx_list:
-                        f.write("%s\t%s\t%s\t%s\t%s\t%s\t%s\n" % (emcpx.emdb_id, emcpx.sample_id, emcpx.sample_copies, cpx.cpx_id, cpx.name, emcpx.provenance, emcpx.score))
+                        f.write("%s\t%s\t%s\t%s\t%s\t%s\t%s\n" % (emcpx.emdb_id, emcpx.sample_id, emcpx.sample_copies,
+                                                                  cpx.cpx_id, cpx.name, emcpx.provenance, emcpx.score))
