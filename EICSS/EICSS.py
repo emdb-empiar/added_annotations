@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Mon Jun 14 16:41:54 2021 by generateDS.py version 2.38.6.
+# Generated Fri Jun 18 10:33:10 2021 by generateDS.py version 2.38.6.
 # Python 3.7.6 (default, Dec 30 2019, 19:38:28)  [Clang 11.0.0 (clang-1100.0.33.16)]
 #
 # Command line options:
@@ -1877,7 +1877,7 @@ class crossRefDBType(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, DB_source=None, provenance=None, DB_accession_ID=None, gds_collector_=None, **kwargs_):
+    def __init__(self, DB_source=None, provenance=None, DB_accession_ID=None, score=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
@@ -1889,6 +1889,8 @@ class crossRefDBType(GeneratedsSuper):
         self.provenance_nsprefix_ = None
         self.DB_accession_ID = _cast(None, DB_accession_ID)
         self.DB_accession_ID_nsprefix_ = None
+        self.score = _cast(float, score)
+        self.score_nsprefix_ = None
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -1916,6 +1918,10 @@ class crossRefDBType(GeneratedsSuper):
         return self.DB_accession_ID
     def set_DB_accession_ID(self, DB_accession_ID):
         self.DB_accession_ID = DB_accession_ID
+    def get_score(self):
+        return self.score
+    def set_score(self, score):
+        self.score = score
     def validate_DB_source_type(self, value):
         # Validate type DB_source_type, a restriction on xs:token.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
@@ -1981,6 +1987,9 @@ class crossRefDBType(GeneratedsSuper):
         if self.DB_accession_ID is not None and 'DB_accession_ID' not in already_processed:
             already_processed.add('DB_accession_ID')
             outfile.write(' DB_accession_ID=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.DB_accession_ID), input_name='DB_accession_ID')), ))
+        if self.score is not None and 'score' not in already_processed:
+            already_processed.add('score')
+            outfile.write(' score="%s"' % self.gds_format_float(self.score, input_name='score'))
     def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='crossRefDBType', fromsubclass_=False, pretty_print=True):
         pass
     def build(self, node, gds_collector_=None):
@@ -2011,6 +2020,11 @@ class crossRefDBType(GeneratedsSuper):
         if value is not None and 'DB_accession_ID' not in already_processed:
             already_processed.add('DB_accession_ID')
             self.DB_accession_ID = value
+        value = find_attr_value_('score', node)
+        if value is not None and 'score' not in already_processed:
+            already_processed.add('score')
+            value = self.gds_parse_float(value, node, 'score')
+            self.score = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         pass
 # end class crossRefDBType
@@ -2390,7 +2404,7 @@ class crossRefDBType2(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, DB_source=None, provenance=None, DB_accession_ID=None, gds_collector_=None, **kwargs_):
+    def __init__(self, DB_source=None, provenance=None, DB_accession_ID=None, score=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
@@ -2402,6 +2416,8 @@ class crossRefDBType2(GeneratedsSuper):
         self.provenance_nsprefix_ = None
         self.DB_accession_ID = _cast(None, DB_accession_ID)
         self.DB_accession_ID_nsprefix_ = None
+        self.score = _cast(float, score)
+        self.score_nsprefix_ = None
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -2429,6 +2445,10 @@ class crossRefDBType2(GeneratedsSuper):
         return self.DB_accession_ID
     def set_DB_accession_ID(self, DB_accession_ID):
         self.DB_accession_ID = DB_accession_ID
+    def get_score(self):
+        return self.score
+    def set_score(self, score):
+        self.score = score
     def validate_DB_source_type(self, value):
         # Validate type DB_source_type, a restriction on xs:token.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
@@ -2494,6 +2514,9 @@ class crossRefDBType2(GeneratedsSuper):
         if self.DB_accession_ID is not None and 'DB_accession_ID' not in already_processed:
             already_processed.add('DB_accession_ID')
             outfile.write(' DB_accession_ID=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.DB_accession_ID), input_name='DB_accession_ID')), ))
+        if self.score is not None and 'score' not in already_processed:
+            already_processed.add('score')
+            outfile.write(' score="%s"' % self.gds_format_float(self.score, input_name='score'))
     def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='crossRefDBType2', fromsubclass_=False, pretty_print=True):
         pass
     def build(self, node, gds_collector_=None):
@@ -2524,6 +2547,11 @@ class crossRefDBType2(GeneratedsSuper):
         if value is not None and 'DB_accession_ID' not in already_processed:
             already_processed.add('DB_accession_ID')
             self.DB_accession_ID = value
+        value = find_attr_value_('score', node)
+        if value is not None and 'score' not in already_processed:
+            already_processed.add('score')
+            value = self.gds_parse_float(value, node, 'score')
+            self.score = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         pass
 # end class crossRefDBType2
@@ -2920,7 +2948,7 @@ class crossRefDBType4(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, DB_source=None, provenance=None, DB_accession_ID=None, gds_collector_=None, **kwargs_):
+    def __init__(self, DB_source=None, provenance=None, DB_accession_ID=None, score=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
@@ -2932,6 +2960,8 @@ class crossRefDBType4(GeneratedsSuper):
         self.provenance_nsprefix_ = None
         self.DB_accession_ID = _cast(None, DB_accession_ID)
         self.DB_accession_ID_nsprefix_ = None
+        self.score = _cast(float, score)
+        self.score_nsprefix_ = None
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -2959,6 +2989,10 @@ class crossRefDBType4(GeneratedsSuper):
         return self.DB_accession_ID
     def set_DB_accession_ID(self, DB_accession_ID):
         self.DB_accession_ID = DB_accession_ID
+    def get_score(self):
+        return self.score
+    def set_score(self, score):
+        self.score = score
     def validate_DB_source_type(self, value):
         # Validate type DB_source_type, a restriction on xs:token.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
@@ -3024,6 +3058,9 @@ class crossRefDBType4(GeneratedsSuper):
         if self.DB_accession_ID is not None and 'DB_accession_ID' not in already_processed:
             already_processed.add('DB_accession_ID')
             outfile.write(' DB_accession_ID=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.DB_accession_ID), input_name='DB_accession_ID')), ))
+        if self.score is not None and 'score' not in already_processed:
+            already_processed.add('score')
+            outfile.write(' score="%s"' % self.gds_format_float(self.score, input_name='score'))
     def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='crossRefDBType4', fromsubclass_=False, pretty_print=True):
         pass
     def build(self, node, gds_collector_=None):
@@ -3054,6 +3091,11 @@ class crossRefDBType4(GeneratedsSuper):
         if value is not None and 'DB_accession_ID' not in already_processed:
             already_processed.add('DB_accession_ID')
             self.DB_accession_ID = value
+        value = find_attr_value_('score', node)
+        if value is not None and 'score' not in already_processed:
+            already_processed.add('score')
+            value = self.gds_parse_float(value, node, 'score')
+            self.score = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         pass
 # end class crossRefDBType4

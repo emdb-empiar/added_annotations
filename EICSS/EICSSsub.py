@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Mon Jun 14 16:41:55 2021 by generateDS.py version 2.38.6.
+# Generated Fri Jun 18 10:33:10 2021 by generateDS.py version 2.38.6.
 # Python 3.7.6 (default, Dec 30 2019, 19:38:28)  [Clang 11.0.0 (clang-1100.0.33.16)]
 #
 # Command line options:
@@ -111,8 +111,8 @@ supermod.list_crossRefDBsType.subclass = list_crossRefDBsTypeSub
 
 
 class crossRefDBTypeSub(supermod.crossRefDBType):
-    def __init__(self, DB_source=None, provenance=None, DB_accession_ID=None, **kwargs_):
-        super(crossRefDBTypeSub, self).__init__(DB_source, provenance, DB_accession_ID,  **kwargs_)
+    def __init__(self, DB_source=None, provenance=None, DB_accession_ID=None, score=None, **kwargs_):
+        super(crossRefDBTypeSub, self).__init__(DB_source, provenance, DB_accession_ID, score,  **kwargs_)
 supermod.crossRefDBType.subclass = crossRefDBTypeSub
 # end class crossRefDBTypeSub
 
@@ -139,8 +139,8 @@ supermod.list_crossRefDBsType1.subclass = list_crossRefDBsType1Sub
 
 
 class crossRefDBType2Sub(supermod.crossRefDBType2):
-    def __init__(self, DB_source=None, provenance=None, DB_accession_ID=None, **kwargs_):
-        super(crossRefDBType2Sub, self).__init__(DB_source, provenance, DB_accession_ID,  **kwargs_)
+    def __init__(self, DB_source=None, provenance=None, DB_accession_ID=None, score=None, **kwargs_):
+        super(crossRefDBType2Sub, self).__init__(DB_source, provenance, DB_accession_ID, score,  **kwargs_)
 supermod.crossRefDBType2.subclass = crossRefDBType2Sub
 # end class crossRefDBType2Sub
 
@@ -167,8 +167,8 @@ supermod.list_crossRefDBsType3.subclass = list_crossRefDBsType3Sub
 
 
 class crossRefDBType4Sub(supermod.crossRefDBType4):
-    def __init__(self, DB_source=None, provenance=None, DB_accession_ID=None, **kwargs_):
-        super(crossRefDBType4Sub, self).__init__(DB_source, provenance, DB_accession_ID,  **kwargs_)
+    def __init__(self, DB_source=None, provenance=None, DB_accession_ID=None, score=None, **kwargs_):
+        super(crossRefDBType4Sub, self).__init__(DB_source, provenance, DB_accession_ID, score,  **kwargs_)
 supermod.crossRefDBType4.subclass = crossRefDBType4Sub
 # end class crossRefDBType4Sub
 

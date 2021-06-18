@@ -50,6 +50,7 @@
                                                 <xs:attribute name="provenance"
                                                   type="provenance_type"/>
                                                 <xs:attribute name="DB_accession_ID" type="xs:ID"/>
+                                                <xs:attribute name="score" type="xs:float"/>
                                             </xs:complexType>
                                         </xs:element>
                                     </xs:sequence>
@@ -73,8 +74,8 @@
                                                   type="DB_source_type"/>
                                                   <xs:attribute name="provenance"
                                                   type="provenance_type"/>
-                                                  <xs:attribute name="DB_accession_ID" type="xs:ID"
-                                                  />
+                                                  <xs:attribute name="DB_accession_ID" type="xs:ID"/>
+                                                  <xs:attribute name="score" type="xs:float"/>
                                                   </xs:complexType>
                                                   </xs:element>
                                                   </xs:sequence>
@@ -111,8 +112,8 @@
                                                   type="DB_source_type"/>
                                                   <xs:attribute name="provenance"
                                                   type="provenance_type"/>
-                                                  <xs:attribute name="DB_accession_ID" type="xs:ID"
-                                                  />
+                                                  <xs:attribute name="DB_accession_ID" type="xs:ID"/>
+                                                  <xs:attribute name="score" type="xs:float"/>
                                                   </xs:complexType>
                                                   </xs:element>
                                                   </xs:sequence>

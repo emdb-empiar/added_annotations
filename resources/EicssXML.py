@@ -41,7 +41,6 @@ class EicssXML:
                             "cpx_id", cpx.cpx_id, "cpx_name", cpx.name, "provenance", emcpx.provenance, "score",
                             emcpx.score]
                     dcpx = dict(itertools.zip_longest(*[iter(lcpx)] * 2, fillvalue=""))
-                    print(dcpx)
                     if emcpx.emdb_id not in eicss_dict:
                         eicss_dict[emcpx.emdb_id] = {}
                     if emcpx.emdb_id not in eicss_dict[emcpx.emdb_id]:
@@ -184,6 +183,7 @@ class EicssXML:
                         cpx_sample_name = val.get(samp_id, {}).get('cpx_name')
                         cpx_id = val.get(samp_id, {}).get('cpx_id')
                         cpx_provenance = val.get(samp_id, {}).get('provenance')
+                        cpx_score = val.get(samp_id, {}).get('score')
 
                         macro_molecule_annotation = EICSS.macro_molecule_annotationType()
                         macro_molecule_annotation.set_macro_kind("%s" % "complex")
@@ -201,6 +201,7 @@ class EicssXML:
                             crossRefDB.set_DB_source("%s" % "COMPLEX PORTAL")
                             crossRefDB.set_provenance("%s" % cpx_provenance)
                             crossRefDB.set_DB_accession_ID("%s" % cpx_id)
+                            crossRefDB.set_score(float(cpx_score))
                             list_crossRefDBs.add_crossRefDB(crossRefDB)
                             macro_molecule_annotation.set_list_crossRefDBs(list_crossRefDBs)
                         all_DB.add("COMPLEX PORTAL")
