@@ -15,11 +15,13 @@ class Protein:
         self.provenance = None
         self.sequence = ""
         self.sample_copies = ""
+        self.th_weight_unit = ""
+        self.th_weight = ""
 
     def __str__(self):
-        return "%s (%s)\n%s (%s) %s - %s [%s]\nComplexes: %s\nPDB: %s\n%s" % (self.sample_name, self.sample_organism, self.emdb_id, self.sample_id,
+        return "%s (%s)\n%s (%s) %s - %s [%s]\nComplexes: %s\nPDB: %s\n%s %s" % (self.sample_name, self.sample_organism, self.emdb_id, self.sample_id,
                                                                               self.sample_copies, self.uniprot_id, self.provenance, str(self.sample_complexes),
-                                                                              str(self.pdb), self.sequence)
+                                                                              str(self.pdb), self.sequence, self.th_weight)
 
     def get_tsv(self):
         complex_str = ';'.join([str(elem) for elem in self.sample_complexes])
@@ -58,9 +60,10 @@ class EMDB_complex:
     EMDB complex sample obtained from the header files in the Uniprot mapping
     """
 
-    def __init__(self, emdb_id, sample_id, sample_copies, complex_sample_id):
+    def __init__(self, emdb_id, sample_id, sample_name, sample_copies, complex_sample_id):
         self.emdb_id = emdb_id
         self.sample_id = sample_id
+        self.sample_name = sample_name
         self.sample_copies = sample_copies
         self.complex_sample_id = complex_sample_id
         self.cpx_list = []

@@ -2,7 +2,6 @@ import os
 import logging
 from gemmi import cif
 from multiprocessing import Pool
-from EICSS import EICSS
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)

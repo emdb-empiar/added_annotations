@@ -93,13 +93,14 @@ class CPMapping:
                 emdb_id = protein.emdb_id
                 sample_id = protein.sample_id
                 uniprot_id = protein.uniprot_id
+                sample_name = protein.sample_name
                 sample_copies = protein.sample_copies
                 for complex_id in protein.sample_complexes:
                     emdb_complex_id = emdb_id + "_" + str(complex_id)
                     if emdb_complex_id in self.emdb_complexes:
                         self.emdb_complexes[emdb_complex_id].add_protein(uniprot_id)
                     else:
-                        emdb_cpx = EMDB_complex(emdb_id, complex_id, sample_copies, emdb_complex_id)
+                        emdb_cpx = EMDB_complex(emdb_id, complex_id, sample_name, sample_copies, emdb_complex_id)
                         emdb_cpx.add_protein(uniprot_id)
                         self.emdb_complexes[emdb_complex_id] = emdb_cpx
 
@@ -123,7 +124,7 @@ class CPMapping:
         for cpx_id in cpx_found:
             cpx = self.cpx_db.get_from_cpx(cpx_id)
             cpx_uniprot = cpx.uniprot
-            overlap_score = overlap(emdb_protein_list,cpx_uniprot)
+            overlap_score = overlap(emdb_protein_list, cpx_uniprot)
             if overlap_score == max_score:
                 best_hits.append(cpx)
             elif overlap_score > max_score:

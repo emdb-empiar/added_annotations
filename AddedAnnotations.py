@@ -4,7 +4,7 @@ from resources.ComplexPortalMapping import CPMapping
 from resources.ComponentsMapping import ComponentsMap
 from resources.UniprotMapping import UniprotMapping
 from resources.StructureMapping import StructureMapping
-from resources.EicssXML import EicssXML
+from resources.EmicssXML import EmicssXML
 from XMLParser import XMLParser
 
 """
@@ -72,5 +72,5 @@ if __name__ == "__main__":
         mw_mapping.export_tsv()
 
     if args.uniprot and args.CPX and args.components and args.model:
-        write_annotation_xml = EicssXML(args.workDir, unip_map, cpx_map, lig_map, mw_map)
+        write_annotation_xml = EmicssXML(args.workDir, unip_map, cpx_map, lig_map, mw_map)
         write_annotation_xml.execute()

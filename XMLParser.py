@@ -65,11 +65,21 @@ class XMLParser:
 						protein.sample_copies = "1"
 
 					if x.find('natural_source') is not None:
-						qs = x.find('natural_source')
-						if qs.find('organism') is not None:
-							if 'ncbi' in qs.find('organism').attrib:
-								ncbi_id = qs.find('organism').attrib['ncbi']
+						nat_sor = x.find('natural_source')
+						if nat_sor.find('organism') is not None:
+							if 'ncbi' in nat_sor.find('organism').attrib:
+								ncbi_id = nat_sor.find('organism').attrib['ncbi']
 								protein.sample_organism = ncbi_id
+
+					if x.find('molecular_weight') is not None:
+						mol_wei = x.find('molecular_weight')
+						if mol_wei.find('theoretical') is not None:
+							th_wei = mol_wei.find('theoretical').text
+							protein.th_weight = th_wei
+							print(protein.th_weight)
+							if 'units' in mol_wei.find('theoretical').attrib:
+								th_weight_unit = mol_wei.find('theoretical').attrib['units']
+								protein.th_weight_unit = th_weight_unit
 					
 					qs = x.find('sequence')
 					if qs.find('external_references') is not None:
