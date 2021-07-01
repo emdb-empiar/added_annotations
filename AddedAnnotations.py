@@ -59,7 +59,7 @@ if __name__ == "__main__":
         if args.download_uniprot:
             unp_mapping.download_uniprot()
     if args.CPX:
-        cpx_mapping = CPMapping(args.workDir, unp_mapping.proteins)
+        cpx_mapping = CPMapping(args.workDir, unp_mapping.proteins, xml.supras)
         cpx_map = cpx_mapping.execute(args.threads)
         cpx_mapping.write_cpx_map()
     if args.components:

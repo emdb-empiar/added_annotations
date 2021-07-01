@@ -1,6 +1,6 @@
 import os, csv
 from glob import glob
-from models import CPX, EMDB_complex
+from models import CPX, EMDB_complex, Supra
 import logging
 from multiprocessing import Pool
 
@@ -71,7 +71,7 @@ class CPMapping:
     Querying with the extracted IDs for mapping the EMDB entries to the complex portal if exists.
     """
 
-    def __init__(self, workDir, proteins):
+    def __init__(self, workDir, proteins, supras):
         self.cpx_db = CPX_database()
         self.emdb_complexes = {}
         self.annotations = []
@@ -93,14 +93,16 @@ class CPMapping:
                 emdb_id = protein.emdb_id
                 sample_id = protein.sample_id
                 uniprot_id = protein.uniprot_id
-                sample_name = protein.sample_name
+                for supra in supras:
+                    if supra.emdb_id == emdb_id:
+                        supra_name = supra.supra_name
                 sample_copies = protein.sample_copies
                 for complex_id in protein.sample_complexes:
                     emdb_complex_id = emdb_id + "_" + str(complex_id)
                     if emdb_complex_id in self.emdb_complexes:
                         self.emdb_complexes[emdb_complex_id].add_protein(uniprot_id)
                     else:
-                        emdb_cpx = EMDB_complex(emdb_id, complex_id, sample_name, sample_copies, emdb_complex_id)
+                        emdb_cpx = EMDB_complex(emdb_id, complex_id, supra_name, sample_copies, emdb_complex_id)
                         emdb_cpx.add_protein(uniprot_id)
                         self.emdb_complexes[emdb_complex_id] = emdb_cpx
 
@@ -134,7 +136,7 @@ class CPMapping:
         if max_score >= MIN_SCORE:
             emdb_complex.cpx_list = best_hits
             emdb_complex.score = max_score
-            emdb_complex.provenance = "UNIPROT"
+            emdb_complex.provenance = "CPX+UNIPROT"
 
             return emdb_complex
         return None
@@ -142,9 +144,10 @@ class CPMapping:
     def write_cpx_map(self):
         filepath = os.path.join(self.workDir, "emdb_cpx.tsv")
         with open(filepath, 'w') as f:
-            f.write("%s\t%s\t%s\t%s\t%s\t%s\t%s\n" % ("EMDB_ID", "EMDB_SAMPLE_ID", "SAMPLE_COPIES", "CPX_ID", "CPX_TITLE", "PROVENANCE", "SCORE"))
+            f.write("%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n" % ("EMDB_ID", "EMDB_SAMPLE_ID", "SAMPLE_NAME", "SAMPLE_COPIES",
+                                                          "CPX_ID", "CPX_TITLE", "PROVENANCE", "SCORE"))
             for emcpx in self.annotations:
                 if emcpx:
                     for cpx in emcpx.cpx_list:
-                        f.write("%s\t%s\t%s\t%s\t%s\t%s\t%s\n" % (emcpx.emdb_id, emcpx.sample_id, emcpx.sample_copies,
-                                                                  cpx.cpx_id, cpx.name, emcpx.provenance, emcpx.score))
+                        f.write("%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n" % (emcpx.emdb_id, (emcpx.sample_id).split("_")[1], emcpx.supra_name,
+                                                                      emcpx.sample_copies, cpx.cpx_id, cpx.name, emcpx.provenance, emcpx.score))

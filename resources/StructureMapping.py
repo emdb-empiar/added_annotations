@@ -46,5 +46,3 @@ class StructureMapping:
 			fw.write("EMDB_ID\tPDB_ID\tASSEMBLY\tMOLECULAR_WEIGHT\n")
 			for model in self.models:
 				fw.write(str(model))
-
-

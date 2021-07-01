@@ -15,18 +15,22 @@ class Protein:
         self.provenance = None
         self.sequence = ""
         self.sample_copies = ""
-        self.th_weight_unit = ""
-        self.th_weight = ""
+        self.mol_th_weight = ""
+        self.mol_th_unit = ""
+        self.mol_exp_weight = ""
+        self.mol_exp_unit = ""
 
     def __str__(self):
-        return "%s (%s)\n%s (%s) %s - %s [%s]\nComplexes: %s\nPDB: %s\n%s %s" % (self.sample_name, self.sample_organism, self.emdb_id, self.sample_id,
-                                                                              self.sample_copies, self.uniprot_id, self.provenance, str(self.sample_complexes),
-                                                                              str(self.pdb), self.sequence, self.th_weight)
+        return "%s (%s)\n%s (%s) %s - %s [%s]\nComplexes: %s\nPDB: %s\n%s" % (self.sample_name, self.sample_organism, self.emdb_id, self.sample_id,
+                                                                                 self.sample_copies, self.uniprot_id,
+                                                                                 self.provenance, str(self.sample_complexes),
+                                                                                 str(self.pdb), self.sequence)
 
     def get_tsv(self):
         complex_str = ';'.join([str(elem) for elem in self.sample_complexes])
         if self.provenance:
-            return ("%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n" % (self.emdb_id, self.sample_id, self.sample_name, self.sample_copies, self.sample_organism, self.uniprot_id, self.provenance, complex_str))
+            return ("%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n" % (self.emdb_id, self.sample_id, self.sample_name, self.sample_copies,
+                                                          self.sample_organism, self.uniprot_id, self.provenance, complex_str))
         else:
             return ""
 
@@ -55,15 +59,36 @@ class CPX:
                 continue
             self.uniprot.add(idt)
 
+class Supra:
+    """
+    Defines the attributes of a supramolecule sample in a EMDB entry
+    """
+    def __init__(self, emdb_id, supra_id):
+        self.emdb_id = emdb_id
+        self.supra_id = supra_id
+        self.supra_name = ""
+        self.kind = ""
+        self.type = ""
+        self.sample_copies = ""
+        self.sup_th_weight = None
+        self.sup_th_unit = None
+        self.sup_exp_weight = None
+        self.sup_exp_unit = None
+
+    def __str__(self):
+        return "%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s" % (self.emdb_id, self.supra_id, self.supra_name, self.kind,
+                                                           self.type, self.sample_copies, self.sup_th_weight,
+                                                           self.sup_th_unit, self.sup_exp_weight, self.sup_exp_unit)
+
 class EMDB_complex:
     """
     EMDB complex sample obtained from the header files in the Uniprot mapping
     """
 
-    def __init__(self, emdb_id, sample_id, sample_name, sample_copies, complex_sample_id):
+    def __init__(self, emdb_id, sample_id, supra_name, sample_copies, complex_sample_id):
         self.emdb_id = emdb_id
-        self.sample_id = sample_id
-        self.sample_name = sample_name
+        self.sample_id = emdb_id+"_"+sample_id
+        self.supra_name = supra_name
         self.sample_copies = sample_copies
         self.complex_sample_id = complex_sample_id
         self.cpx_list = []
