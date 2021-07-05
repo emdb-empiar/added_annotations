@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Tue Jun 22 17:42:18 2021 by generateDS.py version 2.38.6.
+# Generated Mon Jul  5 09:25:51 2021 by generateDS.py version 2.38.6.
 # Python 3.7.6 (default, Dec 30 2019, 19:38:28)  [Clang 11.0.0 (clang-1100.0.33.16)]
 #
 # Command line options:
@@ -62,8 +62,8 @@ SaveElementTreeNode = True
 
 
 class emicssSub(supermod.emicss):
-    def __init__(self, EMDB_ID=None, DBs_list=None, models_list=None, sample_annotation=None, **kwargs_):
-        super(emicssSub, self).__init__(EMDB_ID, DBs_list, models_list, sample_annotation,  **kwargs_)
+    def __init__(self, EMDB_ID=None, DBs_list=None, molecular_weight_annotation=None, sample_annotation=None, **kwargs_):
+        super(emicssSub, self).__init__(EMDB_ID, DBs_list, molecular_weight_annotation, sample_annotation,  **kwargs_)
 supermod.emicss.subclass = emicssSub
 # end class emicssSub
 
@@ -82,6 +82,13 @@ supermod.DBType.subclass = DBTypeSub
 # end class DBTypeSub
 
 
+class molecular_weight_annotationTypeSub(supermod.molecular_weight_annotationType):
+    def __init__(self, models_list=None, weight_list=None, **kwargs_):
+        super(molecular_weight_annotationTypeSub, self).__init__(models_list, weight_list,  **kwargs_)
+supermod.molecular_weight_annotationType.subclass = molecular_weight_annotationTypeSub
+# end class molecular_weight_annotationTypeSub
+
+
 class models_listTypeSub(supermod.models_listType):
     def __init__(self, model_annotation=None, **kwargs_):
         super(models_listTypeSub, self).__init__(model_annotation,  **kwargs_)
@@ -94,6 +101,20 @@ class model_annotationTypeSub(supermod.model_annotationType):
         super(model_annotationTypeSub, self).__init__(PDBID, assemblies, weight, units, provenance,  **kwargs_)
 supermod.model_annotationType.subclass = model_annotationTypeSub
 # end class model_annotationTypeSub
+
+
+class weight_listTypeSub(supermod.weight_listType):
+    def __init__(self, provided_weight=None, **kwargs_):
+        super(weight_listTypeSub, self).__init__(provided_weight,  **kwargs_)
+supermod.weight_listType.subclass = weight_listTypeSub
+# end class weight_listTypeSub
+
+
+class provided_weightTypeSub(supermod.provided_weightType):
+    def __init__(self, PDBID=None, weight=None, units=None, provenance=None, **kwargs_):
+        super(provided_weightTypeSub, self).__init__(PDBID, weight, units, provenance,  **kwargs_)
+supermod.provided_weightType.subclass = provided_weightTypeSub
+# end class provided_weightTypeSub
 
 
 class sample_annotationTypeSub(supermod.sample_annotationType):

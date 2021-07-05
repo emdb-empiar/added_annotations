@@ -48,6 +48,7 @@ class XMLParser:
 				for x in list(root.iter('complex_supramolecule')):
 					complex_id = x.attrib['supramolecule_id']
 					supra = Supra(emd_id, complex_id)
+					supra.supra_id = "supra_" + complex_id
 					supra.kind = "supra"
 					if x.find('name') is not None:
 						supra.supra_name = x.find('name').text
@@ -58,20 +59,21 @@ class XMLParser:
 						else:
 							supra.type = "child"
 					if x.find('molecular_weight') is not None:
-						mol_wei = x.find('molecular_weight')
-						if mol_wei.find('theoretical') is not None:
-							th_wei = mol_wei.find('theoretical').text
-							supra.sup_th_weight = th_wei
-							if 'units' in mol_wei.find('theoretical').attrib:
-								th_weight_unit = mol_wei.find('theoretical').attrib['units']
-								supra.sup_th_unit = th_weight_unit
-						if mol_wei.find('experimental') is not None:
-							exp_wei = mol_wei.find('experimental').text
-							supra.sup_exp_weight = exp_wei
-							if 'units' in mol_wei.find('experimental').attrib:
-								exp_weight_unit = mol_wei.find('experimental').attrib['units']
-								supra.sup_exp_unit = exp_weight_unit
+						sup_wei = x.find('molecular_weight')
+						if sup_wei.find('theoretical') is not None:
+							sup_th_wei = sup_wei.find('theoretical').text
+							supra.sup_th_weight = sup_th_wei
+							if 'units' in sup_wei.find('theoretical').attrib:
+								sup_th_unit = sup_wei.find('theoretical').attrib['units']
+								supra.sup_th_unit = sup_th_unit
+						if sup_wei.find('experimental') is not None:
+							sup_exp_wei = sup_wei.find('experimental').text
+							supra.sup_exp_weight = sup_exp_wei
+							if 'units' in sup_wei.find('experimental').attrib:
+								sup_exp_unit = sup_wei.find('experimental').attrib['units']
+								supra.sup_exp_unit = sup_exp_unit
 					supras.append(supra)
+
 					for y in list(x.iter('macromolecule_id')):
 						protein_id = y.text
 						if protein_id in prt_cpx:
@@ -103,17 +105,17 @@ class XMLParser:
 						mol_wei = x.find('molecular_weight')
 						if mol_wei.find('theoretical') is not None:
 							th_wei = mol_wei.find('theoretical').text
-							protein.mol_th_weight = th_wei
+							protein.macro_th_weight = th_wei
 							if 'units' in mol_wei.find('theoretical').attrib:
 								th_weight_unit = mol_wei.find('theoretical').attrib['units']
-								protein.mol_th_unit = th_weight_unit
+								protein.macro_th_unit = th_weight_unit
 						if mol_wei.find('experimental') is not None:
 							exp_wei = mol_wei.find('experimental').text
-							protein.mol_exp_weight = exp_wei
+							protein.macro_exp_weight = exp_wei
 							if 'units' in mol_wei.find('experimental').attrib:
 								exp_weight_unit = mol_wei.find('experimental').attrib['units']
-								protein.mol_exp_unit = exp_weight_unit
-					
+								protein.macro_exp_unit = exp_weight_unit
+
 					qs = x.find('sequence')
 					if qs.find('external_references') is not None:
 						if qs.find('external_references').attrib['type'] == 'UNIPROTKB':

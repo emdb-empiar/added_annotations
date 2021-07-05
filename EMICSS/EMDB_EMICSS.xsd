@@ -3,34 +3,59 @@
     <xs:element name="emicss">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="DBs_list">
+                <xs:element name="dbs">
                     <xs:complexType>
                         <xs:sequence>
-                            <xs:element maxOccurs="unbounded" name="DB">
+                            <xs:element maxOccurs="unbounded" name="db">
                                 <xs:complexType>
-                                    <xs:attribute name="DB_source" type="DB_source_type"/>
-                                    <xs:attribute name="DB_version" type="xs:token"/>
+                                    <xs:attribute name="db_source" type="db_source_type"/>
+                                    <xs:attribute name="db_version" type="xs:token"/>
                                 </xs:complexType>
                             </xs:element>
                         </xs:sequence>
                     </xs:complexType>
                 </xs:element>
-                <xs:element minOccurs="0" name="models_list">
+                <xs:element minOccurs="0" name="molecular_weight_annotation">
                     <xs:complexType>
-                        <xs:sequence minOccurs="0">
-                            <xs:element minOccurs="0" name="model_annotation" maxOccurs="unbounded">
+                        <xs:sequence>
+                            <xs:element minOccurs="0" name="models_list">
                                 <xs:complexType>
-                                    <xs:attribute name="PDBID">
-                                        <xs:simpleType>
-                                            <xs:restriction base="xs:string">
-                                                <xs:maxLength value="4"/>
-                                            </xs:restriction>
-                                        </xs:simpleType>
-                                    </xs:attribute>
-                                    <xs:attribute name="assemblies" type="xs:nonNegativeInteger"/>
-                                    <xs:attribute name="weight" type="xs:string"/>
-                                    <xs:attribute name="units" type="xs:string"/>
-                                    <xs:attribute name="provenance" type="provenance_type"/>
+                                    <xs:sequence minOccurs="0">
+                                        <xs:element minOccurs="0" name="model_annotation"
+                                            maxOccurs="unbounded">
+                                            <xs:complexType>
+                                                <xs:attribute name="PDBID">
+                                                  <xs:simpleType>
+                                                  <xs:restriction base="xs:string">
+                                                  <xs:maxLength value="4"/>
+                                                  </xs:restriction>
+                                                  </xs:simpleType>
+                                                </xs:attribute>
+                                                <xs:attribute name="assemblies"
+                                                  type="xs:nonNegativeInteger"/>
+                                                <xs:attribute name="weight" type="xs:string"/>
+                                                <xs:attribute name="units" type="xs:string"/>
+                                                <xs:attribute name="provenance"
+                                                  type="provenance_type"/>
+                                            </xs:complexType>
+                                        </xs:element>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element minOccurs="0" name="weight_list">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element maxOccurs="unbounded" minOccurs="0"
+                                            name="provided_weight">
+                                            <xs:complexType>
+                                                <xs:attribute name="PDBID" type="xs:string"/>
+                                                <xs:attribute name="weight" type="xs:string"/>
+                                                <xs:attribute name="units" type="xs:string"/>
+                                                <xs:attribute name="provenance"
+                                                  type="provenance_type"/>
+                                            </xs:complexType>
+                                        </xs:element>
+                                    </xs:sequence>
                                 </xs:complexType>
                             </xs:element>
                         </xs:sequence>
@@ -40,43 +65,43 @@
                     <xs:complexType>
                         <xs:sequence minOccurs="0">
                             <xs:element name="sample_name" type="xs:string" minOccurs="0"/>
-                            <xs:element minOccurs="0" name="list_crossRefDBs">
+                            <xs:element minOccurs="0" name="cross_ref_dbs">
                                 <xs:complexType>
                                     <xs:sequence>
                                         <xs:element maxOccurs="unbounded" minOccurs="0"
-                                            name="crossRefDB">
+                                            name="cross_ref_db">
                                             <xs:complexType>
                                                 <xs:attribute name="name" type="xs:string"/>
-                                                <xs:attribute name="DB_source" type="DB_source_type"/>
+                                                <xs:attribute name="db_source" type="db_source_type"/>
                                                 <xs:attribute name="provenance"
                                                   type="provenance_type"/>
-                                                <xs:attribute name="DB_accession_ID" type="xs:ID"/>
+                                                <xs:attribute name="db_accession_id" type="xs:ID"/>
                                                 <xs:attribute name="score" type="xs:float"/>
                                             </xs:complexType>
                                         </xs:element>
                                     </xs:sequence>
                                 </xs:complexType>
                             </xs:element>
-                            <xs:element name="list_supra_molecules" minOccurs="0">
+                            <xs:element name="supramolecules" minOccurs="0">
                                 <xs:complexType>
                                     <xs:sequence>
-                                        <xs:element name="supra_molecule_annotation"
-                                            maxOccurs="unbounded" minOccurs="0">
+                                        <xs:element name="supramolecule" maxOccurs="unbounded"
+                                            minOccurs="0">
                                             <xs:complexType>
                                                 <xs:sequence>
-                                                  <xs:element name="supra_name" type="xs:string"/>
-                                                  <xs:element name="list_crossRefDBs">
+                                                  <xs:element name="name" type="xs:string"/>
+                                                  <xs:element name="cross_ref_dbs">
                                                   <xs:complexType>
                                                   <xs:sequence>
                                                   <xs:element maxOccurs="unbounded"
-                                                  name="crossRefDB" minOccurs="0">
+                                                  name="cross_ref_db" minOccurs="0">
                                                   <xs:complexType>
                                                   <xs:attribute name="name" type="xs:string"/>
-                                                  <xs:attribute name="DB_source"
-                                                  type="DB_source_type"/>
+                                                  <xs:attribute name="db_source"
+                                                  type="db_source_type"/>
                                                   <xs:attribute name="provenance"
                                                   type="provenance_type"/>
-                                                  <xs:attribute name="DB_accession_ID" type="xs:ID"/>
+                                                  <xs:attribute name="db_accession_id" type="xs:ID"/>
                                                   <xs:attribute name="score" type="xs:float"/>
                                                   </xs:complexType>
                                                   </xs:element>
@@ -84,10 +109,9 @@
                                                   </xs:complexType>
                                                   </xs:element>
                                                 </xs:sequence>
-                                                <xs:attribute name="supra_kind" type="sample_kind"/>
-                                                <xs:attribute name="supra_ID"
-                                                  type="xs:nonNegativeInteger"/>
-                                                <xs:attribute name="supra_copies"
+                                                <xs:attribute name="kind" type="sample_kind"/>
+                                                <xs:attribute name="id" type="xs:nonNegativeInteger"/>
+                                                <xs:attribute name="copies"
                                                   type="xs:nonNegativeInteger"/>
                                             </xs:complexType>
                                         </xs:element>
@@ -97,25 +121,25 @@
                             <xs:element name="list_macro_molecules" minOccurs="0">
                                 <xs:complexType>
                                     <xs:sequence>
-                                        <xs:element name="macro_molecule_annotation"
-                                            maxOccurs="unbounded" minOccurs="0">
+                                        <xs:element name="macromolecule" maxOccurs="unbounded"
+                                            minOccurs="0">
                                             <xs:complexType>
                                                 <xs:sequence>
-                                                  <xs:element name="macro_name" type="xs:string"/>
-                                                  <xs:element minOccurs="0" name="macro_CCD_ID"
+                                                  <xs:element name="name" type="xs:string"/>
+                                                  <xs:element minOccurs="0" name="ccd_id"
                                                   type="xs:ID"/>
-                                                  <xs:element name="list_crossRefDBs">
+                                                  <xs:element name="cross_ref_dbs">
                                                   <xs:complexType>
                                                   <xs:sequence>
-                                                  <xs:element name="crossRefDB"
+                                                  <xs:element name="cross_ref_db"
                                                   maxOccurs="unbounded" minOccurs="0">
                                                   <xs:complexType>
                                                   <xs:attribute name="name" type="xs:string"/>
-                                                  <xs:attribute name="DB_source"
-                                                  type="DB_source_type"/>
+                                                  <xs:attribute name="db_source"
+                                                  type="db_source_type"/>
                                                   <xs:attribute name="provenance"
                                                   type="provenance_type"/>
-                                                  <xs:attribute name="DB_accession_ID" type="xs:ID"/>
+                                                  <xs:attribute name="db_accession_id" type="xs:ID"/>
                                                   <xs:attribute name="score" type="xs:float"/>
                                                   </xs:complexType>
                                                   </xs:element>
@@ -123,10 +147,9 @@
                                                   </xs:complexType>
                                                   </xs:element>
                                                 </xs:sequence>
-                                                <xs:attribute name="macro_kind" type="sample_kind"/>
-                                                <xs:attribute name="macro_ID"
-                                                  type="xs:nonNegativeInteger"/>
-                                                <xs:attribute name="macro_copies"
+                                                <xs:attribute name="kind" type="sample_kind"/>
+                                                <xs:attribute name="id" type="xs:nonNegativeInteger"/>
+                                                <xs:attribute name="copies"
                                                   type="xs:nonNegativeInteger"/>
                                             </xs:complexType>
                                         </xs:element>
@@ -137,7 +160,7 @@
                     </xs:complexType>
                 </xs:element>
             </xs:sequence>
-            <xs:attribute name="EMDB_ID" type="emdb_id_type"/>
+            <xs:attribute name="emdb_id" type="emdb_id_type"/>
         </xs:complexType>
     </xs:element>
     <xs:simpleType name="emdb_id_type">
@@ -145,7 +168,7 @@
             <xs:pattern value="EMD-\d{4,}"/>
         </xs:restriction>
     </xs:simpleType>
-    <xs:simpleType name="DB_source_type">
+    <xs:simpleType name="db_source_type">
         <xs:restriction base="xs:token">
             <xs:enumeration value="UNIPROT"/>
             <xs:enumeration value="COMPLEXPORTAL"/>

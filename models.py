@@ -15,16 +15,16 @@ class Protein:
         self.provenance = None
         self.sequence = ""
         self.sample_copies = ""
-        self.mol_th_weight = ""
-        self.mol_th_unit = ""
-        self.mol_exp_weight = ""
-        self.mol_exp_unit = ""
+        self.macro_th_weight = ""
+        self.macro_th_unit = ""
+        self.macro_exp_weight = ""
+        self.macro_exp_unit = ""
 
     def __str__(self):
-        return "%s (%s)\n%s (%s) %s - %s [%s]\nComplexes: %s\nPDB: %s\n%s" % (self.sample_name, self.sample_organism, self.emdb_id, self.sample_id,
-                                                                                 self.sample_copies, self.uniprot_id,
-                                                                                 self.provenance, str(self.sample_complexes),
-                                                                                 str(self.pdb), self.sequence)
+        return "%s (%s)\n%s (%s) %s - %s [%s]\nComplexes: %s\nPDB: %s\n%s" % (self.sample_name, self.sample_organism,
+                                                                              self.emdb_id, self.sample_id, self.sample_copies,
+                                                                              self.uniprot_id, self.provenance, str(self.sample_complexes),
+                                                                              str(self.pdb), self.sequence)
 
     def get_tsv(self):
         complex_str = ';'.join([str(elem) for elem in self.sample_complexes])
@@ -61,7 +61,7 @@ class CPX:
 
 class Supra:
     """
-    Defines the attributes of a supramolecule sample in a EMDB entry
+    Defines the attributes of a supra_molecules in a EMDB entry
     """
     def __init__(self, emdb_id, supra_id):
         self.emdb_id = emdb_id
@@ -69,16 +69,14 @@ class Supra:
         self.supra_name = ""
         self.kind = ""
         self.type = ""
-        self.sample_copies = ""
-        self.sup_th_weight = None
-        self.sup_th_unit = None
-        self.sup_exp_weight = None
-        self.sup_exp_unit = None
+        self.supra_th_weight = ""
+        self.supra_th_unit = ""
+        self.supra_exp_weight = ""
+        self.supra_exp_unit = ""
 
     def __str__(self):
-        return "%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s" % (self.emdb_id, self.supra_id, self.supra_name, self.kind,
-                                                           self.type, self.sample_copies, self.sup_th_weight,
-                                                           self.sup_th_unit, self.sup_exp_weight, self.sup_exp_unit)
+        return "%s\t%s\t%s\t%s\t%s\t%s\t%s" % (self.emdb_id, self.supra_id, self.supra_name, self.kind, self.type,
+                                                   self.supra_th_weight, self.supra_exp_weight)
 
 class EMDB_complex:
     """

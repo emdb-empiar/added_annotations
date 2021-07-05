@@ -70,15 +70,16 @@ class EmicssXML:
             all_DB = set()
             headerXML = EMICSS.emicss()
             DBs_list = EMICSS.DBs_listType()
+            molecular_weight_annotation = EMICSS.molecular_weight_annotationType()
             models_list = EMICSS.models_listType()
             sample_annotation = EMICSS.sample_annotationType()
-            list_supra_molecules = EMICSS.list_supra_moleculesType()
             list_macro_molecules = EMICSS.list_macro_moleculesType()
 
             headerXML.set_EMDB_ID(em_id)
-
+            list_supra_molecules = None
             for samp_id in val.keys():
                 if samp_id is not None:
+
                     if (samp_id.isalnum() and not samp_id.isalpha() and not samp_id.isnumeric()):
                         if len(samp_id) == 4:
                             self.EMICSS_PDBe(val, samp_id, all_DB, DBs_list, models_list)
@@ -87,11 +88,13 @@ class EmicssXML:
                     if samp_id.isnumeric():
                         self.EMICSS_ligands(val, samp_id, all_DB, DBs_list, list_macro_molecules)
                     if re.search(r'%s\_\d+' % em_id, samp_id):
-                        self.EMICSS_CPX(val, samp_id, all_DB, DBs_list, list_supra_molecules)
+                        list_supra_molecules = self.EMICSS_CPX(val, samp_id, all_DB, DBs_list)
 
             headerXML.set_DBs_list(DBs_list)
-            headerXML.set_models_list(models_list)
-            sample_annotation.set_list_supra_molecules(list_supra_molecules)
+            molecular_weight_annotation.set_models_list(models_list)
+            headerXML.set_molecular_weight_annotation(molecular_weight_annotation)
+            if list_supra_molecules:
+                sample_annotation.set_list_supra_molecules(list_supra_molecules)
             sample_annotation.set_list_macro_molecules(list_macro_molecules)
             headerXML.set_sample_annotation(sample_annotation)
 
@@ -100,7 +103,7 @@ class EmicssXML:
                 headerXML.export(f, 0, name_='emicss')
 
     def EMICSS_PDBe(self, val, samp_id, all_DB, DBs_list, models_list):
-        "Adding PDBe annotations to EMICSS"
+        "Adding PDBe and calulated assembly weight annotations to EMICSS"
         pdb_id = val.get(samp_id, {}).get('pdb_id')
         assembly = val.get(samp_id, {}).get('assembly')
         mw = val.get(samp_id, {}).get('molecular_weight')
@@ -206,7 +209,8 @@ class EmicssXML:
             macro_molecule_annotation.set_list_crossRefDBs(list_crossRefDBs)
         all_DB.add("DRUGBANK")
 
-    def EMICSS_CPX(self, val, samp_id, all_DB, DBs_list, list_supra_molecules):
+    def EMICSS_CPX(self, val, samp_id, all_DB, DBs_list):
+        list_supra_molecules = EMICSS.list_supra_moleculesType()
         cp_id = set()
         cpx_samp_id = samp_id.split("_")[1]
         cpx_sample_copies = val.get(samp_id, {}).get('sample_copies')
@@ -230,7 +234,6 @@ class EmicssXML:
                     supra_molecule_annotation.set_supra_ID(int(cpx_samp_id))
                     supra_molecule_annotation.set_supra_copies(int(cpx_sample_copies))
                     supra_molecule_annotation.set_supra_name("%s" % cpx_sample_name)
-                    list_supra_molecules.add_supra_molecule_annotation(supra_molecule_annotation)
                     if "COMPLEX PORTAL" not in all_DB:
                         DB = EMICSS.DBType()
                         DB.set_DB_source("%s" % "COMPLEX PORTAL")
@@ -255,4 +258,6 @@ class EmicssXML:
                 cp_id.add(cpx_samp_id)
                 all_DB.add("COMPLEX PORTAL")
         supra_molecule_annotation.set_list_crossRefDBs(list_crossRefDBs)
+        # print(f'Adding supra_molecule_annotation {supra_molecule_annotation}: {supra_molecule_annotation.__dict__}')
         list_supra_molecules.add_supra_molecule_annotation(supra_molecule_annotation)
+        return list_supra_molecules

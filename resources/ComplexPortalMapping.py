@@ -1,6 +1,6 @@
 import os, csv
 from glob import glob
-from models import CPX, EMDB_complex, Supra
+from models import CPX, EMDB_complex
 import logging
 from multiprocessing import Pool
 
@@ -136,7 +136,7 @@ class CPMapping:
         if max_score >= MIN_SCORE:
             emdb_complex.cpx_list = best_hits
             emdb_complex.score = max_score
-            emdb_complex.provenance = "CPX+UNIPROT"
+            emdb_complex.provenance = "CPX + UNIPROT"
 
             return emdb_complex
         return None

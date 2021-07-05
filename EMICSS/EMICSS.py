@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Tue Jun 22 17:42:18 2021 by generateDS.py version 2.38.6.
+# Generated Mon Jul  5 09:25:50 2021 by generateDS.py version 2.38.6.
 # Python 3.7.6 (default, Dec 30 2019, 19:38:28)  [Clang 11.0.0 (clang-1100.0.33.16)]
 #
 # Command line options:
@@ -1000,7 +1000,7 @@ class emicss(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, EMDB_ID=None, DBs_list=None, models_list=None, sample_annotation=None, gds_collector_=None, **kwargs_):
+    def __init__(self, EMDB_ID=None, DBs_list=None, molecular_weight_annotation=None, sample_annotation=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
@@ -1010,8 +1010,8 @@ class emicss(GeneratedsSuper):
         self.EMDB_ID_nsprefix_ = None
         self.DBs_list = DBs_list
         self.DBs_list_nsprefix_ = None
-        self.models_list = models_list
-        self.models_list_nsprefix_ = None
+        self.molecular_weight_annotation = molecular_weight_annotation
+        self.molecular_weight_annotation_nsprefix_ = None
         self.sample_annotation = sample_annotation
         self.sample_annotation_nsprefix_ = None
     def factory(*args_, **kwargs_):
@@ -1033,10 +1033,10 @@ class emicss(GeneratedsSuper):
         return self.DBs_list
     def set_DBs_list(self, DBs_list):
         self.DBs_list = DBs_list
-    def get_models_list(self):
-        return self.models_list
-    def set_models_list(self, models_list):
-        self.models_list = models_list
+    def get_molecular_weight_annotation(self):
+        return self.molecular_weight_annotation
+    def set_molecular_weight_annotation(self, molecular_weight_annotation):
+        self.molecular_weight_annotation = molecular_weight_annotation
     def get_sample_annotation(self):
         return self.sample_annotation
     def set_sample_annotation(self, sample_annotation):
@@ -1059,7 +1059,7 @@ class emicss(GeneratedsSuper):
     def hasContent_(self):
         if (
             self.DBs_list is not None or
-            self.models_list is not None or
+            self.molecular_weight_annotation is not None or
             self.sample_annotation is not None
         ):
             return True
@@ -1100,9 +1100,9 @@ class emicss(GeneratedsSuper):
         if self.DBs_list is not None:
             namespaceprefix_ = self.DBs_list_nsprefix_ + ':' if (UseCapturedNS_ and self.DBs_list_nsprefix_) else ''
             self.DBs_list.export(outfile, level, namespaceprefix_, namespacedef_='', name_='DBs_list', pretty_print=pretty_print)
-        if self.models_list is not None:
-            namespaceprefix_ = self.models_list_nsprefix_ + ':' if (UseCapturedNS_ and self.models_list_nsprefix_) else ''
-            self.models_list.export(outfile, level, namespaceprefix_, namespacedef_='', name_='models_list', pretty_print=pretty_print)
+        if self.molecular_weight_annotation is not None:
+            namespaceprefix_ = self.molecular_weight_annotation_nsprefix_ + ':' if (UseCapturedNS_ and self.molecular_weight_annotation_nsprefix_) else ''
+            self.molecular_weight_annotation.export(outfile, level, namespaceprefix_, namespacedef_='', name_='molecular_weight_annotation', pretty_print=pretty_print)
         if self.sample_annotation is not None:
             namespaceprefix_ = self.sample_annotation_nsprefix_ + ':' if (UseCapturedNS_ and self.sample_annotation_nsprefix_) else ''
             self.sample_annotation.export(outfile, level, namespaceprefix_, namespacedef_='', name_='sample_annotation', pretty_print=pretty_print)
@@ -1130,11 +1130,11 @@ class emicss(GeneratedsSuper):
             obj_.build(child_, gds_collector_=gds_collector_)
             self.DBs_list = obj_
             obj_.original_tagname_ = 'DBs_list'
-        elif nodeName_ == 'models_list':
-            obj_ = models_listType.factory(parent_object_=self)
+        elif nodeName_ == 'molecular_weight_annotation':
+            obj_ = molecular_weight_annotationType.factory(parent_object_=self)
             obj_.build(child_, gds_collector_=gds_collector_)
-            self.models_list = obj_
-            obj_.original_tagname_ = 'models_list'
+            self.molecular_weight_annotation = obj_
+            obj_.original_tagname_ = 'molecular_weight_annotation'
         elif nodeName_ == 'sample_annotation':
             obj_ = sample_annotationType.factory(parent_object_=self)
             obj_.build(child_, gds_collector_=gds_collector_)
@@ -1359,6 +1359,114 @@ class DBType(GeneratedsSuper):
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         pass
 # end class DBType
+
+
+class molecular_weight_annotationType(GeneratedsSuper):
+    __hash__ = GeneratedsSuper.__hash__
+    subclass = None
+    superclass = None
+    def __init__(self, models_list=None, weight_list=None, gds_collector_=None, **kwargs_):
+        self.gds_collector_ = gds_collector_
+        self.gds_elementtree_node_ = None
+        self.original_tagname_ = None
+        self.parent_object_ = kwargs_.get('parent_object_')
+        self.ns_prefix_ = None
+        self.models_list = models_list
+        self.models_list_nsprefix_ = None
+        self.weight_list = weight_list
+        self.weight_list_nsprefix_ = None
+    def factory(*args_, **kwargs_):
+        if CurrentSubclassModule_ is not None:
+            subclass = getSubclassFromModule_(
+                CurrentSubclassModule_, molecular_weight_annotationType)
+            if subclass is not None:
+                return subclass(*args_, **kwargs_)
+        if molecular_weight_annotationType.subclass:
+            return molecular_weight_annotationType.subclass(*args_, **kwargs_)
+        else:
+            return molecular_weight_annotationType(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def get_ns_prefix_(self):
+        return self.ns_prefix_
+    def set_ns_prefix_(self, ns_prefix):
+        self.ns_prefix_ = ns_prefix
+    def get_models_list(self):
+        return self.models_list
+    def set_models_list(self, models_list):
+        self.models_list = models_list
+    def get_weight_list(self):
+        return self.weight_list
+    def set_weight_list(self, weight_list):
+        self.weight_list = weight_list
+    def hasContent_(self):
+        if (
+            self.models_list is not None or
+            self.weight_list is not None
+        ):
+            return True
+        else:
+            return False
+    def export(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='molecular_weight_annotationType', pretty_print=True):
+        imported_ns_def_ = GenerateDSNamespaceDefs_.get('molecular_weight_annotationType')
+        if imported_ns_def_ is not None:
+            namespacedef_ = imported_ns_def_
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        if self.original_tagname_ is not None and name_ == 'molecular_weight_annotationType':
+            name_ = self.original_tagname_
+        if UseCapturedNS_ and self.ns_prefix_:
+            namespaceprefix_ = self.ns_prefix_ + ':'
+        showIndent(outfile, level, pretty_print)
+        outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        already_processed = set()
+        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='molecular_weight_annotationType')
+        if self.hasContent_():
+            outfile.write('>%s' % (eol_, ))
+            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='molecular_weight_annotationType', pretty_print=pretty_print)
+            showIndent(outfile, level, pretty_print)
+            outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
+        else:
+            outfile.write('/>%s' % (eol_, ))
+    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='molecular_weight_annotationType'):
+        pass
+    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='molecular_weight_annotationType', fromsubclass_=False, pretty_print=True):
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        if self.models_list is not None:
+            namespaceprefix_ = self.models_list_nsprefix_ + ':' if (UseCapturedNS_ and self.models_list_nsprefix_) else ''
+            self.models_list.export(outfile, level, namespaceprefix_, namespacedef_='', name_='models_list', pretty_print=pretty_print)
+        if self.weight_list is not None:
+            namespaceprefix_ = self.weight_list_nsprefix_ + ':' if (UseCapturedNS_ and self.weight_list_nsprefix_) else ''
+            self.weight_list.export(outfile, level, namespaceprefix_, namespacedef_='', name_='weight_list', pretty_print=pretty_print)
+    def build(self, node, gds_collector_=None):
+        self.gds_collector_ = gds_collector_
+        if SaveElementTreeNode:
+            self.gds_elementtree_node_ = node
+        already_processed = set()
+        self.ns_prefix_ = node.prefix
+        self.buildAttributes(node, node.attrib, already_processed)
+        for child in node:
+            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
+            self.buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
+        return self
+    def buildAttributes(self, node, attrs, already_processed):
+        pass
+    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
+        if nodeName_ == 'models_list':
+            obj_ = models_listType.factory(parent_object_=self)
+            obj_.build(child_, gds_collector_=gds_collector_)
+            self.models_list = obj_
+            obj_.original_tagname_ = 'models_list'
+        elif nodeName_ == 'weight_list':
+            obj_ = weight_listType.factory(parent_object_=self)
+            obj_.build(child_, gds_collector_=gds_collector_)
+            self.weight_list = obj_
+            obj_.original_tagname_ = 'weight_list'
+# end class molecular_weight_annotationType
 
 
 class models_listType(GeneratedsSuper):
@@ -1629,6 +1737,249 @@ class model_annotationType(GeneratedsSuper):
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         pass
 # end class model_annotationType
+
+
+class weight_listType(GeneratedsSuper):
+    __hash__ = GeneratedsSuper.__hash__
+    subclass = None
+    superclass = None
+    def __init__(self, provided_weight=None, gds_collector_=None, **kwargs_):
+        self.gds_collector_ = gds_collector_
+        self.gds_elementtree_node_ = None
+        self.original_tagname_ = None
+        self.parent_object_ = kwargs_.get('parent_object_')
+        self.ns_prefix_ = None
+        if provided_weight is None:
+            self.provided_weight = []
+        else:
+            self.provided_weight = provided_weight
+        self.provided_weight_nsprefix_ = None
+    def factory(*args_, **kwargs_):
+        if CurrentSubclassModule_ is not None:
+            subclass = getSubclassFromModule_(
+                CurrentSubclassModule_, weight_listType)
+            if subclass is not None:
+                return subclass(*args_, **kwargs_)
+        if weight_listType.subclass:
+            return weight_listType.subclass(*args_, **kwargs_)
+        else:
+            return weight_listType(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def get_ns_prefix_(self):
+        return self.ns_prefix_
+    def set_ns_prefix_(self, ns_prefix):
+        self.ns_prefix_ = ns_prefix
+    def get_provided_weight(self):
+        return self.provided_weight
+    def set_provided_weight(self, provided_weight):
+        self.provided_weight = provided_weight
+    def add_provided_weight(self, value):
+        self.provided_weight.append(value)
+    def insert_provided_weight_at(self, index, value):
+        self.provided_weight.insert(index, value)
+    def replace_provided_weight_at(self, index, value):
+        self.provided_weight[index] = value
+    def hasContent_(self):
+        if (
+            self.provided_weight
+        ):
+            return True
+        else:
+            return False
+    def export(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='weight_listType', pretty_print=True):
+        imported_ns_def_ = GenerateDSNamespaceDefs_.get('weight_listType')
+        if imported_ns_def_ is not None:
+            namespacedef_ = imported_ns_def_
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        if self.original_tagname_ is not None and name_ == 'weight_listType':
+            name_ = self.original_tagname_
+        if UseCapturedNS_ and self.ns_prefix_:
+            namespaceprefix_ = self.ns_prefix_ + ':'
+        showIndent(outfile, level, pretty_print)
+        outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        already_processed = set()
+        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='weight_listType')
+        if self.hasContent_():
+            outfile.write('>%s' % (eol_, ))
+            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='weight_listType', pretty_print=pretty_print)
+            showIndent(outfile, level, pretty_print)
+            outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
+        else:
+            outfile.write('/>%s' % (eol_, ))
+    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='weight_listType'):
+        pass
+    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='weight_listType', fromsubclass_=False, pretty_print=True):
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        for provided_weight_ in self.provided_weight:
+            namespaceprefix_ = self.provided_weight_nsprefix_ + ':' if (UseCapturedNS_ and self.provided_weight_nsprefix_) else ''
+            provided_weight_.export(outfile, level, namespaceprefix_, namespacedef_='', name_='provided_weight', pretty_print=pretty_print)
+    def build(self, node, gds_collector_=None):
+        self.gds_collector_ = gds_collector_
+        if SaveElementTreeNode:
+            self.gds_elementtree_node_ = node
+        already_processed = set()
+        self.ns_prefix_ = node.prefix
+        self.buildAttributes(node, node.attrib, already_processed)
+        for child in node:
+            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
+            self.buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
+        return self
+    def buildAttributes(self, node, attrs, already_processed):
+        pass
+    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
+        if nodeName_ == 'provided_weight':
+            obj_ = provided_weightType.factory(parent_object_=self)
+            obj_.build(child_, gds_collector_=gds_collector_)
+            self.provided_weight.append(obj_)
+            obj_.original_tagname_ = 'provided_weight'
+# end class weight_listType
+
+
+class provided_weightType(GeneratedsSuper):
+    __hash__ = GeneratedsSuper.__hash__
+    subclass = None
+    superclass = None
+    def __init__(self, PDBID=None, weight=None, units=None, provenance=None, gds_collector_=None, **kwargs_):
+        self.gds_collector_ = gds_collector_
+        self.gds_elementtree_node_ = None
+        self.original_tagname_ = None
+        self.parent_object_ = kwargs_.get('parent_object_')
+        self.ns_prefix_ = None
+        self.PDBID = _cast(None, PDBID)
+        self.PDBID_nsprefix_ = None
+        self.weight = _cast(None, weight)
+        self.weight_nsprefix_ = None
+        self.units = _cast(None, units)
+        self.units_nsprefix_ = None
+        self.provenance = _cast(None, provenance)
+        self.provenance_nsprefix_ = None
+    def factory(*args_, **kwargs_):
+        if CurrentSubclassModule_ is not None:
+            subclass = getSubclassFromModule_(
+                CurrentSubclassModule_, provided_weightType)
+            if subclass is not None:
+                return subclass(*args_, **kwargs_)
+        if provided_weightType.subclass:
+            return provided_weightType.subclass(*args_, **kwargs_)
+        else:
+            return provided_weightType(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def get_ns_prefix_(self):
+        return self.ns_prefix_
+    def set_ns_prefix_(self, ns_prefix):
+        self.ns_prefix_ = ns_prefix
+    def get_PDBID(self):
+        return self.PDBID
+    def set_PDBID(self, PDBID):
+        self.PDBID = PDBID
+    def get_weight(self):
+        return self.weight
+    def set_weight(self, weight):
+        self.weight = weight
+    def get_units(self):
+        return self.units
+    def set_units(self, units):
+        self.units = units
+    def get_provenance(self):
+        return self.provenance
+    def set_provenance(self, provenance):
+        self.provenance = provenance
+    def validate_provenance_type(self, value):
+        # Validate type provenance_type, a restriction on xs:token.
+        if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
+            if not isinstance(value, str):
+                lineno = self.gds_get_node_lineno_()
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
+                return False
+            value = value
+            enumerations = ['AUTHOR', 'UNIPROT', 'PDBe', 'PDB+UNIPROT', 'BLASTP', 'COMPLEXPORTAL', 'ChEMBL', 'ChEBI', 'DrugBank', 'CALCULATED']
+            if value not in enumerations:
+                lineno = self.gds_get_node_lineno_()
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd enumeration restriction on provenance_type' % {"value" : encode_str_2_3(value), "lineno": lineno} )
+                result = False
+    def hasContent_(self):
+        if (
+
+        ):
+            return True
+        else:
+            return False
+    def export(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='provided_weightType', pretty_print=True):
+        imported_ns_def_ = GenerateDSNamespaceDefs_.get('provided_weightType')
+        if imported_ns_def_ is not None:
+            namespacedef_ = imported_ns_def_
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        if self.original_tagname_ is not None and name_ == 'provided_weightType':
+            name_ = self.original_tagname_
+        if UseCapturedNS_ and self.ns_prefix_:
+            namespaceprefix_ = self.ns_prefix_ + ':'
+        showIndent(outfile, level, pretty_print)
+        outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        already_processed = set()
+        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='provided_weightType')
+        if self.hasContent_():
+            outfile.write('>%s' % (eol_, ))
+            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='provided_weightType', pretty_print=pretty_print)
+            outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
+        else:
+            outfile.write('/>%s' % (eol_, ))
+    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='provided_weightType'):
+        if self.PDBID is not None and 'PDBID' not in already_processed:
+            already_processed.add('PDBID')
+            outfile.write(' PDBID=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.PDBID), input_name='PDBID')), ))
+        if self.weight is not None and 'weight' not in already_processed:
+            already_processed.add('weight')
+            outfile.write(' weight=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.weight), input_name='weight')), ))
+        if self.units is not None and 'units' not in already_processed:
+            already_processed.add('units')
+            outfile.write(' units=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.units), input_name='units')), ))
+        if self.provenance is not None and 'provenance' not in already_processed:
+            already_processed.add('provenance')
+            outfile.write(' provenance=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.provenance), input_name='provenance')), ))
+    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='provided_weightType', fromsubclass_=False, pretty_print=True):
+        pass
+    def build(self, node, gds_collector_=None):
+        self.gds_collector_ = gds_collector_
+        if SaveElementTreeNode:
+            self.gds_elementtree_node_ = node
+        already_processed = set()
+        self.ns_prefix_ = node.prefix
+        self.buildAttributes(node, node.attrib, already_processed)
+        for child in node:
+            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
+            self.buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
+        return self
+    def buildAttributes(self, node, attrs, already_processed):
+        value = find_attr_value_('PDBID', node)
+        if value is not None and 'PDBID' not in already_processed:
+            already_processed.add('PDBID')
+            self.PDBID = value
+        value = find_attr_value_('weight', node)
+        if value is not None and 'weight' not in already_processed:
+            already_processed.add('weight')
+            self.weight = value
+        value = find_attr_value_('units', node)
+        if value is not None and 'units' not in already_processed:
+            already_processed.add('units')
+            self.units = value
+        value = find_attr_value_('provenance', node)
+        if value is not None and 'provenance' not in already_processed:
+            already_processed.add('provenance')
+            self.provenance = value
+            self.provenance = ' '.join(self.provenance.split())
+            self.validate_provenance_type(self.provenance)    # validate type provenance_type
+    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
+        pass
+# end class provided_weightType
 
 
 class sample_annotationType(GeneratedsSuper):
@@ -3350,6 +3701,9 @@ __all__ = [
     "macro_molecule_annotationType",
     "model_annotationType",
     "models_listType",
+    "molecular_weight_annotationType",
+    "provided_weightType",
     "sample_annotationType",
-    "supra_molecule_annotationType"
+    "supra_molecule_annotationType",
+    "weight_listType"
 ]

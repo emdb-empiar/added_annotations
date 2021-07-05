@@ -94,7 +94,7 @@ class UniprotMapping:
 			f.write(">seq\n%s" % protein.sequence)
 		qout = os.path.join(self.output_dir, "fasta", protein.emdb_id + ".xml")
 		blastp_command = [BLASTP_BIN, "-query", fasta_file, "-db", BLAST_DB, "-out", qout, "-outfmt", "5",
-						  "-evalue", "1e-40"]
+						 "-evalue", "1e-40"]
 		subprocess.call(blastp_command)
 		
 		if os.path.isfile(qout):
@@ -148,7 +148,7 @@ class UniprotMapping:
 
 		if best_match and best_score > 80:
 			protein.uniprot_id = best_match
-			protein.provenance = "PDB+UNIPROT"
+			protein.provenance = "PDBe + UNIPROT"
 			return True
 		return False
 
