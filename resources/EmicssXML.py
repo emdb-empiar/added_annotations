@@ -3,7 +3,7 @@ import itertools
 from EMICSS import EMICSS
 
 class EmicssXML:
-    "Writing annotations to output xml file according to the EMDB_EMICSS.xsd schema "
+    "Writing annotations to output xml file according to the EMdb_EMICSS.xsd schema "
 
     def __init__(self, workDir, unip_map, cpx_map, lig_map, mw_map):
         self.workDir = workDir
@@ -67,93 +67,93 @@ class EmicssXML:
         "Write added annotation to individual EMICSS file"
         # print(self.emicss_annotation)
         for em_id, val in self.emicss_annotation.items():
-            all_DB = set()
+            all_db = set()
             headerXML = EMICSS.emicss()
-            DBs_list = EMICSS.DBs_listType()
-            molecular_weight_annotation = EMICSS.molecular_weight_annotationType()
-            models_list = EMICSS.models_listType()
-            sample_annotation = EMICSS.sample_annotationType()
-            list_macro_molecules = EMICSS.list_macro_moleculesType()
+            dbs = EMICSS.dbsType()
+            molecular_weight = EMICSS.molecular_weightType()
+            models = EMICSS.modelsType()
+            sample = EMICSS.sampleType()
+            macromolecules = EMICSS.macromoleculesType()
 
-            headerXML.set_EMDB_ID(em_id)
-            list_supra_molecules = None
+            headerXML.set_emdb_id(em_id)
+            supramolecules = None
             for samp_id in val.keys():
                 if samp_id is not None:
 
                     if (samp_id.isalnum() and not samp_id.isalpha() and not samp_id.isnumeric()):
                         if len(samp_id) == 4:
-                            self.EMICSS_PDBe(val, samp_id, all_DB, DBs_list, models_list)
+                            self.EMICSS_Pdbe(val, samp_id, all_db, dbs, models)
                         if len(samp_id) != 4:
-                            self.EMICSS_uniprot(val, samp_id, all_DB, DBs_list, list_macro_molecules)
+                            self.EMICSS_uniprot(val, samp_id, all_db, dbs, macromolecules)
                     if samp_id.isnumeric():
-                        self.EMICSS_ligands(val, samp_id, all_DB, DBs_list, list_macro_molecules)
+                        self.EMICSS_ligands(val, samp_id, all_db, dbs, macromolecules)
                     if re.search(r'%s\_\d+' % em_id, samp_id):
-                        list_supra_molecules = self.EMICSS_CPX(val, samp_id, all_DB, DBs_list)
+                        supramolecules = self.EMICSS_CPX(val, samp_id, all_db, dbs)
 
-            headerXML.set_DBs_list(DBs_list)
-            molecular_weight_annotation.set_models_list(models_list)
-            headerXML.set_molecular_weight_annotation(molecular_weight_annotation)
-            if list_supra_molecules:
-                sample_annotation.set_list_supra_molecules(list_supra_molecules)
-            sample_annotation.set_list_macro_molecules(list_macro_molecules)
-            headerXML.set_sample_annotation(sample_annotation)
+            headerXML.set_dbs(dbs)
+            molecular_weight.set_models(models)
+            headerXML.set_molecular_weight(molecular_weight)
+            if supramolecules:
+                sample.set_supramolecules(supramolecules)
+            sample.set_macromolecules(macromolecules)
+            headerXML.set_sample(sample)
 
             xmlFile = os.path.join(self.workDir, em_id + "_emicss.xml")
             with open(xmlFile, 'w') as f:
                 headerXML.export(f, 0, name_='emicss')
 
-    def EMICSS_PDBe(self, val, samp_id, all_DB, DBs_list, models_list):
-        "Adding PDBe and calulated assembly weight annotations to EMICSS"
+    def EMICSS_Pdbe(self, val, samp_id, all_db, dbs, models):
+        "Adding Pdbe and calulated assembly weight annotations to EMICSS"
         pdb_id = val.get(samp_id, {}).get('pdb_id')
         assembly = val.get(samp_id, {}).get('assembly')
         mw = val.get(samp_id, {}).get('molecular_weight')
         if pdb_id:
-            if "PDBe" not in all_DB:
-                DB = EMICSS.DBType()
-                DB.set_DB_source("%s" % "PDBe")
-                DB.set_DB_version("%s" % "2.0")
-                DBs_list.add_DB(DB)
-        all_DB.add("PDBe")
-        model_annotation = EMICSS.model_annotationType()
-        model_annotation.set_PDBID("%s" % pdb_id)
-        model_annotation.set_assemblies(int(assembly))
-        model_annotation.set_weight(round(mw, 2))
-        model_annotation.set_units("%s" % "Da")
-        model_annotation.set_provenance("%s" % "PDBe")
-        models_list.add_model_annotation(model_annotation)
+            if "PDBe" not in all_db:
+                db = EMICSS.dbType()
+                db.set_db_source("%s" % "PDBe")
+                db.set_db_version("%s" % "2.0")
+                dbs.add_db(db)
+        all_db.add("PDBe")
+        model = EMICSS.modelType()
+        model.set_pdb_id("%s" % pdb_id)
+        model.set_assemblies(int(assembly))
+        model.set_weight(round(mw, 2))
+        model.set_units("%s" % "Da")
+        model.set_provenance("%s" % "PDBe")
+        models.add_model(model)
 
-    def EMICSS_uniprot(self, val, samp_id, all_DB, DBs_list, list_macro_molecules):
+    def EMICSS_uniprot(self, val, samp_id, all_db, dbs, macromolecules):
         "Adding UNIPROT annotation to EMICSS"
-        list_crossRefDBs = EMICSS.list_crossRefDBsType()
+        cross_ref_dbs = EMICSS.cross_ref_dbsType()
         sample_id = val.get(samp_id, {}).get('sample_id')
         sample_copies = val.get(samp_id, {}).get('sample_copies')
-        sample_name = val.get(samp_id, {}).get('sample_name')
+        name = val.get(samp_id, {}).get('sample_name')
         uniprot_id = val.get(samp_id, {}).get('uniprot_id')
         uni_provenance = val.get(samp_id, {}).get('provenance')
 
-        macro_molecule_annotation = EMICSS.macro_molecule_annotationType()
-        macro_molecule_annotation.set_macro_kind("%s" % "protein")
-        macro_molecule_annotation.set_macro_ID(int(sample_id))
-        macro_molecule_annotation.set_macro_copies(int(sample_copies))
-        macro_molecule_annotation.set_macro_name("%s" % sample_name)
-        list_macro_molecules.add_macro_molecule_annotation(macro_molecule_annotation)
+        macromolecule = EMICSS.macromoleculeType()
+        macromolecule.set_kind("%s" % "protein")
+        macromolecule.set_id(int(sample_id))
+        macromolecule.set_copies(int(sample_copies))
+        macromolecule.set_name("%s" % name)
+        macromolecules.add_macromolecule(macromolecule)
         if uniprot_id:
-            if "UNIPROT" not in all_DB:
-                DB = EMICSS.DBType()
-                DB.set_DB_source("%s" % "UNIPROT")
-                DB.set_DB_version("%s" % "2021.02")
-                DBs_list.add_DB(DB)
-            crossRefDB = EMICSS.crossRefDBType()
-            crossRefDB.set_DB_source("%s" % "UNIPROT")
-            crossRefDB.set_provenance("%s" % uni_provenance)
-            crossRefDB.set_DB_accession_ID("%s" % uniprot_id)
-            list_crossRefDBs.add_crossRefDB(crossRefDB)
-            macro_molecule_annotation.set_list_crossRefDBs(list_crossRefDBs)
-        all_DB.add("UNIPROT")
+            if "UNIPROT" not in all_db:
+                db = EMICSS.dbType()
+                db.set_db_source("%s" % "UNIPROT")
+                db.set_db_version("%s" % "2021.02")
+                dbs.add_db(db)
+            cross_ref_db = EMICSS.cross_ref_dbType()
+            cross_ref_db.set_db_source("%s" % "UNIPROT")
+            cross_ref_db.set_provenance("%s" % uni_provenance)
+            cross_ref_db.set_db_accession_id("%s" % uniprot_id)
+            cross_ref_dbs.add_cross_ref_db(cross_ref_db)
+            macromolecule.set_cross_ref_dbs(cross_ref_dbs)
+        all_db.add("UNIPROT")
 
-    def EMICSS_ligands(self, val, samp_id, all_DB, DBs_list, list_macro_molecules):
+    def EMICSS_ligands(self, val, samp_id, all_db, dbs, macromolecules):
         "Adding components annotation to EMICSS"
-        list_crossRefDBs = EMICSS.list_crossRefDBsType()
+        cross_ref_dbs = EMICSS.cross_ref_dbsType()
         lig_copies = val.get(samp_id, {}).get('lig_copies')
         lig_name = val.get(samp_id, {}).get('lig_name')
         HET = val.get(samp_id, {}).get('HET')
@@ -162,62 +162,62 @@ class EmicssXML:
         drugbank_id = val.get(samp_id, {}).get('drugbank_id')
         provenance = val.get(samp_id, {}).get('provenance')
 
-        macro_molecule_annotation = EMICSS.macro_molecule_annotationType()
-        macro_molecule_annotation.set_macro_kind("%s" % "ligand")
-        macro_molecule_annotation.set_macro_ID(int(samp_id))
-        macro_molecule_annotation.set_macro_CCD_ID("%s" % HET)
-        macro_molecule_annotation.set_macro_copies(int(lig_copies))
-        macro_molecule_annotation.set_macro_name("%s" % lig_name)
-        list_macro_molecules.add_macro_molecule_annotation(macro_molecule_annotation)
+        macromolecule = EMICSS.macromoleculeType()
+        macromolecule.set_kind("%s" % "ligand")
+        macromolecule.set_id(int(samp_id))
+        macromolecule.set_ccd_id("%s" % HET)
+        macromolecule.set_copies(int(lig_copies))
+        macromolecule.set_name("%s" % lig_name)
+        macromolecules.add_macromolecule(macromolecule)
         if chembl_id:
-            if "CHEMBL" not in all_DB:
-                DB = EMICSS.DBType()
-                DB.set_DB_source("%s" % "CHEMBL")
-                DB.set_DB_version("%s" % "4.2.0")
-                DBs_list.add_DB(DB)
-            crossRefDB = EMICSS.crossRefDBType()
-            crossRefDB.set_DB_source("%s" % "ChEMBL")
-            crossRefDB.set_provenance("%s" % provenance)
-            crossRefDB.set_DB_accession_ID("%s" % chembl_id)
-            list_crossRefDBs.add_crossRefDB(crossRefDB)
-            macro_molecule_annotation.set_list_crossRefDBs(list_crossRefDBs)
-        all_DB.add("CHEMBL")
+            if "CHEMBL" not in all_db:
+                db = EMICSS.dbType()
+                db.set_db_source("%s" % "CHEMBL")
+                db.set_db_version("%s" % "4.2.0")
+                dbs.add_db(db)
+            cross_ref_db = EMICSS.cross_ref_dbType()
+            cross_ref_db.set_db_source("%s" % "ChEMBL")
+            cross_ref_db.set_provenance("%s" % provenance)
+            cross_ref_db.set_db_accession_id("%s" % chembl_id)
+            cross_ref_dbs.add_cross_ref_db(cross_ref_db)
+            macromolecule.set_cross_ref_dbs(cross_ref_dbs)
+        all_db.add("CHEMBL")
         if chebi_id:
-            if "CHEBI" not in all_DB:
-                DB = EMICSS.DBType()
-                DB.set_DB_source("%s" % "CHEBI")
-                DB.set_DB_version("%s" % "15.21")
-                DBs_list.add_DB(DB)
-            crossRefDB = EMICSS.crossRefDBType()
-            crossRefDB.set_DB_source("%s" % "ChEBI")
-            crossRefDB.set_provenance("%s" % provenance)
-            crossRefDB.set_DB_accession_ID("%s" % chebi_id)
-            list_crossRefDBs.add_crossRefDB(crossRefDB)
-            macro_molecule_annotation.set_list_crossRefDBs(list_crossRefDBs)
-        all_DB.add("CHEBI")
+            if "CHEBI" not in all_db:
+                db = EMICSS.dbType()
+                db.set_db_source("%s" % "CHEBI")
+                db.set_db_version("%s" % "15.21")
+                dbs.add_db(db)
+            cross_ref_db = EMICSS.cross_ref_dbType()
+            cross_ref_db.set_db_source("%s" % "ChEBI")
+            cross_ref_db.set_provenance("%s" % provenance)
+            cross_ref_db.set_db_accession_id("%s" % chebi_id)
+            cross_ref_dbs.add_cross_ref_db(cross_ref_db)
+            macromolecule.set_cross_ref_dbs(cross_ref_dbs)
+        all_db.add("CHEBI")
         if drugbank_id:
-            if "DRUGBANK" not in all_DB:
-                DB = EMICSS.DBType()
-                DB.set_DB_source("%s" % "DRUGBANK")
-                DB.set_DB_version("%s" % "2021.03.30")
-                DBs_list.add_DB(DB)
-            crossRefDB = EMICSS.crossRefDBType()
-            crossRefDB.set_DB_source("%s" % "DrugBank")
-            crossRefDB.set_provenance("%s" % provenance)
-            crossRefDB.set_DB_accession_ID("%s" % drugbank_id)
-            list_crossRefDBs.add_crossRefDB(crossRefDB)
-            macro_molecule_annotation.set_list_crossRefDBs(list_crossRefDBs)
-        all_DB.add("DRUGBANK")
+            if "DRUGBANK" not in all_db:
+                db = EMICSS.dbType()
+                db.set_db_source("%s" % "DRUGBANK")
+                db.set_db_version("%s" % "2021.03.30")
+                dbs.add_db(db)
+            cross_ref_db = EMICSS.cross_ref_dbType()
+            cross_ref_db.set_db_source("%s" % "DrugBank")
+            cross_ref_db.set_provenance("%s" % provenance)
+            cross_ref_db.set_db_accession_id("%s" % drugbank_id)
+            cross_ref_dbs.add_cross_ref_db(cross_ref_db)
+            macromolecule.set_cross_ref_dbs(cross_ref_dbs)
+        all_db.add("DRUGBANK")
 
-    def EMICSS_CPX(self, val, samp_id, all_DB, DBs_list):
-        list_supra_molecules = EMICSS.list_supra_moleculesType()
+    def EMICSS_CPX(self, val, samp_id, all_db, dbs):
+        supramolecules = EMICSS.supramoleculesType()
         cp_id = set()
         cpx_samp_id = samp_id.split("_")[1]
         cpx_sample_copies = val.get(samp_id, {}).get('sample_copies')
-        cpx_sample_name = val.get(samp_id, {}).get('supra_name')
+        sup_name = val.get(samp_id, {}).get('supra_name')
         ind = val.get(samp_id, {}).get('ind')
-        supra_molecule_annotation = EMICSS.supra_molecule_annotationType()
-        list_crossRefDBs = EMICSS.list_crossRefDBsType()
+        supramolecule = EMICSS.supramoleculeType()
+        cross_ref_dbs = EMICSS.cross_ref_dbsType()
         for x in range(ind):
             c_id = "cpx_id_"+str(x)
             cpx_id = val.get(samp_id, {}).get(c_id)
@@ -229,35 +229,35 @@ class EmicssXML:
             cpx_score = val.get(samp_id, {}).get(c_score)
             if cpx_samp_id is not None:
                 if cpx_samp_id not in cp_id:
-                    crossRefDB = EMICSS.crossRefDBType()
-                    supra_molecule_annotation.set_supra_kind("%s" % "complex")
-                    supra_molecule_annotation.set_supra_ID(int(cpx_samp_id))
-                    supra_molecule_annotation.set_supra_copies(int(cpx_sample_copies))
-                    supra_molecule_annotation.set_supra_name("%s" % cpx_sample_name)
-                    if "COMPLEX PORTAL" not in all_DB:
-                        DB = EMICSS.DBType()
-                        DB.set_DB_source("%s" % "COMPLEX PORTAL")
-                        DB.set_DB_version("%s" % "1")
-                        DBs_list.add_DB(DB)
+                    cross_ref_db = EMICSS.cross_ref_dbType()
+                    supramolecule.set_kind("%s" % "complex")
+                    supramolecule.set_id(int(cpx_samp_id))
+                    supramolecule.set_copies(int(cpx_sample_copies))
+                    supramolecule.set_name("%s" % sup_name)
+                    if "COMPLEX PORTAL" not in all_db:
+                        db = EMICSS.dbType()
+                        db.set_db_source("%s" % "COMPLEX PORTAL")
+                        db.set_db_version("%s" % "1")
+                        dbs.add_db(db)
 
-                    crossRefDB.set_name("%s" % cpx_name)
-                    crossRefDB.set_DB_source("%s" % "COMPLEX PORTAL")
-                    crossRefDB.set_provenance("%s" % cpx_provenance)
-                    crossRefDB.set_DB_accession_ID("%s" % cpx_id)
-                    crossRefDB.set_score(float(cpx_score))
-                    list_crossRefDBs.add_crossRefDB(crossRefDB)
+                    cross_ref_db.set_name("%s" % cpx_name)
+                    cross_ref_db.set_db_source("%s" % "COMPLEX PORTAL")
+                    cross_ref_db.set_provenance("%s" % cpx_provenance)
+                    cross_ref_db.set_db_accession_id("%s" % cpx_id)
+                    cross_ref_db.set_score(float(cpx_score))
+                    cross_ref_dbs.add_cross_ref_db(cross_ref_db)
                 if cpx_samp_id in cp_id:
-                    crossRefDB = EMICSS.crossRefDBType()
-                    crossRefDB.set_name("%s" % cpx_name)
-                    crossRefDB.set_DB_source("%s" % "COMPLEX PORTAL")
-                    crossRefDB.set_provenance("%s" % cpx_provenance)
-                    crossRefDB.set_DB_accession_ID("%s" % cpx_id)
-                    crossRefDB.set_score(float(cpx_score))
-                    list_crossRefDBs.add_crossRefDB(crossRefDB)
+                    cross_ref_db = EMICSS.cross_ref_dbType()
+                    cross_ref_db.set_name("%s" % cpx_name)
+                    cross_ref_db.set_db_source("%s" % "COMPLEX PORTAL")
+                    cross_ref_db.set_provenance("%s" % cpx_provenance)
+                    cross_ref_db.set_db_accession_id("%s" % cpx_id)
+                    cross_ref_db.set_score(float(cpx_score))
+                    cross_ref_dbs.add_cross_ref_db(cross_ref_db)
 
                 cp_id.add(cpx_samp_id)
-                all_DB.add("COMPLEX PORTAL")
-        supra_molecule_annotation.set_list_crossRefDBs(list_crossRefDBs)
-        # print(f'Adding supra_molecule_annotation {supra_molecule_annotation}: {supra_molecule_annotation.__dict__}')
-        list_supra_molecules.add_supra_molecule_annotation(supra_molecule_annotation)
-        return list_supra_molecules
+                all_db.add("COMPLEX PORTAL")
+        supramolecule.set_cross_ref_dbs(cross_ref_dbs)
+        # print(f'Adding supramolecule {supramolecule}: {supramolecule.__dict__}')
+        supramolecules.add_supramolecule(supramolecule)
+        return supramolecules

@@ -15,16 +15,15 @@
                         </xs:sequence>
                     </xs:complexType>
                 </xs:element>
-                <xs:element minOccurs="0" name="molecular_weight_annotation">
+                <xs:element minOccurs="0" name="molecular_weight">
                     <xs:complexType>
                         <xs:sequence>
-                            <xs:element minOccurs="0" name="models_list">
+                            <xs:element minOccurs="0" name="models">
                                 <xs:complexType>
                                     <xs:sequence minOccurs="0">
-                                        <xs:element minOccurs="0" name="model_annotation"
-                                            maxOccurs="unbounded">
+                                        <xs:element minOccurs="0" name="model" maxOccurs="unbounded">
                                             <xs:complexType>
-                                                <xs:attribute name="PDBID">
+                                                <xs:attribute name="pdb_id">
                                                   <xs:simpleType>
                                                   <xs:restriction base="xs:string">
                                                   <xs:maxLength value="4"/>
@@ -42,13 +41,13 @@
                                     </xs:sequence>
                                 </xs:complexType>
                             </xs:element>
-                            <xs:element minOccurs="0" name="weight_list">
+                            <xs:element minOccurs="0" name="weights">
                                 <xs:complexType>
                                     <xs:sequence>
                                         <xs:element maxOccurs="unbounded" minOccurs="0"
-                                            name="provided_weight">
+                                            name="weight">
                                             <xs:complexType>
-                                                <xs:attribute name="PDBID" type="xs:string"/>
+                                                <xs:attribute name="pdb_id" type="xs:string"/>
                                                 <xs:attribute name="weight" type="xs:string"/>
                                                 <xs:attribute name="units" type="xs:string"/>
                                                 <xs:attribute name="provenance"
@@ -61,10 +60,10 @@
                         </xs:sequence>
                     </xs:complexType>
                 </xs:element>
-                <xs:element name="sample_annotation" minOccurs="0">
+                <xs:element name="sample" minOccurs="0">
                     <xs:complexType>
                         <xs:sequence minOccurs="0">
-                            <xs:element name="sample_name" type="xs:string" minOccurs="0"/>
+                            <xs:element name="name" type="xs:string" minOccurs="0"/>
                             <xs:element minOccurs="0" name="cross_ref_dbs">
                                 <xs:complexType>
                                     <xs:sequence>
@@ -118,7 +117,7 @@
                                     </xs:sequence>
                                 </xs:complexType>
                             </xs:element>
-                            <xs:element name="list_macro_molecules" minOccurs="0">
+                            <xs:element name="macromolecules" minOccurs="0">
                                 <xs:complexType>
                                     <xs:sequence>
                                         <xs:element name="macromolecule" maxOccurs="unbounded"
@@ -183,7 +182,8 @@
             <xs:enumeration value="AUTHOR"/>
             <xs:enumeration value="UNIPROT"/>
             <xs:enumeration value="PDBe"/>
-            <xs:enumeration value="PDB+UNIPROT"/>
+            <xs:enumeration value="PDBe + UNIPROT"/>
+            <xs:enumeration value="CPX + UNIPROT"/>
             <xs:enumeration value="BLASTP"/>
             <xs:enumeration value="COMPLEXPORTAL"/>
             <xs:enumeration value="ChEMBL"/>

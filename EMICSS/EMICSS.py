@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Mon Jul  5 09:25:50 2021 by generateDS.py version 2.38.6.
+# Generated Mon Jul  5 11:51:42 2021 by generateDS.py version 2.38.6.
 # Python 3.7.6 (default, Dec 30 2019, 19:38:28)  [Clang 11.0.0 (clang-1100.0.33.16)]
 #
 # Command line options:
@@ -968,7 +968,7 @@ def _cast(typ, value):
 #
 
 
-class DB_source_type(str, Enum):
+class db_source_type(str, Enum):
     UNIPROT='UNIPROT'
     COMPLEXPORTAL='COMPLEXPORTAL'
     PD_BE='PDBe'
@@ -1000,20 +1000,20 @@ class emicss(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, EMDB_ID=None, DBs_list=None, molecular_weight_annotation=None, sample_annotation=None, gds_collector_=None, **kwargs_):
+    def __init__(self, emdb_id=None, dbs=None, molecular_weight=None, sample=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
         self.parent_object_ = kwargs_.get('parent_object_')
         self.ns_prefix_ = None
-        self.EMDB_ID = _cast(None, EMDB_ID)
-        self.EMDB_ID_nsprefix_ = None
-        self.DBs_list = DBs_list
-        self.DBs_list_nsprefix_ = None
-        self.molecular_weight_annotation = molecular_weight_annotation
-        self.molecular_weight_annotation_nsprefix_ = None
-        self.sample_annotation = sample_annotation
-        self.sample_annotation_nsprefix_ = None
+        self.emdb_id = _cast(None, emdb_id)
+        self.emdb_id_nsprefix_ = None
+        self.dbs = dbs
+        self.dbs_nsprefix_ = None
+        self.molecular_weight = molecular_weight
+        self.molecular_weight_nsprefix_ = None
+        self.sample = sample
+        self.sample_nsprefix_ = None
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -1029,22 +1029,22 @@ class emicss(GeneratedsSuper):
         return self.ns_prefix_
     def set_ns_prefix_(self, ns_prefix):
         self.ns_prefix_ = ns_prefix
-    def get_DBs_list(self):
-        return self.DBs_list
-    def set_DBs_list(self, DBs_list):
-        self.DBs_list = DBs_list
-    def get_molecular_weight_annotation(self):
-        return self.molecular_weight_annotation
-    def set_molecular_weight_annotation(self, molecular_weight_annotation):
-        self.molecular_weight_annotation = molecular_weight_annotation
-    def get_sample_annotation(self):
-        return self.sample_annotation
-    def set_sample_annotation(self, sample_annotation):
-        self.sample_annotation = sample_annotation
-    def get_EMDB_ID(self):
-        return self.EMDB_ID
-    def set_EMDB_ID(self, EMDB_ID):
-        self.EMDB_ID = EMDB_ID
+    def get_dbs(self):
+        return self.dbs
+    def set_dbs(self, dbs):
+        self.dbs = dbs
+    def get_molecular_weight(self):
+        return self.molecular_weight
+    def set_molecular_weight(self, molecular_weight):
+        self.molecular_weight = molecular_weight
+    def get_sample(self):
+        return self.sample
+    def set_sample(self, sample):
+        self.sample = sample
+    def get_emdb_id(self):
+        return self.emdb_id
+    def set_emdb_id(self, emdb_id):
+        self.emdb_id = emdb_id
     def validate_emdb_id_type(self, value):
         # Validate type emdb_id_type, a restriction on xs:token.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
@@ -1058,9 +1058,9 @@ class emicss(GeneratedsSuper):
     validate_emdb_id_type_patterns_ = [['^(EMD-\\d{4,})$']]
     def hasContent_(self):
         if (
-            self.DBs_list is not None or
-            self.molecular_weight_annotation is not None or
-            self.sample_annotation is not None
+            self.dbs is not None or
+            self.molecular_weight is not None or
+            self.sample is not None
         ):
             return True
         else:
@@ -1089,23 +1089,23 @@ class emicss(GeneratedsSuper):
         else:
             outfile.write('/>%s' % (eol_, ))
     def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='emicss'):
-        if self.EMDB_ID is not None and 'EMDB_ID' not in already_processed:
-            already_processed.add('EMDB_ID')
-            outfile.write(' EMDB_ID=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.EMDB_ID), input_name='EMDB_ID')), ))
+        if self.emdb_id is not None and 'emdb_id' not in already_processed:
+            already_processed.add('emdb_id')
+            outfile.write(' emdb_id=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.emdb_id), input_name='emdb_id')), ))
     def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='emicss', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        if self.DBs_list is not None:
-            namespaceprefix_ = self.DBs_list_nsprefix_ + ':' if (UseCapturedNS_ and self.DBs_list_nsprefix_) else ''
-            self.DBs_list.export(outfile, level, namespaceprefix_, namespacedef_='', name_='DBs_list', pretty_print=pretty_print)
-        if self.molecular_weight_annotation is not None:
-            namespaceprefix_ = self.molecular_weight_annotation_nsprefix_ + ':' if (UseCapturedNS_ and self.molecular_weight_annotation_nsprefix_) else ''
-            self.molecular_weight_annotation.export(outfile, level, namespaceprefix_, namespacedef_='', name_='molecular_weight_annotation', pretty_print=pretty_print)
-        if self.sample_annotation is not None:
-            namespaceprefix_ = self.sample_annotation_nsprefix_ + ':' if (UseCapturedNS_ and self.sample_annotation_nsprefix_) else ''
-            self.sample_annotation.export(outfile, level, namespaceprefix_, namespacedef_='', name_='sample_annotation', pretty_print=pretty_print)
+        if self.dbs is not None:
+            namespaceprefix_ = self.dbs_nsprefix_ + ':' if (UseCapturedNS_ and self.dbs_nsprefix_) else ''
+            self.dbs.export(outfile, level, namespaceprefix_, namespacedef_='', name_='dbs', pretty_print=pretty_print)
+        if self.molecular_weight is not None:
+            namespaceprefix_ = self.molecular_weight_nsprefix_ + ':' if (UseCapturedNS_ and self.molecular_weight_nsprefix_) else ''
+            self.molecular_weight.export(outfile, level, namespaceprefix_, namespacedef_='', name_='molecular_weight', pretty_print=pretty_print)
+        if self.sample is not None:
+            namespaceprefix_ = self.sample_nsprefix_ + ':' if (UseCapturedNS_ and self.sample_nsprefix_) else ''
+            self.sample.export(outfile, level, namespaceprefix_, namespacedef_='', name_='sample', pretty_print=pretty_print)
     def build(self, node, gds_collector_=None):
         self.gds_collector_ = gds_collector_
         if SaveElementTreeNode:
@@ -1118,111 +1118,111 @@ class emicss(GeneratedsSuper):
             self.buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
         return self
     def buildAttributes(self, node, attrs, already_processed):
-        value = find_attr_value_('EMDB_ID', node)
-        if value is not None and 'EMDB_ID' not in already_processed:
-            already_processed.add('EMDB_ID')
-            self.EMDB_ID = value
-            self.EMDB_ID = ' '.join(self.EMDB_ID.split())
-            self.validate_emdb_id_type(self.EMDB_ID)    # validate type emdb_id_type
+        value = find_attr_value_('emdb_id', node)
+        if value is not None and 'emdb_id' not in already_processed:
+            already_processed.add('emdb_id')
+            self.emdb_id = value
+            self.emdb_id = ' '.join(self.emdb_id.split())
+            self.validate_emdb_id_type(self.emdb_id)    # validate type emdb_id_type
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
-        if nodeName_ == 'DBs_list':
-            obj_ = DBs_listType.factory(parent_object_=self)
+        if nodeName_ == 'dbs':
+            obj_ = dbsType.factory(parent_object_=self)
             obj_.build(child_, gds_collector_=gds_collector_)
-            self.DBs_list = obj_
-            obj_.original_tagname_ = 'DBs_list'
-        elif nodeName_ == 'molecular_weight_annotation':
-            obj_ = molecular_weight_annotationType.factory(parent_object_=self)
+            self.dbs = obj_
+            obj_.original_tagname_ = 'dbs'
+        elif nodeName_ == 'molecular_weight':
+            obj_ = molecular_weightType.factory(parent_object_=self)
             obj_.build(child_, gds_collector_=gds_collector_)
-            self.molecular_weight_annotation = obj_
-            obj_.original_tagname_ = 'molecular_weight_annotation'
-        elif nodeName_ == 'sample_annotation':
-            obj_ = sample_annotationType.factory(parent_object_=self)
+            self.molecular_weight = obj_
+            obj_.original_tagname_ = 'molecular_weight'
+        elif nodeName_ == 'sample':
+            obj_ = sampleType.factory(parent_object_=self)
             obj_.build(child_, gds_collector_=gds_collector_)
-            self.sample_annotation = obj_
-            obj_.original_tagname_ = 'sample_annotation'
+            self.sample = obj_
+            obj_.original_tagname_ = 'sample'
 # end class emicss
 
 
-class DBs_listType(GeneratedsSuper):
+class dbsType(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, DB=None, gds_collector_=None, **kwargs_):
+    def __init__(self, db=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
         self.parent_object_ = kwargs_.get('parent_object_')
         self.ns_prefix_ = None
-        if DB is None:
-            self.DB = []
+        if db is None:
+            self.db = []
         else:
-            self.DB = DB
-        self.DB_nsprefix_ = None
+            self.db = db
+        self.db_nsprefix_ = None
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
-                CurrentSubclassModule_, DBs_listType)
+                CurrentSubclassModule_, dbsType)
             if subclass is not None:
                 return subclass(*args_, **kwargs_)
-        if DBs_listType.subclass:
-            return DBs_listType.subclass(*args_, **kwargs_)
+        if dbsType.subclass:
+            return dbsType.subclass(*args_, **kwargs_)
         else:
-            return DBs_listType(*args_, **kwargs_)
+            return dbsType(*args_, **kwargs_)
     factory = staticmethod(factory)
     def get_ns_prefix_(self):
         return self.ns_prefix_
     def set_ns_prefix_(self, ns_prefix):
         self.ns_prefix_ = ns_prefix
-    def get_DB(self):
-        return self.DB
-    def set_DB(self, DB):
-        self.DB = DB
-    def add_DB(self, value):
-        self.DB.append(value)
-    def insert_DB_at(self, index, value):
-        self.DB.insert(index, value)
-    def replace_DB_at(self, index, value):
-        self.DB[index] = value
+    def get_db(self):
+        return self.db
+    def set_db(self, db):
+        self.db = db
+    def add_db(self, value):
+        self.db.append(value)
+    def insert_db_at(self, index, value):
+        self.db.insert(index, value)
+    def replace_db_at(self, index, value):
+        self.db[index] = value
     def hasContent_(self):
         if (
-            self.DB
+            self.db
         ):
             return True
         else:
             return False
-    def export(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='DBs_listType', pretty_print=True):
-        imported_ns_def_ = GenerateDSNamespaceDefs_.get('DBs_listType')
+    def export(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='dbsType', pretty_print=True):
+        imported_ns_def_ = GenerateDSNamespaceDefs_.get('dbsType')
         if imported_ns_def_ is not None:
             namespacedef_ = imported_ns_def_
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        if self.original_tagname_ is not None and name_ == 'DBs_listType':
+        if self.original_tagname_ is not None and name_ == 'dbsType':
             name_ = self.original_tagname_
         if UseCapturedNS_ and self.ns_prefix_:
             namespaceprefix_ = self.ns_prefix_ + ':'
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='DBs_listType')
+        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='dbsType')
         if self.hasContent_():
             outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='DBs_listType', pretty_print=pretty_print)
+            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='dbsType', pretty_print=pretty_print)
             showIndent(outfile, level, pretty_print)
             outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='DBs_listType'):
+    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='dbsType'):
         pass
-    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='DBs_listType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='dbsType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        for DB_ in self.DB:
-            namespaceprefix_ = self.DB_nsprefix_ + ':' if (UseCapturedNS_ and self.DB_nsprefix_) else ''
-            DB_.export(outfile, level, namespaceprefix_, namespacedef_='', name_='DB', pretty_print=pretty_print)
+        for db_ in self.db:
+            namespaceprefix_ = self.db_nsprefix_ + ':' if (UseCapturedNS_ and self.db_nsprefix_) else ''
+            db_.export(outfile, level, namespaceprefix_, namespacedef_='', name_='db', pretty_print=pretty_print)
     def build(self, node, gds_collector_=None):
         self.gds_collector_ = gds_collector_
         if SaveElementTreeNode:
@@ -1237,53 +1237,53 @@ class DBs_listType(GeneratedsSuper):
     def buildAttributes(self, node, attrs, already_processed):
         pass
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
-        if nodeName_ == 'DB':
-            obj_ = DBType.factory(parent_object_=self)
+        if nodeName_ == 'db':
+            obj_ = dbType.factory(parent_object_=self)
             obj_.build(child_, gds_collector_=gds_collector_)
-            self.DB.append(obj_)
-            obj_.original_tagname_ = 'DB'
-# end class DBs_listType
+            self.db.append(obj_)
+            obj_.original_tagname_ = 'db'
+# end class dbsType
 
 
-class DBType(GeneratedsSuper):
+class dbType(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, DB_source=None, DB_version=None, gds_collector_=None, **kwargs_):
+    def __init__(self, db_source=None, db_version=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
         self.parent_object_ = kwargs_.get('parent_object_')
         self.ns_prefix_ = None
-        self.DB_source = _cast(None, DB_source)
-        self.DB_source_nsprefix_ = None
-        self.DB_version = _cast(None, DB_version)
-        self.DB_version_nsprefix_ = None
+        self.db_source = _cast(None, db_source)
+        self.db_source_nsprefix_ = None
+        self.db_version = _cast(None, db_version)
+        self.db_version_nsprefix_ = None
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
-                CurrentSubclassModule_, DBType)
+                CurrentSubclassModule_, dbType)
             if subclass is not None:
                 return subclass(*args_, **kwargs_)
-        if DBType.subclass:
-            return DBType.subclass(*args_, **kwargs_)
+        if dbType.subclass:
+            return dbType.subclass(*args_, **kwargs_)
         else:
-            return DBType(*args_, **kwargs_)
+            return dbType(*args_, **kwargs_)
     factory = staticmethod(factory)
     def get_ns_prefix_(self):
         return self.ns_prefix_
     def set_ns_prefix_(self, ns_prefix):
         self.ns_prefix_ = ns_prefix
-    def get_DB_source(self):
-        return self.DB_source
-    def set_DB_source(self, DB_source):
-        self.DB_source = DB_source
-    def get_DB_version(self):
-        return self.DB_version
-    def set_DB_version(self, DB_version):
-        self.DB_version = DB_version
-    def validate_DB_source_type(self, value):
-        # Validate type DB_source_type, a restriction on xs:token.
+    def get_db_source(self):
+        return self.db_source
+    def set_db_source(self, db_source):
+        self.db_source = db_source
+    def get_db_version(self):
+        return self.db_version
+    def set_db_version(self, db_version):
+        self.db_version = db_version
+    def validate_db_source_type(self, value):
+        # Validate type db_source_type, a restriction on xs:token.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
             if not isinstance(value, str):
                 lineno = self.gds_get_node_lineno_()
@@ -1293,7 +1293,7 @@ class DBType(GeneratedsSuper):
             enumerations = ['UNIPROT', 'COMPLEXPORTAL', 'PDBe', 'CHEMBL', 'CHEBI', 'DRUGBANK']
             if value not in enumerations:
                 lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd enumeration restriction on DB_source_type' % {"value" : encode_str_2_3(value), "lineno": lineno} )
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd enumeration restriction on db_source_type' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
     def hasContent_(self):
         if (
@@ -1302,36 +1302,36 @@ class DBType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='DBType', pretty_print=True):
-        imported_ns_def_ = GenerateDSNamespaceDefs_.get('DBType')
+    def export(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='dbType', pretty_print=True):
+        imported_ns_def_ = GenerateDSNamespaceDefs_.get('dbType')
         if imported_ns_def_ is not None:
             namespacedef_ = imported_ns_def_
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        if self.original_tagname_ is not None and name_ == 'DBType':
+        if self.original_tagname_ is not None and name_ == 'dbType':
             name_ = self.original_tagname_
         if UseCapturedNS_ and self.ns_prefix_:
             namespaceprefix_ = self.ns_prefix_ + ':'
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='DBType')
+        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='dbType')
         if self.hasContent_():
             outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='DBType', pretty_print=pretty_print)
+            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='dbType', pretty_print=pretty_print)
             outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='DBType'):
-        if self.DB_source is not None and 'DB_source' not in already_processed:
-            already_processed.add('DB_source')
-            outfile.write(' DB_source=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.DB_source), input_name='DB_source')), ))
-        if self.DB_version is not None and 'DB_version' not in already_processed:
-            already_processed.add('DB_version')
-            outfile.write(' DB_version=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.DB_version), input_name='DB_version')), ))
-    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='DBType', fromsubclass_=False, pretty_print=True):
+    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='dbType'):
+        if self.db_source is not None and 'db_source' not in already_processed:
+            already_processed.add('db_source')
+            outfile.write(' db_source=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.db_source), input_name='db_source')), ))
+        if self.db_version is not None and 'db_version' not in already_processed:
+            already_processed.add('db_version')
+            outfile.write(' db_version=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.db_version), input_name='db_version')), ))
+    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='dbType', fromsubclass_=False, pretty_print=True):
         pass
     def build(self, node, gds_collector_=None):
         self.gds_collector_ = gds_collector_
@@ -1345,103 +1345,103 @@ class DBType(GeneratedsSuper):
             self.buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
         return self
     def buildAttributes(self, node, attrs, already_processed):
-        value = find_attr_value_('DB_source', node)
-        if value is not None and 'DB_source' not in already_processed:
-            already_processed.add('DB_source')
-            self.DB_source = value
-            self.DB_source = ' '.join(self.DB_source.split())
-            self.validate_DB_source_type(self.DB_source)    # validate type DB_source_type
-        value = find_attr_value_('DB_version', node)
-        if value is not None and 'DB_version' not in already_processed:
-            already_processed.add('DB_version')
-            self.DB_version = value
-            self.DB_version = ' '.join(self.DB_version.split())
+        value = find_attr_value_('db_source', node)
+        if value is not None and 'db_source' not in already_processed:
+            already_processed.add('db_source')
+            self.db_source = value
+            self.db_source = ' '.join(self.db_source.split())
+            self.validate_db_source_type(self.db_source)    # validate type db_source_type
+        value = find_attr_value_('db_version', node)
+        if value is not None and 'db_version' not in already_processed:
+            already_processed.add('db_version')
+            self.db_version = value
+            self.db_version = ' '.join(self.db_version.split())
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         pass
-# end class DBType
+# end class dbType
 
 
-class molecular_weight_annotationType(GeneratedsSuper):
+class molecular_weightType(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, models_list=None, weight_list=None, gds_collector_=None, **kwargs_):
+    def __init__(self, models=None, weights=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
         self.parent_object_ = kwargs_.get('parent_object_')
         self.ns_prefix_ = None
-        self.models_list = models_list
-        self.models_list_nsprefix_ = None
-        self.weight_list = weight_list
-        self.weight_list_nsprefix_ = None
+        self.models = models
+        self.models_nsprefix_ = None
+        self.weights = weights
+        self.weights_nsprefix_ = None
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
-                CurrentSubclassModule_, molecular_weight_annotationType)
+                CurrentSubclassModule_, molecular_weightType)
             if subclass is not None:
                 return subclass(*args_, **kwargs_)
-        if molecular_weight_annotationType.subclass:
-            return molecular_weight_annotationType.subclass(*args_, **kwargs_)
+        if molecular_weightType.subclass:
+            return molecular_weightType.subclass(*args_, **kwargs_)
         else:
-            return molecular_weight_annotationType(*args_, **kwargs_)
+            return molecular_weightType(*args_, **kwargs_)
     factory = staticmethod(factory)
     def get_ns_prefix_(self):
         return self.ns_prefix_
     def set_ns_prefix_(self, ns_prefix):
         self.ns_prefix_ = ns_prefix
-    def get_models_list(self):
-        return self.models_list
-    def set_models_list(self, models_list):
-        self.models_list = models_list
-    def get_weight_list(self):
-        return self.weight_list
-    def set_weight_list(self, weight_list):
-        self.weight_list = weight_list
+    def get_models(self):
+        return self.models
+    def set_models(self, models):
+        self.models = models
+    def get_weights(self):
+        return self.weights
+    def set_weights(self, weights):
+        self.weights = weights
     def hasContent_(self):
         if (
-            self.models_list is not None or
-            self.weight_list is not None
+            self.models is not None or
+            self.weights is not None
         ):
             return True
         else:
             return False
-    def export(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='molecular_weight_annotationType', pretty_print=True):
-        imported_ns_def_ = GenerateDSNamespaceDefs_.get('molecular_weight_annotationType')
+    def export(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='molecular_weightType', pretty_print=True):
+        imported_ns_def_ = GenerateDSNamespaceDefs_.get('molecular_weightType')
         if imported_ns_def_ is not None:
             namespacedef_ = imported_ns_def_
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        if self.original_tagname_ is not None and name_ == 'molecular_weight_annotationType':
+        if self.original_tagname_ is not None and name_ == 'molecular_weightType':
             name_ = self.original_tagname_
         if UseCapturedNS_ and self.ns_prefix_:
             namespaceprefix_ = self.ns_prefix_ + ':'
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='molecular_weight_annotationType')
+        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='molecular_weightType')
         if self.hasContent_():
             outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='molecular_weight_annotationType', pretty_print=pretty_print)
+            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='molecular_weightType', pretty_print=pretty_print)
             showIndent(outfile, level, pretty_print)
             outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='molecular_weight_annotationType'):
+    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='molecular_weightType'):
         pass
-    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='molecular_weight_annotationType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='molecular_weightType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        if self.models_list is not None:
-            namespaceprefix_ = self.models_list_nsprefix_ + ':' if (UseCapturedNS_ and self.models_list_nsprefix_) else ''
-            self.models_list.export(outfile, level, namespaceprefix_, namespacedef_='', name_='models_list', pretty_print=pretty_print)
-        if self.weight_list is not None:
-            namespaceprefix_ = self.weight_list_nsprefix_ + ':' if (UseCapturedNS_ and self.weight_list_nsprefix_) else ''
-            self.weight_list.export(outfile, level, namespaceprefix_, namespacedef_='', name_='weight_list', pretty_print=pretty_print)
+        if self.models is not None:
+            namespaceprefix_ = self.models_nsprefix_ + ':' if (UseCapturedNS_ and self.models_nsprefix_) else ''
+            self.models.export(outfile, level, namespaceprefix_, namespacedef_='', name_='models', pretty_print=pretty_print)
+        if self.weights is not None:
+            namespaceprefix_ = self.weights_nsprefix_ + ':' if (UseCapturedNS_ and self.weights_nsprefix_) else ''
+            self.weights.export(outfile, level, namespaceprefix_, namespacedef_='', name_='weights', pretty_print=pretty_print)
     def build(self, node, gds_collector_=None):
         self.gds_collector_ = gds_collector_
         if SaveElementTreeNode:
@@ -1456,99 +1456,99 @@ class molecular_weight_annotationType(GeneratedsSuper):
     def buildAttributes(self, node, attrs, already_processed):
         pass
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
-        if nodeName_ == 'models_list':
-            obj_ = models_listType.factory(parent_object_=self)
+        if nodeName_ == 'models':
+            obj_ = modelsType.factory(parent_object_=self)
             obj_.build(child_, gds_collector_=gds_collector_)
-            self.models_list = obj_
-            obj_.original_tagname_ = 'models_list'
-        elif nodeName_ == 'weight_list':
-            obj_ = weight_listType.factory(parent_object_=self)
+            self.models = obj_
+            obj_.original_tagname_ = 'models'
+        elif nodeName_ == 'weights':
+            obj_ = weightsType.factory(parent_object_=self)
             obj_.build(child_, gds_collector_=gds_collector_)
-            self.weight_list = obj_
-            obj_.original_tagname_ = 'weight_list'
-# end class molecular_weight_annotationType
+            self.weights = obj_
+            obj_.original_tagname_ = 'weights'
+# end class molecular_weightType
 
 
-class models_listType(GeneratedsSuper):
+class modelsType(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, model_annotation=None, gds_collector_=None, **kwargs_):
+    def __init__(self, model=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
         self.parent_object_ = kwargs_.get('parent_object_')
         self.ns_prefix_ = None
-        if model_annotation is None:
-            self.model_annotation = []
+        if model is None:
+            self.model = []
         else:
-            self.model_annotation = model_annotation
-        self.model_annotation_nsprefix_ = None
+            self.model = model
+        self.model_nsprefix_ = None
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
-                CurrentSubclassModule_, models_listType)
+                CurrentSubclassModule_, modelsType)
             if subclass is not None:
                 return subclass(*args_, **kwargs_)
-        if models_listType.subclass:
-            return models_listType.subclass(*args_, **kwargs_)
+        if modelsType.subclass:
+            return modelsType.subclass(*args_, **kwargs_)
         else:
-            return models_listType(*args_, **kwargs_)
+            return modelsType(*args_, **kwargs_)
     factory = staticmethod(factory)
     def get_ns_prefix_(self):
         return self.ns_prefix_
     def set_ns_prefix_(self, ns_prefix):
         self.ns_prefix_ = ns_prefix
-    def get_model_annotation(self):
-        return self.model_annotation
-    def set_model_annotation(self, model_annotation):
-        self.model_annotation = model_annotation
-    def add_model_annotation(self, value):
-        self.model_annotation.append(value)
-    def insert_model_annotation_at(self, index, value):
-        self.model_annotation.insert(index, value)
-    def replace_model_annotation_at(self, index, value):
-        self.model_annotation[index] = value
+    def get_model(self):
+        return self.model
+    def set_model(self, model):
+        self.model = model
+    def add_model(self, value):
+        self.model.append(value)
+    def insert_model_at(self, index, value):
+        self.model.insert(index, value)
+    def replace_model_at(self, index, value):
+        self.model[index] = value
     def hasContent_(self):
         if (
-            self.model_annotation
+            self.model
         ):
             return True
         else:
             return False
-    def export(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='models_listType', pretty_print=True):
-        imported_ns_def_ = GenerateDSNamespaceDefs_.get('models_listType')
+    def export(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='modelsType', pretty_print=True):
+        imported_ns_def_ = GenerateDSNamespaceDefs_.get('modelsType')
         if imported_ns_def_ is not None:
             namespacedef_ = imported_ns_def_
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        if self.original_tagname_ is not None and name_ == 'models_listType':
+        if self.original_tagname_ is not None and name_ == 'modelsType':
             name_ = self.original_tagname_
         if UseCapturedNS_ and self.ns_prefix_:
             namespaceprefix_ = self.ns_prefix_ + ':'
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='models_listType')
+        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='modelsType')
         if self.hasContent_():
             outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='models_listType', pretty_print=pretty_print)
+            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='modelsType', pretty_print=pretty_print)
             showIndent(outfile, level, pretty_print)
             outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='models_listType'):
+    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='modelsType'):
         pass
-    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='models_listType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='modelsType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        for model_annotation_ in self.model_annotation:
-            namespaceprefix_ = self.model_annotation_nsprefix_ + ':' if (UseCapturedNS_ and self.model_annotation_nsprefix_) else ''
-            model_annotation_.export(outfile, level, namespaceprefix_, namespacedef_='', name_='model_annotation', pretty_print=pretty_print)
+        for model_ in self.model:
+            namespaceprefix_ = self.model_nsprefix_ + ':' if (UseCapturedNS_ and self.model_nsprefix_) else ''
+            model_.export(outfile, level, namespaceprefix_, namespacedef_='', name_='model', pretty_print=pretty_print)
     def build(self, node, gds_collector_=None):
         self.gds_collector_ = gds_collector_
         if SaveElementTreeNode:
@@ -1563,26 +1563,26 @@ class models_listType(GeneratedsSuper):
     def buildAttributes(self, node, attrs, already_processed):
         pass
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
-        if nodeName_ == 'model_annotation':
-            obj_ = model_annotationType.factory(parent_object_=self)
+        if nodeName_ == 'model':
+            obj_ = modelType.factory(parent_object_=self)
             obj_.build(child_, gds_collector_=gds_collector_)
-            self.model_annotation.append(obj_)
-            obj_.original_tagname_ = 'model_annotation'
-# end class models_listType
+            self.model.append(obj_)
+            obj_.original_tagname_ = 'model'
+# end class modelsType
 
 
-class model_annotationType(GeneratedsSuper):
+class modelType(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, PDBID=None, assemblies=None, weight=None, units=None, provenance=None, gds_collector_=None, **kwargs_):
+    def __init__(self, pdb_id=None, assemblies=None, weight=None, units=None, provenance=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
         self.parent_object_ = kwargs_.get('parent_object_')
         self.ns_prefix_ = None
-        self.PDBID = _cast(None, PDBID)
-        self.PDBID_nsprefix_ = None
+        self.pdb_id = _cast(None, pdb_id)
+        self.pdb_id_nsprefix_ = None
         self.assemblies = _cast(int, assemblies)
         self.assemblies_nsprefix_ = None
         self.weight = _cast(None, weight)
@@ -1594,22 +1594,22 @@ class model_annotationType(GeneratedsSuper):
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
-                CurrentSubclassModule_, model_annotationType)
+                CurrentSubclassModule_, modelType)
             if subclass is not None:
                 return subclass(*args_, **kwargs_)
-        if model_annotationType.subclass:
-            return model_annotationType.subclass(*args_, **kwargs_)
+        if modelType.subclass:
+            return modelType.subclass(*args_, **kwargs_)
         else:
-            return model_annotationType(*args_, **kwargs_)
+            return modelType(*args_, **kwargs_)
     factory = staticmethod(factory)
     def get_ns_prefix_(self):
         return self.ns_prefix_
     def set_ns_prefix_(self, ns_prefix):
         self.ns_prefix_ = ns_prefix
-    def get_PDBID(self):
-        return self.PDBID
-    def set_PDBID(self, PDBID):
-        self.PDBID = PDBID
+    def get_pdb_id(self):
+        return self.pdb_id
+    def set_pdb_id(self, pdb_id):
+        self.pdb_id = pdb_id
     def get_assemblies(self):
         return self.assemblies
     def set_assemblies(self, assemblies):
@@ -1626,8 +1626,8 @@ class model_annotationType(GeneratedsSuper):
         return self.provenance
     def set_provenance(self, provenance):
         self.provenance = provenance
-    def validate_PDBIDType(self, value):
-        # Validate type PDBIDType, a restriction on xs:string.
+    def validate_pdb_idType(self, value):
+        # Validate type pdb_idType, a restriction on xs:string.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
             if not isinstance(value, str):
                 lineno = self.gds_get_node_lineno_()
@@ -1635,7 +1635,7 @@ class model_annotationType(GeneratedsSuper):
                 return False
             if len(value) > 4:
                 lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on PDBIDType' % {"value" : encode_str_2_3(value), "lineno": lineno} )
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd maxLength restriction on pdb_idType' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
     def validate_provenance_type(self, value):
         # Validate type provenance_type, a restriction on xs:token.
@@ -1657,32 +1657,32 @@ class model_annotationType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='model_annotationType', pretty_print=True):
-        imported_ns_def_ = GenerateDSNamespaceDefs_.get('model_annotationType')
+    def export(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='modelType', pretty_print=True):
+        imported_ns_def_ = GenerateDSNamespaceDefs_.get('modelType')
         if imported_ns_def_ is not None:
             namespacedef_ = imported_ns_def_
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        if self.original_tagname_ is not None and name_ == 'model_annotationType':
+        if self.original_tagname_ is not None and name_ == 'modelType':
             name_ = self.original_tagname_
         if UseCapturedNS_ and self.ns_prefix_:
             namespaceprefix_ = self.ns_prefix_ + ':'
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='model_annotationType')
+        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='modelType')
         if self.hasContent_():
             outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='model_annotationType', pretty_print=pretty_print)
+            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='modelType', pretty_print=pretty_print)
             outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='model_annotationType'):
-        if self.PDBID is not None and 'PDBID' not in already_processed:
-            already_processed.add('PDBID')
-            outfile.write(' PDBID=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.PDBID), input_name='PDBID')), ))
+    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='modelType'):
+        if self.pdb_id is not None and 'pdb_id' not in already_processed:
+            already_processed.add('pdb_id')
+            outfile.write(' pdb_id=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.pdb_id), input_name='pdb_id')), ))
         if self.assemblies is not None and 'assemblies' not in already_processed:
             already_processed.add('assemblies')
             outfile.write(' assemblies="%s"' % self.gds_format_integer(self.assemblies, input_name='assemblies'))
@@ -1695,7 +1695,7 @@ class model_annotationType(GeneratedsSuper):
         if self.provenance is not None and 'provenance' not in already_processed:
             already_processed.add('provenance')
             outfile.write(' provenance=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.provenance), input_name='provenance')), ))
-    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='model_annotationType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='modelType', fromsubclass_=False, pretty_print=True):
         pass
     def build(self, node, gds_collector_=None):
         self.gds_collector_ = gds_collector_
@@ -1709,11 +1709,11 @@ class model_annotationType(GeneratedsSuper):
             self.buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
         return self
     def buildAttributes(self, node, attrs, already_processed):
-        value = find_attr_value_('PDBID', node)
-        if value is not None and 'PDBID' not in already_processed:
-            already_processed.add('PDBID')
-            self.PDBID = value
-            self.validate_PDBIDType(self.PDBID)    # validate type PDBIDType
+        value = find_attr_value_('pdb_id', node)
+        if value is not None and 'pdb_id' not in already_processed:
+            already_processed.add('pdb_id')
+            self.pdb_id = value
+            self.validate_pdb_idType(self.pdb_id)    # validate type pdb_idType
         value = find_attr_value_('assemblies', node)
         if value is not None and 'assemblies' not in already_processed:
             already_processed.add('assemblies')
@@ -1736,89 +1736,89 @@ class model_annotationType(GeneratedsSuper):
             self.validate_provenance_type(self.provenance)    # validate type provenance_type
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         pass
-# end class model_annotationType
+# end class modelType
 
 
-class weight_listType(GeneratedsSuper):
+class weightsType(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, provided_weight=None, gds_collector_=None, **kwargs_):
+    def __init__(self, weight=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
         self.parent_object_ = kwargs_.get('parent_object_')
         self.ns_prefix_ = None
-        if provided_weight is None:
-            self.provided_weight = []
+        if weight is None:
+            self.weight = []
         else:
-            self.provided_weight = provided_weight
-        self.provided_weight_nsprefix_ = None
+            self.weight = weight
+        self.weight_nsprefix_ = None
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
-                CurrentSubclassModule_, weight_listType)
+                CurrentSubclassModule_, weightsType)
             if subclass is not None:
                 return subclass(*args_, **kwargs_)
-        if weight_listType.subclass:
-            return weight_listType.subclass(*args_, **kwargs_)
+        if weightsType.subclass:
+            return weightsType.subclass(*args_, **kwargs_)
         else:
-            return weight_listType(*args_, **kwargs_)
+            return weightsType(*args_, **kwargs_)
     factory = staticmethod(factory)
     def get_ns_prefix_(self):
         return self.ns_prefix_
     def set_ns_prefix_(self, ns_prefix):
         self.ns_prefix_ = ns_prefix
-    def get_provided_weight(self):
-        return self.provided_weight
-    def set_provided_weight(self, provided_weight):
-        self.provided_weight = provided_weight
-    def add_provided_weight(self, value):
-        self.provided_weight.append(value)
-    def insert_provided_weight_at(self, index, value):
-        self.provided_weight.insert(index, value)
-    def replace_provided_weight_at(self, index, value):
-        self.provided_weight[index] = value
+    def get_weight(self):
+        return self.weight
+    def set_weight(self, weight):
+        self.weight = weight
+    def add_weight(self, value):
+        self.weight.append(value)
+    def insert_weight_at(self, index, value):
+        self.weight.insert(index, value)
+    def replace_weight_at(self, index, value):
+        self.weight[index] = value
     def hasContent_(self):
         if (
-            self.provided_weight
+            self.weight
         ):
             return True
         else:
             return False
-    def export(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='weight_listType', pretty_print=True):
-        imported_ns_def_ = GenerateDSNamespaceDefs_.get('weight_listType')
+    def export(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='weightsType', pretty_print=True):
+        imported_ns_def_ = GenerateDSNamespaceDefs_.get('weightsType')
         if imported_ns_def_ is not None:
             namespacedef_ = imported_ns_def_
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        if self.original_tagname_ is not None and name_ == 'weight_listType':
+        if self.original_tagname_ is not None and name_ == 'weightsType':
             name_ = self.original_tagname_
         if UseCapturedNS_ and self.ns_prefix_:
             namespaceprefix_ = self.ns_prefix_ + ':'
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='weight_listType')
+        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='weightsType')
         if self.hasContent_():
             outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='weight_listType', pretty_print=pretty_print)
+            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='weightsType', pretty_print=pretty_print)
             showIndent(outfile, level, pretty_print)
             outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='weight_listType'):
+    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='weightsType'):
         pass
-    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='weight_listType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='weightsType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        for provided_weight_ in self.provided_weight:
-            namespaceprefix_ = self.provided_weight_nsprefix_ + ':' if (UseCapturedNS_ and self.provided_weight_nsprefix_) else ''
-            provided_weight_.export(outfile, level, namespaceprefix_, namespacedef_='', name_='provided_weight', pretty_print=pretty_print)
+        for weight_ in self.weight:
+            namespaceprefix_ = self.weight_nsprefix_ + ':' if (UseCapturedNS_ and self.weight_nsprefix_) else ''
+            weight_.export(outfile, level, namespaceprefix_, namespacedef_='', name_='weight', pretty_print=pretty_print)
     def build(self, node, gds_collector_=None):
         self.gds_collector_ = gds_collector_
         if SaveElementTreeNode:
@@ -1833,26 +1833,26 @@ class weight_listType(GeneratedsSuper):
     def buildAttributes(self, node, attrs, already_processed):
         pass
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
-        if nodeName_ == 'provided_weight':
-            obj_ = provided_weightType.factory(parent_object_=self)
+        if nodeName_ == 'weight':
+            obj_ = weightType.factory(parent_object_=self)
             obj_.build(child_, gds_collector_=gds_collector_)
-            self.provided_weight.append(obj_)
-            obj_.original_tagname_ = 'provided_weight'
-# end class weight_listType
+            self.weight.append(obj_)
+            obj_.original_tagname_ = 'weight'
+# end class weightsType
 
 
-class provided_weightType(GeneratedsSuper):
+class weightType(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, PDBID=None, weight=None, units=None, provenance=None, gds_collector_=None, **kwargs_):
+    def __init__(self, pdb_id=None, weight=None, units=None, provenance=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
         self.parent_object_ = kwargs_.get('parent_object_')
         self.ns_prefix_ = None
-        self.PDBID = _cast(None, PDBID)
-        self.PDBID_nsprefix_ = None
+        self.pdb_id = _cast(None, pdb_id)
+        self.pdb_id_nsprefix_ = None
         self.weight = _cast(None, weight)
         self.weight_nsprefix_ = None
         self.units = _cast(None, units)
@@ -1862,22 +1862,22 @@ class provided_weightType(GeneratedsSuper):
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
-                CurrentSubclassModule_, provided_weightType)
+                CurrentSubclassModule_, weightType)
             if subclass is not None:
                 return subclass(*args_, **kwargs_)
-        if provided_weightType.subclass:
-            return provided_weightType.subclass(*args_, **kwargs_)
+        if weightType.subclass:
+            return weightType.subclass(*args_, **kwargs_)
         else:
-            return provided_weightType(*args_, **kwargs_)
+            return weightType(*args_, **kwargs_)
     factory = staticmethod(factory)
     def get_ns_prefix_(self):
         return self.ns_prefix_
     def set_ns_prefix_(self, ns_prefix):
         self.ns_prefix_ = ns_prefix
-    def get_PDBID(self):
-        return self.PDBID
-    def set_PDBID(self, PDBID):
-        self.PDBID = PDBID
+    def get_pdb_id(self):
+        return self.pdb_id
+    def set_pdb_id(self, pdb_id):
+        self.pdb_id = pdb_id
     def get_weight(self):
         return self.weight
     def set_weight(self, weight):
@@ -1910,32 +1910,32 @@ class provided_weightType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='provided_weightType', pretty_print=True):
-        imported_ns_def_ = GenerateDSNamespaceDefs_.get('provided_weightType')
+    def export(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='weightType', pretty_print=True):
+        imported_ns_def_ = GenerateDSNamespaceDefs_.get('weightType')
         if imported_ns_def_ is not None:
             namespacedef_ = imported_ns_def_
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        if self.original_tagname_ is not None and name_ == 'provided_weightType':
+        if self.original_tagname_ is not None and name_ == 'weightType':
             name_ = self.original_tagname_
         if UseCapturedNS_ and self.ns_prefix_:
             namespaceprefix_ = self.ns_prefix_ + ':'
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='provided_weightType')
+        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='weightType')
         if self.hasContent_():
             outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='provided_weightType', pretty_print=pretty_print)
+            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='weightType', pretty_print=pretty_print)
             outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='provided_weightType'):
-        if self.PDBID is not None and 'PDBID' not in already_processed:
-            already_processed.add('PDBID')
-            outfile.write(' PDBID=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.PDBID), input_name='PDBID')), ))
+    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='weightType'):
+        if self.pdb_id is not None and 'pdb_id' not in already_processed:
+            already_processed.add('pdb_id')
+            outfile.write(' pdb_id=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.pdb_id), input_name='pdb_id')), ))
         if self.weight is not None and 'weight' not in already_processed:
             already_processed.add('weight')
             outfile.write(' weight=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.weight), input_name='weight')), ))
@@ -1945,7 +1945,7 @@ class provided_weightType(GeneratedsSuper):
         if self.provenance is not None and 'provenance' not in already_processed:
             already_processed.add('provenance')
             outfile.write(' provenance=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.provenance), input_name='provenance')), ))
-    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='provided_weightType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='weightType', fromsubclass_=False, pretty_print=True):
         pass
     def build(self, node, gds_collector_=None):
         self.gds_collector_ = gds_collector_
@@ -1959,10 +1959,10 @@ class provided_weightType(GeneratedsSuper):
             self.buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
         return self
     def buildAttributes(self, node, attrs, already_processed):
-        value = find_attr_value_('PDBID', node)
-        if value is not None and 'PDBID' not in already_processed:
-            already_processed.add('PDBID')
-            self.PDBID = value
+        value = find_attr_value_('pdb_id', node)
+        if value is not None and 'pdb_id' not in already_processed:
+            already_processed.add('pdb_id')
+            self.pdb_id = value
         value = find_attr_value_('weight', node)
         if value is not None and 'weight' not in already_processed:
             already_processed.add('weight')
@@ -1979,281 +1979,37 @@ class provided_weightType(GeneratedsSuper):
             self.validate_provenance_type(self.provenance)    # validate type provenance_type
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         pass
-# end class provided_weightType
+# end class weightType
 
 
-class sample_annotationType(GeneratedsSuper):
+class sampleType(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, sample_name=None, list_crossRefDBs=None, list_supra_molecules=None, list_macro_molecules=None, gds_collector_=None, **kwargs_):
+    def __init__(self, name=None, cross_ref_dbs=None, supramolecules=None, macromolecules=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
         self.parent_object_ = kwargs_.get('parent_object_')
         self.ns_prefix_ = None
-        self.sample_name = sample_name
-        self.sample_name_nsprefix_ = None
-        self.list_crossRefDBs = list_crossRefDBs
-        self.list_crossRefDBs_nsprefix_ = None
-        self.list_supra_molecules = list_supra_molecules
-        self.list_supra_molecules_nsprefix_ = None
-        self.list_macro_molecules = list_macro_molecules
-        self.list_macro_molecules_nsprefix_ = None
-    def factory(*args_, **kwargs_):
-        if CurrentSubclassModule_ is not None:
-            subclass = getSubclassFromModule_(
-                CurrentSubclassModule_, sample_annotationType)
-            if subclass is not None:
-                return subclass(*args_, **kwargs_)
-        if sample_annotationType.subclass:
-            return sample_annotationType.subclass(*args_, **kwargs_)
-        else:
-            return sample_annotationType(*args_, **kwargs_)
-    factory = staticmethod(factory)
-    def get_ns_prefix_(self):
-        return self.ns_prefix_
-    def set_ns_prefix_(self, ns_prefix):
-        self.ns_prefix_ = ns_prefix
-    def get_sample_name(self):
-        return self.sample_name
-    def set_sample_name(self, sample_name):
-        self.sample_name = sample_name
-    def get_list_crossRefDBs(self):
-        return self.list_crossRefDBs
-    def set_list_crossRefDBs(self, list_crossRefDBs):
-        self.list_crossRefDBs = list_crossRefDBs
-    def get_list_supra_molecules(self):
-        return self.list_supra_molecules
-    def set_list_supra_molecules(self, list_supra_molecules):
-        self.list_supra_molecules = list_supra_molecules
-    def get_list_macro_molecules(self):
-        return self.list_macro_molecules
-    def set_list_macro_molecules(self, list_macro_molecules):
-        self.list_macro_molecules = list_macro_molecules
-    def hasContent_(self):
-        if (
-            self.sample_name is not None or
-            self.list_crossRefDBs is not None or
-            self.list_supra_molecules is not None or
-            self.list_macro_molecules is not None
-        ):
-            return True
-        else:
-            return False
-    def export(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='sample_annotationType', pretty_print=True):
-        imported_ns_def_ = GenerateDSNamespaceDefs_.get('sample_annotationType')
-        if imported_ns_def_ is not None:
-            namespacedef_ = imported_ns_def_
-        if pretty_print:
-            eol_ = '\n'
-        else:
-            eol_ = ''
-        if self.original_tagname_ is not None and name_ == 'sample_annotationType':
-            name_ = self.original_tagname_
-        if UseCapturedNS_ and self.ns_prefix_:
-            namespaceprefix_ = self.ns_prefix_ + ':'
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
-        already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='sample_annotationType')
-        if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='sample_annotationType', pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
-        else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='sample_annotationType'):
-        pass
-    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='sample_annotationType', fromsubclass_=False, pretty_print=True):
-        if pretty_print:
-            eol_ = '\n'
-        else:
-            eol_ = ''
-        if self.sample_name is not None:
-            namespaceprefix_ = self.sample_name_nsprefix_ + ':' if (UseCapturedNS_ and self.sample_name_nsprefix_) else ''
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%ssample_name>%s</%ssample_name>%s' % (namespaceprefix_ , self.gds_encode(self.gds_format_string(quote_xml(self.sample_name), input_name='sample_name')), namespaceprefix_ , eol_))
-        if self.list_crossRefDBs is not None:
-            namespaceprefix_ = self.list_crossRefDBs_nsprefix_ + ':' if (UseCapturedNS_ and self.list_crossRefDBs_nsprefix_) else ''
-            self.list_crossRefDBs.export(outfile, level, namespaceprefix_, namespacedef_='', name_='list_crossRefDBs', pretty_print=pretty_print)
-        if self.list_supra_molecules is not None:
-            namespaceprefix_ = self.list_supra_molecules_nsprefix_ + ':' if (UseCapturedNS_ and self.list_supra_molecules_nsprefix_) else ''
-            self.list_supra_molecules.export(outfile, level, namespaceprefix_, namespacedef_='', name_='list_supra_molecules', pretty_print=pretty_print)
-        if self.list_macro_molecules is not None:
-            namespaceprefix_ = self.list_macro_molecules_nsprefix_ + ':' if (UseCapturedNS_ and self.list_macro_molecules_nsprefix_) else ''
-            self.list_macro_molecules.export(outfile, level, namespaceprefix_, namespacedef_='', name_='list_macro_molecules', pretty_print=pretty_print)
-    def build(self, node, gds_collector_=None):
-        self.gds_collector_ = gds_collector_
-        if SaveElementTreeNode:
-            self.gds_elementtree_node_ = node
-        already_processed = set()
-        self.ns_prefix_ = node.prefix
-        self.buildAttributes(node, node.attrib, already_processed)
-        for child in node:
-            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
-            self.buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
-        return self
-    def buildAttributes(self, node, attrs, already_processed):
-        pass
-    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
-        if nodeName_ == 'sample_name':
-            value_ = child_.text
-            value_ = self.gds_parse_string(value_, node, 'sample_name')
-            value_ = self.gds_validate_string(value_, node, 'sample_name')
-            self.sample_name = value_
-            self.sample_name_nsprefix_ = child_.prefix
-        elif nodeName_ == 'list_crossRefDBs':
-            obj_ = list_crossRefDBsType.factory(parent_object_=self)
-            obj_.build(child_, gds_collector_=gds_collector_)
-            self.list_crossRefDBs = obj_
-            obj_.original_tagname_ = 'list_crossRefDBs'
-        elif nodeName_ == 'list_supra_molecules':
-            obj_ = list_supra_moleculesType.factory(parent_object_=self)
-            obj_.build(child_, gds_collector_=gds_collector_)
-            self.list_supra_molecules = obj_
-            obj_.original_tagname_ = 'list_supra_molecules'
-        elif nodeName_ == 'list_macro_molecules':
-            obj_ = list_macro_moleculesType.factory(parent_object_=self)
-            obj_.build(child_, gds_collector_=gds_collector_)
-            self.list_macro_molecules = obj_
-            obj_.original_tagname_ = 'list_macro_molecules'
-# end class sample_annotationType
-
-
-class list_crossRefDBsType(GeneratedsSuper):
-    __hash__ = GeneratedsSuper.__hash__
-    subclass = None
-    superclass = None
-    def __init__(self, crossRefDB=None, gds_collector_=None, **kwargs_):
-        self.gds_collector_ = gds_collector_
-        self.gds_elementtree_node_ = None
-        self.original_tagname_ = None
-        self.parent_object_ = kwargs_.get('parent_object_')
-        self.ns_prefix_ = None
-        if crossRefDB is None:
-            self.crossRefDB = []
-        else:
-            self.crossRefDB = crossRefDB
-        self.crossRefDB_nsprefix_ = None
-    def factory(*args_, **kwargs_):
-        if CurrentSubclassModule_ is not None:
-            subclass = getSubclassFromModule_(
-                CurrentSubclassModule_, list_crossRefDBsType)
-            if subclass is not None:
-                return subclass(*args_, **kwargs_)
-        if list_crossRefDBsType.subclass:
-            return list_crossRefDBsType.subclass(*args_, **kwargs_)
-        else:
-            return list_crossRefDBsType(*args_, **kwargs_)
-    factory = staticmethod(factory)
-    def get_ns_prefix_(self):
-        return self.ns_prefix_
-    def set_ns_prefix_(self, ns_prefix):
-        self.ns_prefix_ = ns_prefix
-    def get_crossRefDB(self):
-        return self.crossRefDB
-    def set_crossRefDB(self, crossRefDB):
-        self.crossRefDB = crossRefDB
-    def add_crossRefDB(self, value):
-        self.crossRefDB.append(value)
-    def insert_crossRefDB_at(self, index, value):
-        self.crossRefDB.insert(index, value)
-    def replace_crossRefDB_at(self, index, value):
-        self.crossRefDB[index] = value
-    def hasContent_(self):
-        if (
-            self.crossRefDB
-        ):
-            return True
-        else:
-            return False
-    def export(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='list_crossRefDBsType', pretty_print=True):
-        imported_ns_def_ = GenerateDSNamespaceDefs_.get('list_crossRefDBsType')
-        if imported_ns_def_ is not None:
-            namespacedef_ = imported_ns_def_
-        if pretty_print:
-            eol_ = '\n'
-        else:
-            eol_ = ''
-        if self.original_tagname_ is not None and name_ == 'list_crossRefDBsType':
-            name_ = self.original_tagname_
-        if UseCapturedNS_ and self.ns_prefix_:
-            namespaceprefix_ = self.ns_prefix_ + ':'
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
-        already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='list_crossRefDBsType')
-        if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='list_crossRefDBsType', pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
-        else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='list_crossRefDBsType'):
-        pass
-    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='list_crossRefDBsType', fromsubclass_=False, pretty_print=True):
-        if pretty_print:
-            eol_ = '\n'
-        else:
-            eol_ = ''
-        for crossRefDB_ in self.crossRefDB:
-            namespaceprefix_ = self.crossRefDB_nsprefix_ + ':' if (UseCapturedNS_ and self.crossRefDB_nsprefix_) else ''
-            crossRefDB_.export(outfile, level, namespaceprefix_, namespacedef_='', name_='crossRefDB', pretty_print=pretty_print)
-    def build(self, node, gds_collector_=None):
-        self.gds_collector_ = gds_collector_
-        if SaveElementTreeNode:
-            self.gds_elementtree_node_ = node
-        already_processed = set()
-        self.ns_prefix_ = node.prefix
-        self.buildAttributes(node, node.attrib, already_processed)
-        for child in node:
-            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
-            self.buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
-        return self
-    def buildAttributes(self, node, attrs, already_processed):
-        pass
-    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
-        if nodeName_ == 'crossRefDB':
-            obj_ = crossRefDBType.factory(parent_object_=self)
-            obj_.build(child_, gds_collector_=gds_collector_)
-            self.crossRefDB.append(obj_)
-            obj_.original_tagname_ = 'crossRefDB'
-# end class list_crossRefDBsType
-
-
-class crossRefDBType(GeneratedsSuper):
-    __hash__ = GeneratedsSuper.__hash__
-    subclass = None
-    superclass = None
-    def __init__(self, name=None, DB_source=None, provenance=None, DB_accession_ID=None, score=None, gds_collector_=None, **kwargs_):
-        self.gds_collector_ = gds_collector_
-        self.gds_elementtree_node_ = None
-        self.original_tagname_ = None
-        self.parent_object_ = kwargs_.get('parent_object_')
-        self.ns_prefix_ = None
-        self.name = _cast(None, name)
+        self.name = name
         self.name_nsprefix_ = None
-        self.DB_source = _cast(None, DB_source)
-        self.DB_source_nsprefix_ = None
-        self.provenance = _cast(None, provenance)
-        self.provenance_nsprefix_ = None
-        self.DB_accession_ID = _cast(None, DB_accession_ID)
-        self.DB_accession_ID_nsprefix_ = None
-        self.score = _cast(float, score)
-        self.score_nsprefix_ = None
+        self.cross_ref_dbs = cross_ref_dbs
+        self.cross_ref_dbs_nsprefix_ = None
+        self.supramolecules = supramolecules
+        self.supramolecules_nsprefix_ = None
+        self.macromolecules = macromolecules
+        self.macromolecules_nsprefix_ = None
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
-                CurrentSubclassModule_, crossRefDBType)
+                CurrentSubclassModule_, sampleType)
             if subclass is not None:
                 return subclass(*args_, **kwargs_)
-        if crossRefDBType.subclass:
-            return crossRefDBType.subclass(*args_, **kwargs_)
+        if sampleType.subclass:
+            return sampleType.subclass(*args_, **kwargs_)
         else:
-            return crossRefDBType(*args_, **kwargs_)
+            return sampleType(*args_, **kwargs_)
     factory = staticmethod(factory)
     def get_ns_prefix_(self):
         return self.ns_prefix_
@@ -2263,24 +2019,268 @@ class crossRefDBType(GeneratedsSuper):
         return self.name
     def set_name(self, name):
         self.name = name
-    def get_DB_source(self):
-        return self.DB_source
-    def set_DB_source(self, DB_source):
-        self.DB_source = DB_source
+    def get_cross_ref_dbs(self):
+        return self.cross_ref_dbs
+    def set_cross_ref_dbs(self, cross_ref_dbs):
+        self.cross_ref_dbs = cross_ref_dbs
+    def get_supramolecules(self):
+        return self.supramolecules
+    def set_supramolecules(self, supramolecules):
+        self.supramolecules = supramolecules
+    def get_macromolecules(self):
+        return self.macromolecules
+    def set_macromolecules(self, macromolecules):
+        self.macromolecules = macromolecules
+    def hasContent_(self):
+        if (
+            self.name is not None or
+            self.cross_ref_dbs is not None or
+            self.supramolecules is not None or
+            self.macromolecules is not None
+        ):
+            return True
+        else:
+            return False
+    def export(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='sampleType', pretty_print=True):
+        imported_ns_def_ = GenerateDSNamespaceDefs_.get('sampleType')
+        if imported_ns_def_ is not None:
+            namespacedef_ = imported_ns_def_
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        if self.original_tagname_ is not None and name_ == 'sampleType':
+            name_ = self.original_tagname_
+        if UseCapturedNS_ and self.ns_prefix_:
+            namespaceprefix_ = self.ns_prefix_ + ':'
+        showIndent(outfile, level, pretty_print)
+        outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        already_processed = set()
+        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='sampleType')
+        if self.hasContent_():
+            outfile.write('>%s' % (eol_, ))
+            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='sampleType', pretty_print=pretty_print)
+            showIndent(outfile, level, pretty_print)
+            outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
+        else:
+            outfile.write('/>%s' % (eol_, ))
+    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='sampleType'):
+        pass
+    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='sampleType', fromsubclass_=False, pretty_print=True):
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        if self.name is not None:
+            namespaceprefix_ = self.name_nsprefix_ + ':' if (UseCapturedNS_ and self.name_nsprefix_) else ''
+            showIndent(outfile, level, pretty_print)
+            outfile.write('<%sname>%s</%sname>%s' % (namespaceprefix_ , self.gds_encode(self.gds_format_string(quote_xml(self.name), input_name='name')), namespaceprefix_ , eol_))
+        if self.cross_ref_dbs is not None:
+            namespaceprefix_ = self.cross_ref_dbs_nsprefix_ + ':' if (UseCapturedNS_ and self.cross_ref_dbs_nsprefix_) else ''
+            self.cross_ref_dbs.export(outfile, level, namespaceprefix_, namespacedef_='', name_='cross_ref_dbs', pretty_print=pretty_print)
+        if self.supramolecules is not None:
+            namespaceprefix_ = self.supramolecules_nsprefix_ + ':' if (UseCapturedNS_ and self.supramolecules_nsprefix_) else ''
+            self.supramolecules.export(outfile, level, namespaceprefix_, namespacedef_='', name_='supramolecules', pretty_print=pretty_print)
+        if self.macromolecules is not None:
+            namespaceprefix_ = self.macromolecules_nsprefix_ + ':' if (UseCapturedNS_ and self.macromolecules_nsprefix_) else ''
+            self.macromolecules.export(outfile, level, namespaceprefix_, namespacedef_='', name_='macromolecules', pretty_print=pretty_print)
+    def build(self, node, gds_collector_=None):
+        self.gds_collector_ = gds_collector_
+        if SaveElementTreeNode:
+            self.gds_elementtree_node_ = node
+        already_processed = set()
+        self.ns_prefix_ = node.prefix
+        self.buildAttributes(node, node.attrib, already_processed)
+        for child in node:
+            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
+            self.buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
+        return self
+    def buildAttributes(self, node, attrs, already_processed):
+        pass
+    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
+        if nodeName_ == 'name':
+            value_ = child_.text
+            value_ = self.gds_parse_string(value_, node, 'name')
+            value_ = self.gds_validate_string(value_, node, 'name')
+            self.name = value_
+            self.name_nsprefix_ = child_.prefix
+        elif nodeName_ == 'cross_ref_dbs':
+            obj_ = cross_ref_dbsType.factory(parent_object_=self)
+            obj_.build(child_, gds_collector_=gds_collector_)
+            self.cross_ref_dbs = obj_
+            obj_.original_tagname_ = 'cross_ref_dbs'
+        elif nodeName_ == 'supramolecules':
+            obj_ = supramoleculesType.factory(parent_object_=self)
+            obj_.build(child_, gds_collector_=gds_collector_)
+            self.supramolecules = obj_
+            obj_.original_tagname_ = 'supramolecules'
+        elif nodeName_ == 'macromolecules':
+            obj_ = macromoleculesType.factory(parent_object_=self)
+            obj_.build(child_, gds_collector_=gds_collector_)
+            self.macromolecules = obj_
+            obj_.original_tagname_ = 'macromolecules'
+# end class sampleType
+
+
+class cross_ref_dbsType(GeneratedsSuper):
+    __hash__ = GeneratedsSuper.__hash__
+    subclass = None
+    superclass = None
+    def __init__(self, cross_ref_db=None, gds_collector_=None, **kwargs_):
+        self.gds_collector_ = gds_collector_
+        self.gds_elementtree_node_ = None
+        self.original_tagname_ = None
+        self.parent_object_ = kwargs_.get('parent_object_')
+        self.ns_prefix_ = None
+        if cross_ref_db is None:
+            self.cross_ref_db = []
+        else:
+            self.cross_ref_db = cross_ref_db
+        self.cross_ref_db_nsprefix_ = None
+    def factory(*args_, **kwargs_):
+        if CurrentSubclassModule_ is not None:
+            subclass = getSubclassFromModule_(
+                CurrentSubclassModule_, cross_ref_dbsType)
+            if subclass is not None:
+                return subclass(*args_, **kwargs_)
+        if cross_ref_dbsType.subclass:
+            return cross_ref_dbsType.subclass(*args_, **kwargs_)
+        else:
+            return cross_ref_dbsType(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def get_ns_prefix_(self):
+        return self.ns_prefix_
+    def set_ns_prefix_(self, ns_prefix):
+        self.ns_prefix_ = ns_prefix
+    def get_cross_ref_db(self):
+        return self.cross_ref_db
+    def set_cross_ref_db(self, cross_ref_db):
+        self.cross_ref_db = cross_ref_db
+    def add_cross_ref_db(self, value):
+        self.cross_ref_db.append(value)
+    def insert_cross_ref_db_at(self, index, value):
+        self.cross_ref_db.insert(index, value)
+    def replace_cross_ref_db_at(self, index, value):
+        self.cross_ref_db[index] = value
+    def hasContent_(self):
+        if (
+            self.cross_ref_db
+        ):
+            return True
+        else:
+            return False
+    def export(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='cross_ref_dbsType', pretty_print=True):
+        imported_ns_def_ = GenerateDSNamespaceDefs_.get('cross_ref_dbsType')
+        if imported_ns_def_ is not None:
+            namespacedef_ = imported_ns_def_
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        if self.original_tagname_ is not None and name_ == 'cross_ref_dbsType':
+            name_ = self.original_tagname_
+        if UseCapturedNS_ and self.ns_prefix_:
+            namespaceprefix_ = self.ns_prefix_ + ':'
+        showIndent(outfile, level, pretty_print)
+        outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        already_processed = set()
+        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='cross_ref_dbsType')
+        if self.hasContent_():
+            outfile.write('>%s' % (eol_, ))
+            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='cross_ref_dbsType', pretty_print=pretty_print)
+            showIndent(outfile, level, pretty_print)
+            outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
+        else:
+            outfile.write('/>%s' % (eol_, ))
+    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='cross_ref_dbsType'):
+        pass
+    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='cross_ref_dbsType', fromsubclass_=False, pretty_print=True):
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        for cross_ref_db_ in self.cross_ref_db:
+            namespaceprefix_ = self.cross_ref_db_nsprefix_ + ':' if (UseCapturedNS_ and self.cross_ref_db_nsprefix_) else ''
+            cross_ref_db_.export(outfile, level, namespaceprefix_, namespacedef_='', name_='cross_ref_db', pretty_print=pretty_print)
+    def build(self, node, gds_collector_=None):
+        self.gds_collector_ = gds_collector_
+        if SaveElementTreeNode:
+            self.gds_elementtree_node_ = node
+        already_processed = set()
+        self.ns_prefix_ = node.prefix
+        self.buildAttributes(node, node.attrib, already_processed)
+        for child in node:
+            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
+            self.buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
+        return self
+    def buildAttributes(self, node, attrs, already_processed):
+        pass
+    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
+        if nodeName_ == 'cross_ref_db':
+            obj_ = cross_ref_dbType.factory(parent_object_=self)
+            obj_.build(child_, gds_collector_=gds_collector_)
+            self.cross_ref_db.append(obj_)
+            obj_.original_tagname_ = 'cross_ref_db'
+# end class cross_ref_dbsType
+
+
+class cross_ref_dbType(GeneratedsSuper):
+    __hash__ = GeneratedsSuper.__hash__
+    subclass = None
+    superclass = None
+    def __init__(self, name=None, db_source=None, provenance=None, db_accession_id=None, score=None, gds_collector_=None, **kwargs_):
+        self.gds_collector_ = gds_collector_
+        self.gds_elementtree_node_ = None
+        self.original_tagname_ = None
+        self.parent_object_ = kwargs_.get('parent_object_')
+        self.ns_prefix_ = None
+        self.name = _cast(None, name)
+        self.name_nsprefix_ = None
+        self.db_source = _cast(None, db_source)
+        self.db_source_nsprefix_ = None
+        self.provenance = _cast(None, provenance)
+        self.provenance_nsprefix_ = None
+        self.db_accession_id = _cast(None, db_accession_id)
+        self.db_accession_id_nsprefix_ = None
+        self.score = _cast(float, score)
+        self.score_nsprefix_ = None
+    def factory(*args_, **kwargs_):
+        if CurrentSubclassModule_ is not None:
+            subclass = getSubclassFromModule_(
+                CurrentSubclassModule_, cross_ref_dbType)
+            if subclass is not None:
+                return subclass(*args_, **kwargs_)
+        if cross_ref_dbType.subclass:
+            return cross_ref_dbType.subclass(*args_, **kwargs_)
+        else:
+            return cross_ref_dbType(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def get_ns_prefix_(self):
+        return self.ns_prefix_
+    def set_ns_prefix_(self, ns_prefix):
+        self.ns_prefix_ = ns_prefix
+    def get_name(self):
+        return self.name
+    def set_name(self, name):
+        self.name = name
+    def get_db_source(self):
+        return self.db_source
+    def set_db_source(self, db_source):
+        self.db_source = db_source
     def get_provenance(self):
         return self.provenance
     def set_provenance(self, provenance):
         self.provenance = provenance
-    def get_DB_accession_ID(self):
-        return self.DB_accession_ID
-    def set_DB_accession_ID(self, DB_accession_ID):
-        self.DB_accession_ID = DB_accession_ID
+    def get_db_accession_id(self):
+        return self.db_accession_id
+    def set_db_accession_id(self, db_accession_id):
+        self.db_accession_id = db_accession_id
     def get_score(self):
         return self.score
     def set_score(self, score):
         self.score = score
-    def validate_DB_source_type(self, value):
-        # Validate type DB_source_type, a restriction on xs:token.
+    def validate_db_source_type(self, value):
+        # Validate type db_source_type, a restriction on xs:token.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
             if not isinstance(value, str):
                 lineno = self.gds_get_node_lineno_()
@@ -2290,7 +2290,7 @@ class crossRefDBType(GeneratedsSuper):
             enumerations = ['UNIPROT', 'COMPLEXPORTAL', 'PDBe', 'CHEMBL', 'CHEBI', 'DRUGBANK']
             if value not in enumerations:
                 lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd enumeration restriction on DB_source_type' % {"value" : encode_str_2_3(value), "lineno": lineno} )
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd enumeration restriction on db_source_type' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
     def validate_provenance_type(self, value):
         # Validate type provenance_type, a restriction on xs:token.
@@ -2312,45 +2312,45 @@ class crossRefDBType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='crossRefDBType', pretty_print=True):
-        imported_ns_def_ = GenerateDSNamespaceDefs_.get('crossRefDBType')
+    def export(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='cross_ref_dbType', pretty_print=True):
+        imported_ns_def_ = GenerateDSNamespaceDefs_.get('cross_ref_dbType')
         if imported_ns_def_ is not None:
             namespacedef_ = imported_ns_def_
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        if self.original_tagname_ is not None and name_ == 'crossRefDBType':
+        if self.original_tagname_ is not None and name_ == 'cross_ref_dbType':
             name_ = self.original_tagname_
         if UseCapturedNS_ and self.ns_prefix_:
             namespaceprefix_ = self.ns_prefix_ + ':'
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='crossRefDBType')
+        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='cross_ref_dbType')
         if self.hasContent_():
             outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='crossRefDBType', pretty_print=pretty_print)
+            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='cross_ref_dbType', pretty_print=pretty_print)
             outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='crossRefDBType'):
+    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='cross_ref_dbType'):
         if self.name is not None and 'name' not in already_processed:
             already_processed.add('name')
             outfile.write(' name=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.name), input_name='name')), ))
-        if self.DB_source is not None and 'DB_source' not in already_processed:
-            already_processed.add('DB_source')
-            outfile.write(' DB_source=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.DB_source), input_name='DB_source')), ))
+        if self.db_source is not None and 'db_source' not in already_processed:
+            already_processed.add('db_source')
+            outfile.write(' db_source=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.db_source), input_name='db_source')), ))
         if self.provenance is not None and 'provenance' not in already_processed:
             already_processed.add('provenance')
             outfile.write(' provenance=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.provenance), input_name='provenance')), ))
-        if self.DB_accession_ID is not None and 'DB_accession_ID' not in already_processed:
-            already_processed.add('DB_accession_ID')
-            outfile.write(' DB_accession_ID=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.DB_accession_ID), input_name='DB_accession_ID')), ))
+        if self.db_accession_id is not None and 'db_accession_id' not in already_processed:
+            already_processed.add('db_accession_id')
+            outfile.write(' db_accession_id=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.db_accession_id), input_name='db_accession_id')), ))
         if self.score is not None and 'score' not in already_processed:
             already_processed.add('score')
             outfile.write(' score="%s"' % self.gds_format_float(self.score, input_name='score'))
-    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='crossRefDBType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='cross_ref_dbType', fromsubclass_=False, pretty_print=True):
         pass
     def build(self, node, gds_collector_=None):
         self.gds_collector_ = gds_collector_
@@ -2368,22 +2368,22 @@ class crossRefDBType(GeneratedsSuper):
         if value is not None and 'name' not in already_processed:
             already_processed.add('name')
             self.name = value
-        value = find_attr_value_('DB_source', node)
-        if value is not None and 'DB_source' not in already_processed:
-            already_processed.add('DB_source')
-            self.DB_source = value
-            self.DB_source = ' '.join(self.DB_source.split())
-            self.validate_DB_source_type(self.DB_source)    # validate type DB_source_type
+        value = find_attr_value_('db_source', node)
+        if value is not None and 'db_source' not in already_processed:
+            already_processed.add('db_source')
+            self.db_source = value
+            self.db_source = ' '.join(self.db_source.split())
+            self.validate_db_source_type(self.db_source)    # validate type db_source_type
         value = find_attr_value_('provenance', node)
         if value is not None and 'provenance' not in already_processed:
             already_processed.add('provenance')
             self.provenance = value
             self.provenance = ' '.join(self.provenance.split())
             self.validate_provenance_type(self.provenance)    # validate type provenance_type
-        value = find_attr_value_('DB_accession_ID', node)
-        if value is not None and 'DB_accession_ID' not in already_processed:
-            already_processed.add('DB_accession_ID')
-            self.DB_accession_ID = value
+        value = find_attr_value_('db_accession_id', node)
+        if value is not None and 'db_accession_id' not in already_processed:
+            already_processed.add('db_accession_id')
+            self.db_accession_id = value
         value = find_attr_value_('score', node)
         if value is not None and 'score' not in already_processed:
             already_processed.add('score')
@@ -2391,89 +2391,89 @@ class crossRefDBType(GeneratedsSuper):
             self.score = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         pass
-# end class crossRefDBType
+# end class cross_ref_dbType
 
 
-class list_supra_moleculesType(GeneratedsSuper):
+class supramoleculesType(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, supra_molecule_annotation=None, gds_collector_=None, **kwargs_):
+    def __init__(self, supramolecule=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
         self.parent_object_ = kwargs_.get('parent_object_')
         self.ns_prefix_ = None
-        if supra_molecule_annotation is None:
-            self.supra_molecule_annotation = []
+        if supramolecule is None:
+            self.supramolecule = []
         else:
-            self.supra_molecule_annotation = supra_molecule_annotation
-        self.supra_molecule_annotation_nsprefix_ = None
+            self.supramolecule = supramolecule
+        self.supramolecule_nsprefix_ = None
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
-                CurrentSubclassModule_, list_supra_moleculesType)
+                CurrentSubclassModule_, supramoleculesType)
             if subclass is not None:
                 return subclass(*args_, **kwargs_)
-        if list_supra_moleculesType.subclass:
-            return list_supra_moleculesType.subclass(*args_, **kwargs_)
+        if supramoleculesType.subclass:
+            return supramoleculesType.subclass(*args_, **kwargs_)
         else:
-            return list_supra_moleculesType(*args_, **kwargs_)
+            return supramoleculesType(*args_, **kwargs_)
     factory = staticmethod(factory)
     def get_ns_prefix_(self):
         return self.ns_prefix_
     def set_ns_prefix_(self, ns_prefix):
         self.ns_prefix_ = ns_prefix
-    def get_supra_molecule_annotation(self):
-        return self.supra_molecule_annotation
-    def set_supra_molecule_annotation(self, supra_molecule_annotation):
-        self.supra_molecule_annotation = supra_molecule_annotation
-    def add_supra_molecule_annotation(self, value):
-        self.supra_molecule_annotation.append(value)
-    def insert_supra_molecule_annotation_at(self, index, value):
-        self.supra_molecule_annotation.insert(index, value)
-    def replace_supra_molecule_annotation_at(self, index, value):
-        self.supra_molecule_annotation[index] = value
+    def get_supramolecule(self):
+        return self.supramolecule
+    def set_supramolecule(self, supramolecule):
+        self.supramolecule = supramolecule
+    def add_supramolecule(self, value):
+        self.supramolecule.append(value)
+    def insert_supramolecule_at(self, index, value):
+        self.supramolecule.insert(index, value)
+    def replace_supramolecule_at(self, index, value):
+        self.supramolecule[index] = value
     def hasContent_(self):
         if (
-            self.supra_molecule_annotation
+            self.supramolecule
         ):
             return True
         else:
             return False
-    def export(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='list_supra_moleculesType', pretty_print=True):
-        imported_ns_def_ = GenerateDSNamespaceDefs_.get('list_supra_moleculesType')
+    def export(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='supramoleculesType', pretty_print=True):
+        imported_ns_def_ = GenerateDSNamespaceDefs_.get('supramoleculesType')
         if imported_ns_def_ is not None:
             namespacedef_ = imported_ns_def_
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        if self.original_tagname_ is not None and name_ == 'list_supra_moleculesType':
+        if self.original_tagname_ is not None and name_ == 'supramoleculesType':
             name_ = self.original_tagname_
         if UseCapturedNS_ and self.ns_prefix_:
             namespaceprefix_ = self.ns_prefix_ + ':'
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='list_supra_moleculesType')
+        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='supramoleculesType')
         if self.hasContent_():
             outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='list_supra_moleculesType', pretty_print=pretty_print)
+            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='supramoleculesType', pretty_print=pretty_print)
             showIndent(outfile, level, pretty_print)
             outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='list_supra_moleculesType'):
+    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='supramoleculesType'):
         pass
-    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='list_supra_moleculesType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='supramoleculesType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        for supra_molecule_annotation_ in self.supra_molecule_annotation:
-            namespaceprefix_ = self.supra_molecule_annotation_nsprefix_ + ':' if (UseCapturedNS_ and self.supra_molecule_annotation_nsprefix_) else ''
-            supra_molecule_annotation_.export(outfile, level, namespaceprefix_, namespacedef_='', name_='supra_molecule_annotation', pretty_print=pretty_print)
+        for supramolecule_ in self.supramolecule:
+            namespaceprefix_ = self.supramolecule_nsprefix_ + ':' if (UseCapturedNS_ and self.supramolecule_nsprefix_) else ''
+            supramolecule_.export(outfile, level, namespaceprefix_, namespacedef_='', name_='supramolecule', pretty_print=pretty_print)
     def build(self, node, gds_collector_=None):
         self.gds_collector_ = gds_collector_
         if SaveElementTreeNode:
@@ -2488,69 +2488,69 @@ class list_supra_moleculesType(GeneratedsSuper):
     def buildAttributes(self, node, attrs, already_processed):
         pass
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
-        if nodeName_ == 'supra_molecule_annotation':
-            obj_ = supra_molecule_annotationType.factory(parent_object_=self)
+        if nodeName_ == 'supramolecule':
+            obj_ = supramoleculeType.factory(parent_object_=self)
             obj_.build(child_, gds_collector_=gds_collector_)
-            self.supra_molecule_annotation.append(obj_)
-            obj_.original_tagname_ = 'supra_molecule_annotation'
-# end class list_supra_moleculesType
+            self.supramolecule.append(obj_)
+            obj_.original_tagname_ = 'supramolecule'
+# end class supramoleculesType
 
 
-class supra_molecule_annotationType(GeneratedsSuper):
+class supramoleculeType(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, supra_kind=None, supra_ID=None, supra_copies=None, supra_name=None, list_crossRefDBs=None, gds_collector_=None, **kwargs_):
+    def __init__(self, kind=None, id=None, copies=None, name=None, cross_ref_dbs=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
         self.parent_object_ = kwargs_.get('parent_object_')
         self.ns_prefix_ = None
-        self.supra_kind = _cast(None, supra_kind)
-        self.supra_kind_nsprefix_ = None
-        self.supra_ID = _cast(int, supra_ID)
-        self.supra_ID_nsprefix_ = None
-        self.supra_copies = _cast(int, supra_copies)
-        self.supra_copies_nsprefix_ = None
-        self.supra_name = supra_name
-        self.supra_name_nsprefix_ = None
-        self.list_crossRefDBs = list_crossRefDBs
-        self.list_crossRefDBs_nsprefix_ = None
+        self.kind = _cast(None, kind)
+        self.kind_nsprefix_ = None
+        self.id = _cast(int, id)
+        self.id_nsprefix_ = None
+        self.copies = _cast(int, copies)
+        self.copies_nsprefix_ = None
+        self.name = name
+        self.name_nsprefix_ = None
+        self.cross_ref_dbs = cross_ref_dbs
+        self.cross_ref_dbs_nsprefix_ = None
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
-                CurrentSubclassModule_, supra_molecule_annotationType)
+                CurrentSubclassModule_, supramoleculeType)
             if subclass is not None:
                 return subclass(*args_, **kwargs_)
-        if supra_molecule_annotationType.subclass:
-            return supra_molecule_annotationType.subclass(*args_, **kwargs_)
+        if supramoleculeType.subclass:
+            return supramoleculeType.subclass(*args_, **kwargs_)
         else:
-            return supra_molecule_annotationType(*args_, **kwargs_)
+            return supramoleculeType(*args_, **kwargs_)
     factory = staticmethod(factory)
     def get_ns_prefix_(self):
         return self.ns_prefix_
     def set_ns_prefix_(self, ns_prefix):
         self.ns_prefix_ = ns_prefix
-    def get_supra_name(self):
-        return self.supra_name
-    def set_supra_name(self, supra_name):
-        self.supra_name = supra_name
-    def get_list_crossRefDBs(self):
-        return self.list_crossRefDBs
-    def set_list_crossRefDBs(self, list_crossRefDBs):
-        self.list_crossRefDBs = list_crossRefDBs
-    def get_supra_kind(self):
-        return self.supra_kind
-    def set_supra_kind(self, supra_kind):
-        self.supra_kind = supra_kind
-    def get_supra_ID(self):
-        return self.supra_ID
-    def set_supra_ID(self, supra_ID):
-        self.supra_ID = supra_ID
-    def get_supra_copies(self):
-        return self.supra_copies
-    def set_supra_copies(self, supra_copies):
-        self.supra_copies = supra_copies
+    def get_name(self):
+        return self.name
+    def set_name(self, name):
+        self.name = name
+    def get_cross_ref_dbs(self):
+        return self.cross_ref_dbs
+    def set_cross_ref_dbs(self, cross_ref_dbs):
+        self.cross_ref_dbs = cross_ref_dbs
+    def get_kind(self):
+        return self.kind
+    def set_kind(self, kind):
+        self.kind = kind
+    def get_id(self):
+        return self.id
+    def set_id(self, id):
+        self.id = id
+    def get_copies(self):
+        return self.copies
+    def set_copies(self, copies):
+        self.copies = copies
     def validate_sample_kind(self, value):
         # Validate type sample_kind, a restriction on xs:token.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
@@ -2566,57 +2566,57 @@ class supra_molecule_annotationType(GeneratedsSuper):
                 result = False
     def hasContent_(self):
         if (
-            self.supra_name is not None or
-            self.list_crossRefDBs is not None
+            self.name is not None or
+            self.cross_ref_dbs is not None
         ):
             return True
         else:
             return False
-    def export(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='supra_molecule_annotationType', pretty_print=True):
-        imported_ns_def_ = GenerateDSNamespaceDefs_.get('supra_molecule_annotationType')
+    def export(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='supramoleculeType', pretty_print=True):
+        imported_ns_def_ = GenerateDSNamespaceDefs_.get('supramoleculeType')
         if imported_ns_def_ is not None:
             namespacedef_ = imported_ns_def_
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        if self.original_tagname_ is not None and name_ == 'supra_molecule_annotationType':
+        if self.original_tagname_ is not None and name_ == 'supramoleculeType':
             name_ = self.original_tagname_
         if UseCapturedNS_ and self.ns_prefix_:
             namespaceprefix_ = self.ns_prefix_ + ':'
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='supra_molecule_annotationType')
+        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='supramoleculeType')
         if self.hasContent_():
             outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='supra_molecule_annotationType', pretty_print=pretty_print)
+            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='supramoleculeType', pretty_print=pretty_print)
             showIndent(outfile, level, pretty_print)
             outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='supra_molecule_annotationType'):
-        if self.supra_kind is not None and 'supra_kind' not in already_processed:
-            already_processed.add('supra_kind')
-            outfile.write(' supra_kind=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.supra_kind), input_name='supra_kind')), ))
-        if self.supra_ID is not None and 'supra_ID' not in already_processed:
-            already_processed.add('supra_ID')
-            outfile.write(' supra_ID="%s"' % self.gds_format_integer(self.supra_ID, input_name='supra_ID'))
-        if self.supra_copies is not None and 'supra_copies' not in already_processed:
-            already_processed.add('supra_copies')
-            outfile.write(' supra_copies="%s"' % self.gds_format_integer(self.supra_copies, input_name='supra_copies'))
-    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='supra_molecule_annotationType', fromsubclass_=False, pretty_print=True):
+    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='supramoleculeType'):
+        if self.kind is not None and 'kind' not in already_processed:
+            already_processed.add('kind')
+            outfile.write(' kind=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.kind), input_name='kind')), ))
+        if self.id is not None and 'id' not in already_processed:
+            already_processed.add('id')
+            outfile.write(' id="%s"' % self.gds_format_integer(self.id, input_name='id'))
+        if self.copies is not None and 'copies' not in already_processed:
+            already_processed.add('copies')
+            outfile.write(' copies="%s"' % self.gds_format_integer(self.copies, input_name='copies'))
+    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='supramoleculeType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        if self.supra_name is not None:
-            namespaceprefix_ = self.supra_name_nsprefix_ + ':' if (UseCapturedNS_ and self.supra_name_nsprefix_) else ''
+        if self.name is not None:
+            namespaceprefix_ = self.name_nsprefix_ + ':' if (UseCapturedNS_ and self.name_nsprefix_) else ''
             showIndent(outfile, level, pretty_print)
-            outfile.write('<%ssupra_name>%s</%ssupra_name>%s' % (namespaceprefix_ , self.gds_encode(self.gds_format_string(quote_xml(self.supra_name), input_name='supra_name')), namespaceprefix_ , eol_))
-        if self.list_crossRefDBs is not None:
-            namespaceprefix_ = self.list_crossRefDBs_nsprefix_ + ':' if (UseCapturedNS_ and self.list_crossRefDBs_nsprefix_) else ''
-            self.list_crossRefDBs.export(outfile, level, namespaceprefix_, namespacedef_='', name_='list_crossRefDBs', pretty_print=pretty_print)
+            outfile.write('<%sname>%s</%sname>%s' % (namespaceprefix_ , self.gds_encode(self.gds_format_string(quote_xml(self.name), input_name='name')), namespaceprefix_ , eol_))
+        if self.cross_ref_dbs is not None:
+            namespaceprefix_ = self.cross_ref_dbs_nsprefix_ + ':' if (UseCapturedNS_ and self.cross_ref_dbs_nsprefix_) else ''
+            self.cross_ref_dbs.export(outfile, level, namespaceprefix_, namespacedef_='', name_='cross_ref_dbs', pretty_print=pretty_print)
     def build(self, node, gds_collector_=None):
         self.gds_collector_ = gds_collector_
         if SaveElementTreeNode:
@@ -2629,119 +2629,119 @@ class supra_molecule_annotationType(GeneratedsSuper):
             self.buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
         return self
     def buildAttributes(self, node, attrs, already_processed):
-        value = find_attr_value_('supra_kind', node)
-        if value is not None and 'supra_kind' not in already_processed:
-            already_processed.add('supra_kind')
-            self.supra_kind = value
-            self.supra_kind = ' '.join(self.supra_kind.split())
-            self.validate_sample_kind(self.supra_kind)    # validate type sample_kind
-        value = find_attr_value_('supra_ID', node)
-        if value is not None and 'supra_ID' not in already_processed:
-            already_processed.add('supra_ID')
-            self.supra_ID = self.gds_parse_integer(value, node, 'supra_ID')
-            if self.supra_ID < 0:
+        value = find_attr_value_('kind', node)
+        if value is not None and 'kind' not in already_processed:
+            already_processed.add('kind')
+            self.kind = value
+            self.kind = ' '.join(self.kind.split())
+            self.validate_sample_kind(self.kind)    # validate type sample_kind
+        value = find_attr_value_('id', node)
+        if value is not None and 'id' not in already_processed:
+            already_processed.add('id')
+            self.id = self.gds_parse_integer(value, node, 'id')
+            if self.id < 0:
                 raise_parse_error(node, 'Invalid NonNegativeInteger')
-        value = find_attr_value_('supra_copies', node)
-        if value is not None and 'supra_copies' not in already_processed:
-            already_processed.add('supra_copies')
-            self.supra_copies = self.gds_parse_integer(value, node, 'supra_copies')
-            if self.supra_copies < 0:
+        value = find_attr_value_('copies', node)
+        if value is not None and 'copies' not in already_processed:
+            already_processed.add('copies')
+            self.copies = self.gds_parse_integer(value, node, 'copies')
+            if self.copies < 0:
                 raise_parse_error(node, 'Invalid NonNegativeInteger')
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
-        if nodeName_ == 'supra_name':
+        if nodeName_ == 'name':
             value_ = child_.text
-            value_ = self.gds_parse_string(value_, node, 'supra_name')
-            value_ = self.gds_validate_string(value_, node, 'supra_name')
-            self.supra_name = value_
-            self.supra_name_nsprefix_ = child_.prefix
-        elif nodeName_ == 'list_crossRefDBs':
-            obj_ = list_crossRefDBsType1.factory(parent_object_=self)
+            value_ = self.gds_parse_string(value_, node, 'name')
+            value_ = self.gds_validate_string(value_, node, 'name')
+            self.name = value_
+            self.name_nsprefix_ = child_.prefix
+        elif nodeName_ == 'cross_ref_dbs':
+            obj_ = cross_ref_dbsType1.factory(parent_object_=self)
             obj_.build(child_, gds_collector_=gds_collector_)
-            self.list_crossRefDBs = obj_
-            obj_.original_tagname_ = 'list_crossRefDBs'
-# end class supra_molecule_annotationType
+            self.cross_ref_dbs = obj_
+            obj_.original_tagname_ = 'cross_ref_dbs'
+# end class supramoleculeType
 
 
-class list_crossRefDBsType1(GeneratedsSuper):
+class cross_ref_dbsType1(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, crossRefDB=None, gds_collector_=None, **kwargs_):
+    def __init__(self, cross_ref_db=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
         self.parent_object_ = kwargs_.get('parent_object_')
         self.ns_prefix_ = None
-        if crossRefDB is None:
-            self.crossRefDB = []
+        if cross_ref_db is None:
+            self.cross_ref_db = []
         else:
-            self.crossRefDB = crossRefDB
-        self.crossRefDB_nsprefix_ = None
+            self.cross_ref_db = cross_ref_db
+        self.cross_ref_db_nsprefix_ = None
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
-                CurrentSubclassModule_, list_crossRefDBsType1)
+                CurrentSubclassModule_, cross_ref_dbsType1)
             if subclass is not None:
                 return subclass(*args_, **kwargs_)
-        if list_crossRefDBsType1.subclass:
-            return list_crossRefDBsType1.subclass(*args_, **kwargs_)
+        if cross_ref_dbsType1.subclass:
+            return cross_ref_dbsType1.subclass(*args_, **kwargs_)
         else:
-            return list_crossRefDBsType1(*args_, **kwargs_)
+            return cross_ref_dbsType1(*args_, **kwargs_)
     factory = staticmethod(factory)
     def get_ns_prefix_(self):
         return self.ns_prefix_
     def set_ns_prefix_(self, ns_prefix):
         self.ns_prefix_ = ns_prefix
-    def get_crossRefDB(self):
-        return self.crossRefDB
-    def set_crossRefDB(self, crossRefDB):
-        self.crossRefDB = crossRefDB
-    def add_crossRefDB(self, value):
-        self.crossRefDB.append(value)
-    def insert_crossRefDB_at(self, index, value):
-        self.crossRefDB.insert(index, value)
-    def replace_crossRefDB_at(self, index, value):
-        self.crossRefDB[index] = value
+    def get_cross_ref_db(self):
+        return self.cross_ref_db
+    def set_cross_ref_db(self, cross_ref_db):
+        self.cross_ref_db = cross_ref_db
+    def add_cross_ref_db(self, value):
+        self.cross_ref_db.append(value)
+    def insert_cross_ref_db_at(self, index, value):
+        self.cross_ref_db.insert(index, value)
+    def replace_cross_ref_db_at(self, index, value):
+        self.cross_ref_db[index] = value
     def hasContent_(self):
         if (
-            self.crossRefDB
+            self.cross_ref_db
         ):
             return True
         else:
             return False
-    def export(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='list_crossRefDBsType1', pretty_print=True):
-        imported_ns_def_ = GenerateDSNamespaceDefs_.get('list_crossRefDBsType1')
+    def export(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='cross_ref_dbsType1', pretty_print=True):
+        imported_ns_def_ = GenerateDSNamespaceDefs_.get('cross_ref_dbsType1')
         if imported_ns_def_ is not None:
             namespacedef_ = imported_ns_def_
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        if self.original_tagname_ is not None and name_ == 'list_crossRefDBsType1':
+        if self.original_tagname_ is not None and name_ == 'cross_ref_dbsType1':
             name_ = self.original_tagname_
         if UseCapturedNS_ and self.ns_prefix_:
             namespaceprefix_ = self.ns_prefix_ + ':'
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='list_crossRefDBsType1')
+        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='cross_ref_dbsType1')
         if self.hasContent_():
             outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='list_crossRefDBsType1', pretty_print=pretty_print)
+            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='cross_ref_dbsType1', pretty_print=pretty_print)
             showIndent(outfile, level, pretty_print)
             outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='list_crossRefDBsType1'):
+    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='cross_ref_dbsType1'):
         pass
-    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='list_crossRefDBsType1', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='cross_ref_dbsType1', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        for crossRefDB_ in self.crossRefDB:
-            namespaceprefix_ = self.crossRefDB_nsprefix_ + ':' if (UseCapturedNS_ and self.crossRefDB_nsprefix_) else ''
-            crossRefDB_.export(outfile, level, namespaceprefix_, namespacedef_='', name_='crossRefDB', pretty_print=pretty_print)
+        for cross_ref_db_ in self.cross_ref_db:
+            namespaceprefix_ = self.cross_ref_db_nsprefix_ + ':' if (UseCapturedNS_ and self.cross_ref_db_nsprefix_) else ''
+            cross_ref_db_.export(outfile, level, namespaceprefix_, namespacedef_='', name_='cross_ref_db', pretty_print=pretty_print)
     def build(self, node, gds_collector_=None):
         self.gds_collector_ = gds_collector_
         if SaveElementTreeNode:
@@ -2756,19 +2756,19 @@ class list_crossRefDBsType1(GeneratedsSuper):
     def buildAttributes(self, node, attrs, already_processed):
         pass
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
-        if nodeName_ == 'crossRefDB':
-            obj_ = crossRefDBType2.factory(parent_object_=self)
+        if nodeName_ == 'cross_ref_db':
+            obj_ = cross_ref_dbType2.factory(parent_object_=self)
             obj_.build(child_, gds_collector_=gds_collector_)
-            self.crossRefDB.append(obj_)
-            obj_.original_tagname_ = 'crossRefDB'
-# end class list_crossRefDBsType1
+            self.cross_ref_db.append(obj_)
+            obj_.original_tagname_ = 'cross_ref_db'
+# end class cross_ref_dbsType1
 
 
-class crossRefDBType2(GeneratedsSuper):
+class cross_ref_dbType2(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, name=None, DB_source=None, provenance=None, DB_accession_ID=None, score=None, gds_collector_=None, **kwargs_):
+    def __init__(self, name=None, db_source=None, provenance=None, db_accession_id=None, score=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
@@ -2776,24 +2776,24 @@ class crossRefDBType2(GeneratedsSuper):
         self.ns_prefix_ = None
         self.name = _cast(None, name)
         self.name_nsprefix_ = None
-        self.DB_source = _cast(None, DB_source)
-        self.DB_source_nsprefix_ = None
+        self.db_source = _cast(None, db_source)
+        self.db_source_nsprefix_ = None
         self.provenance = _cast(None, provenance)
         self.provenance_nsprefix_ = None
-        self.DB_accession_ID = _cast(None, DB_accession_ID)
-        self.DB_accession_ID_nsprefix_ = None
+        self.db_accession_id = _cast(None, db_accession_id)
+        self.db_accession_id_nsprefix_ = None
         self.score = _cast(float, score)
         self.score_nsprefix_ = None
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
-                CurrentSubclassModule_, crossRefDBType2)
+                CurrentSubclassModule_, cross_ref_dbType2)
             if subclass is not None:
                 return subclass(*args_, **kwargs_)
-        if crossRefDBType2.subclass:
-            return crossRefDBType2.subclass(*args_, **kwargs_)
+        if cross_ref_dbType2.subclass:
+            return cross_ref_dbType2.subclass(*args_, **kwargs_)
         else:
-            return crossRefDBType2(*args_, **kwargs_)
+            return cross_ref_dbType2(*args_, **kwargs_)
     factory = staticmethod(factory)
     def get_ns_prefix_(self):
         return self.ns_prefix_
@@ -2803,24 +2803,24 @@ class crossRefDBType2(GeneratedsSuper):
         return self.name
     def set_name(self, name):
         self.name = name
-    def get_DB_source(self):
-        return self.DB_source
-    def set_DB_source(self, DB_source):
-        self.DB_source = DB_source
+    def get_db_source(self):
+        return self.db_source
+    def set_db_source(self, db_source):
+        self.db_source = db_source
     def get_provenance(self):
         return self.provenance
     def set_provenance(self, provenance):
         self.provenance = provenance
-    def get_DB_accession_ID(self):
-        return self.DB_accession_ID
-    def set_DB_accession_ID(self, DB_accession_ID):
-        self.DB_accession_ID = DB_accession_ID
+    def get_db_accession_id(self):
+        return self.db_accession_id
+    def set_db_accession_id(self, db_accession_id):
+        self.db_accession_id = db_accession_id
     def get_score(self):
         return self.score
     def set_score(self, score):
         self.score = score
-    def validate_DB_source_type(self, value):
-        # Validate type DB_source_type, a restriction on xs:token.
+    def validate_db_source_type(self, value):
+        # Validate type db_source_type, a restriction on xs:token.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
             if not isinstance(value, str):
                 lineno = self.gds_get_node_lineno_()
@@ -2830,7 +2830,7 @@ class crossRefDBType2(GeneratedsSuper):
             enumerations = ['UNIPROT', 'COMPLEXPORTAL', 'PDBe', 'CHEMBL', 'CHEBI', 'DRUGBANK']
             if value not in enumerations:
                 lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd enumeration restriction on DB_source_type' % {"value" : encode_str_2_3(value), "lineno": lineno} )
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd enumeration restriction on db_source_type' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
     def validate_provenance_type(self, value):
         # Validate type provenance_type, a restriction on xs:token.
@@ -2852,45 +2852,45 @@ class crossRefDBType2(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='crossRefDBType2', pretty_print=True):
-        imported_ns_def_ = GenerateDSNamespaceDefs_.get('crossRefDBType2')
+    def export(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='cross_ref_dbType2', pretty_print=True):
+        imported_ns_def_ = GenerateDSNamespaceDefs_.get('cross_ref_dbType2')
         if imported_ns_def_ is not None:
             namespacedef_ = imported_ns_def_
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        if self.original_tagname_ is not None and name_ == 'crossRefDBType2':
+        if self.original_tagname_ is not None and name_ == 'cross_ref_dbType2':
             name_ = self.original_tagname_
         if UseCapturedNS_ and self.ns_prefix_:
             namespaceprefix_ = self.ns_prefix_ + ':'
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='crossRefDBType2')
+        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='cross_ref_dbType2')
         if self.hasContent_():
             outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='crossRefDBType2', pretty_print=pretty_print)
+            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='cross_ref_dbType2', pretty_print=pretty_print)
             outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='crossRefDBType2'):
+    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='cross_ref_dbType2'):
         if self.name is not None and 'name' not in already_processed:
             already_processed.add('name')
             outfile.write(' name=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.name), input_name='name')), ))
-        if self.DB_source is not None and 'DB_source' not in already_processed:
-            already_processed.add('DB_source')
-            outfile.write(' DB_source=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.DB_source), input_name='DB_source')), ))
+        if self.db_source is not None and 'db_source' not in already_processed:
+            already_processed.add('db_source')
+            outfile.write(' db_source=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.db_source), input_name='db_source')), ))
         if self.provenance is not None and 'provenance' not in already_processed:
             already_processed.add('provenance')
             outfile.write(' provenance=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.provenance), input_name='provenance')), ))
-        if self.DB_accession_ID is not None and 'DB_accession_ID' not in already_processed:
-            already_processed.add('DB_accession_ID')
-            outfile.write(' DB_accession_ID=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.DB_accession_ID), input_name='DB_accession_ID')), ))
+        if self.db_accession_id is not None and 'db_accession_id' not in already_processed:
+            already_processed.add('db_accession_id')
+            outfile.write(' db_accession_id=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.db_accession_id), input_name='db_accession_id')), ))
         if self.score is not None and 'score' not in already_processed:
             already_processed.add('score')
             outfile.write(' score="%s"' % self.gds_format_float(self.score, input_name='score'))
-    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='crossRefDBType2', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='cross_ref_dbType2', fromsubclass_=False, pretty_print=True):
         pass
     def build(self, node, gds_collector_=None):
         self.gds_collector_ = gds_collector_
@@ -2908,22 +2908,22 @@ class crossRefDBType2(GeneratedsSuper):
         if value is not None and 'name' not in already_processed:
             already_processed.add('name')
             self.name = value
-        value = find_attr_value_('DB_source', node)
-        if value is not None and 'DB_source' not in already_processed:
-            already_processed.add('DB_source')
-            self.DB_source = value
-            self.DB_source = ' '.join(self.DB_source.split())
-            self.validate_DB_source_type(self.DB_source)    # validate type DB_source_type
+        value = find_attr_value_('db_source', node)
+        if value is not None and 'db_source' not in already_processed:
+            already_processed.add('db_source')
+            self.db_source = value
+            self.db_source = ' '.join(self.db_source.split())
+            self.validate_db_source_type(self.db_source)    # validate type db_source_type
         value = find_attr_value_('provenance', node)
         if value is not None and 'provenance' not in already_processed:
             already_processed.add('provenance')
             self.provenance = value
             self.provenance = ' '.join(self.provenance.split())
             self.validate_provenance_type(self.provenance)    # validate type provenance_type
-        value = find_attr_value_('DB_accession_ID', node)
-        if value is not None and 'DB_accession_ID' not in already_processed:
-            already_processed.add('DB_accession_ID')
-            self.DB_accession_ID = value
+        value = find_attr_value_('db_accession_id', node)
+        if value is not None and 'db_accession_id' not in already_processed:
+            already_processed.add('db_accession_id')
+            self.db_accession_id = value
         value = find_attr_value_('score', node)
         if value is not None and 'score' not in already_processed:
             already_processed.add('score')
@@ -2931,89 +2931,89 @@ class crossRefDBType2(GeneratedsSuper):
             self.score = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         pass
-# end class crossRefDBType2
+# end class cross_ref_dbType2
 
 
-class list_macro_moleculesType(GeneratedsSuper):
+class macromoleculesType(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, macro_molecule_annotation=None, gds_collector_=None, **kwargs_):
+    def __init__(self, macromolecule=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
         self.parent_object_ = kwargs_.get('parent_object_')
         self.ns_prefix_ = None
-        if macro_molecule_annotation is None:
-            self.macro_molecule_annotation = []
+        if macromolecule is None:
+            self.macromolecule = []
         else:
-            self.macro_molecule_annotation = macro_molecule_annotation
-        self.macro_molecule_annotation_nsprefix_ = None
+            self.macromolecule = macromolecule
+        self.macromolecule_nsprefix_ = None
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
-                CurrentSubclassModule_, list_macro_moleculesType)
+                CurrentSubclassModule_, macromoleculesType)
             if subclass is not None:
                 return subclass(*args_, **kwargs_)
-        if list_macro_moleculesType.subclass:
-            return list_macro_moleculesType.subclass(*args_, **kwargs_)
+        if macromoleculesType.subclass:
+            return macromoleculesType.subclass(*args_, **kwargs_)
         else:
-            return list_macro_moleculesType(*args_, **kwargs_)
+            return macromoleculesType(*args_, **kwargs_)
     factory = staticmethod(factory)
     def get_ns_prefix_(self):
         return self.ns_prefix_
     def set_ns_prefix_(self, ns_prefix):
         self.ns_prefix_ = ns_prefix
-    def get_macro_molecule_annotation(self):
-        return self.macro_molecule_annotation
-    def set_macro_molecule_annotation(self, macro_molecule_annotation):
-        self.macro_molecule_annotation = macro_molecule_annotation
-    def add_macro_molecule_annotation(self, value):
-        self.macro_molecule_annotation.append(value)
-    def insert_macro_molecule_annotation_at(self, index, value):
-        self.macro_molecule_annotation.insert(index, value)
-    def replace_macro_molecule_annotation_at(self, index, value):
-        self.macro_molecule_annotation[index] = value
+    def get_macromolecule(self):
+        return self.macromolecule
+    def set_macromolecule(self, macromolecule):
+        self.macromolecule = macromolecule
+    def add_macromolecule(self, value):
+        self.macromolecule.append(value)
+    def insert_macromolecule_at(self, index, value):
+        self.macromolecule.insert(index, value)
+    def replace_macromolecule_at(self, index, value):
+        self.macromolecule[index] = value
     def hasContent_(self):
         if (
-            self.macro_molecule_annotation
+            self.macromolecule
         ):
             return True
         else:
             return False
-    def export(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='list_macro_moleculesType', pretty_print=True):
-        imported_ns_def_ = GenerateDSNamespaceDefs_.get('list_macro_moleculesType')
+    def export(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='macromoleculesType', pretty_print=True):
+        imported_ns_def_ = GenerateDSNamespaceDefs_.get('macromoleculesType')
         if imported_ns_def_ is not None:
             namespacedef_ = imported_ns_def_
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        if self.original_tagname_ is not None and name_ == 'list_macro_moleculesType':
+        if self.original_tagname_ is not None and name_ == 'macromoleculesType':
             name_ = self.original_tagname_
         if UseCapturedNS_ and self.ns_prefix_:
             namespaceprefix_ = self.ns_prefix_ + ':'
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='list_macro_moleculesType')
+        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='macromoleculesType')
         if self.hasContent_():
             outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='list_macro_moleculesType', pretty_print=pretty_print)
+            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='macromoleculesType', pretty_print=pretty_print)
             showIndent(outfile, level, pretty_print)
             outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='list_macro_moleculesType'):
+    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='macromoleculesType'):
         pass
-    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='list_macro_moleculesType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='macromoleculesType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        for macro_molecule_annotation_ in self.macro_molecule_annotation:
-            namespaceprefix_ = self.macro_molecule_annotation_nsprefix_ + ':' if (UseCapturedNS_ and self.macro_molecule_annotation_nsprefix_) else ''
-            macro_molecule_annotation_.export(outfile, level, namespaceprefix_, namespacedef_='', name_='macro_molecule_annotation', pretty_print=pretty_print)
+        for macromolecule_ in self.macromolecule:
+            namespaceprefix_ = self.macromolecule_nsprefix_ + ':' if (UseCapturedNS_ and self.macromolecule_nsprefix_) else ''
+            macromolecule_.export(outfile, level, namespaceprefix_, namespacedef_='', name_='macromolecule', pretty_print=pretty_print)
     def build(self, node, gds_collector_=None):
         self.gds_collector_ = gds_collector_
         if SaveElementTreeNode:
@@ -3028,75 +3028,75 @@ class list_macro_moleculesType(GeneratedsSuper):
     def buildAttributes(self, node, attrs, already_processed):
         pass
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
-        if nodeName_ == 'macro_molecule_annotation':
-            obj_ = macro_molecule_annotationType.factory(parent_object_=self)
+        if nodeName_ == 'macromolecule':
+            obj_ = macromoleculeType.factory(parent_object_=self)
             obj_.build(child_, gds_collector_=gds_collector_)
-            self.macro_molecule_annotation.append(obj_)
-            obj_.original_tagname_ = 'macro_molecule_annotation'
-# end class list_macro_moleculesType
+            self.macromolecule.append(obj_)
+            obj_.original_tagname_ = 'macromolecule'
+# end class macromoleculesType
 
 
-class macro_molecule_annotationType(GeneratedsSuper):
+class macromoleculeType(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, macro_kind=None, macro_ID=None, macro_copies=None, macro_name=None, macro_CCD_ID=None, list_crossRefDBs=None, gds_collector_=None, **kwargs_):
+    def __init__(self, kind=None, id=None, copies=None, name=None, ccd_id=None, cross_ref_dbs=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
         self.parent_object_ = kwargs_.get('parent_object_')
         self.ns_prefix_ = None
-        self.macro_kind = _cast(None, macro_kind)
-        self.macro_kind_nsprefix_ = None
-        self.macro_ID = _cast(int, macro_ID)
-        self.macro_ID_nsprefix_ = None
-        self.macro_copies = _cast(int, macro_copies)
-        self.macro_copies_nsprefix_ = None
-        self.macro_name = macro_name
-        self.macro_name_nsprefix_ = None
-        self.macro_CCD_ID = macro_CCD_ID
-        self.macro_CCD_ID_nsprefix_ = None
-        self.list_crossRefDBs = list_crossRefDBs
-        self.list_crossRefDBs_nsprefix_ = None
+        self.kind = _cast(None, kind)
+        self.kind_nsprefix_ = None
+        self.id = _cast(int, id)
+        self.id_nsprefix_ = None
+        self.copies = _cast(int, copies)
+        self.copies_nsprefix_ = None
+        self.name = name
+        self.name_nsprefix_ = None
+        self.ccd_id = ccd_id
+        self.ccd_id_nsprefix_ = None
+        self.cross_ref_dbs = cross_ref_dbs
+        self.cross_ref_dbs_nsprefix_ = None
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
-                CurrentSubclassModule_, macro_molecule_annotationType)
+                CurrentSubclassModule_, macromoleculeType)
             if subclass is not None:
                 return subclass(*args_, **kwargs_)
-        if macro_molecule_annotationType.subclass:
-            return macro_molecule_annotationType.subclass(*args_, **kwargs_)
+        if macromoleculeType.subclass:
+            return macromoleculeType.subclass(*args_, **kwargs_)
         else:
-            return macro_molecule_annotationType(*args_, **kwargs_)
+            return macromoleculeType(*args_, **kwargs_)
     factory = staticmethod(factory)
     def get_ns_prefix_(self):
         return self.ns_prefix_
     def set_ns_prefix_(self, ns_prefix):
         self.ns_prefix_ = ns_prefix
-    def get_macro_name(self):
-        return self.macro_name
-    def set_macro_name(self, macro_name):
-        self.macro_name = macro_name
-    def get_macro_CCD_ID(self):
-        return self.macro_CCD_ID
-    def set_macro_CCD_ID(self, macro_CCD_ID):
-        self.macro_CCD_ID = macro_CCD_ID
-    def get_list_crossRefDBs(self):
-        return self.list_crossRefDBs
-    def set_list_crossRefDBs(self, list_crossRefDBs):
-        self.list_crossRefDBs = list_crossRefDBs
-    def get_macro_kind(self):
-        return self.macro_kind
-    def set_macro_kind(self, macro_kind):
-        self.macro_kind = macro_kind
-    def get_macro_ID(self):
-        return self.macro_ID
-    def set_macro_ID(self, macro_ID):
-        self.macro_ID = macro_ID
-    def get_macro_copies(self):
-        return self.macro_copies
-    def set_macro_copies(self, macro_copies):
-        self.macro_copies = macro_copies
+    def get_name(self):
+        return self.name
+    def set_name(self, name):
+        self.name = name
+    def get_ccd_id(self):
+        return self.ccd_id
+    def set_ccd_id(self, ccd_id):
+        self.ccd_id = ccd_id
+    def get_cross_ref_dbs(self):
+        return self.cross_ref_dbs
+    def set_cross_ref_dbs(self, cross_ref_dbs):
+        self.cross_ref_dbs = cross_ref_dbs
+    def get_kind(self):
+        return self.kind
+    def set_kind(self, kind):
+        self.kind = kind
+    def get_id(self):
+        return self.id
+    def set_id(self, id):
+        self.id = id
+    def get_copies(self):
+        return self.copies
+    def set_copies(self, copies):
+        self.copies = copies
     def validate_sample_kind(self, value):
         # Validate type sample_kind, a restriction on xs:token.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
@@ -3112,62 +3112,62 @@ class macro_molecule_annotationType(GeneratedsSuper):
                 result = False
     def hasContent_(self):
         if (
-            self.macro_name is not None or
-            self.macro_CCD_ID is not None or
-            self.list_crossRefDBs is not None
+            self.name is not None or
+            self.ccd_id is not None or
+            self.cross_ref_dbs is not None
         ):
             return True
         else:
             return False
-    def export(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='macro_molecule_annotationType', pretty_print=True):
-        imported_ns_def_ = GenerateDSNamespaceDefs_.get('macro_molecule_annotationType')
+    def export(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='macromoleculeType', pretty_print=True):
+        imported_ns_def_ = GenerateDSNamespaceDefs_.get('macromoleculeType')
         if imported_ns_def_ is not None:
             namespacedef_ = imported_ns_def_
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        if self.original_tagname_ is not None and name_ == 'macro_molecule_annotationType':
+        if self.original_tagname_ is not None and name_ == 'macromoleculeType':
             name_ = self.original_tagname_
         if UseCapturedNS_ and self.ns_prefix_:
             namespaceprefix_ = self.ns_prefix_ + ':'
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='macro_molecule_annotationType')
+        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='macromoleculeType')
         if self.hasContent_():
             outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='macro_molecule_annotationType', pretty_print=pretty_print)
+            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='macromoleculeType', pretty_print=pretty_print)
             showIndent(outfile, level, pretty_print)
             outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='macro_molecule_annotationType'):
-        if self.macro_kind is not None and 'macro_kind' not in already_processed:
-            already_processed.add('macro_kind')
-            outfile.write(' macro_kind=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.macro_kind), input_name='macro_kind')), ))
-        if self.macro_ID is not None and 'macro_ID' not in already_processed:
-            already_processed.add('macro_ID')
-            outfile.write(' macro_ID="%s"' % self.gds_format_integer(self.macro_ID, input_name='macro_ID'))
-        if self.macro_copies is not None and 'macro_copies' not in already_processed:
-            already_processed.add('macro_copies')
-            outfile.write(' macro_copies="%s"' % self.gds_format_integer(self.macro_copies, input_name='macro_copies'))
-    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='macro_molecule_annotationType', fromsubclass_=False, pretty_print=True):
+    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='macromoleculeType'):
+        if self.kind is not None and 'kind' not in already_processed:
+            already_processed.add('kind')
+            outfile.write(' kind=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.kind), input_name='kind')), ))
+        if self.id is not None and 'id' not in already_processed:
+            already_processed.add('id')
+            outfile.write(' id="%s"' % self.gds_format_integer(self.id, input_name='id'))
+        if self.copies is not None and 'copies' not in already_processed:
+            already_processed.add('copies')
+            outfile.write(' copies="%s"' % self.gds_format_integer(self.copies, input_name='copies'))
+    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='macromoleculeType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        if self.macro_name is not None:
-            namespaceprefix_ = self.macro_name_nsprefix_ + ':' if (UseCapturedNS_ and self.macro_name_nsprefix_) else ''
+        if self.name is not None:
+            namespaceprefix_ = self.name_nsprefix_ + ':' if (UseCapturedNS_ and self.name_nsprefix_) else ''
             showIndent(outfile, level, pretty_print)
-            outfile.write('<%smacro_name>%s</%smacro_name>%s' % (namespaceprefix_ , self.gds_encode(self.gds_format_string(quote_xml(self.macro_name), input_name='macro_name')), namespaceprefix_ , eol_))
-        if self.macro_CCD_ID is not None:
-            namespaceprefix_ = self.macro_CCD_ID_nsprefix_ + ':' if (UseCapturedNS_ and self.macro_CCD_ID_nsprefix_) else ''
+            outfile.write('<%sname>%s</%sname>%s' % (namespaceprefix_ , self.gds_encode(self.gds_format_string(quote_xml(self.name), input_name='name')), namespaceprefix_ , eol_))
+        if self.ccd_id is not None:
+            namespaceprefix_ = self.ccd_id_nsprefix_ + ':' if (UseCapturedNS_ and self.ccd_id_nsprefix_) else ''
             showIndent(outfile, level, pretty_print)
-            outfile.write('<%smacro_CCD_ID>%s</%smacro_CCD_ID>%s' % (namespaceprefix_ , self.gds_encode(self.gds_format_string(quote_xml(self.macro_CCD_ID), input_name='macro_CCD_ID')), namespaceprefix_ , eol_))
-        if self.list_crossRefDBs is not None:
-            namespaceprefix_ = self.list_crossRefDBs_nsprefix_ + ':' if (UseCapturedNS_ and self.list_crossRefDBs_nsprefix_) else ''
-            self.list_crossRefDBs.export(outfile, level, namespaceprefix_, namespacedef_='', name_='list_crossRefDBs', pretty_print=pretty_print)
+            outfile.write('<%sccd_id>%s</%sccd_id>%s' % (namespaceprefix_ , self.gds_encode(self.gds_format_string(quote_xml(self.ccd_id), input_name='ccd_id')), namespaceprefix_ , eol_))
+        if self.cross_ref_dbs is not None:
+            namespaceprefix_ = self.cross_ref_dbs_nsprefix_ + ':' if (UseCapturedNS_ and self.cross_ref_dbs_nsprefix_) else ''
+            self.cross_ref_dbs.export(outfile, level, namespaceprefix_, namespacedef_='', name_='cross_ref_dbs', pretty_print=pretty_print)
     def build(self, node, gds_collector_=None):
         self.gds_collector_ = gds_collector_
         if SaveElementTreeNode:
@@ -3180,125 +3180,125 @@ class macro_molecule_annotationType(GeneratedsSuper):
             self.buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
         return self
     def buildAttributes(self, node, attrs, already_processed):
-        value = find_attr_value_('macro_kind', node)
-        if value is not None and 'macro_kind' not in already_processed:
-            already_processed.add('macro_kind')
-            self.macro_kind = value
-            self.macro_kind = ' '.join(self.macro_kind.split())
-            self.validate_sample_kind(self.macro_kind)    # validate type sample_kind
-        value = find_attr_value_('macro_ID', node)
-        if value is not None and 'macro_ID' not in already_processed:
-            already_processed.add('macro_ID')
-            self.macro_ID = self.gds_parse_integer(value, node, 'macro_ID')
-            if self.macro_ID < 0:
+        value = find_attr_value_('kind', node)
+        if value is not None and 'kind' not in already_processed:
+            already_processed.add('kind')
+            self.kind = value
+            self.kind = ' '.join(self.kind.split())
+            self.validate_sample_kind(self.kind)    # validate type sample_kind
+        value = find_attr_value_('id', node)
+        if value is not None and 'id' not in already_processed:
+            already_processed.add('id')
+            self.id = self.gds_parse_integer(value, node, 'id')
+            if self.id < 0:
                 raise_parse_error(node, 'Invalid NonNegativeInteger')
-        value = find_attr_value_('macro_copies', node)
-        if value is not None and 'macro_copies' not in already_processed:
-            already_processed.add('macro_copies')
-            self.macro_copies = self.gds_parse_integer(value, node, 'macro_copies')
-            if self.macro_copies < 0:
+        value = find_attr_value_('copies', node)
+        if value is not None and 'copies' not in already_processed:
+            already_processed.add('copies')
+            self.copies = self.gds_parse_integer(value, node, 'copies')
+            if self.copies < 0:
                 raise_parse_error(node, 'Invalid NonNegativeInteger')
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
-        if nodeName_ == 'macro_name':
+        if nodeName_ == 'name':
             value_ = child_.text
-            value_ = self.gds_parse_string(value_, node, 'macro_name')
-            value_ = self.gds_validate_string(value_, node, 'macro_name')
-            self.macro_name = value_
-            self.macro_name_nsprefix_ = child_.prefix
-        elif nodeName_ == 'macro_CCD_ID':
+            value_ = self.gds_parse_string(value_, node, 'name')
+            value_ = self.gds_validate_string(value_, node, 'name')
+            self.name = value_
+            self.name_nsprefix_ = child_.prefix
+        elif nodeName_ == 'ccd_id':
             value_ = child_.text
-            value_ = self.gds_parse_string(value_, node, 'macro_CCD_ID')
-            value_ = self.gds_validate_string(value_, node, 'macro_CCD_ID')
-            self.macro_CCD_ID = value_
-            self.macro_CCD_ID_nsprefix_ = child_.prefix
-        elif nodeName_ == 'list_crossRefDBs':
-            obj_ = list_crossRefDBsType3.factory(parent_object_=self)
+            value_ = self.gds_parse_string(value_, node, 'ccd_id')
+            value_ = self.gds_validate_string(value_, node, 'ccd_id')
+            self.ccd_id = value_
+            self.ccd_id_nsprefix_ = child_.prefix
+        elif nodeName_ == 'cross_ref_dbs':
+            obj_ = cross_ref_dbsType3.factory(parent_object_=self)
             obj_.build(child_, gds_collector_=gds_collector_)
-            self.list_crossRefDBs = obj_
-            obj_.original_tagname_ = 'list_crossRefDBs'
-# end class macro_molecule_annotationType
+            self.cross_ref_dbs = obj_
+            obj_.original_tagname_ = 'cross_ref_dbs'
+# end class macromoleculeType
 
 
-class list_crossRefDBsType3(GeneratedsSuper):
+class cross_ref_dbsType3(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, crossRefDB=None, gds_collector_=None, **kwargs_):
+    def __init__(self, cross_ref_db=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
         self.parent_object_ = kwargs_.get('parent_object_')
         self.ns_prefix_ = None
-        if crossRefDB is None:
-            self.crossRefDB = []
+        if cross_ref_db is None:
+            self.cross_ref_db = []
         else:
-            self.crossRefDB = crossRefDB
-        self.crossRefDB_nsprefix_ = None
+            self.cross_ref_db = cross_ref_db
+        self.cross_ref_db_nsprefix_ = None
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
-                CurrentSubclassModule_, list_crossRefDBsType3)
+                CurrentSubclassModule_, cross_ref_dbsType3)
             if subclass is not None:
                 return subclass(*args_, **kwargs_)
-        if list_crossRefDBsType3.subclass:
-            return list_crossRefDBsType3.subclass(*args_, **kwargs_)
+        if cross_ref_dbsType3.subclass:
+            return cross_ref_dbsType3.subclass(*args_, **kwargs_)
         else:
-            return list_crossRefDBsType3(*args_, **kwargs_)
+            return cross_ref_dbsType3(*args_, **kwargs_)
     factory = staticmethod(factory)
     def get_ns_prefix_(self):
         return self.ns_prefix_
     def set_ns_prefix_(self, ns_prefix):
         self.ns_prefix_ = ns_prefix
-    def get_crossRefDB(self):
-        return self.crossRefDB
-    def set_crossRefDB(self, crossRefDB):
-        self.crossRefDB = crossRefDB
-    def add_crossRefDB(self, value):
-        self.crossRefDB.append(value)
-    def insert_crossRefDB_at(self, index, value):
-        self.crossRefDB.insert(index, value)
-    def replace_crossRefDB_at(self, index, value):
-        self.crossRefDB[index] = value
+    def get_cross_ref_db(self):
+        return self.cross_ref_db
+    def set_cross_ref_db(self, cross_ref_db):
+        self.cross_ref_db = cross_ref_db
+    def add_cross_ref_db(self, value):
+        self.cross_ref_db.append(value)
+    def insert_cross_ref_db_at(self, index, value):
+        self.cross_ref_db.insert(index, value)
+    def replace_cross_ref_db_at(self, index, value):
+        self.cross_ref_db[index] = value
     def hasContent_(self):
         if (
-            self.crossRefDB
+            self.cross_ref_db
         ):
             return True
         else:
             return False
-    def export(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='list_crossRefDBsType3', pretty_print=True):
-        imported_ns_def_ = GenerateDSNamespaceDefs_.get('list_crossRefDBsType3')
+    def export(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='cross_ref_dbsType3', pretty_print=True):
+        imported_ns_def_ = GenerateDSNamespaceDefs_.get('cross_ref_dbsType3')
         if imported_ns_def_ is not None:
             namespacedef_ = imported_ns_def_
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        if self.original_tagname_ is not None and name_ == 'list_crossRefDBsType3':
+        if self.original_tagname_ is not None and name_ == 'cross_ref_dbsType3':
             name_ = self.original_tagname_
         if UseCapturedNS_ and self.ns_prefix_:
             namespaceprefix_ = self.ns_prefix_ + ':'
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='list_crossRefDBsType3')
+        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='cross_ref_dbsType3')
         if self.hasContent_():
             outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='list_crossRefDBsType3', pretty_print=pretty_print)
+            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='cross_ref_dbsType3', pretty_print=pretty_print)
             showIndent(outfile, level, pretty_print)
             outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='list_crossRefDBsType3'):
+    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='cross_ref_dbsType3'):
         pass
-    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='list_crossRefDBsType3', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='cross_ref_dbsType3', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        for crossRefDB_ in self.crossRefDB:
-            namespaceprefix_ = self.crossRefDB_nsprefix_ + ':' if (UseCapturedNS_ and self.crossRefDB_nsprefix_) else ''
-            crossRefDB_.export(outfile, level, namespaceprefix_, namespacedef_='', name_='crossRefDB', pretty_print=pretty_print)
+        for cross_ref_db_ in self.cross_ref_db:
+            namespaceprefix_ = self.cross_ref_db_nsprefix_ + ':' if (UseCapturedNS_ and self.cross_ref_db_nsprefix_) else ''
+            cross_ref_db_.export(outfile, level, namespaceprefix_, namespacedef_='', name_='cross_ref_db', pretty_print=pretty_print)
     def build(self, node, gds_collector_=None):
         self.gds_collector_ = gds_collector_
         if SaveElementTreeNode:
@@ -3313,19 +3313,19 @@ class list_crossRefDBsType3(GeneratedsSuper):
     def buildAttributes(self, node, attrs, already_processed):
         pass
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
-        if nodeName_ == 'crossRefDB':
-            obj_ = crossRefDBType4.factory(parent_object_=self)
+        if nodeName_ == 'cross_ref_db':
+            obj_ = cross_ref_dbType4.factory(parent_object_=self)
             obj_.build(child_, gds_collector_=gds_collector_)
-            self.crossRefDB.append(obj_)
-            obj_.original_tagname_ = 'crossRefDB'
-# end class list_crossRefDBsType3
+            self.cross_ref_db.append(obj_)
+            obj_.original_tagname_ = 'cross_ref_db'
+# end class cross_ref_dbsType3
 
 
-class crossRefDBType4(GeneratedsSuper):
+class cross_ref_dbType4(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, name=None, DB_source=None, provenance=None, DB_accession_ID=None, score=None, gds_collector_=None, **kwargs_):
+    def __init__(self, name=None, db_source=None, provenance=None, db_accession_id=None, score=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
@@ -3333,24 +3333,24 @@ class crossRefDBType4(GeneratedsSuper):
         self.ns_prefix_ = None
         self.name = _cast(None, name)
         self.name_nsprefix_ = None
-        self.DB_source = _cast(None, DB_source)
-        self.DB_source_nsprefix_ = None
+        self.db_source = _cast(None, db_source)
+        self.db_source_nsprefix_ = None
         self.provenance = _cast(None, provenance)
         self.provenance_nsprefix_ = None
-        self.DB_accession_ID = _cast(None, DB_accession_ID)
-        self.DB_accession_ID_nsprefix_ = None
+        self.db_accession_id = _cast(None, db_accession_id)
+        self.db_accession_id_nsprefix_ = None
         self.score = _cast(float, score)
         self.score_nsprefix_ = None
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
-                CurrentSubclassModule_, crossRefDBType4)
+                CurrentSubclassModule_, cross_ref_dbType4)
             if subclass is not None:
                 return subclass(*args_, **kwargs_)
-        if crossRefDBType4.subclass:
-            return crossRefDBType4.subclass(*args_, **kwargs_)
+        if cross_ref_dbType4.subclass:
+            return cross_ref_dbType4.subclass(*args_, **kwargs_)
         else:
-            return crossRefDBType4(*args_, **kwargs_)
+            return cross_ref_dbType4(*args_, **kwargs_)
     factory = staticmethod(factory)
     def get_ns_prefix_(self):
         return self.ns_prefix_
@@ -3360,24 +3360,24 @@ class crossRefDBType4(GeneratedsSuper):
         return self.name
     def set_name(self, name):
         self.name = name
-    def get_DB_source(self):
-        return self.DB_source
-    def set_DB_source(self, DB_source):
-        self.DB_source = DB_source
+    def get_db_source(self):
+        return self.db_source
+    def set_db_source(self, db_source):
+        self.db_source = db_source
     def get_provenance(self):
         return self.provenance
     def set_provenance(self, provenance):
         self.provenance = provenance
-    def get_DB_accession_ID(self):
-        return self.DB_accession_ID
-    def set_DB_accession_ID(self, DB_accession_ID):
-        self.DB_accession_ID = DB_accession_ID
+    def get_db_accession_id(self):
+        return self.db_accession_id
+    def set_db_accession_id(self, db_accession_id):
+        self.db_accession_id = db_accession_id
     def get_score(self):
         return self.score
     def set_score(self, score):
         self.score = score
-    def validate_DB_source_type(self, value):
-        # Validate type DB_source_type, a restriction on xs:token.
+    def validate_db_source_type(self, value):
+        # Validate type db_source_type, a restriction on xs:token.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
             if not isinstance(value, str):
                 lineno = self.gds_get_node_lineno_()
@@ -3387,7 +3387,7 @@ class crossRefDBType4(GeneratedsSuper):
             enumerations = ['UNIPROT', 'COMPLEXPORTAL', 'PDBe', 'CHEMBL', 'CHEBI', 'DRUGBANK']
             if value not in enumerations:
                 lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd enumeration restriction on DB_source_type' % {"value" : encode_str_2_3(value), "lineno": lineno} )
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd enumeration restriction on db_source_type' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
     def validate_provenance_type(self, value):
         # Validate type provenance_type, a restriction on xs:token.
@@ -3409,45 +3409,45 @@ class crossRefDBType4(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='crossRefDBType4', pretty_print=True):
-        imported_ns_def_ = GenerateDSNamespaceDefs_.get('crossRefDBType4')
+    def export(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='cross_ref_dbType4', pretty_print=True):
+        imported_ns_def_ = GenerateDSNamespaceDefs_.get('cross_ref_dbType4')
         if imported_ns_def_ is not None:
             namespacedef_ = imported_ns_def_
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        if self.original_tagname_ is not None and name_ == 'crossRefDBType4':
+        if self.original_tagname_ is not None and name_ == 'cross_ref_dbType4':
             name_ = self.original_tagname_
         if UseCapturedNS_ and self.ns_prefix_:
             namespaceprefix_ = self.ns_prefix_ + ':'
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='crossRefDBType4')
+        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='cross_ref_dbType4')
         if self.hasContent_():
             outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='crossRefDBType4', pretty_print=pretty_print)
+            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='cross_ref_dbType4', pretty_print=pretty_print)
             outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='crossRefDBType4'):
+    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='cross_ref_dbType4'):
         if self.name is not None and 'name' not in already_processed:
             already_processed.add('name')
             outfile.write(' name=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.name), input_name='name')), ))
-        if self.DB_source is not None and 'DB_source' not in already_processed:
-            already_processed.add('DB_source')
-            outfile.write(' DB_source=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.DB_source), input_name='DB_source')), ))
+        if self.db_source is not None and 'db_source' not in already_processed:
+            already_processed.add('db_source')
+            outfile.write(' db_source=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.db_source), input_name='db_source')), ))
         if self.provenance is not None and 'provenance' not in already_processed:
             already_processed.add('provenance')
             outfile.write(' provenance=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.provenance), input_name='provenance')), ))
-        if self.DB_accession_ID is not None and 'DB_accession_ID' not in already_processed:
-            already_processed.add('DB_accession_ID')
-            outfile.write(' DB_accession_ID=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.DB_accession_ID), input_name='DB_accession_ID')), ))
+        if self.db_accession_id is not None and 'db_accession_id' not in already_processed:
+            already_processed.add('db_accession_id')
+            outfile.write(' db_accession_id=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.db_accession_id), input_name='db_accession_id')), ))
         if self.score is not None and 'score' not in already_processed:
             already_processed.add('score')
             outfile.write(' score="%s"' % self.gds_format_float(self.score, input_name='score'))
-    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='crossRefDBType4', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='cross_ref_dbType4', fromsubclass_=False, pretty_print=True):
         pass
     def build(self, node, gds_collector_=None):
         self.gds_collector_ = gds_collector_
@@ -3465,22 +3465,22 @@ class crossRefDBType4(GeneratedsSuper):
         if value is not None and 'name' not in already_processed:
             already_processed.add('name')
             self.name = value
-        value = find_attr_value_('DB_source', node)
-        if value is not None and 'DB_source' not in already_processed:
-            already_processed.add('DB_source')
-            self.DB_source = value
-            self.DB_source = ' '.join(self.DB_source.split())
-            self.validate_DB_source_type(self.DB_source)    # validate type DB_source_type
+        value = find_attr_value_('db_source', node)
+        if value is not None and 'db_source' not in already_processed:
+            already_processed.add('db_source')
+            self.db_source = value
+            self.db_source = ' '.join(self.db_source.split())
+            self.validate_db_source_type(self.db_source)    # validate type db_source_type
         value = find_attr_value_('provenance', node)
         if value is not None and 'provenance' not in already_processed:
             already_processed.add('provenance')
             self.provenance = value
             self.provenance = ' '.join(self.provenance.split())
             self.validate_provenance_type(self.provenance)    # validate type provenance_type
-        value = find_attr_value_('DB_accession_ID', node)
-        if value is not None and 'DB_accession_ID' not in already_processed:
-            already_processed.add('DB_accession_ID')
-            self.DB_accession_ID = value
+        value = find_attr_value_('db_accession_id', node)
+        if value is not None and 'db_accession_id' not in already_processed:
+            already_processed.add('db_accession_id')
+            self.db_accession_id = value
         value = find_attr_value_('score', node)
         if value is not None and 'score' not in already_processed:
             already_processed.add('score')
@@ -3488,7 +3488,7 @@ class crossRefDBType4(GeneratedsSuper):
             self.score = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         pass
-# end class crossRefDBType4
+# end class cross_ref_dbType4
 
 
 GDSClassesMapping = {
@@ -3687,23 +3687,23 @@ RenameMappings_ = {
 NamespaceToDefMappings_ = {}
 
 __all__ = [
-    "DBType",
-    "DBs_listType",
-    "crossRefDBType",
-    "crossRefDBType2",
-    "crossRefDBType4",
+    "cross_ref_dbType",
+    "cross_ref_dbType2",
+    "cross_ref_dbType4",
+    "cross_ref_dbsType",
+    "cross_ref_dbsType1",
+    "cross_ref_dbsType3",
+    "dbType",
+    "dbsType",
     "emicss",
-    "list_crossRefDBsType",
-    "list_crossRefDBsType1",
-    "list_crossRefDBsType3",
-    "list_macro_moleculesType",
-    "list_supra_moleculesType",
-    "macro_molecule_annotationType",
-    "model_annotationType",
-    "models_listType",
-    "molecular_weight_annotationType",
-    "provided_weightType",
-    "sample_annotationType",
-    "supra_molecule_annotationType",
-    "weight_listType"
+    "macromoleculeType",
+    "macromoleculesType",
+    "modelType",
+    "modelsType",
+    "molecular_weightType",
+    "sampleType",
+    "supramoleculeType",
+    "supramoleculesType",
+    "weightType",
+    "weightsType"
 ]

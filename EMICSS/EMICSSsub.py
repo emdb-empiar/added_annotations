@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Mon Jul  5 09:25:51 2021 by generateDS.py version 2.38.6.
+# Generated Mon Jul  5 11:51:43 2021 by generateDS.py version 2.38.6.
 # Python 3.7.6 (default, Dec 30 2019, 19:38:28)  [Clang 11.0.0 (clang-1100.0.33.16)]
 #
 # Command line options:
@@ -62,136 +62,136 @@ SaveElementTreeNode = True
 
 
 class emicssSub(supermod.emicss):
-    def __init__(self, EMDB_ID=None, DBs_list=None, molecular_weight_annotation=None, sample_annotation=None, **kwargs_):
-        super(emicssSub, self).__init__(EMDB_ID, DBs_list, molecular_weight_annotation, sample_annotation,  **kwargs_)
+    def __init__(self, emdb_id=None, dbs=None, molecular_weight=None, sample=None, **kwargs_):
+        super(emicssSub, self).__init__(emdb_id, dbs, molecular_weight, sample,  **kwargs_)
 supermod.emicss.subclass = emicssSub
 # end class emicssSub
 
 
-class DBs_listTypeSub(supermod.DBs_listType):
-    def __init__(self, DB=None, **kwargs_):
-        super(DBs_listTypeSub, self).__init__(DB,  **kwargs_)
-supermod.DBs_listType.subclass = DBs_listTypeSub
-# end class DBs_listTypeSub
+class dbsTypeSub(supermod.dbsType):
+    def __init__(self, db=None, **kwargs_):
+        super(dbsTypeSub, self).__init__(db,  **kwargs_)
+supermod.dbsType.subclass = dbsTypeSub
+# end class dbsTypeSub
 
 
-class DBTypeSub(supermod.DBType):
-    def __init__(self, DB_source=None, DB_version=None, **kwargs_):
-        super(DBTypeSub, self).__init__(DB_source, DB_version,  **kwargs_)
-supermod.DBType.subclass = DBTypeSub
-# end class DBTypeSub
+class dbTypeSub(supermod.dbType):
+    def __init__(self, db_source=None, db_version=None, **kwargs_):
+        super(dbTypeSub, self).__init__(db_source, db_version,  **kwargs_)
+supermod.dbType.subclass = dbTypeSub
+# end class dbTypeSub
 
 
-class molecular_weight_annotationTypeSub(supermod.molecular_weight_annotationType):
-    def __init__(self, models_list=None, weight_list=None, **kwargs_):
-        super(molecular_weight_annotationTypeSub, self).__init__(models_list, weight_list,  **kwargs_)
-supermod.molecular_weight_annotationType.subclass = molecular_weight_annotationTypeSub
-# end class molecular_weight_annotationTypeSub
+class molecular_weightTypeSub(supermod.molecular_weightType):
+    def __init__(self, models=None, weights=None, **kwargs_):
+        super(molecular_weightTypeSub, self).__init__(models, weights,  **kwargs_)
+supermod.molecular_weightType.subclass = molecular_weightTypeSub
+# end class molecular_weightTypeSub
 
 
-class models_listTypeSub(supermod.models_listType):
-    def __init__(self, model_annotation=None, **kwargs_):
-        super(models_listTypeSub, self).__init__(model_annotation,  **kwargs_)
-supermod.models_listType.subclass = models_listTypeSub
-# end class models_listTypeSub
+class modelsTypeSub(supermod.modelsType):
+    def __init__(self, model=None, **kwargs_):
+        super(modelsTypeSub, self).__init__(model,  **kwargs_)
+supermod.modelsType.subclass = modelsTypeSub
+# end class modelsTypeSub
 
 
-class model_annotationTypeSub(supermod.model_annotationType):
-    def __init__(self, PDBID=None, assemblies=None, weight=None, units=None, provenance=None, **kwargs_):
-        super(model_annotationTypeSub, self).__init__(PDBID, assemblies, weight, units, provenance,  **kwargs_)
-supermod.model_annotationType.subclass = model_annotationTypeSub
-# end class model_annotationTypeSub
+class modelTypeSub(supermod.modelType):
+    def __init__(self, pdb_id=None, assemblies=None, weight=None, units=None, provenance=None, **kwargs_):
+        super(modelTypeSub, self).__init__(pdb_id, assemblies, weight, units, provenance,  **kwargs_)
+supermod.modelType.subclass = modelTypeSub
+# end class modelTypeSub
 
 
-class weight_listTypeSub(supermod.weight_listType):
-    def __init__(self, provided_weight=None, **kwargs_):
-        super(weight_listTypeSub, self).__init__(provided_weight,  **kwargs_)
-supermod.weight_listType.subclass = weight_listTypeSub
-# end class weight_listTypeSub
+class weightsTypeSub(supermod.weightsType):
+    def __init__(self, weight=None, **kwargs_):
+        super(weightsTypeSub, self).__init__(weight,  **kwargs_)
+supermod.weightsType.subclass = weightsTypeSub
+# end class weightsTypeSub
 
 
-class provided_weightTypeSub(supermod.provided_weightType):
-    def __init__(self, PDBID=None, weight=None, units=None, provenance=None, **kwargs_):
-        super(provided_weightTypeSub, self).__init__(PDBID, weight, units, provenance,  **kwargs_)
-supermod.provided_weightType.subclass = provided_weightTypeSub
-# end class provided_weightTypeSub
+class weightTypeSub(supermod.weightType):
+    def __init__(self, pdb_id=None, weight=None, units=None, provenance=None, **kwargs_):
+        super(weightTypeSub, self).__init__(pdb_id, weight, units, provenance,  **kwargs_)
+supermod.weightType.subclass = weightTypeSub
+# end class weightTypeSub
 
 
-class sample_annotationTypeSub(supermod.sample_annotationType):
-    def __init__(self, sample_name=None, list_crossRefDBs=None, list_supra_molecules=None, list_macro_molecules=None, **kwargs_):
-        super(sample_annotationTypeSub, self).__init__(sample_name, list_crossRefDBs, list_supra_molecules, list_macro_molecules,  **kwargs_)
-supermod.sample_annotationType.subclass = sample_annotationTypeSub
-# end class sample_annotationTypeSub
+class sampleTypeSub(supermod.sampleType):
+    def __init__(self, name=None, cross_ref_dbs=None, supramolecules=None, macromolecules=None, **kwargs_):
+        super(sampleTypeSub, self).__init__(name, cross_ref_dbs, supramolecules, macromolecules,  **kwargs_)
+supermod.sampleType.subclass = sampleTypeSub
+# end class sampleTypeSub
 
 
-class list_crossRefDBsTypeSub(supermod.list_crossRefDBsType):
-    def __init__(self, crossRefDB=None, **kwargs_):
-        super(list_crossRefDBsTypeSub, self).__init__(crossRefDB,  **kwargs_)
-supermod.list_crossRefDBsType.subclass = list_crossRefDBsTypeSub
-# end class list_crossRefDBsTypeSub
+class cross_ref_dbsTypeSub(supermod.cross_ref_dbsType):
+    def __init__(self, cross_ref_db=None, **kwargs_):
+        super(cross_ref_dbsTypeSub, self).__init__(cross_ref_db,  **kwargs_)
+supermod.cross_ref_dbsType.subclass = cross_ref_dbsTypeSub
+# end class cross_ref_dbsTypeSub
 
 
-class crossRefDBTypeSub(supermod.crossRefDBType):
-    def __init__(self, name=None, DB_source=None, provenance=None, DB_accession_ID=None, score=None, **kwargs_):
-        super(crossRefDBTypeSub, self).__init__(name, DB_source, provenance, DB_accession_ID, score,  **kwargs_)
-supermod.crossRefDBType.subclass = crossRefDBTypeSub
-# end class crossRefDBTypeSub
+class cross_ref_dbTypeSub(supermod.cross_ref_dbType):
+    def __init__(self, name=None, db_source=None, provenance=None, db_accession_id=None, score=None, **kwargs_):
+        super(cross_ref_dbTypeSub, self).__init__(name, db_source, provenance, db_accession_id, score,  **kwargs_)
+supermod.cross_ref_dbType.subclass = cross_ref_dbTypeSub
+# end class cross_ref_dbTypeSub
 
 
-class list_supra_moleculesTypeSub(supermod.list_supra_moleculesType):
-    def __init__(self, supra_molecule_annotation=None, **kwargs_):
-        super(list_supra_moleculesTypeSub, self).__init__(supra_molecule_annotation,  **kwargs_)
-supermod.list_supra_moleculesType.subclass = list_supra_moleculesTypeSub
-# end class list_supra_moleculesTypeSub
+class supramoleculesTypeSub(supermod.supramoleculesType):
+    def __init__(self, supramolecule=None, **kwargs_):
+        super(supramoleculesTypeSub, self).__init__(supramolecule,  **kwargs_)
+supermod.supramoleculesType.subclass = supramoleculesTypeSub
+# end class supramoleculesTypeSub
 
 
-class supra_molecule_annotationTypeSub(supermod.supra_molecule_annotationType):
-    def __init__(self, supra_kind=None, supra_ID=None, supra_copies=None, supra_name=None, list_crossRefDBs=None, **kwargs_):
-        super(supra_molecule_annotationTypeSub, self).__init__(supra_kind, supra_ID, supra_copies, supra_name, list_crossRefDBs,  **kwargs_)
-supermod.supra_molecule_annotationType.subclass = supra_molecule_annotationTypeSub
-# end class supra_molecule_annotationTypeSub
+class supramoleculeTypeSub(supermod.supramoleculeType):
+    def __init__(self, kind=None, id=None, copies=None, name=None, cross_ref_dbs=None, **kwargs_):
+        super(supramoleculeTypeSub, self).__init__(kind, id, copies, name, cross_ref_dbs,  **kwargs_)
+supermod.supramoleculeType.subclass = supramoleculeTypeSub
+# end class supramoleculeTypeSub
 
 
-class list_crossRefDBsType1Sub(supermod.list_crossRefDBsType1):
-    def __init__(self, crossRefDB=None, **kwargs_):
-        super(list_crossRefDBsType1Sub, self).__init__(crossRefDB,  **kwargs_)
-supermod.list_crossRefDBsType1.subclass = list_crossRefDBsType1Sub
-# end class list_crossRefDBsType1Sub
+class cross_ref_dbsType1Sub(supermod.cross_ref_dbsType1):
+    def __init__(self, cross_ref_db=None, **kwargs_):
+        super(cross_ref_dbsType1Sub, self).__init__(cross_ref_db,  **kwargs_)
+supermod.cross_ref_dbsType1.subclass = cross_ref_dbsType1Sub
+# end class cross_ref_dbsType1Sub
 
 
-class crossRefDBType2Sub(supermod.crossRefDBType2):
-    def __init__(self, name=None, DB_source=None, provenance=None, DB_accession_ID=None, score=None, **kwargs_):
-        super(crossRefDBType2Sub, self).__init__(name, DB_source, provenance, DB_accession_ID, score,  **kwargs_)
-supermod.crossRefDBType2.subclass = crossRefDBType2Sub
-# end class crossRefDBType2Sub
+class cross_ref_dbType2Sub(supermod.cross_ref_dbType2):
+    def __init__(self, name=None, db_source=None, provenance=None, db_accession_id=None, score=None, **kwargs_):
+        super(cross_ref_dbType2Sub, self).__init__(name, db_source, provenance, db_accession_id, score,  **kwargs_)
+supermod.cross_ref_dbType2.subclass = cross_ref_dbType2Sub
+# end class cross_ref_dbType2Sub
 
 
-class list_macro_moleculesTypeSub(supermod.list_macro_moleculesType):
-    def __init__(self, macro_molecule_annotation=None, **kwargs_):
-        super(list_macro_moleculesTypeSub, self).__init__(macro_molecule_annotation,  **kwargs_)
-supermod.list_macro_moleculesType.subclass = list_macro_moleculesTypeSub
-# end class list_macro_moleculesTypeSub
+class macromoleculesTypeSub(supermod.macromoleculesType):
+    def __init__(self, macromolecule=None, **kwargs_):
+        super(macromoleculesTypeSub, self).__init__(macromolecule,  **kwargs_)
+supermod.macromoleculesType.subclass = macromoleculesTypeSub
+# end class macromoleculesTypeSub
 
 
-class macro_molecule_annotationTypeSub(supermod.macro_molecule_annotationType):
-    def __init__(self, macro_kind=None, macro_ID=None, macro_copies=None, macro_name=None, macro_CCD_ID=None, list_crossRefDBs=None, **kwargs_):
-        super(macro_molecule_annotationTypeSub, self).__init__(macro_kind, macro_ID, macro_copies, macro_name, macro_CCD_ID, list_crossRefDBs,  **kwargs_)
-supermod.macro_molecule_annotationType.subclass = macro_molecule_annotationTypeSub
-# end class macro_molecule_annotationTypeSub
+class macromoleculeTypeSub(supermod.macromoleculeType):
+    def __init__(self, kind=None, id=None, copies=None, name=None, ccd_id=None, cross_ref_dbs=None, **kwargs_):
+        super(macromoleculeTypeSub, self).__init__(kind, id, copies, name, ccd_id, cross_ref_dbs,  **kwargs_)
+supermod.macromoleculeType.subclass = macromoleculeTypeSub
+# end class macromoleculeTypeSub
 
 
-class list_crossRefDBsType3Sub(supermod.list_crossRefDBsType3):
-    def __init__(self, crossRefDB=None, **kwargs_):
-        super(list_crossRefDBsType3Sub, self).__init__(crossRefDB,  **kwargs_)
-supermod.list_crossRefDBsType3.subclass = list_crossRefDBsType3Sub
-# end class list_crossRefDBsType3Sub
+class cross_ref_dbsType3Sub(supermod.cross_ref_dbsType3):
+    def __init__(self, cross_ref_db=None, **kwargs_):
+        super(cross_ref_dbsType3Sub, self).__init__(cross_ref_db,  **kwargs_)
+supermod.cross_ref_dbsType3.subclass = cross_ref_dbsType3Sub
+# end class cross_ref_dbsType3Sub
 
 
-class crossRefDBType4Sub(supermod.crossRefDBType4):
-    def __init__(self, name=None, DB_source=None, provenance=None, DB_accession_ID=None, score=None, **kwargs_):
-        super(crossRefDBType4Sub, self).__init__(name, DB_source, provenance, DB_accession_ID, score,  **kwargs_)
-supermod.crossRefDBType4.subclass = crossRefDBType4Sub
-# end class crossRefDBType4Sub
+class cross_ref_dbType4Sub(supermod.cross_ref_dbType4):
+    def __init__(self, name=None, db_source=None, provenance=None, db_accession_id=None, score=None, **kwargs_):
+        super(cross_ref_dbType4Sub, self).__init__(name, db_source, provenance, db_accession_id, score,  **kwargs_)
+supermod.cross_ref_dbType4.subclass = cross_ref_dbType4Sub
+# end class cross_ref_dbType4Sub
 
 
 def get_root_tag(node):
