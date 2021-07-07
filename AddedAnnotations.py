@@ -4,7 +4,9 @@ from resources.ComplexPortalMapping import CPMapping
 from resources.ComponentsMapping import ComponentsMap
 from resources.UniprotMapping import UniprotMapping
 from resources.StructureMapping import StructureMapping
+from resources.SampleWeight import SampleWeight
 from resources.EmicssXML import EmicssXML
+from models import Weight
 from XMLParser import XMLParser
 
 """
@@ -17,7 +19,8 @@ List of things to do:
 
 if __name__ == "__main__":
     ######### Command : python /Users/amudha/project/ComplexPortal/AddedAnnotations.py
-    # -w /Users/amudha/project/ -f /Users/amudha/project/EMD_XML/ -p /Users/amudha/project/pdbeFiles/ --CPX --chEMBL
+    # -w /Users/amudha/project/ -f /Users/amudha/project/EMD_XML/ -p /Users/amudha/project/pdbeFiles/ --CPX --model
+    # --components --uniprot --weight
 
     prog = "EMDBAddedAnnotations"
     usage = """
@@ -26,7 +29,7 @@ if __name__ == "__main__":
             python AddedAnnotations.py -w '[{"/path/to/working/folder"}]'
             -f '[{"/path/to/EMDB/header/files/folder"}]'
             -p '[{"/path/to/PDBe/files/folder"}]'
-            --download_uniprot --uniprot --CPX --components 
+            --download_uniprot --uniprot --CPX --components --model --weight
           """
     parser = argparse.ArgumentParser(prog=prog, usage=usage, add_help=False,
                                      formatter_class=argparse.RawTextHelpFormatter)
@@ -38,9 +41,10 @@ if __name__ == "__main__":
     parser.add_argument("--download_uniprot", type=bool, nargs='?', const=True, default=False, help="Download uniprot tab file.")
     parser.add_argument("--uniprot", type=bool, nargs='?', const=True, default=False, help="Mapping to Complex Portal.")
     parser.add_argument("--CPX", type=bool, nargs='?', const=True, default=False, help="Mapping to Complex Portal.")
-    parser.add_argument("--components", type=bool, nargs='?', const=True, default=False, help="Mapping to chEMBL, "
+    parser.add_argument("--components", type=bool, nargs='?', const=True, default=False, help="Mapping to ChEMBL, "
                                                                                               "ChEBI and DrugBank.")
     parser.add_argument("--model", type=bool, nargs='?', const=True, default=False, help="Collect MW from PDBe.")
+    parser.add_argument("--weight", type=bool, nargs='?', const=True, default=False, help="Collect sample weight from header file.")
     args = parser.parse_args()
 
     xml = XMLParser(args.headerDir)
@@ -70,7 +74,13 @@ if __name__ == "__main__":
         mw_mapping = StructureMapping(args.workDir, xml.models)
         mw_map = mw_mapping.execute(args.threads)
         mw_mapping.export_tsv()
+    if args.weight:
+        sw_mapping = SampleWeight(args.workDir, xml.weights)
+        sw_map = sw_mapping.execute(args.threads)
 
-    if args.uniprot and args.CPX and args.components and args.model:
-        write_annotation_xml = EmicssXML(args.workDir, unip_map, cpx_map, lig_map, mw_map)
+    # for sw in sw_map:
+    #     print(sw.__dict__)
+
+    if args.uniprot and args.CPX and args.components and args.model and args.weight:
+        write_annotation_xml = EmicssXML(args.workDir, unip_map, cpx_map, lig_map, mw_map, sw_map)
         write_annotation_xml.execute()

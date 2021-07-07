@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Mon Jul  5 11:51:42 2021 by generateDS.py version 2.38.6.
+# Generated Wed Jul  7 22:22:19 2021 by generateDS.py version 2.38.6.
 # Python 3.7.6 (default, Dec 30 2019, 19:38:28)  [Clang 11.0.0 (clang-1100.0.33.16)]
 #
 # Command line options:
@@ -981,7 +981,8 @@ class provenance_type(str, Enum):
     AUTHOR='AUTHOR'
     UNIPROT='UNIPROT'
     PD_BE='PDBe'
-    PDBUNIPROT='PDB+UNIPROT'
+    PD_BEUNIPROT='PDBe + UNIPROT'
+    CPXUNIPROT='CPX + UNIPROT'
     BLASTP='BLASTP'
     COMPLEXPORTAL='COMPLEXPORTAL'
     CH_EMBL='ChEMBL'
@@ -1645,7 +1646,7 @@ class modelType(GeneratedsSuper):
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
                 return False
             value = value
-            enumerations = ['AUTHOR', 'UNIPROT', 'PDBe', 'PDB+UNIPROT', 'BLASTP', 'COMPLEXPORTAL', 'ChEMBL', 'ChEBI', 'DrugBank', 'CALCULATED']
+            enumerations = ['AUTHOR', 'UNIPROT', 'PDBe', 'PDBe + UNIPROT', 'CPX + UNIPROT', 'BLASTP', 'COMPLEXPORTAL', 'ChEMBL', 'ChEBI', 'DrugBank', 'CALCULATED']
             if value not in enumerations:
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd enumeration restriction on provenance_type' % {"value" : encode_str_2_3(value), "lineno": lineno} )
@@ -1845,14 +1846,16 @@ class weightType(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, pdb_id=None, weight=None, units=None, provenance=None, gds_collector_=None, **kwargs_):
+    def __init__(self, kind=None, method=None, weight=None, units=None, provenance=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
         self.parent_object_ = kwargs_.get('parent_object_')
         self.ns_prefix_ = None
-        self.pdb_id = _cast(None, pdb_id)
-        self.pdb_id_nsprefix_ = None
+        self.kind = _cast(None, kind)
+        self.kind_nsprefix_ = None
+        self.method = _cast(None, method)
+        self.method_nsprefix_ = None
         self.weight = _cast(None, weight)
         self.weight_nsprefix_ = None
         self.units = _cast(None, units)
@@ -1874,10 +1877,14 @@ class weightType(GeneratedsSuper):
         return self.ns_prefix_
     def set_ns_prefix_(self, ns_prefix):
         self.ns_prefix_ = ns_prefix
-    def get_pdb_id(self):
-        return self.pdb_id
-    def set_pdb_id(self, pdb_id):
-        self.pdb_id = pdb_id
+    def get_kind(self):
+        return self.kind
+    def set_kind(self, kind):
+        self.kind = kind
+    def get_method(self):
+        return self.method
+    def set_method(self, method):
+        self.method = method
     def get_weight(self):
         return self.weight
     def set_weight(self, weight):
@@ -1898,7 +1905,7 @@ class weightType(GeneratedsSuper):
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
                 return False
             value = value
-            enumerations = ['AUTHOR', 'UNIPROT', 'PDBe', 'PDB+UNIPROT', 'BLASTP', 'COMPLEXPORTAL', 'ChEMBL', 'ChEBI', 'DrugBank', 'CALCULATED']
+            enumerations = ['AUTHOR', 'UNIPROT', 'PDBe', 'PDBe + UNIPROT', 'CPX + UNIPROT', 'BLASTP', 'COMPLEXPORTAL', 'ChEMBL', 'ChEBI', 'DrugBank', 'CALCULATED']
             if value not in enumerations:
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd enumeration restriction on provenance_type' % {"value" : encode_str_2_3(value), "lineno": lineno} )
@@ -1933,9 +1940,12 @@ class weightType(GeneratedsSuper):
         else:
             outfile.write('/>%s' % (eol_, ))
     def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='weightType'):
-        if self.pdb_id is not None and 'pdb_id' not in already_processed:
-            already_processed.add('pdb_id')
-            outfile.write(' pdb_id=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.pdb_id), input_name='pdb_id')), ))
+        if self.kind is not None and 'kind' not in already_processed:
+            already_processed.add('kind')
+            outfile.write(' kind=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.kind), input_name='kind')), ))
+        if self.method is not None and 'method' not in already_processed:
+            already_processed.add('method')
+            outfile.write(' method=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.method), input_name='method')), ))
         if self.weight is not None and 'weight' not in already_processed:
             already_processed.add('weight')
             outfile.write(' weight=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.weight), input_name='weight')), ))
@@ -1959,10 +1969,14 @@ class weightType(GeneratedsSuper):
             self.buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
         return self
     def buildAttributes(self, node, attrs, already_processed):
-        value = find_attr_value_('pdb_id', node)
-        if value is not None and 'pdb_id' not in already_processed:
-            already_processed.add('pdb_id')
-            self.pdb_id = value
+        value = find_attr_value_('kind', node)
+        if value is not None and 'kind' not in already_processed:
+            already_processed.add('kind')
+            self.kind = value
+        value = find_attr_value_('method', node)
+        if value is not None and 'method' not in already_processed:
+            already_processed.add('method')
+            self.method = value
         value = find_attr_value_('weight', node)
         if value is not None and 'weight' not in already_processed:
             already_processed.add('weight')
@@ -2300,7 +2314,7 @@ class cross_ref_dbType(GeneratedsSuper):
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
                 return False
             value = value
-            enumerations = ['AUTHOR', 'UNIPROT', 'PDBe', 'PDB+UNIPROT', 'BLASTP', 'COMPLEXPORTAL', 'ChEMBL', 'ChEBI', 'DrugBank', 'CALCULATED']
+            enumerations = ['AUTHOR', 'UNIPROT', 'PDBe', 'PDBe + UNIPROT', 'CPX + UNIPROT', 'BLASTP', 'COMPLEXPORTAL', 'ChEMBL', 'ChEBI', 'DrugBank', 'CALCULATED']
             if value not in enumerations:
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd enumeration restriction on provenance_type' % {"value" : encode_str_2_3(value), "lineno": lineno} )
@@ -2840,7 +2854,7 @@ class cross_ref_dbType2(GeneratedsSuper):
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
                 return False
             value = value
-            enumerations = ['AUTHOR', 'UNIPROT', 'PDBe', 'PDB+UNIPROT', 'BLASTP', 'COMPLEXPORTAL', 'ChEMBL', 'ChEBI', 'DrugBank', 'CALCULATED']
+            enumerations = ['AUTHOR', 'UNIPROT', 'PDBe', 'PDBe + UNIPROT', 'CPX + UNIPROT', 'BLASTP', 'COMPLEXPORTAL', 'ChEMBL', 'ChEBI', 'DrugBank', 'CALCULATED']
             if value not in enumerations:
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd enumeration restriction on provenance_type' % {"value" : encode_str_2_3(value), "lineno": lineno} )
@@ -3397,7 +3411,7 @@ class cross_ref_dbType4(GeneratedsSuper):
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
                 return False
             value = value
-            enumerations = ['AUTHOR', 'UNIPROT', 'PDBe', 'PDB+UNIPROT', 'BLASTP', 'COMPLEXPORTAL', 'ChEMBL', 'ChEBI', 'DrugBank', 'CALCULATED']
+            enumerations = ['AUTHOR', 'UNIPROT', 'PDBe', 'PDBe + UNIPROT', 'CPX + UNIPROT', 'BLASTP', 'COMPLEXPORTAL', 'ChEMBL', 'ChEBI', 'DrugBank', 'CALCULATED']
             if value not in enumerations:
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd enumeration restriction on provenance_type' % {"value" : encode_str_2_3(value), "lineno": lineno} )

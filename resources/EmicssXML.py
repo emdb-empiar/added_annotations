@@ -5,12 +5,13 @@ from EMICSS import EMICSS
 class EmicssXML:
     "Writing annotations to output xml file according to the EMdb_EMICSS.xsd schema "
 
-    def __init__(self, workDir, unip_map, cpx_map, lig_map, mw_map):
+    def __init__(self, workDir, unip_map, cpx_map, lig_map, mw_map, sw_map):
         self.workDir = workDir
         self.unip_map = unip_map
         self.cpx_map = cpx_map
         self.lig_map = lig_map
         self.mw_map = mw_map
+        self.sw_map = sw_map
 
     def execute(self):
         self.emicss_annotation = self.dict_emicss()
@@ -27,6 +28,14 @@ class EmicssXML:
                 emicss_dict[mw.emdb_id][mw.pdb_id] = mw.__dict__
             else:
                 emicss_dict[mw.emdb_id][mw.pdb_id] += mw.__dict__
+
+        for sw in self.sw_map:
+            if sw.emdb_id not in emicss_dict:
+                emicss_dict[sw.emdb_id] = {}
+            if sw.emdb_id not in emicss_dict[sw.emdb_id]:
+                emicss_dict[sw.emdb_id][sw.method] = sw.__dict__
+            else:
+                emicss_dict[sw.emdb_id][sw.method] += sw.__dict__
 
         for unip in self.unip_map:
             if unip.emdb_id not in emicss_dict:
@@ -72,6 +81,7 @@ class EmicssXML:
             dbs = EMICSS.dbsType()
             molecular_weight = EMICSS.molecular_weightType()
             models = EMICSS.modelsType()
+            weights = EMICSS.weightsType()
             sample = EMICSS.sampleType()
             macromolecules = EMICSS.macromoleculesType()
 
@@ -79,7 +89,8 @@ class EmicssXML:
             supramolecules = None
             for samp_id in val.keys():
                 if samp_id is not None:
-
+                    if samp_id == "theoretical" or samp_id == "experimental":
+                        self.EMICSS_weight(val, samp_id, weights)
                     if (samp_id.isalnum() and not samp_id.isalpha() and not samp_id.isnumeric()):
                         if len(samp_id) == 4:
                             self.EMICSS_Pdbe(val, samp_id, all_db, dbs, models)
@@ -92,6 +103,7 @@ class EmicssXML:
 
             headerXML.set_dbs(dbs)
             molecular_weight.set_models(models)
+            molecular_weight.set_weights(weights)
             headerXML.set_molecular_weight(molecular_weight)
             if supramolecules:
                 sample.set_supramolecules(supramolecules)
@@ -121,6 +133,20 @@ class EmicssXML:
         model.set_units("%s" % "Da")
         model.set_provenance("%s" % "PDBe")
         models.add_model(model)
+
+    def EMICSS_weight(self, val, samp_id, weights):
+        "Adding author provided calulated total sample weight annotations to EMICSS"
+        kind = val.get(samp_id, {}).get('kind')
+        method = val.get(samp_id, {}).get('method')
+        sw = val.get(samp_id, {}).get('sample_weight')
+        units = val.get(samp_id, {}).get('weight_unit')
+        weight = EMICSS.weightType()
+        weight.set_kind("%s" % kind)
+        weight.set_method("%s" % method)
+        weight.set_weight(round(sw, 2))
+        weight.set_units("%s" % units)
+        weight.set_provenance("%s" % "AUTHOR")
+        weights.add_weight(weight)
 
     def EMICSS_uniprot(self, val, samp_id, all_db, dbs, macromolecules):
         "Adding UNIPROT annotation to EMICSS"
@@ -214,7 +240,7 @@ class EmicssXML:
         cp_id = set()
         cpx_samp_id = samp_id.split("_")[1]
         cpx_sample_copies = val.get(samp_id, {}).get('sample_copies')
-        sup_name = val.get(samp_id, {}).get('supra_name')
+        cpx_sample_name = val.get(samp_id, {}).get('supra_name')
         ind = val.get(samp_id, {}).get('ind')
         supramolecule = EMICSS.supramoleculeType()
         cross_ref_dbs = EMICSS.cross_ref_dbsType()
@@ -233,7 +259,7 @@ class EmicssXML:
                     supramolecule.set_kind("%s" % "complex")
                     supramolecule.set_id(int(cpx_samp_id))
                     supramolecule.set_copies(int(cpx_sample_copies))
-                    supramolecule.set_name("%s" % sup_name)
+                    supramolecule.set_name("%s" % cpx_sample_name)
                     if "COMPLEX PORTAL" not in all_db:
                         db = EMICSS.dbType()
                         db.set_db_source("%s" % "COMPLEX PORTAL")

@@ -15,10 +15,6 @@ class Protein:
         self.provenance = None
         self.sequence = ""
         self.sample_copies = ""
-        self.macro_th_weight = ""
-        self.macro_th_unit = ""
-        self.macro_exp_weight = ""
-        self.macro_exp_unit = ""
 
     def __str__(self):
         return "%s (%s)\n%s (%s) %s - %s [%s]\nComplexes: %s\nPDB: %s\n%s" % (self.sample_name, self.sample_organism,
@@ -68,15 +64,9 @@ class Supra:
         self.supra_id = supra_id
         self.supra_name = ""
         self.kind = ""
-        self.type = ""
-        self.supra_th_weight = ""
-        self.supra_th_unit = ""
-        self.supra_exp_weight = ""
-        self.supra_exp_unit = ""
 
     def __str__(self):
-        return "%s\t%s\t%s\t%s\t%s\t%s\t%s" % (self.emdb_id, self.supra_id, self.supra_name, self.kind, self.type,
-                                                   self.supra_th_weight, self.supra_exp_weight)
+        return "%s\t%s\t%s\t%s" % (self.emdb_id, self.supra_id, self.supra_name, self.kind)
 
 class EMDB_complex:
     """
@@ -143,3 +133,28 @@ class Model:
 
     def __str__(self):
         return ("%s\t%s\t%d\t%f\n" % (self.emdb_id, self.pdb_id, self.assembly, self.molecular_weight))
+
+class Weight:
+    """
+    Total weight of the sample provided by author
+    """
+    def __init__(self, emdb_id):
+        self.emdb_id = emdb_id
+        self.provenance = ""
+        self.kind = ""
+        self.type = None
+        self.method = ""
+        self.sup_th_weight = []
+        self.sup_th_unit = ""
+        self.sup_exp_weight = []
+        self.sup_exp_unit = ""
+        self.macro_th_weight = []
+        self.macro_th_unit = ""
+        self.macro_exp_weight = []
+        self.macro_exp_unit = ""
+        self.sample_weight = 0.0
+        self.weight_unit = ""
+
+    def __str__(self):
+            return ("%s\t%s\t%s\t%s\t%s\t%s\t%s\n" % (self.emdb_id, self.sample_weight, self.weight_unit, self.sup_th_weight,
+                                                      self.sup_exp_weight, self.macro_th_weight, self.macro_exp_weight))

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Mon Jul  5 11:51:43 2021 by generateDS.py version 2.38.6.
+# Generated Wed Jul  7 22:22:20 2021 by generateDS.py version 2.38.6.
 # Python 3.7.6 (default, Dec 30 2019, 19:38:28)  [Clang 11.0.0 (clang-1100.0.33.16)]
 #
 # Command line options:
@@ -111,8 +111,8 @@ supermod.weightsType.subclass = weightsTypeSub
 
 
 class weightTypeSub(supermod.weightType):
-    def __init__(self, pdb_id=None, weight=None, units=None, provenance=None, **kwargs_):
-        super(weightTypeSub, self).__init__(pdb_id, weight, units, provenance,  **kwargs_)
+    def __init__(self, kind=None, method=None, weight=None, units=None, provenance=None, **kwargs_):
+        super(weightTypeSub, self).__init__(kind, method, weight, units, provenance,  **kwargs_)
 supermod.weightType.subclass = weightTypeSub
 # end class weightTypeSub
 

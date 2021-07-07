@@ -47,7 +47,8 @@
                                         <xs:element maxOccurs="unbounded" minOccurs="0"
                                             name="weight">
                                             <xs:complexType>
-                                                <xs:attribute name="pdb_id" type="xs:string"/>
+                                                <xs:attribute name="kind" type="xs:string"/>
+                                                <xs:attribute name="method" type="xs:string"/>
                                                 <xs:attribute name="weight" type="xs:string"/>
                                                 <xs:attribute name="units" type="xs:string"/>
                                                 <xs:attribute name="provenance"
