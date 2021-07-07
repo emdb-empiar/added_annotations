@@ -137,16 +137,26 @@ class EmicssXML:
     def EMICSS_weight(self, val, samp_id, weights):
         "Adding author provided calulated total sample weight annotations to EMICSS"
         kind = val.get(samp_id, {}).get('kind')
-        method = val.get(samp_id, {}).get('method')
-        sw = val.get(samp_id, {}).get('sample_weight')
-        units = val.get(samp_id, {}).get('weight_unit')
-        weight = EMICSS.weightType()
-        weight.set_kind("%s" % kind)
-        weight.set_method("%s" % method)
-        weight.set_weight(round(sw, 2))
-        weight.set_units("%s" % units)
-        weight.set_provenance("%s" % "AUTHOR")
-        weights.add_weight(weight)
+        th_weight = val.get(samp_id, {}).get('sample_th_weight')
+        th_units = val.get(samp_id, {}).get('th_unit')
+        exp_weight = val.get(samp_id, {}).get('sample_exp_weight')
+        exp_units = val.get(samp_id, {}).get('exp_unit')
+        if th_weight:
+            weight = EMICSS.weightType()
+            weight.set_kind("%s" % kind)
+            weight.set_method("%s" % "theoretical")
+            weight.set_weight(round(th_weight, 3))
+            weight.set_units("%s" % th_units)
+            weight.set_provenance("%s" % "AUTHOR")
+            weights.add_weight(weight)
+        if exp_weight:
+            weight = EMICSS.weightType()
+            weight.set_kind("%s" % kind)
+            weight.set_method("%s" % "experimental")
+            weight.set_weight(round(exp_weight, 3))
+            weight.set_units("%s" % exp_units)
+            weight.set_provenance("%s" % "AUTHOR")
+            weights.add_weight(weight)
 
     def EMICSS_uniprot(self, val, samp_id, all_db, dbs, macromolecules):
         "Adding UNIPROT annotation to EMICSS"

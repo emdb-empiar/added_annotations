@@ -26,23 +26,24 @@ class SampleWeight:
         if weight.sup_th_weight:
             weight.kind = "supra"
             weight.method = "theoretical"
-            weight.sample_weight = sum(weight.sup_th_weight)
-            weight.weight_unit = weight.sup_th_unit
-        elif weight.sup_exp_weight:
+            weight.sample_th_weight = sum(weight.sup_th_weight)
+            weight.th_unit = weight.sup_th_unit
+        if weight.sup_exp_weight:
             weight.kind = "supra"
             weight.method = "experimental"
-            weight.sample_weight = sum(weight.sup_exp_weight)
-            weight.weight_unit = weight.sup_exp_unit
-        elif weight.macro_th_weight:
+            weight.sample_exp_weight = sum(weight.sup_exp_weight)
+            weight.exp_unit = weight.sup_exp_unit
+        if weight.macro_th_weight:
             weight.kind = "macro"
             weight.method = "theoretical"
-            weight.sample_weight = sum(weight.macro_th_weight)
-            weight.weight_unit = weight.macro_th_unit
-        elif weight.macro_exp_weight:
+            weight.sample_th_weight = sum(weight.macro_th_weight)
+            weight.th_unit = weight.macro_th_unit
+        if weight.macro_exp_weight:
             weight.kind = "macro"
             weight.method = "experimental"
-            weight.sample_weight = sum(weight.macro_exp_weight)
-            weight.weight_unit = weight.macro_exp_unit
+            weight.sample_exp_weight = sum(weight.macro_exp_weight)
+            weight.exp_unit = weight.macro_exp_unit
+        print(weight.__dict__)
         return weight
 
 
