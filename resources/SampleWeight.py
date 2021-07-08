@@ -43,7 +43,7 @@ class SampleWeight:
             weight.method = "experimental"
             weight.sample_exp_weight = sum(weight.macro_exp_weight)
             weight.exp_unit = weight.macro_exp_unit
-        print(weight.__dict__)
+        # print(weight.__dict__)
         return weight
 
 
