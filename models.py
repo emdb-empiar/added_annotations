@@ -160,3 +160,14 @@ class Weight:
     def __str__(self):
             return ("%s\t%s\t%s\t%s\t%s\t%s\t%s\n" % (self.emdb_id, self.sample_th_weight, self.sample_exp_weight, self.sup_th_weight,
                                                       self.sup_exp_weight, self.macro_th_weight, self.macro_exp_weight))
+class EMPIAR:
+    """
+    EMPIAR ID MAPPING TO EMDB ENTIRES
+    """
+    def __init__(self, emdb_id):
+        self.emdb_id = emdb_id
+        self.empiar_id = ""
+        self.provenance = ""
+
+    def __str__(self):
+            return ("%s\t%s\t%s\n" % (self.emdb_id, self.emdb_id, self.provenance))

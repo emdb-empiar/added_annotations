@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Wed Jul  7 22:22:20 2021 by generateDS.py version 2.38.6.
+# Generated Fri Jul  9 00:18:23 2021 by generateDS.py version 2.38.6.
 # Python 3.7.6 (default, Dec 30 2019, 19:38:28)  [Clang 11.0.0 (clang-1100.0.33.16)]
 #
 # Command line options:
@@ -62,8 +62,8 @@ SaveElementTreeNode = True
 
 
 class emicssSub(supermod.emicss):
-    def __init__(self, emdb_id=None, dbs=None, molecular_weight=None, sample=None, **kwargs_):
-        super(emicssSub, self).__init__(emdb_id, dbs, molecular_weight, sample,  **kwargs_)
+    def __init__(self, emdb_id=None, dbs=None, empiars=None, molecular_weight=None, sample=None, **kwargs_):
+        super(emicssSub, self).__init__(emdb_id, dbs, empiars, molecular_weight, sample,  **kwargs_)
 supermod.emicss.subclass = emicssSub
 # end class emicssSub
 
@@ -80,6 +80,20 @@ class dbTypeSub(supermod.dbType):
         super(dbTypeSub, self).__init__(db_source, db_version,  **kwargs_)
 supermod.dbType.subclass = dbTypeSub
 # end class dbTypeSub
+
+
+class empiarsTypeSub(supermod.empiarsType):
+    def __init__(self, empiar=None, **kwargs_):
+        super(empiarsTypeSub, self).__init__(empiar,  **kwargs_)
+supermod.empiarsType.subclass = empiarsTypeSub
+# end class empiarsTypeSub
+
+
+class empiarTypeSub(supermod.empiarType):
+    def __init__(self, empiar_id=None, provenance=None, **kwargs_):
+        super(empiarTypeSub, self).__init__(empiar_id, provenance,  **kwargs_)
+supermod.empiarType.subclass = empiarTypeSub
+# end class empiarTypeSub
 
 
 class molecular_weightTypeSub(supermod.molecular_weightType):

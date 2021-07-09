@@ -1,12 +1,14 @@
-import os, sys, argparse
+import argparse
 from pathlib import Path
+
+import models
 from resources.ComplexPortalMapping import CPMapping
 from resources.ComponentsMapping import ComponentsMap
 from resources.UniprotMapping import UniprotMapping
 from resources.StructureMapping import StructureMapping
 from resources.SampleWeight import SampleWeight
+from resources.EMPIARMapping import EMPIARMapping
 from resources.EmicssXML import EmicssXML
-from models import Weight
 from XMLParser import XMLParser
 
 """
@@ -20,7 +22,7 @@ List of things to do:
 if __name__ == "__main__":
     ######### Command : python /Users/amudha/project/ComplexPortal/AddedAnnotations.py
     # -w /Users/amudha/project/ -f /Users/amudha/project/EMD_XML/ -p /Users/amudha/project/pdbeFiles/ --CPX --model
-    # --components --uniprot --weight
+    # --component --uniprot --weight --empiar
 
     prog = "EMDBAddedAnnotations"
     usage = """
@@ -29,7 +31,7 @@ if __name__ == "__main__":
             python AddedAnnotations.py -w '[{"/path/to/working/folder"}]'
             -f '[{"/path/to/EMDB/header/files/folder"}]'
             -p '[{"/path/to/PDBe/files/folder"}]'
-            --download_uniprot --uniprot --CPX --components --model --weight
+            --download_uniprot --uniprot --CPX --component --model --weight --empiar
           """
     parser = argparse.ArgumentParser(prog=prog, usage=usage, add_help=False,
                                      formatter_class=argparse.RawTextHelpFormatter)
@@ -41,10 +43,11 @@ if __name__ == "__main__":
     parser.add_argument("--download_uniprot", type=bool, nargs='?', const=True, default=False, help="Download uniprot tab file.")
     parser.add_argument("--uniprot", type=bool, nargs='?', const=True, default=False, help="Mapping to Complex Portal.")
     parser.add_argument("--CPX", type=bool, nargs='?', const=True, default=False, help="Mapping to Complex Portal.")
-    parser.add_argument("--components", type=bool, nargs='?', const=True, default=False, help="Mapping to ChEMBL, "
+    parser.add_argument("--component", type=bool, nargs='?', const=True, default=False, help="Mapping to ChEMBL, "
                                                                                               "ChEBI and DrugBank.")
     parser.add_argument("--model", type=bool, nargs='?', const=True, default=False, help="Collect MW from PDBe.")
     parser.add_argument("--weight", type=bool, nargs='?', const=True, default=False, help="Collect sample weight from header file.")
+    parser.add_argument("--empiar", type=bool, nargs='?', const=True, default=False, help="Mapping EMPIAR ID to EMDB entries")
     args = parser.parse_args()
 
     xml = XMLParser(args.headerDir)
@@ -66,7 +69,7 @@ if __name__ == "__main__":
         cpx_mapping = CPMapping(args.workDir, unp_mapping.proteins, xml.supras)
         cpx_map = cpx_mapping.execute(args.threads)
         cpx_mapping.write_cpx_map()
-    if args.components:
+    if args.component:
         che_mapping = ComponentsMap(args.workDir, xml.ligands)
         lig_map = che_mapping.execute(args.threads)
         che_mapping.write_ligands()
@@ -77,10 +80,10 @@ if __name__ == "__main__":
     if args.weight:
         sw_mapping = SampleWeight(args.workDir, xml.weights)
         sw_map = sw_mapping.execute(args.threads)
+    if args.empiar:
+        empiar_mapping = EMPIARMapping(args.workDir, models.EMPIAR)
+        empiar_map = empiar_mapping.execute()
 
-    # for sw in sw_map:
-    #     print(sw.__dict__)
-
-    if args.uniprot and args.CPX and args.components and args.model and args.weight:
-        write_annotation_xml = EmicssXML(args.workDir, unip_map, cpx_map, lig_map, mw_map, sw_map)
+    if args.uniprot and args.CPX and args.component and args.model and args.weight:
+        write_annotation_xml = EmicssXML(args.workDir, unip_map, cpx_map, lig_map, mw_map, sw_map, empiar_map)
         write_annotation_xml.execute()

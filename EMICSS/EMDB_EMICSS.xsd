@@ -15,6 +15,18 @@
                         </xs:sequence>
                     </xs:complexType>
                 </xs:element>
+                <xs:element minOccurs="0" name="empiars">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element maxOccurs="unbounded" minOccurs="0" name="empiar">
+                                <xs:complexType>
+                                    <xs:attribute name="empiar_id" type="xs:string"/>
+                                    <xs:attribute name="provenance" type="xs:string"/>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
                 <xs:element minOccurs="0" name="molecular_weight">
                     <xs:complexType>
                         <xs:sequence>
@@ -176,6 +188,7 @@
             <xs:enumeration value="CHEMBL"/>
             <xs:enumeration value="CHEBI"/>
             <xs:enumeration value="DRUGBANK"/>
+            <xs:enumeration value="EMPIAR"/>
         </xs:restriction>
     </xs:simpleType>
     <xs:simpleType name="provenance_type">

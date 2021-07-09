@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Wed Jul  7 22:22:19 2021 by generateDS.py version 2.38.6.
+# Generated Fri Jul  9 00:18:22 2021 by generateDS.py version 2.38.6.
 # Python 3.7.6 (default, Dec 30 2019, 19:38:28)  [Clang 11.0.0 (clang-1100.0.33.16)]
 #
 # Command line options:
@@ -975,6 +975,7 @@ class db_source_type(str, Enum):
     CHEMBL='CHEMBL'
     CHEBI='CHEBI'
     DRUGBANK='DRUGBANK'
+    EMPIAR='EMPIAR'
 
 
 class provenance_type(str, Enum):
@@ -1001,7 +1002,7 @@ class emicss(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, emdb_id=None, dbs=None, molecular_weight=None, sample=None, gds_collector_=None, **kwargs_):
+    def __init__(self, emdb_id=None, dbs=None, empiars=None, molecular_weight=None, sample=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
@@ -1011,6 +1012,8 @@ class emicss(GeneratedsSuper):
         self.emdb_id_nsprefix_ = None
         self.dbs = dbs
         self.dbs_nsprefix_ = None
+        self.empiars = empiars
+        self.empiars_nsprefix_ = None
         self.molecular_weight = molecular_weight
         self.molecular_weight_nsprefix_ = None
         self.sample = sample
@@ -1034,6 +1037,10 @@ class emicss(GeneratedsSuper):
         return self.dbs
     def set_dbs(self, dbs):
         self.dbs = dbs
+    def get_empiars(self):
+        return self.empiars
+    def set_empiars(self, empiars):
+        self.empiars = empiars
     def get_molecular_weight(self):
         return self.molecular_weight
     def set_molecular_weight(self, molecular_weight):
@@ -1060,6 +1067,7 @@ class emicss(GeneratedsSuper):
     def hasContent_(self):
         if (
             self.dbs is not None or
+            self.empiars is not None or
             self.molecular_weight is not None or
             self.sample is not None
         ):
@@ -1101,6 +1109,9 @@ class emicss(GeneratedsSuper):
         if self.dbs is not None:
             namespaceprefix_ = self.dbs_nsprefix_ + ':' if (UseCapturedNS_ and self.dbs_nsprefix_) else ''
             self.dbs.export(outfile, level, namespaceprefix_, namespacedef_='', name_='dbs', pretty_print=pretty_print)
+        if self.empiars is not None:
+            namespaceprefix_ = self.empiars_nsprefix_ + ':' if (UseCapturedNS_ and self.empiars_nsprefix_) else ''
+            self.empiars.export(outfile, level, namespaceprefix_, namespacedef_='', name_='empiars', pretty_print=pretty_print)
         if self.molecular_weight is not None:
             namespaceprefix_ = self.molecular_weight_nsprefix_ + ':' if (UseCapturedNS_ and self.molecular_weight_nsprefix_) else ''
             self.molecular_weight.export(outfile, level, namespaceprefix_, namespacedef_='', name_='molecular_weight', pretty_print=pretty_print)
@@ -1131,6 +1142,11 @@ class emicss(GeneratedsSuper):
             obj_.build(child_, gds_collector_=gds_collector_)
             self.dbs = obj_
             obj_.original_tagname_ = 'dbs'
+        elif nodeName_ == 'empiars':
+            obj_ = empiarsType.factory(parent_object_=self)
+            obj_.build(child_, gds_collector_=gds_collector_)
+            self.empiars = obj_
+            obj_.original_tagname_ = 'empiars'
         elif nodeName_ == 'molecular_weight':
             obj_ = molecular_weightType.factory(parent_object_=self)
             obj_.build(child_, gds_collector_=gds_collector_)
@@ -1291,7 +1307,7 @@ class dbType(GeneratedsSuper):
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
                 return False
             value = value
-            enumerations = ['UNIPROT', 'COMPLEXPORTAL', 'PDBe', 'CHEMBL', 'CHEBI', 'DRUGBANK']
+            enumerations = ['UNIPROT', 'COMPLEXPORTAL', 'PDBe', 'CHEMBL', 'CHEBI', 'DRUGBANK', 'EMPIAR']
             if value not in enumerations:
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd enumeration restriction on db_source_type' % {"value" : encode_str_2_3(value), "lineno": lineno} )
@@ -1360,6 +1376,208 @@ class dbType(GeneratedsSuper):
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         pass
 # end class dbType
+
+
+class empiarsType(GeneratedsSuper):
+    __hash__ = GeneratedsSuper.__hash__
+    subclass = None
+    superclass = None
+    def __init__(self, empiar=None, gds_collector_=None, **kwargs_):
+        self.gds_collector_ = gds_collector_
+        self.gds_elementtree_node_ = None
+        self.original_tagname_ = None
+        self.parent_object_ = kwargs_.get('parent_object_')
+        self.ns_prefix_ = None
+        if empiar is None:
+            self.empiar = []
+        else:
+            self.empiar = empiar
+        self.empiar_nsprefix_ = None
+    def factory(*args_, **kwargs_):
+        if CurrentSubclassModule_ is not None:
+            subclass = getSubclassFromModule_(
+                CurrentSubclassModule_, empiarsType)
+            if subclass is not None:
+                return subclass(*args_, **kwargs_)
+        if empiarsType.subclass:
+            return empiarsType.subclass(*args_, **kwargs_)
+        else:
+            return empiarsType(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def get_ns_prefix_(self):
+        return self.ns_prefix_
+    def set_ns_prefix_(self, ns_prefix):
+        self.ns_prefix_ = ns_prefix
+    def get_empiar(self):
+        return self.empiar
+    def set_empiar(self, empiar):
+        self.empiar = empiar
+    def add_empiar(self, value):
+        self.empiar.append(value)
+    def insert_empiar_at(self, index, value):
+        self.empiar.insert(index, value)
+    def replace_empiar_at(self, index, value):
+        self.empiar[index] = value
+    def hasContent_(self):
+        if (
+            self.empiar
+        ):
+            return True
+        else:
+            return False
+    def export(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='empiarsType', pretty_print=True):
+        imported_ns_def_ = GenerateDSNamespaceDefs_.get('empiarsType')
+        if imported_ns_def_ is not None:
+            namespacedef_ = imported_ns_def_
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        if self.original_tagname_ is not None and name_ == 'empiarsType':
+            name_ = self.original_tagname_
+        if UseCapturedNS_ and self.ns_prefix_:
+            namespaceprefix_ = self.ns_prefix_ + ':'
+        showIndent(outfile, level, pretty_print)
+        outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        already_processed = set()
+        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='empiarsType')
+        if self.hasContent_():
+            outfile.write('>%s' % (eol_, ))
+            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='empiarsType', pretty_print=pretty_print)
+            showIndent(outfile, level, pretty_print)
+            outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
+        else:
+            outfile.write('/>%s' % (eol_, ))
+    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='empiarsType'):
+        pass
+    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='empiarsType', fromsubclass_=False, pretty_print=True):
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        for empiar_ in self.empiar:
+            namespaceprefix_ = self.empiar_nsprefix_ + ':' if (UseCapturedNS_ and self.empiar_nsprefix_) else ''
+            empiar_.export(outfile, level, namespaceprefix_, namespacedef_='', name_='empiar', pretty_print=pretty_print)
+    def build(self, node, gds_collector_=None):
+        self.gds_collector_ = gds_collector_
+        if SaveElementTreeNode:
+            self.gds_elementtree_node_ = node
+        already_processed = set()
+        self.ns_prefix_ = node.prefix
+        self.buildAttributes(node, node.attrib, already_processed)
+        for child in node:
+            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
+            self.buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
+        return self
+    def buildAttributes(self, node, attrs, already_processed):
+        pass
+    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
+        if nodeName_ == 'empiar':
+            obj_ = empiarType.factory(parent_object_=self)
+            obj_.build(child_, gds_collector_=gds_collector_)
+            self.empiar.append(obj_)
+            obj_.original_tagname_ = 'empiar'
+# end class empiarsType
+
+
+class empiarType(GeneratedsSuper):
+    __hash__ = GeneratedsSuper.__hash__
+    subclass = None
+    superclass = None
+    def __init__(self, empiar_id=None, provenance=None, gds_collector_=None, **kwargs_):
+        self.gds_collector_ = gds_collector_
+        self.gds_elementtree_node_ = None
+        self.original_tagname_ = None
+        self.parent_object_ = kwargs_.get('parent_object_')
+        self.ns_prefix_ = None
+        self.empiar_id = _cast(None, empiar_id)
+        self.empiar_id_nsprefix_ = None
+        self.provenance = _cast(None, provenance)
+        self.provenance_nsprefix_ = None
+    def factory(*args_, **kwargs_):
+        if CurrentSubclassModule_ is not None:
+            subclass = getSubclassFromModule_(
+                CurrentSubclassModule_, empiarType)
+            if subclass is not None:
+                return subclass(*args_, **kwargs_)
+        if empiarType.subclass:
+            return empiarType.subclass(*args_, **kwargs_)
+        else:
+            return empiarType(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def get_ns_prefix_(self):
+        return self.ns_prefix_
+    def set_ns_prefix_(self, ns_prefix):
+        self.ns_prefix_ = ns_prefix
+    def get_empiar_id(self):
+        return self.empiar_id
+    def set_empiar_id(self, empiar_id):
+        self.empiar_id = empiar_id
+    def get_provenance(self):
+        return self.provenance
+    def set_provenance(self, provenance):
+        self.provenance = provenance
+    def hasContent_(self):
+        if (
+
+        ):
+            return True
+        else:
+            return False
+    def export(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='empiarType', pretty_print=True):
+        imported_ns_def_ = GenerateDSNamespaceDefs_.get('empiarType')
+        if imported_ns_def_ is not None:
+            namespacedef_ = imported_ns_def_
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        if self.original_tagname_ is not None and name_ == 'empiarType':
+            name_ = self.original_tagname_
+        if UseCapturedNS_ and self.ns_prefix_:
+            namespaceprefix_ = self.ns_prefix_ + ':'
+        showIndent(outfile, level, pretty_print)
+        outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        already_processed = set()
+        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='empiarType')
+        if self.hasContent_():
+            outfile.write('>%s' % (eol_, ))
+            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='empiarType', pretty_print=pretty_print)
+            outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
+        else:
+            outfile.write('/>%s' % (eol_, ))
+    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='empiarType'):
+        if self.empiar_id is not None and 'empiar_id' not in already_processed:
+            already_processed.add('empiar_id')
+            outfile.write(' empiar_id=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.empiar_id), input_name='empiar_id')), ))
+        if self.provenance is not None and 'provenance' not in already_processed:
+            already_processed.add('provenance')
+            outfile.write(' provenance=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.provenance), input_name='provenance')), ))
+    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='empiarType', fromsubclass_=False, pretty_print=True):
+        pass
+    def build(self, node, gds_collector_=None):
+        self.gds_collector_ = gds_collector_
+        if SaveElementTreeNode:
+            self.gds_elementtree_node_ = node
+        already_processed = set()
+        self.ns_prefix_ = node.prefix
+        self.buildAttributes(node, node.attrib, already_processed)
+        for child in node:
+            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
+            self.buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
+        return self
+    def buildAttributes(self, node, attrs, already_processed):
+        value = find_attr_value_('empiar_id', node)
+        if value is not None and 'empiar_id' not in already_processed:
+            already_processed.add('empiar_id')
+            self.empiar_id = value
+        value = find_attr_value_('provenance', node)
+        if value is not None and 'provenance' not in already_processed:
+            already_processed.add('provenance')
+            self.provenance = value
+    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
+        pass
+# end class empiarType
 
 
 class molecular_weightType(GeneratedsSuper):
@@ -2301,7 +2519,7 @@ class cross_ref_dbType(GeneratedsSuper):
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
                 return False
             value = value
-            enumerations = ['UNIPROT', 'COMPLEXPORTAL', 'PDBe', 'CHEMBL', 'CHEBI', 'DRUGBANK']
+            enumerations = ['UNIPROT', 'COMPLEXPORTAL', 'PDBe', 'CHEMBL', 'CHEBI', 'DRUGBANK', 'EMPIAR']
             if value not in enumerations:
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd enumeration restriction on db_source_type' % {"value" : encode_str_2_3(value), "lineno": lineno} )
@@ -2841,7 +3059,7 @@ class cross_ref_dbType2(GeneratedsSuper):
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
                 return False
             value = value
-            enumerations = ['UNIPROT', 'COMPLEXPORTAL', 'PDBe', 'CHEMBL', 'CHEBI', 'DRUGBANK']
+            enumerations = ['UNIPROT', 'COMPLEXPORTAL', 'PDBe', 'CHEMBL', 'CHEBI', 'DRUGBANK', 'EMPIAR']
             if value not in enumerations:
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd enumeration restriction on db_source_type' % {"value" : encode_str_2_3(value), "lineno": lineno} )
@@ -3398,7 +3616,7 @@ class cross_ref_dbType4(GeneratedsSuper):
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
                 return False
             value = value
-            enumerations = ['UNIPROT', 'COMPLEXPORTAL', 'PDBe', 'CHEMBL', 'CHEBI', 'DRUGBANK']
+            enumerations = ['UNIPROT', 'COMPLEXPORTAL', 'PDBe', 'CHEMBL', 'CHEBI', 'DRUGBANK', 'EMPIAR']
             if value not in enumerations:
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd enumeration restriction on db_source_type' % {"value" : encode_str_2_3(value), "lineno": lineno} )
@@ -3710,6 +3928,8 @@ __all__ = [
     "dbType",
     "dbsType",
     "emicss",
+    "empiarType",
+    "empiarsType",
     "macromoleculeType",
     "macromoleculesType",
     "modelType",

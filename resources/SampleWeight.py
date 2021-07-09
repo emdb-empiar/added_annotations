@@ -1,16 +1,8 @@
-import logging
 from multiprocessing import Pool
-
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
-formatter = logging.Formatter('%(funcName)s:%(message)s')
-file_handler = logging.FileHandler('logging_molecularweight.log')
-file_handler.setFormatter(formatter)
-logger.addHandler(file_handler)
 
 class SampleWeight:
     """
-    Calculating the author provided total sample weight
+    Calculating the total weight of the sample provided by the author
     """
 
     def __init__(self, workDir, weights):

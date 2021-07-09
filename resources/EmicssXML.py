@@ -1,21 +1,39 @@
 import os, re
+import json
 import itertools
 from EMICSS import EMICSS
 
 class EmicssXML:
     "Writing annotations to output xml file according to the EMdb_EMICSS.xsd schema "
 
-    def __init__(self, workDir, unip_map, cpx_map, lig_map, mw_map, sw_map):
+    def __init__(self, workDir, unip_map, cpx_map, lig_map, mw_map, sw_map, empiar_map):
         self.workDir = workDir
         self.unip_map = unip_map
         self.cpx_map = cpx_map
         self.lig_map = lig_map
         self.mw_map = mw_map
         self.sw_map = sw_map
+        self.empiar_map = empiar_map
 
     def execute(self):
         self.emicss_annotation = self.dict_emicss()
         self.writeXML_ligands()
+
+    def empiar_map(self):
+        """
+        Creating dictionary for mapping of EMPIAR ID to EMDB entry
+        """
+        # empiar_ftp = r'/nfs/ftp/pub/databases/emtest/'
+        empiar_ftp = r'/users/amudha/project/ftp_data/EMPIAR/'
+        empiar_dict = {}
+        json_file = os.path.join(str(empiar_ftp), "emdb_empiar_list.json")
+        with open(json_file, "r") as file:
+            data = json.load(file)
+            for key in data.keys():
+                if isinstance(data[key], dict) == False:
+                    empiar_dict["emdb_id"] = key
+                    empiar_dict["empiar_id"] = data[key]
+        return empiar_dict
 
     def dict_emicss(self):
         "Converts dictionary individual annotation to deeply nested dictionary of all the added annotations"
@@ -36,6 +54,14 @@ class EmicssXML:
                 emicss_dict[sw.emdb_id][sw.method] = sw.__dict__
             else:
                 emicss_dict[sw.emdb_id][sw.method] += sw.__dict__
+
+        for empiar in self.empiar_map:
+            if empiar.emdb_id not in emicss_dict:
+                emicss_dict[empiar.emdb_id] = {}
+            if empiar.emdb_id not in emicss_dict[empiar.emdb_id]:
+                emicss_dict[empiar.emdb_id][empiar.empiar_id] = empiar.__dict__
+            else:
+                emicss_dict[empiar.emdb_id][empiar.empiar_id] += empiar.__dict__
 
         for unip in self.unip_map:
             if unip.emdb_id not in emicss_dict:
@@ -80,6 +106,7 @@ class EmicssXML:
             headerXML = EMICSS.emicss()
             dbs = EMICSS.dbsType()
             molecular_weight = EMICSS.molecular_weightType()
+            empiars = EMICSS.empiarsType()
             models = EMICSS.modelsType()
             weights = EMICSS.weightsType()
             sample = EMICSS.sampleType()
@@ -91,6 +118,8 @@ class EmicssXML:
                 if samp_id is not None:
                     if samp_id == "theoretical" or samp_id == "experimental":
                         self.EMICSS_weight(val, samp_id, weights)
+                    if re.search(r'%s\-\d+' % "EMPIAR", samp_id):
+                        self.EMICSS_empiar(val, samp_id, all_db, dbs, empiars)
                     if (samp_id.isalnum() and not samp_id.isalpha() and not samp_id.isnumeric()):
                         if len(samp_id) == 4:
                             self.EMICSS_Pdbe(val, samp_id, all_db, dbs, models)
@@ -102,6 +131,7 @@ class EmicssXML:
                         supramolecules = self.EMICSS_CPX(val, samp_id, all_db, dbs)
 
             headerXML.set_dbs(dbs)
+            headerXML.set_empiars(empiars)
             molecular_weight.set_models(models)
             molecular_weight.set_weights(weights)
             headerXML.set_molecular_weight(molecular_weight)
@@ -113,6 +143,21 @@ class EmicssXML:
             xmlFile = os.path.join(self.workDir, em_id + "_emicss.xml")
             with open(xmlFile, 'w') as f:
                 headerXML.export(f, 0, name_='emicss')
+
+    def EMICSS_empiar(self, val, samp_id, all_db, dbs, empiars):
+        "Adding EMPIAR_ID to EMICSS"
+        empiar_id = val.get(samp_id, {}).get('empiar_id')
+        if empiar_id:
+            if "EMPIAR" not in all_db:
+                db = EMICSS.dbType()
+                db.set_db_source("%s" % "EMPIAR")
+                db.set_db_version("%s" % "2.0")
+                dbs.add_db(db)
+        all_db.add("EMPIAR")
+        empiar = EMICSS.empiarType()
+        empiar.set_empiar_id("%s" % empiar_id)
+        empiar.set_provenance("%s" % "AUTHOR")
+        empiars.add_empiar(empiar)
 
     def EMICSS_Pdbe(self, val, samp_id, all_db, dbs, models):
         "Adding Pdbe and calulated assembly weight annotations to EMICSS"
