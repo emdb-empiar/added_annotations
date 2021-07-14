@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Fri Jul  9 00:18:23 2021 by generateDS.py version 2.38.6.
+# Generated Wed Jul 14 21:04:48 2021 by generateDS.py version 2.38.6.
 # Python 3.7.6 (default, Dec 30 2019, 19:38:28)  [Clang 11.0.0 (clang-1100.0.33.16)]
 #
 # Command line options:
@@ -62,8 +62,8 @@ SaveElementTreeNode = True
 
 
 class emicssSub(supermod.emicss):
-    def __init__(self, emdb_id=None, dbs=None, empiars=None, molecular_weight=None, sample=None, **kwargs_):
-        super(emicssSub, self).__init__(emdb_id, dbs, empiars, molecular_weight, sample,  **kwargs_)
+    def __init__(self, emdb_id=None, dbs=None, empiars=None, europe_pmc=None, molecular_weight=None, sample=None, **kwargs_):
+        super(emicssSub, self).__init__(emdb_id, dbs, empiars, europe_pmc, molecular_weight, sample,  **kwargs_)
 supermod.emicss.subclass = emicssSub
 # end class emicssSub
 
@@ -94,6 +94,20 @@ class empiarTypeSub(supermod.empiarType):
         super(empiarTypeSub, self).__init__(empiar_id, provenance,  **kwargs_)
 supermod.empiarType.subclass = empiarTypeSub
 # end class empiarTypeSub
+
+
+class europe_pmcTypeSub(supermod.europe_pmcType):
+    def __init__(self, pmc=None, **kwargs_):
+        super(europe_pmcTypeSub, self).__init__(pmc,  **kwargs_)
+supermod.europe_pmcType.subclass = europe_pmcTypeSub
+# end class europe_pmcTypeSub
+
+
+class pmcTypeSub(supermod.pmcType):
+    def __init__(self, pubmed_id=None, doi=None, issn=None, provenance=None, **kwargs_):
+        super(pmcTypeSub, self).__init__(pubmed_id, doi, issn, provenance,  **kwargs_)
+supermod.pmcType.subclass = pmcTypeSub
+# end class pmcTypeSub
 
 
 class molecular_weightTypeSub(supermod.molecular_weightType):

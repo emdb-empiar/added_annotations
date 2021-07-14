@@ -8,6 +8,7 @@ from resources.UniprotMapping import UniprotMapping
 from resources.StructureMapping import StructureMapping
 from resources.SampleWeight import SampleWeight
 from resources.EMPIARMapping import EMPIARMapping
+from resources.EuropePMCMapping import EuropePMCMapping
 from resources.EmicssXML import EmicssXML
 from XMLParser import XMLParser
 
@@ -22,7 +23,7 @@ List of things to do:
 if __name__ == "__main__":
     ######### Command : python /Users/amudha/project/ComplexPortal/AddedAnnotations.py
     # -w /Users/amudha/project/ -f /Users/amudha/project/EMD_XML/ -p /Users/amudha/project/pdbeFiles/ --CPX --model
-    # --component --uniprot --weight --empiar
+    # --component --uniprot --weight --empiar --pmc
 
     prog = "EMDBAddedAnnotations"
     usage = """
@@ -31,7 +32,7 @@ if __name__ == "__main__":
             python AddedAnnotations.py -w '[{"/path/to/working/folder"}]'
             -f '[{"/path/to/EMDB/header/files/folder"}]'
             -p '[{"/path/to/PDBe/files/folder"}]'
-            --download_uniprot --uniprot --CPX --component --model --weight --empiar
+            --download_uniprot --uniprot --CPX --component --model --weight --empiar --pmc
           """
     parser = argparse.ArgumentParser(prog=prog, usage=usage, add_help=False,
                                      formatter_class=argparse.RawTextHelpFormatter)
@@ -48,6 +49,7 @@ if __name__ == "__main__":
     parser.add_argument("--model", type=bool, nargs='?', const=True, default=False, help="Collect MW from PDBe.")
     parser.add_argument("--weight", type=bool, nargs='?', const=True, default=False, help="Collect sample weight from header file.")
     parser.add_argument("--empiar", type=bool, nargs='?', const=True, default=False, help="Mapping EMPIAR ID to EMDB entries")
+    parser.add_argument("--pmc", type=bool, nargs='?', const=True, default=False, help="Mapping publication ID to EMDB entries")
     args = parser.parse_args()
 
     xml = XMLParser(args.headerDir)
@@ -83,6 +85,9 @@ if __name__ == "__main__":
     if args.empiar:
         empiar_mapping = EMPIARMapping(args.workDir, models.EMPIAR)
         empiar_map = empiar_mapping.execute()
+    if args.pmc:
+        pmc_mapping = EuropePMCMapping(args.workDir, xml.citations)
+        pmc_map = pmc_mapping.execute(args.threads)
 
     if args.uniprot and args.CPX and args.component and args.model and args.weight:
         write_annotation_xml = EmicssXML(args.workDir, unip_map, cpx_map, lig_map, mw_map, sw_map, empiar_map)

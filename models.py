@@ -171,3 +171,19 @@ class EMPIAR:
 
     def __str__(self):
             return ("%s\t%s\t%s\n" % (self.emdb_id, self.emdb_id, self.provenance))
+
+class Citation:
+    """
+    Defines the attributes of a publication in a EMDB entry
+    """
+    def __init__(self, emdb_id):
+        self.emdb_id = emdb_id
+        self.pmedid = ""
+        self.doi = ""
+        self.issn = ""
+        self.status = ""
+        self.title = ""
+        self.provenance = ""
+
+    def __str__(self):
+        return "%s\t%s\t%s\t%s\t%s" % (self.emdb_id, self.pmedid, self.doi, self.issn, self.title)

@@ -27,6 +27,20 @@
                         </xs:sequence>
                     </xs:complexType>
                 </xs:element>
+                <xs:element minOccurs="0" name="europe_pmc">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element maxOccurs="unbounded" minOccurs="0" name="pmc">
+                                <xs:complexType>
+                                    <xs:attribute name="pubmed_id" type="xs:string"/>
+                                    <xs:attribute name="doi" type="xs:string"/>
+                                    <xs:attribute name="issn" type="xs:string"/>
+                                    <xs:attribute name="provenance" type="provenance_type"/>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
                 <xs:element minOccurs="0" name="molecular_weight">
                     <xs:complexType>
                         <xs:sequence>
@@ -196,6 +210,8 @@
             <xs:enumeration value="AUTHOR"/>
             <xs:enumeration value="UNIPROT"/>
             <xs:enumeration value="PDBe"/>
+            <xs:enumeration value="EMPIAR"/>
+            <xs:enumeration value="EuropePMC"/>
             <xs:enumeration value="PDBe + UNIPROT"/>
             <xs:enumeration value="CPX + UNIPROT"/>
             <xs:enumeration value="BLASTP"/>

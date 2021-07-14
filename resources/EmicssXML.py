@@ -116,10 +116,10 @@ class EmicssXML:
             supramolecules = None
             for samp_id in val.keys():
                 if samp_id is not None:
-                    if samp_id == "theoretical" or samp_id == "experimental":
-                        self.EMICSS_weight(val, samp_id, weights)
                     if re.search(r'%s\-\d+' % "EMPIAR", samp_id):
                         self.EMICSS_empiar(val, samp_id, all_db, dbs, empiars)
+                    if samp_id == "theoretical" or samp_id == "experimental":
+                        self.EMICSS_weight(val, samp_id, weights)
                     if (samp_id.isalnum() and not samp_id.isalpha() and not samp_id.isnumeric()):
                         if len(samp_id) == 4:
                             self.EMICSS_Pdbe(val, samp_id, all_db, dbs, models)
@@ -140,7 +140,8 @@ class EmicssXML:
             sample.set_macromolecules(macromolecules)
             headerXML.set_sample(sample)
 
-            xmlFile = os.path.join(self.workDir, em_id + "_emicss.xml")
+            xmlFile = os.path.join(self.workDir, "emicss", em_id + "_emicss.xml")
+            print(xmlFile)
             with open(xmlFile, 'w') as f:
                 headerXML.export(f, 0, name_='emicss')
 

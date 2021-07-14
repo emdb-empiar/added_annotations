@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Fri Jul  9 00:18:22 2021 by generateDS.py version 2.38.6.
+# Generated Wed Jul 14 21:04:47 2021 by generateDS.py version 2.38.6.
 # Python 3.7.6 (default, Dec 30 2019, 19:38:28)  [Clang 11.0.0 (clang-1100.0.33.16)]
 #
 # Command line options:
@@ -982,6 +982,8 @@ class provenance_type(str, Enum):
     AUTHOR='AUTHOR'
     UNIPROT='UNIPROT'
     PD_BE='PDBe'
+    EMPIAR='EMPIAR'
+    EUROPE_PMC='EuropePMC'
     PD_BEUNIPROT='PDBe + UNIPROT'
     CPXUNIPROT='CPX + UNIPROT'
     BLASTP='BLASTP'
@@ -1002,7 +1004,7 @@ class emicss(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, emdb_id=None, dbs=None, empiars=None, molecular_weight=None, sample=None, gds_collector_=None, **kwargs_):
+    def __init__(self, emdb_id=None, dbs=None, empiars=None, europe_pmc=None, molecular_weight=None, sample=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
@@ -1014,6 +1016,8 @@ class emicss(GeneratedsSuper):
         self.dbs_nsprefix_ = None
         self.empiars = empiars
         self.empiars_nsprefix_ = None
+        self.europe_pmc = europe_pmc
+        self.europe_pmc_nsprefix_ = None
         self.molecular_weight = molecular_weight
         self.molecular_weight_nsprefix_ = None
         self.sample = sample
@@ -1041,6 +1045,10 @@ class emicss(GeneratedsSuper):
         return self.empiars
     def set_empiars(self, empiars):
         self.empiars = empiars
+    def get_europe_pmc(self):
+        return self.europe_pmc
+    def set_europe_pmc(self, europe_pmc):
+        self.europe_pmc = europe_pmc
     def get_molecular_weight(self):
         return self.molecular_weight
     def set_molecular_weight(self, molecular_weight):
@@ -1068,6 +1076,7 @@ class emicss(GeneratedsSuper):
         if (
             self.dbs is not None or
             self.empiars is not None or
+            self.europe_pmc is not None or
             self.molecular_weight is not None or
             self.sample is not None
         ):
@@ -1112,6 +1121,9 @@ class emicss(GeneratedsSuper):
         if self.empiars is not None:
             namespaceprefix_ = self.empiars_nsprefix_ + ':' if (UseCapturedNS_ and self.empiars_nsprefix_) else ''
             self.empiars.export(outfile, level, namespaceprefix_, namespacedef_='', name_='empiars', pretty_print=pretty_print)
+        if self.europe_pmc is not None:
+            namespaceprefix_ = self.europe_pmc_nsprefix_ + ':' if (UseCapturedNS_ and self.europe_pmc_nsprefix_) else ''
+            self.europe_pmc.export(outfile, level, namespaceprefix_, namespacedef_='', name_='europe_pmc', pretty_print=pretty_print)
         if self.molecular_weight is not None:
             namespaceprefix_ = self.molecular_weight_nsprefix_ + ':' if (UseCapturedNS_ and self.molecular_weight_nsprefix_) else ''
             self.molecular_weight.export(outfile, level, namespaceprefix_, namespacedef_='', name_='molecular_weight', pretty_print=pretty_print)
@@ -1147,6 +1159,11 @@ class emicss(GeneratedsSuper):
             obj_.build(child_, gds_collector_=gds_collector_)
             self.empiars = obj_
             obj_.original_tagname_ = 'empiars'
+        elif nodeName_ == 'europe_pmc':
+            obj_ = europe_pmcType.factory(parent_object_=self)
+            obj_.build(child_, gds_collector_=gds_collector_)
+            self.europe_pmc = obj_
+            obj_.original_tagname_ = 'europe_pmc'
         elif nodeName_ == 'molecular_weight':
             obj_ = molecular_weightType.factory(parent_object_=self)
             obj_.build(child_, gds_collector_=gds_collector_)
@@ -1580,6 +1597,249 @@ class empiarType(GeneratedsSuper):
 # end class empiarType
 
 
+class europe_pmcType(GeneratedsSuper):
+    __hash__ = GeneratedsSuper.__hash__
+    subclass = None
+    superclass = None
+    def __init__(self, pmc=None, gds_collector_=None, **kwargs_):
+        self.gds_collector_ = gds_collector_
+        self.gds_elementtree_node_ = None
+        self.original_tagname_ = None
+        self.parent_object_ = kwargs_.get('parent_object_')
+        self.ns_prefix_ = None
+        if pmc is None:
+            self.pmc = []
+        else:
+            self.pmc = pmc
+        self.pmc_nsprefix_ = None
+    def factory(*args_, **kwargs_):
+        if CurrentSubclassModule_ is not None:
+            subclass = getSubclassFromModule_(
+                CurrentSubclassModule_, europe_pmcType)
+            if subclass is not None:
+                return subclass(*args_, **kwargs_)
+        if europe_pmcType.subclass:
+            return europe_pmcType.subclass(*args_, **kwargs_)
+        else:
+            return europe_pmcType(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def get_ns_prefix_(self):
+        return self.ns_prefix_
+    def set_ns_prefix_(self, ns_prefix):
+        self.ns_prefix_ = ns_prefix
+    def get_pmc(self):
+        return self.pmc
+    def set_pmc(self, pmc):
+        self.pmc = pmc
+    def add_pmc(self, value):
+        self.pmc.append(value)
+    def insert_pmc_at(self, index, value):
+        self.pmc.insert(index, value)
+    def replace_pmc_at(self, index, value):
+        self.pmc[index] = value
+    def hasContent_(self):
+        if (
+            self.pmc
+        ):
+            return True
+        else:
+            return False
+    def export(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='europe_pmcType', pretty_print=True):
+        imported_ns_def_ = GenerateDSNamespaceDefs_.get('europe_pmcType')
+        if imported_ns_def_ is not None:
+            namespacedef_ = imported_ns_def_
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        if self.original_tagname_ is not None and name_ == 'europe_pmcType':
+            name_ = self.original_tagname_
+        if UseCapturedNS_ and self.ns_prefix_:
+            namespaceprefix_ = self.ns_prefix_ + ':'
+        showIndent(outfile, level, pretty_print)
+        outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        already_processed = set()
+        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='europe_pmcType')
+        if self.hasContent_():
+            outfile.write('>%s' % (eol_, ))
+            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='europe_pmcType', pretty_print=pretty_print)
+            showIndent(outfile, level, pretty_print)
+            outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
+        else:
+            outfile.write('/>%s' % (eol_, ))
+    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='europe_pmcType'):
+        pass
+    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='europe_pmcType', fromsubclass_=False, pretty_print=True):
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        for pmc_ in self.pmc:
+            namespaceprefix_ = self.pmc_nsprefix_ + ':' if (UseCapturedNS_ and self.pmc_nsprefix_) else ''
+            pmc_.export(outfile, level, namespaceprefix_, namespacedef_='', name_='pmc', pretty_print=pretty_print)
+    def build(self, node, gds_collector_=None):
+        self.gds_collector_ = gds_collector_
+        if SaveElementTreeNode:
+            self.gds_elementtree_node_ = node
+        already_processed = set()
+        self.ns_prefix_ = node.prefix
+        self.buildAttributes(node, node.attrib, already_processed)
+        for child in node:
+            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
+            self.buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
+        return self
+    def buildAttributes(self, node, attrs, already_processed):
+        pass
+    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
+        if nodeName_ == 'pmc':
+            obj_ = pmcType.factory(parent_object_=self)
+            obj_.build(child_, gds_collector_=gds_collector_)
+            self.pmc.append(obj_)
+            obj_.original_tagname_ = 'pmc'
+# end class europe_pmcType
+
+
+class pmcType(GeneratedsSuper):
+    __hash__ = GeneratedsSuper.__hash__
+    subclass = None
+    superclass = None
+    def __init__(self, pubmed_id=None, doi=None, issn=None, provenance=None, gds_collector_=None, **kwargs_):
+        self.gds_collector_ = gds_collector_
+        self.gds_elementtree_node_ = None
+        self.original_tagname_ = None
+        self.parent_object_ = kwargs_.get('parent_object_')
+        self.ns_prefix_ = None
+        self.pubmed_id = _cast(None, pubmed_id)
+        self.pubmed_id_nsprefix_ = None
+        self.doi = _cast(None, doi)
+        self.doi_nsprefix_ = None
+        self.issn = _cast(None, issn)
+        self.issn_nsprefix_ = None
+        self.provenance = _cast(None, provenance)
+        self.provenance_nsprefix_ = None
+    def factory(*args_, **kwargs_):
+        if CurrentSubclassModule_ is not None:
+            subclass = getSubclassFromModule_(
+                CurrentSubclassModule_, pmcType)
+            if subclass is not None:
+                return subclass(*args_, **kwargs_)
+        if pmcType.subclass:
+            return pmcType.subclass(*args_, **kwargs_)
+        else:
+            return pmcType(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def get_ns_prefix_(self):
+        return self.ns_prefix_
+    def set_ns_prefix_(self, ns_prefix):
+        self.ns_prefix_ = ns_prefix
+    def get_pubmed_id(self):
+        return self.pubmed_id
+    def set_pubmed_id(self, pubmed_id):
+        self.pubmed_id = pubmed_id
+    def get_doi(self):
+        return self.doi
+    def set_doi(self, doi):
+        self.doi = doi
+    def get_issn(self):
+        return self.issn
+    def set_issn(self, issn):
+        self.issn = issn
+    def get_provenance(self):
+        return self.provenance
+    def set_provenance(self, provenance):
+        self.provenance = provenance
+    def validate_provenance_type(self, value):
+        # Validate type provenance_type, a restriction on xs:token.
+        if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
+            if not isinstance(value, str):
+                lineno = self.gds_get_node_lineno_()
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
+                return False
+            value = value
+            enumerations = ['AUTHOR', 'UNIPROT', 'PDBe', 'EMPIAR', 'EuropePMC', 'PDBe + UNIPROT', 'CPX + UNIPROT', 'BLASTP', 'COMPLEXPORTAL', 'ChEMBL', 'ChEBI', 'DrugBank', 'CALCULATED']
+            if value not in enumerations:
+                lineno = self.gds_get_node_lineno_()
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd enumeration restriction on provenance_type' % {"value" : encode_str_2_3(value), "lineno": lineno} )
+                result = False
+    def hasContent_(self):
+        if (
+
+        ):
+            return True
+        else:
+            return False
+    def export(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='pmcType', pretty_print=True):
+        imported_ns_def_ = GenerateDSNamespaceDefs_.get('pmcType')
+        if imported_ns_def_ is not None:
+            namespacedef_ = imported_ns_def_
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        if self.original_tagname_ is not None and name_ == 'pmcType':
+            name_ = self.original_tagname_
+        if UseCapturedNS_ and self.ns_prefix_:
+            namespaceprefix_ = self.ns_prefix_ + ':'
+        showIndent(outfile, level, pretty_print)
+        outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        already_processed = set()
+        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='pmcType')
+        if self.hasContent_():
+            outfile.write('>%s' % (eol_, ))
+            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='pmcType', pretty_print=pretty_print)
+            outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
+        else:
+            outfile.write('/>%s' % (eol_, ))
+    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='pmcType'):
+        if self.pubmed_id is not None and 'pubmed_id' not in already_processed:
+            already_processed.add('pubmed_id')
+            outfile.write(' pubmed_id=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.pubmed_id), input_name='pubmed_id')), ))
+        if self.doi is not None and 'doi' not in already_processed:
+            already_processed.add('doi')
+            outfile.write(' doi=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.doi), input_name='doi')), ))
+        if self.issn is not None and 'issn' not in already_processed:
+            already_processed.add('issn')
+            outfile.write(' issn=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.issn), input_name='issn')), ))
+        if self.provenance is not None and 'provenance' not in already_processed:
+            already_processed.add('provenance')
+            outfile.write(' provenance=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.provenance), input_name='provenance')), ))
+    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='pmcType', fromsubclass_=False, pretty_print=True):
+        pass
+    def build(self, node, gds_collector_=None):
+        self.gds_collector_ = gds_collector_
+        if SaveElementTreeNode:
+            self.gds_elementtree_node_ = node
+        already_processed = set()
+        self.ns_prefix_ = node.prefix
+        self.buildAttributes(node, node.attrib, already_processed)
+        for child in node:
+            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
+            self.buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
+        return self
+    def buildAttributes(self, node, attrs, already_processed):
+        value = find_attr_value_('pubmed_id', node)
+        if value is not None and 'pubmed_id' not in already_processed:
+            already_processed.add('pubmed_id')
+            self.pubmed_id = value
+        value = find_attr_value_('doi', node)
+        if value is not None and 'doi' not in already_processed:
+            already_processed.add('doi')
+            self.doi = value
+        value = find_attr_value_('issn', node)
+        if value is not None and 'issn' not in already_processed:
+            already_processed.add('issn')
+            self.issn = value
+        value = find_attr_value_('provenance', node)
+        if value is not None and 'provenance' not in already_processed:
+            already_processed.add('provenance')
+            self.provenance = value
+            self.provenance = ' '.join(self.provenance.split())
+            self.validate_provenance_type(self.provenance)    # validate type provenance_type
+    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
+        pass
+# end class pmcType
+
+
 class molecular_weightType(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
@@ -1864,7 +2124,7 @@ class modelType(GeneratedsSuper):
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
                 return False
             value = value
-            enumerations = ['AUTHOR', 'UNIPROT', 'PDBe', 'PDBe + UNIPROT', 'CPX + UNIPROT', 'BLASTP', 'COMPLEXPORTAL', 'ChEMBL', 'ChEBI', 'DrugBank', 'CALCULATED']
+            enumerations = ['AUTHOR', 'UNIPROT', 'PDBe', 'EMPIAR', 'EuropePMC', 'PDBe + UNIPROT', 'CPX + UNIPROT', 'BLASTP', 'COMPLEXPORTAL', 'ChEMBL', 'ChEBI', 'DrugBank', 'CALCULATED']
             if value not in enumerations:
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd enumeration restriction on provenance_type' % {"value" : encode_str_2_3(value), "lineno": lineno} )
@@ -2123,7 +2383,7 @@ class weightType(GeneratedsSuper):
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
                 return False
             value = value
-            enumerations = ['AUTHOR', 'UNIPROT', 'PDBe', 'PDBe + UNIPROT', 'CPX + UNIPROT', 'BLASTP', 'COMPLEXPORTAL', 'ChEMBL', 'ChEBI', 'DrugBank', 'CALCULATED']
+            enumerations = ['AUTHOR', 'UNIPROT', 'PDBe', 'EMPIAR', 'EuropePMC', 'PDBe + UNIPROT', 'CPX + UNIPROT', 'BLASTP', 'COMPLEXPORTAL', 'ChEMBL', 'ChEBI', 'DrugBank', 'CALCULATED']
             if value not in enumerations:
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd enumeration restriction on provenance_type' % {"value" : encode_str_2_3(value), "lineno": lineno} )
@@ -2532,7 +2792,7 @@ class cross_ref_dbType(GeneratedsSuper):
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
                 return False
             value = value
-            enumerations = ['AUTHOR', 'UNIPROT', 'PDBe', 'PDBe + UNIPROT', 'CPX + UNIPROT', 'BLASTP', 'COMPLEXPORTAL', 'ChEMBL', 'ChEBI', 'DrugBank', 'CALCULATED']
+            enumerations = ['AUTHOR', 'UNIPROT', 'PDBe', 'EMPIAR', 'EuropePMC', 'PDBe + UNIPROT', 'CPX + UNIPROT', 'BLASTP', 'COMPLEXPORTAL', 'ChEMBL', 'ChEBI', 'DrugBank', 'CALCULATED']
             if value not in enumerations:
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd enumeration restriction on provenance_type' % {"value" : encode_str_2_3(value), "lineno": lineno} )
@@ -3072,7 +3332,7 @@ class cross_ref_dbType2(GeneratedsSuper):
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
                 return False
             value = value
-            enumerations = ['AUTHOR', 'UNIPROT', 'PDBe', 'PDBe + UNIPROT', 'CPX + UNIPROT', 'BLASTP', 'COMPLEXPORTAL', 'ChEMBL', 'ChEBI', 'DrugBank', 'CALCULATED']
+            enumerations = ['AUTHOR', 'UNIPROT', 'PDBe', 'EMPIAR', 'EuropePMC', 'PDBe + UNIPROT', 'CPX + UNIPROT', 'BLASTP', 'COMPLEXPORTAL', 'ChEMBL', 'ChEBI', 'DrugBank', 'CALCULATED']
             if value not in enumerations:
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd enumeration restriction on provenance_type' % {"value" : encode_str_2_3(value), "lineno": lineno} )
@@ -3629,7 +3889,7 @@ class cross_ref_dbType4(GeneratedsSuper):
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
                 return False
             value = value
-            enumerations = ['AUTHOR', 'UNIPROT', 'PDBe', 'PDBe + UNIPROT', 'CPX + UNIPROT', 'BLASTP', 'COMPLEXPORTAL', 'ChEMBL', 'ChEBI', 'DrugBank', 'CALCULATED']
+            enumerations = ['AUTHOR', 'UNIPROT', 'PDBe', 'EMPIAR', 'EuropePMC', 'PDBe + UNIPROT', 'CPX + UNIPROT', 'BLASTP', 'COMPLEXPORTAL', 'ChEMBL', 'ChEBI', 'DrugBank', 'CALCULATED']
             if value not in enumerations:
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd enumeration restriction on provenance_type' % {"value" : encode_str_2_3(value), "lineno": lineno} )
@@ -3930,11 +4190,13 @@ __all__ = [
     "emicss",
     "empiarType",
     "empiarsType",
+    "europe_pmcType",
     "macromoleculeType",
     "macromoleculesType",
     "modelType",
     "modelsType",
     "molecular_weightType",
+    "pmcType",
     "sampleType",
     "supramoleculeType",
     "supramoleculesType",

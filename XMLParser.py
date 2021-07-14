@@ -1,6 +1,6 @@
 import lxml.etree as ET
 from glob import glob
-from models import Protein, Supra, Ligand, Model, Weight
+from models import Protein, Supra, Ligand, Model, Weight, Citation
 import os, re
 
 class XMLParser:
@@ -15,6 +15,7 @@ class XMLParser:
 		self.ligands = []
 		self.models = []
 		self.weights = []
+		self.citations = []
 
 	def execute(self):
 		for fn in glob(os.path.join(str(self.header_dir), '*')):
@@ -22,12 +23,13 @@ class XMLParser:
 			xml_filename = "emd-" + id_num + "-v30.xml"
 			xml_dirpath = os.path.join(str(self.header_dir), fn, "header")
 			xml_filepath = os.path.join(xml_dirpath, xml_filename)
-			proteins, supras, ligands, models , weight = self.read_xml(xml_filepath)
+			proteins, supras, ligands, models , weights, citations = self.read_xml(xml_filepath)
 			self.proteins += proteins
 			self.supras += supras
 			self.ligands += ligands
 			self.models += models
-			self.weights += weight
+			self.weights += weights
+			self.citations += citations
 
 	def read_xml(self, xml_file):
 		proteins = []
@@ -35,6 +37,7 @@ class XMLParser:
 		pdb_ids = []
 		ligands = []
 		weights = []
+		citations = []
 
 		with open(xml_file, 'r') as filexml:
 			tree = ET.parse(filexml)
@@ -187,4 +190,30 @@ class XMLParser:
 								ligand.drugbank_id = drugbank_id
 								ligand.provenance = "AUTHOR"
 					ligands.append(ligand)
-		return proteins, supras, ligands, pdb_ids, weights
+
+			if list(root.iter('primary_citation')):
+				for y in list(root.iter('primary_citation')):
+					citation = Citation(emd_id)
+					pub = y.find('journal_citation')
+					nas = pub.find('title').text
+					title = nas.split('\n\n', 1)[0]
+					citation.title = title
+					pubStatus = pub.attrib['published']
+					if pubStatus == 'true':
+						citation.status = "published"
+					if pubStatus is None:
+						continue
+					for child in pub:
+						pmedid = child.text
+						pmedty = (child.attrib).get('type')
+						if pmedty is not None:
+							if pmedty == 'PUBMED':
+								citation.pmedid = pmedid
+							if pmedty == 'DOI':
+								doi = pmedid.split(":")[1]
+								citation.doi = doi
+							if pmedty == 'ISSN':
+								citation.issn = pmedid
+					citations.append(citation)
+
+		return proteins, supras, ligands, pdb_ids, weights, citations
