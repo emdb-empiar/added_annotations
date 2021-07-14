@@ -89,6 +89,5 @@ if __name__ == "__main__":
         pmc_mapping = EuropePMCMapping(args.workDir, xml.citations)
         pmc_map = pmc_mapping.execute(args.threads)
 
-    if args.uniprot and args.CPX and args.component and args.model and args.weight:
-        write_annotation_xml = EmicssXML(args.workDir, unip_map, cpx_map, lig_map, mw_map, sw_map, empiar_map)
-        write_annotation_xml.execute()
+    write_annotation_xml = EmicssXML(args.workDir, unip_map, cpx_map, lig_map, mw_map, sw_map, empiar_map, pmc_map)
+    write_annotation_xml.execute()

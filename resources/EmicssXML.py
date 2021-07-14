@@ -4,9 +4,11 @@ import itertools
 from EMICSS import EMICSS
 
 class EmicssXML:
-    "Writing annotations to output xml file according to the EMdb_EMICSS.xsd schema "
+    """
+    Writing annotations to output xml file according to the EMdb_EMICSS.xsd schema
+    """
 
-    def __init__(self, workDir, unip_map, cpx_map, lig_map, mw_map, sw_map, empiar_map):
+    def __init__(self, workDir, unip_map, cpx_map, lig_map, mw_map, sw_map, empiar_map, pmc_map):
         self.workDir = workDir
         self.unip_map = unip_map
         self.cpx_map = cpx_map
@@ -14,92 +16,97 @@ class EmicssXML:
         self.mw_map = mw_map
         self.sw_map = sw_map
         self.empiar_map = empiar_map
+        self.pmc_map = pmc_map
 
     def execute(self):
         self.emicss_annotation = self.dict_emicss()
-        self.writeXML_ligands()
-
-    def empiar_map(self):
-        """
-        Creating dictionary for mapping of EMPIAR ID to EMDB entry
-        """
-        # empiar_ftp = r'/nfs/ftp/pub/databases/emtest/'
-        empiar_ftp = r'/users/amudha/project/ftp_data/EMPIAR/'
-        empiar_dict = {}
-        json_file = os.path.join(str(empiar_ftp), "emdb_empiar_list.json")
-        with open(json_file, "r") as file:
-            data = json.load(file)
-            for key in data.keys():
-                if isinstance(data[key], dict) == False:
-                    empiar_dict["emdb_id"] = key
-                    empiar_dict["empiar_id"] = data[key]
-        return empiar_dict
+        self.writeXML_emicss()
 
     def dict_emicss(self):
-        "Converts dictionary individual annotation to deeply nested dictionary of all the added annotations"
+        """
+        Converts dictionary individual annotation to deeply nested dictionary of all the added annotations
+        """
+
         emicss_dict = {}
 
-        for mw in self.mw_map:
-            if mw.emdb_id not in emicss_dict:
-                emicss_dict[mw.emdb_id] = {}
-            if mw.emdb_id not in emicss_dict[mw.emdb_id]:
-                emicss_dict[mw.emdb_id][mw.pdb_id] = mw.__dict__
-            else:
-                emicss_dict[mw.emdb_id][mw.pdb_id] += mw.__dict__
+        if self.mw_map:
+            for mw in self.mw_map:
+                if mw.emdb_id not in emicss_dict:
+                    emicss_dict[mw.emdb_id] = {}
+                if mw.emdb_id not in emicss_dict[mw.emdb_id]:
+                    emicss_dict[mw.emdb_id][mw.pdb_id] = mw.__dict__
+                else:
+                    emicss_dict[mw.emdb_id][mw.pdb_id] += mw.__dict__
 
-        for sw in self.sw_map:
-            if sw.emdb_id not in emicss_dict:
-                emicss_dict[sw.emdb_id] = {}
-            if sw.emdb_id not in emicss_dict[sw.emdb_id]:
-                emicss_dict[sw.emdb_id][sw.method] = sw.__dict__
-            else:
-                emicss_dict[sw.emdb_id][sw.method] += sw.__dict__
+        if self.sw_map:
+            for sw in self.sw_map:
+                if sw.emdb_id not in emicss_dict:
+                    emicss_dict[sw.emdb_id] = {}
+                if sw.emdb_id not in emicss_dict[sw.emdb_id]:
+                    emicss_dict[sw.emdb_id][sw.method] = sw.__dict__
+                else:
+                    emicss_dict[sw.emdb_id][sw.method] += sw.__dict__
 
-        for empiar in self.empiar_map:
-            if empiar.emdb_id not in emicss_dict:
-                emicss_dict[empiar.emdb_id] = {}
-            if empiar.emdb_id not in emicss_dict[empiar.emdb_id]:
-                emicss_dict[empiar.emdb_id][empiar.empiar_id] = empiar.__dict__
-            else:
-                emicss_dict[empiar.emdb_id][empiar.empiar_id] += empiar.__dict__
+        if self.empiar_map:
+            for empiar in self.empiar_map:
+                if empiar.emdb_id not in emicss_dict:
+                    emicss_dict[empiar.emdb_id] = {}
+                if empiar.emdb_id not in emicss_dict[empiar.emdb_id]:
+                    emicss_dict[empiar.emdb_id][empiar.empiar_id] = empiar.__dict__
+                else:
+                    emicss_dict[empiar.emdb_id][empiar.empiar_id] += empiar.__dict__
 
-        for unip in self.unip_map:
-            if unip.emdb_id not in emicss_dict:
-                emicss_dict[unip.emdb_id] = {}
-            if unip.emdb_id not in emicss_dict[unip.emdb_id]:
-                emicss_dict[unip.emdb_id][unip.uniprot_id] = unip.__dict__
-            else:
-                emicss_dict[unip.emdb_id][unip.uniprot_id] += unip.__dict__
+        if self.unip_map:
+            for unip in self.unip_map:
+                if unip.emdb_id not in emicss_dict:
+                    emicss_dict[unip.emdb_id] = {}
+                if unip.emdb_id not in emicss_dict[unip.emdb_id]:
+                    emicss_dict[unip.emdb_id][unip.uniprot_id] = unip.__dict__
+                else:
+                    emicss_dict[unip.emdb_id][unip.uniprot_id] += unip.__dict__
 
-        for emcpx in self.cpx_map:
-            if emcpx:
-                for cpx in emcpx.cpx_list:
-                    if emcpx.emdb_id not in emicss_dict.keys():
-                        emicss_dict[emcpx.emdb_id] = {}
-                    if emcpx.sample_id not in emicss_dict[emcpx.emdb_id].keys():
-                        emicss_dict[emcpx.emdb_id][emcpx.sample_id] = {}
-                        ind = 0
-                    lcpx = ["supra_name", emcpx.supra_name, "sample_copies", emcpx.sample_copies, "cpx_id" + "_" + str(ind),
-                            cpx.cpx_id, "cpx_name" + "_" + str(ind), cpx.name, "provenance" + "_" + str(ind),
-                            emcpx.provenance, "score" + "_" + str(ind), emcpx.score]
-                    dcpx = dict(itertools.zip_longest(*[iter(lcpx)] * 2, fillvalue=""))
-                    for k in dcpx.keys():
-                        emicss_dict[emcpx.emdb_id][emcpx.sample_id][k] = dcpx[k]
-                    ind = ind + 1
-                emicss_dict[emcpx.emdb_id][emcpx.sample_id]["ind"] = ind
+        if self.cpx_map:
+            for emcpx in self.cpx_map:
+                if emcpx:
+                    for cpx in emcpx.cpx_list:
+                        if emcpx.emdb_id not in emicss_dict.keys():
+                            emicss_dict[emcpx.emdb_id] = {}
+                        if emcpx.sample_id not in emicss_dict[emcpx.emdb_id].keys():
+                            emicss_dict[emcpx.emdb_id][emcpx.sample_id] = {}
+                            ind = 0
+                        lcpx = ["supra_name", emcpx.supra_name, "sample_copies", emcpx.sample_copies, "cpx_id" + "_" + str(ind),
+                                cpx.cpx_id, "cpx_name" + "_" + str(ind), cpx.name, "provenance" + "_" + str(ind),
+                                emcpx.provenance, "score" + "_" + str(ind), emcpx.score]
+                        dcpx = dict(itertools.zip_longest(*[iter(lcpx)] * 2, fillvalue=""))
+                        for k in dcpx.keys():
+                            emicss_dict[emcpx.emdb_id][emcpx.sample_id][k] = dcpx[k]
+                        ind = ind + 1
+                    emicss_dict[emcpx.emdb_id][emcpx.sample_id]["ind"] = ind
 
-        for ligand in self.lig_map:
-            if ligand.emdb_id not in emicss_dict:
-                emicss_dict[ligand.emdb_id] = {}
-            if ligand.emdb_id not in emicss_dict[ligand.emdb_id]:
-                emicss_dict[ligand.emdb_id][ligand.sample_id] = ligand.__dict__
-            else:
-                emicss_dict[ligand.emdb_id][ligand.sample_id] += ligand.__dict__
+        if self.lig_map:
+            for ligand in self.lig_map:
+                if ligand.emdb_id not in emicss_dict:
+                    emicss_dict[ligand.emdb_id] = {}
+                if ligand.emdb_id not in emicss_dict[ligand.emdb_id]:
+                    emicss_dict[ligand.emdb_id][ligand.sample_id] = ligand.__dict__
+                else:
+                    emicss_dict[ligand.emdb_id][ligand.sample_id] += ligand.__dict__
+
+        if self.pmc_map:
+            for pmc in self.pmc_map:
+                if pmc.emdb_id not in emicss_dict:
+                    emicss_dict[pmc.emdb_id] = {}
+                if pmc.emdb_id not in emicss_dict[pmc.emdb_id]:
+                    emicss_dict[pmc.emdb_id]["PMC"] = pmc.__dict__
+                else:
+                    emicss_dict[pmc.emdb_id]["PMC"] += pmc.__dict__
 
         return emicss_dict
 
-    def writeXML_ligands(self):
-        "Write added annotation to individual EMICSS file"
+    def writeXML_emicss(self):
+        """
+        Create and write added annotations to individual EMICSS file for every EMDB entry
+        """
         # print(self.emicss_annotation)
         for em_id, val in self.emicss_annotation.items():
             all_db = set()
@@ -109,6 +116,7 @@ class EmicssXML:
             empiars = EMICSS.empiarsType()
             models = EMICSS.modelsType()
             weights = EMICSS.weightsType()
+            europe_pmc = EMICSS.europe_pmcType()
             sample = EMICSS.sampleType()
             macromolecules = EMICSS.macromoleculesType()
 
@@ -120,6 +128,8 @@ class EmicssXML:
                         self.EMICSS_empiar(val, samp_id, all_db, dbs, empiars)
                     if samp_id == "theoretical" or samp_id == "experimental":
                         self.EMICSS_weight(val, samp_id, weights)
+                    if samp_id == "PMC":
+                        self.EMICSS_PMC(val, samp_id, all_db, dbs, europe_pmc)
                     if (samp_id.isalnum() and not samp_id.isalpha() and not samp_id.isnumeric()):
                         if len(samp_id) == 4:
                             self.EMICSS_Pdbe(val, samp_id, all_db, dbs, models)
@@ -132,6 +142,7 @@ class EmicssXML:
 
             headerXML.set_dbs(dbs)
             headerXML.set_empiars(empiars)
+            headerXML.set_europe_pmc(europe_pmc)
             molecular_weight.set_models(models)
             molecular_weight.set_weights(weights)
             headerXML.set_molecular_weight(molecular_weight)
@@ -141,12 +152,12 @@ class EmicssXML:
             headerXML.set_sample(sample)
 
             xmlFile = os.path.join(self.workDir, "emicss", em_id + "_emicss.xml")
-            print(xmlFile)
             with open(xmlFile, 'w') as f:
                 headerXML.export(f, 0, name_='emicss')
 
     def EMICSS_empiar(self, val, samp_id, all_db, dbs, empiars):
         "Adding EMPIAR_ID to EMICSS"
+
         empiar_id = val.get(samp_id, {}).get('empiar_id')
         if empiar_id:
             if "EMPIAR" not in all_db:
@@ -160,8 +171,37 @@ class EmicssXML:
         empiar.set_provenance("%s" % "AUTHOR")
         empiars.add_empiar(empiar)
 
+    def EMICSS_PMC(self, val, samp_id, all_db, dbs, europe_pmc):
+        """
+        Adding PUBMED_ID, DOI and ISSN to EMICSS
+        """
+        pmedid = val.get(samp_id, {}).get('pmedid')
+        doi = val.get(samp_id, {}).get('doi')
+        issn = val.get(samp_id, {}).get('issn')
+        title = val.get(samp_id, {}).get('title')
+        provenance = val.get(samp_id, {}).get('provenance')
+        if pmedid or doi or issn:
+            if "EuropePMC" not in all_db:
+                db = EMICSS.dbType()
+                db.set_db_source("%s" % "EuropePMC")
+                db.set_db_version("%s" % "2.0")
+                dbs.add_db(db)
+        all_db.add("EuropePMC")
+        pmc = EMICSS.pmcType()
+        if pmedid:
+            pmc.set_pubmed_id("%s" % pmedid)
+        if doi:
+            pmc.set_doi("%s" % doi)
+        if issn:
+            pmc.set_issn("%s" % issn)
+        if pmedid or doi or issn:
+            pmc.set_provenance("%s" % provenance)
+        europe_pmc.add_pmc(pmc)
+
     def EMICSS_Pdbe(self, val, samp_id, all_db, dbs, models):
-        "Adding Pdbe and calulated assembly weight annotations to EMICSS"
+        """
+        Adding pdb_id and calulated assembly weight annotations to EMICSS
+        """
         pdb_id = val.get(samp_id, {}).get('pdb_id')
         assembly = val.get(samp_id, {}).get('assembly')
         mw = val.get(samp_id, {}).get('molecular_weight')
@@ -182,6 +222,7 @@ class EmicssXML:
 
     def EMICSS_weight(self, val, samp_id, weights):
         "Adding author provided calulated total sample weight annotations to EMICSS"
+
         kind = val.get(samp_id, {}).get('kind')
         th_weight = val.get(samp_id, {}).get('sample_th_weight')
         th_units = val.get(samp_id, {}).get('th_unit')
@@ -206,6 +247,7 @@ class EmicssXML:
 
     def EMICSS_uniprot(self, val, samp_id, all_db, dbs, macromolecules):
         "Adding UNIPROT annotation to EMICSS"
+
         cross_ref_dbs = EMICSS.cross_ref_dbsType()
         sample_id = val.get(samp_id, {}).get('sample_id')
         sample_copies = val.get(samp_id, {}).get('sample_copies')
@@ -235,6 +277,7 @@ class EmicssXML:
 
     def EMICSS_ligands(self, val, samp_id, all_db, dbs, macromolecules):
         "Adding components annotation to EMICSS"
+
         cross_ref_dbs = EMICSS.cross_ref_dbsType()
         lig_copies = val.get(samp_id, {}).get('lig_copies')
         lig_name = val.get(samp_id, {}).get('lig_name')
@@ -292,6 +335,9 @@ class EmicssXML:
         all_db.add("DRUGBANK")
 
     def EMICSS_CPX(self, val, samp_id, all_db, dbs):
+        """
+        Adding complex ids to EMICSS
+        """
         supramolecules = EMICSS.supramoleculesType()
         cp_id = set()
         cpx_samp_id = samp_id.split("_")[1]

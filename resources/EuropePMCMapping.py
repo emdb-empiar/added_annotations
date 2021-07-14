@@ -64,7 +64,6 @@ class EuropePMCMapping:
                 foo = pickle.dumps(context)
                 gcontext = pickle.loads(foo)
                 pmcjson = urlopen(url, context=gcontext).read()
-                print("OK")
                 pmcjdata = json.loads(pmcjson.decode('utf-8'))
                 print(pmcjdata)
 
@@ -73,7 +72,7 @@ class EuropePMCMapping:
                     pm_id = pmcjdata['resultList']['result'][0]['id']
                     citation.pmedid = pm_id
                 citation.provenance = "EuropePMC"
-        # print(citation.__dict__)
+        print(citation.__dict__)
         return citation
 
 
