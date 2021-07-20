@@ -1,9 +1,7 @@
 import csv
 from multiprocessing import Pool
-import pickle, copyreg
 import json
-import ssl
-from urllib.request import urlopen
+import urllib3
 
 pmc_ftp = r'/Users/amudha/project/ftp_data/PMC/PMID_PMCID_DOI.csv'
 # pmc_ftp = r'/nfs/ftp/pub/databases/pmc/DOI/PMID_PMCID_DOI.csv.gz'
@@ -20,6 +18,8 @@ class EuropePMCMapping:
         self.workDir = workDir
         self.citations = citations
 
+        self.pm_doi = self.pm_doi_dict()
+
     def execute(self, threads):
         with Pool(processes=threads) as pool:
             self.citations = pool.map(self.worker, self.citations)
@@ -32,16 +32,12 @@ class EuropePMCMapping:
             citation.provenance = "EuropePMC"
         if not citation.pmedid:
             if citation.doi:
-                with open(pmc_ftp, 'r') as f:
-                    reader = csv.reader(f, delimiter=',')
-                    next(reader, None)  # skip the headers
-                    batch_data = list(reader)
-                    for line in batch_data:
-                        pmid = line[0]
-                        doi = line[2]
-                        if citation.doi == doi:
-                            citation.pmedid = pmid
-                            citation.provenance = "EuropePMC"
+                doi = "https://doi.org/" + citation.doi
+                if doi in self.pm_doi:
+                    citation.pmedid = self.pm_doi[doi]
+                    citation.provenance = "EuropePMC"
+        if citation.pmedid:
+            citation.url = "http://europepmc.org/article/MED/" + citation.pmedid
         if not citation.pmedid and not citation.doi:
             if citation.title:
                 queryString = (citation.title).replace("%", "%25")
@@ -57,23 +53,33 @@ class EuropePMCMapping:
                 queryString = queryString.replace("/", "%2F")
                 url = pmc_baseurl + "query=%22" + (queryString) + pmc_append
 
-                def save_sslcontext(obj):
-                    return obj.__class__, (obj.protocol,)
-                copyreg.pickle(ssl.SSLContext, save_sslcontext)
-                context = ssl.create_default_context()
-                foo = pickle.dumps(context)
-                gcontext = pickle.loads(foo)
-                pmcjson = urlopen(url, context=gcontext).read()
-                pmcjdata = json.loads(pmcjson.decode('utf-8'))
-                print(pmcjdata)
-
+                http = urllib3.PoolManager()
+                response = http.request('GET', url)
+                data = response.data
+                pmcjdata = json.loads(data)
                 id = pmcjdata['resultList']['result']
                 if id:
                     pm_id = pmcjdata['resultList']['result'][0]['id']
                     citation.pmedid = pm_id
                 citation.provenance = "EuropePMC"
-        print(citation.__dict__)
+        # print(citation.__dict__)
         return citation
+
+    def pm_doi_dict(self):
+        """
+        Extract if both PMID and DOI exists for a publication from PMC's ftp file and convert it to dictionary
+        """
+
+        pm_doi = {}
+        with open(pmc_ftp, 'r') as f:
+            reader = csv.reader(f, delimiter=',')
+            next(reader, None)
+            for row in reader:
+                if row[0] and row[2]:
+                    pmid = row[0]
+                    doi = row[2]
+                    pm_doi[doi] = pmid
+        return pm_doi
 
 
 

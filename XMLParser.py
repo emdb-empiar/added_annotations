@@ -170,11 +170,12 @@ class XMLParser:
 						lig_name = x.find('name').text
 						if lig_name:
 							ligand.lig_name = lig_name
-						lig_copies = x.find('number_of_copies').text
-						if lig_copies:
-							ligand.lig_copies = lig_copies
-						else:
-							ligand.lig_copies = "1"
+						if x.find('number_of_copies') is not None:
+							lig_copies = x.find('number_of_copies').text
+							if lig_copies:
+								ligand.lig_copies = lig_copies
+							else:
+								ligand.lig_copies = "1"
 
 						for ref in x.iter('external_references'):
 							if ref.attrib['type'] == 'CHEMBL':

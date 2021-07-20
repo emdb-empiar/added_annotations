@@ -20,12 +20,15 @@ class StructureMapping:
 		return self.models
 
 	def worker(self, model):
-		assembly_file = os.path.join(assembly_ftp, "%s/%s/%s-assembly.xml" % (model.pdb_id[1:3],model.pdb_id,model.pdb_id))
-		mw, order = self.parse_assembly(assembly_file)
-		if mw:
-			model.molecular_weight = mw
-			model.assembly = order
-			return model
+		try:
+			assembly_file = os.path.join(assembly_ftp, "%s/%s/%s-assembly.xml" % (model.pdb_id[1:3],model.pdb_id,model.pdb_id))
+			mw, order = self.parse_assembly(assembly_file)
+			if mw:
+				model.molecular_weight = mw
+				model.assembly = order
+				return model
+		except Exception as e:
+			print(e)
 		return None
 
 	def parse_assembly(self, file):

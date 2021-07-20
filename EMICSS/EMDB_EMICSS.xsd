@@ -38,6 +38,7 @@
                                     <xs:attribute name="provenance" type="provenance_type"/>
                                 </xs:complexType>
                             </xs:element>
+                            <xs:element minOccurs="0" name="pmc_link" type="xs:string"/>
                         </xs:sequence>
                     </xs:complexType>
                 </xs:element>

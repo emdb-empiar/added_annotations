@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Wed Jul 14 21:04:47 2021 by generateDS.py version 2.38.6.
+# Generated Thu Jul 15 10:56:47 2021 by generateDS.py version 2.38.6.
 # Python 3.7.6 (default, Dec 30 2019, 19:38:28)  [Clang 11.0.0 (clang-1100.0.33.16)]
 #
 # Command line options:
@@ -1601,7 +1601,7 @@ class europe_pmcType(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, pmc=None, gds_collector_=None, **kwargs_):
+    def __init__(self, pmc=None, pmc_link=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
@@ -1612,6 +1612,8 @@ class europe_pmcType(GeneratedsSuper):
         else:
             self.pmc = pmc
         self.pmc_nsprefix_ = None
+        self.pmc_link = pmc_link
+        self.pmc_link_nsprefix_ = None
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -1637,9 +1639,14 @@ class europe_pmcType(GeneratedsSuper):
         self.pmc.insert(index, value)
     def replace_pmc_at(self, index, value):
         self.pmc[index] = value
+    def get_pmc_link(self):
+        return self.pmc_link
+    def set_pmc_link(self, pmc_link):
+        self.pmc_link = pmc_link
     def hasContent_(self):
         if (
-            self.pmc
+            self.pmc or
+            self.pmc_link is not None
         ):
             return True
         else:
@@ -1677,6 +1684,10 @@ class europe_pmcType(GeneratedsSuper):
         for pmc_ in self.pmc:
             namespaceprefix_ = self.pmc_nsprefix_ + ':' if (UseCapturedNS_ and self.pmc_nsprefix_) else ''
             pmc_.export(outfile, level, namespaceprefix_, namespacedef_='', name_='pmc', pretty_print=pretty_print)
+        if self.pmc_link is not None:
+            namespaceprefix_ = self.pmc_link_nsprefix_ + ':' if (UseCapturedNS_ and self.pmc_link_nsprefix_) else ''
+            showIndent(outfile, level, pretty_print)
+            outfile.write('<%spmc_link>%s</%spmc_link>%s' % (namespaceprefix_ , self.gds_encode(self.gds_format_string(quote_xml(self.pmc_link), input_name='pmc_link')), namespaceprefix_ , eol_))
     def build(self, node, gds_collector_=None):
         self.gds_collector_ = gds_collector_
         if SaveElementTreeNode:
@@ -1696,6 +1707,12 @@ class europe_pmcType(GeneratedsSuper):
             obj_.build(child_, gds_collector_=gds_collector_)
             self.pmc.append(obj_)
             obj_.original_tagname_ = 'pmc'
+        elif nodeName_ == 'pmc_link':
+            value_ = child_.text
+            value_ = self.gds_parse_string(value_, node, 'pmc_link')
+            value_ = self.gds_validate_string(value_, node, 'pmc_link')
+            self.pmc_link = value_
+            self.pmc_link_nsprefix_ = child_.prefix
 # end class europe_pmcType
 
 

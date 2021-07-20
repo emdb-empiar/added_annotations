@@ -180,6 +180,7 @@ class EmicssXML:
         issn = val.get(samp_id, {}).get('issn')
         title = val.get(samp_id, {}).get('title')
         provenance = val.get(samp_id, {}).get('provenance')
+        link = val.get(samp_id, {}).get('url')
         if pmedid or doi or issn:
             if "EuropePMC" not in all_db:
                 db = EMICSS.dbType()
@@ -190,6 +191,7 @@ class EmicssXML:
         pmc = EMICSS.pmcType()
         if pmedid:
             pmc.set_pubmed_id("%s" % pmedid)
+            europe_pmc.set_pmc_link("%s" % link)
         if doi:
             pmc.set_doi("%s" % doi)
         if issn:

@@ -184,6 +184,7 @@ class Citation:
         self.status = ""
         self.title = ""
         self.provenance = ""
+        self.url = ""
 
     def __str__(self):
         return "%s\t%s\t%s\t%s\t%s" % (self.emdb_id, self.pmedid, self.doi, self.issn, self.title)
