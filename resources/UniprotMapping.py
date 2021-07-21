@@ -3,15 +3,10 @@ import lxml.etree as ET
 import urllib.parse
 import urllib.request
 import logging
+import configparser
 from fuzzywuzzy import fuzz
 from models import Protein, Model
 from multiprocessing import Pool
-
-#BLAST_DB = "/nfs/public/rw/pdbe/httpd-em/software/ncbi-blast-2.11.0+/database/uniprot_sprot"  #  uniprotkb_swissprot
-#BLAST_DB = "/Users/neli/EBI/annotations/uniprotkb_swissprot"
-BLAST_DB = "/Users/amudha/project/ftp_data/uniprot_sprot"
-BLASTP_BIN = "blastp"
-#BLASTP_BIN = "/nfs/public/rw/pdbe/httpd-em/software/ncbi-blast-2.11.0+/bin/blastp"
 
 uniprot_api = "www.uniprot.org/uniprot/?query=\"%s\" AND database:(type:pdb %s)&format=tab&limit=100&columns=id,organism-id&sort=score"
 
@@ -85,6 +80,10 @@ class UniprotMapping:
 		return protein
 
 	def blastp(self, protein):
+		config = configparser.ConfigParser()
+		config.read(os.path.join(self.workDir, "git_code/added_annotations/config.ini"))
+		BLAST_DB = config.get("file_paths", "BLAST_DB")
+		BLASTP_BIN = config.get("file_paths", "BLASTP_BIN")
 		#Create fasta file
 		directory = os.path.join(self.output_dir, "fasta")
 		if not os.path.exists(directory):

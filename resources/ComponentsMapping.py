@@ -1,6 +1,7 @@
 import os
 import logging
 from gemmi import cif
+import configparser
 from multiprocessing import Pool
 
 logger = logging.getLogger(__name__)
@@ -9,10 +10,6 @@ formatter = logging.Formatter('%(funcName)s:%(message)s')
 file_handler = logging.FileHandler('logging_components.log')
 file_handler.setFormatter(formatter)
 logger.addHandler(file_handler)
-
-components_cif = r'/Users/amudha/project/ftp_data/pdbe/components.cif'
-#components_cif = r'/nfs/ftp/pub/databases/msd/pdbechem_v2/components.cif'
-#components_cif = "/Users/neli/Downloads/components.cif"
 
 ### TO DO LIST
 #### Replace (logger.debug(HET, "NOT IN PDB_CCD") with corresponding resource API,
@@ -66,6 +63,10 @@ class ComponentsMap:
         chembl_map = {}
         chebi_map = {}
         drugbank_map = {}
+
+        config = configparser.ConfigParser()
+        config.read(os.path.join(self.workDir, "git_code/added_annotations/config.ini"))
+        components_cif = config.get("file_paths", "components_cif")
 
         doc = cif.read_file(components_cif)
         for block in doc:

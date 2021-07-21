@@ -1,5 +1,4 @@
 import os, re
-import json
 import itertools
 from EMICSS import EMICSS
 

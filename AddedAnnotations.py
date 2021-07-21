@@ -12,6 +12,7 @@ from resources.EuropePMCMapping import EuropePMCMapping
 from resources.EmicssXML import EmicssXML
 from XMLParser import XMLParser
 
+
 """
 List of things to do:
   - Add multi threading (Add try except to avoid unexopect closing)

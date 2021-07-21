@@ -1,4 +1,5 @@
 import os, csv
+import configparser
 from glob import glob
 from models import CPX, EMDB_complex
 import logging
@@ -14,9 +15,6 @@ file_handler.setLevel(logging.DEBUG)
 file_handler.setFormatter(formatter)
 logger.addHandler(file_handler)
 
-#CP_ftp = r'/nfs/ftp/pub/databases/intact/complex/current/complextab/'
-#CP_ftp = "/Users/neli/EBI/annotations/data/cpx/"
-CP_ftp = "/Users/amudha/project/ftp_data/cpx_data/complextab/"
 MIN_SCORE = 0.5
 
 def overlap(set1, set2):
@@ -76,6 +74,10 @@ class CPMapping:
         self.emdb_complexes = {}
         self.annotations = []
         self.workDir = workDir
+
+        config = configparser.ConfigParser()
+        config.read(os.path.join(self.workDir, "git_code/added_annotations/config.ini"))
+        CP_ftp = config.get("file_paths", "CP_ftp")
 
         # Parse Complex Portal tables
         for fn in glob(os.path.join(str(CP_ftp), '*.tsv')):

@@ -1,10 +1,7 @@
 from multiprocessing import Pool
 import os
+import configparser
 import lxml.etree as ET
-
-#assembly_ftp = '/Users/neli/EBI/annotations/data/pdbe/assembly/'
-assembly_ftp = '/Users/amudha/project/ftp_data/pdbe/assembly/'
-#assembly_ftp = '/nfs/ftp/pub/databases/msd/assemblies/split/'
 
 class StructureMapping:
 	"""
@@ -21,6 +18,9 @@ class StructureMapping:
 
 	def worker(self, model):
 		try:
+			config = configparser.ConfigParser()
+			config.read(os.path.join(self.output_dir, "git_code/added_annotations/config.ini"))
+			assembly_ftp = config.get("file_paths", "assembly_ftp")
 			assembly_file = os.path.join(assembly_ftp, "%s/%s/%s-assembly.xml" % (model.pdb_id[1:3],model.pdb_id,model.pdb_id))
 			mw, order = self.parse_assembly(assembly_file)
 			if mw:
