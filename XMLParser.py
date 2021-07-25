@@ -1,6 +1,6 @@
 import lxml.etree as ET
 from glob import glob
-from models import Protein, Supra, Ligand, Model, Weight, Citation
+from models import Protein, Supra, Ligand, Model, Weight, Citation, GO
 import os, re
 
 class XMLParser:
@@ -16,6 +16,7 @@ class XMLParser:
 		self.models = []
 		self.weights = []
 		self.citations = []
+		self.GOs = []
 
 	def execute(self):
 		for fn in glob(os.path.join(str(self.header_dir), '*')):
@@ -23,13 +24,14 @@ class XMLParser:
 			xml_filename = "emd-" + id_num + "-v30.xml"
 			xml_dirpath = os.path.join(str(self.header_dir), fn, "header")
 			xml_filepath = os.path.join(xml_dirpath, xml_filename)
-			proteins, supras, ligands, models , weights, citations = self.read_xml(xml_filepath)
+			proteins, supras, ligands, models , weights, citations, GOs = self.read_xml(xml_filepath)
 			self.proteins += proteins
 			self.supras += supras
 			self.ligands += ligands
 			self.models += models
 			self.weights += weights
 			self.citations += citations
+			self.GOs += GOs
 
 	def read_xml(self, xml_file):
 		proteins = []
@@ -38,6 +40,7 @@ class XMLParser:
 		ligands = []
 		weights = []
 		citations = []
+		GOs = []
 
 		with open(xml_file, 'r') as filexml:
 			tree = ET.parse(filexml)
@@ -87,12 +90,35 @@ class XMLParser:
 								ncbi_id = nat_sor.find('organism').attrib['ncbi']
 								protein.sample_organism = ncbi_id
 
+					go = GO(emd_id, sample_id)
 					qs = x.find('sequence')
+					for x in list(root.iter('pdb_reference')):
+						pdb_id = x.find('pdb_id').text.lower()
+						go.pdb_id = pdb_id
+					if list(root.iter('primary_citation')):
+						for y in list(root.iter('primary_citation')):
+							pub = y.find('journal_citation')
+							nas = pub.find('title').text
+							title = nas.split('\n\n', 1)[0]
+							go.title = title
+							for child in pub:
+								pmedid = child.text
+								pmedty = (child.attrib).get('type')
+								if pmedty is not None:
+									if pmedty == 'PUBMED':
+										go.pubmed_id = pmedid
 					if qs.find('external_references') is not None:
 						if qs.find('external_references').attrib['type'] == 'UNIPROTKB':
 							uniprot_id = qs.find('external_references').text
 							protein.uniprot_id = uniprot_id
 							protein.provenance = "AUTHOR"
+						for t in list(qs.iter('external_references')):
+							if t.attrib['type'] == 'GO':
+								go_id = t.text
+								go.GO_id.add(go_id)
+								go.provenance = "AUTHOR"
+					GOs.append(go)
+
 					if qs.find('string') is not None:
 						seq = qs.find('string').text
 						#seq = re.sub(r'\(\s*UNK\s*\)', 'X', seq)
@@ -217,4 +243,4 @@ class XMLParser:
 								citation.issn = pmedid
 					citations.append(citation)
 
-		return proteins, supras, ligands, pdb_ids, weights, citations
+		return proteins, supras, ligands, pdb_ids, weights, citations, GOs

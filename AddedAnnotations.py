@@ -3,12 +3,13 @@ from pathlib import Path
 
 import models
 from resources.ComplexPortalMapping import CPMapping
-from resources.ComponentsMapping import ComponentsMap
+from resources.ComponentsMapping import ComponentsMapping
 from resources.UniprotMapping import UniprotMapping
 from resources.StructureMapping import StructureMapping
 from resources.SampleWeight import SampleWeight
 from resources.EMPIARMapping import EMPIARMapping
 from resources.EuropePMCMapping import EuropePMCMapping
+from resources.GOMapping import GOMapping
 from resources.EmicssXML import EmicssXML
 from XMLParser import XMLParser
 
@@ -33,7 +34,7 @@ if __name__ == "__main__":
             python AddedAnnotations.py -w '[{"/path/to/working/folder"}]'
             -f '[{"/path/to/EMDB/header/files/folder"}]'
             -p '[{"/path/to/PDBe/files/folder"}]'
-            --download_uniprot --uniprot --CPX --component --model --weight --empiar --pmc
+            --download_uniprot --uniprot --CPX --component --model --weight --empiar --pmc --GO
           """
     parser = argparse.ArgumentParser(prog=prog, usage=usage, add_help=False,
                                      formatter_class=argparse.RawTextHelpFormatter)
@@ -51,6 +52,7 @@ if __name__ == "__main__":
     parser.add_argument("--weight", type=bool, nargs='?', const=True, default=False, help="Collect sample weight from header file.")
     parser.add_argument("--empiar", type=bool, nargs='?', const=True, default=False, help="Mapping EMPIAR ID to EMDB entries")
     parser.add_argument("--pmc", type=bool, nargs='?', const=True, default=False, help="Mapping publication ID to EMDB entries")
+    parser.add_argument("--GO", type=bool, nargs='?', const=True, default=False, help="Mapping GO ids to EMDB entries")
     args = parser.parse_args()
 
     xml = XMLParser(args.headerDir)
@@ -73,7 +75,7 @@ if __name__ == "__main__":
         cpx_map = cpx_mapping.execute(args.threads)
         cpx_mapping.write_cpx_map()
     if args.component:
-        che_mapping = ComponentsMap(args.workDir, xml.ligands)
+        che_mapping = ComponentsMapping(args.workDir, xml.ligands)
         lig_map = che_mapping.execute(args.threads)
         che_mapping.write_ligands()
     if args.model:
@@ -89,6 +91,9 @@ if __name__ == "__main__":
     if args.pmc:
         pmc_mapping = EuropePMCMapping(args.workDir, xml.citations)
         pmc_map = pmc_mapping.execute(args.threads)
+    if args.GO:
+        GO_mapping = GOMapping(args.workDir, xml.GOs)
+        GO_map = GO_mapping.execute(args.threads)
 
-    write_annotation_xml = EmicssXML(args.workDir, unip_map, cpx_map, lig_map, mw_map, sw_map, empiar_map, pmc_map)
+    write_annotation_xml = EmicssXML(args.workDir, unip_map, cpx_map, lig_map, mw_map, sw_map, empiar_map, pmc_map, GO_map)
     write_annotation_xml.execute()

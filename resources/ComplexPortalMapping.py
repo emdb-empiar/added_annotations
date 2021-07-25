@@ -9,7 +9,6 @@ logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 
 formatter = logging.Formatter('%(funcName)s:%(message)s')
-
 file_handler = logging.FileHandler('logging_ComplexPortal.log', mode ='w')
 file_handler.setLevel(logging.DEBUG)
 file_handler.setFormatter(formatter)

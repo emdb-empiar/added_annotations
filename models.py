@@ -104,17 +104,20 @@ class Ligand:
 
     def get_chembl_tsv(self):
         if self.chembl_id:
-            return "%s\t%s\t%s\t%s\t%s\t%s\t%s\n" % (self.emdb_id, self.sample_id, self.HET, self.lig_name, self.lig_copies, self.chembl_id, self.provenance)
+            return "%s\t%s\t%s\t%s\t%s\t%s\t%s\n" % (self.emdb_id, self.sample_id, self.HET, self.lig_name,
+                                                     self.lig_copies, self.chembl_id, self.provenance)
         return ""
 
     def get_chebi_tsv(self):
         if self.chebi_id:
-            return "%s\t%s\t%s\t%s\t%s\t%s\t%s\n" % (self.emdb_id, self.sample_id, self.HET, self.lig_name, self.lig_copies, self.chebi_id, self.provenance)
+            return "%s\t%s\t%s\t%s\t%s\t%s\t%s\n" % (self.emdb_id, self.sample_id, self.HET, self.lig_name,
+                                                     self.lig_copies, self.chebi_id, self.provenance)
         return ""
 
     def get_drugbank_tsv(self):
         if self.drugbank_id:
-            return "%s\t%s\t%s\t%s\t%s\t%s\t%s\n" % (self.emdb_id, self.sample_id, self.HET, self.lig_name, self.lig_copies, self.drugbank_id, self.provenance)
+            return "%s\t%s\t%s\t%s\t%s\t%s\t%s\n" % (self.emdb_id, self.sample_id, self.HET, self.lig_name,
+                                                     self.lig_copies, self.drugbank_id, self.provenance)
         return ""
 
     def __str__(self):
@@ -188,3 +191,19 @@ class Citation:
 
     def __str__(self):
         return "%s\t%s\t%s\t%s\t%s" % (self.emdb_id, self.pmedid, self.doi, self.issn, self.title)
+
+class GO:
+    """
+    Define the GO terms for the sample in the EMDB entry
+    """
+    def __init__(self, emdb_id, sample_id):
+        self.emdb_id = emdb_id
+        self.sample_id = sample_id
+        self.pdb_id = ""
+        self.GO_id = set()
+        self.pubmed_id = None
+        self.title = None
+        self.provenance = ""
+
+    def __str__(self):
+        return ("%s\t%s\t%s\t%s\t%s\n" % (self.emdb_id, self.sample_id, (self.pdb_id).text, self.GO_id, self.provenance ))

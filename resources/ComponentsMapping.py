@@ -15,7 +15,7 @@ logger.addHandler(file_handler)
 #### Replace (logger.debug(HET, "NOT IN PDB_CCD") with corresponding resource API,
 # as of now no entry has HET which is not in CCD #
 
-class ComponentsMap:
+class ComponentsMapping:
     """
     Extracting PDB_IDs from header and get the HET code from PDBe components.cif file.
     Querying with the extracted HET code for mapping the EMDB entries to the Chemical Component Dictionary (CCD) for
