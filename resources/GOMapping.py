@@ -90,6 +90,6 @@ class GOMapping:
                 if row[0] not in pdb_GO:
                     pdb_GO[row[0]] = []
                 else:
-                    pdb_GO[row[0]].append(row[5])
+                    pdb_GO[row[0]].append(row[-1])
         pdbe_GO = {a: list(set(b)) for a, b in pdb_GO.items()}
         return pdbe_GO

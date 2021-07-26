@@ -16,8 +16,6 @@ class EuropePMCMapping:
     def __init__(self, workDir, citations):
         self.workDir = workDir
         self.citations = citations
-        for cite in self.citations:
-            print(type(cite))
 
         self.pm_doi = self.pm_doi_dict()
 

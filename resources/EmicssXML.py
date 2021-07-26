@@ -7,7 +7,7 @@ class EmicssXML:
     Writing annotations to output xml file according to the EMdb_EMICSS.xsd schema
     """
 
-    def __init__(self, workDir, unip_map, cpx_map, lig_map, mw_map, sw_map, empiar_map, pmc_map):
+    def __init__(self, workDir, unip_map, cpx_map, lig_map, mw_map, sw_map, empiar_map, pmc_map, GO_map):
         self.workDir = workDir
         self.unip_map = unip_map
         self.cpx_map = cpx_map
@@ -16,6 +16,7 @@ class EmicssXML:
         self.sw_map = sw_map
         self.empiar_map = empiar_map
         self.pmc_map = pmc_map
+        self.GO_map = GO_map
 
     def execute(self):
         self.emicss_annotation = self.dict_emicss()
@@ -100,6 +101,15 @@ class EmicssXML:
                 else:
                     emicss_dict[pmc.emdb_id]["PMC"] += pmc.__dict__
 
+        if self.GO_map:
+            for GO in self.GO_map:
+                if GO.emdb_id not in emicss_dict:
+                    emicss_dict[GO.emdb_id] = {}
+                if GO.emdb_id not in emicss_dict[GO.emdb_id]:
+                    emicss_dict[GO.emdb_id]["GO"] = GO.__dict__
+                else:
+                    emicss_dict[GO.emdb_id]["GO"] += GO.__dict__
+
         return emicss_dict
 
     def writeXML_emicss(self):
@@ -129,6 +139,8 @@ class EmicssXML:
                         self.EMICSS_weight(val, samp_id, weights)
                     if samp_id == "PMC":
                         self.EMICSS_PMC(val, samp_id, all_db, dbs, europe_pmc)
+                    if samp_id == "GO":
+                        self.EMICSS_GO(val, samp_id, all_db, dbs, macromolecules)
                     if (samp_id.isalnum() and not samp_id.isalpha() and not samp_id.isnumeric()):
                         if len(samp_id) == 4:
                             self.EMICSS_Pdbe(val, samp_id, all_db, dbs, models)
@@ -275,6 +287,32 @@ class EmicssXML:
             cross_ref_dbs.add_cross_ref_db(cross_ref_db)
             macromolecule.set_cross_ref_dbs(cross_ref_dbs)
         all_db.add("UNIPROT")
+
+    def EMICSS_GO(self, val, samp_id, all_db, dbs, macromolecules):
+        "Adding GO annotation to EMICSS"
+
+        cross_ref_dbs = EMICSS.cross_ref_dbsType()
+        sample_id = val.get(samp_id, {}).get('sample_id')
+        GO_id = val.get(samp_id, {}).get('GO_id')
+        GO_provenance = val.get(samp_id, {}).get('provenance')
+
+        macromolecule = EMICSS.macromoleculeType()
+        macromolecule.set_kind("%s" % "protein")
+        macromolecule.set_id(int(sample_id))
+        macromolecules.add_macromolecule(macromolecule)
+        if GO_id:
+            if "GO" not in all_db:
+                db = EMICSS.dbType()
+                db.set_db_source("%s" % "GO")
+                db.set_db_version("%s" % "20210616")
+                dbs.add_db(db)
+            cross_ref_db = EMICSS.cross_ref_dbType()
+            cross_ref_db.set_db_source("%s" % "GO")
+            cross_ref_db.set_provenance("%s" % GO_provenance)
+            cross_ref_db.set_db_accession_id("%s" % GO_id)
+            cross_ref_dbs.add_cross_ref_db(cross_ref_db)
+            macromolecule.set_cross_ref_dbs(cross_ref_dbs)
+        all_db.add("GO")
 
     def EMICSS_ligands(self, val, samp_id, all_db, dbs, macromolecules):
         "Adding components annotation to EMICSS"
