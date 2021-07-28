@@ -7,7 +7,7 @@ import configparser
 pmc_baseurl = r'https://www.ebi.ac.uk/europepmc/webservices/rest/search?'
 pmc_append = r'%22&resultType=lite&pageSize=25&format=json'
 
-class EuropePMCMapping:
+class PubmedMapping:
     """
     Author provided publication IDs (PUBMED, DOI) and querying PMC API for title if any publication IDs available in 
     EuropePMC if not provided by author.
@@ -29,6 +29,9 @@ class EuropePMCMapping:
             citation.provenance = "AUTHOR"
         else:
             citation.provenance = "EuropePMC"
+        if citation.pmedid in self.pm_doi:
+            citation.pmcdid = self.pm_doi[citation.pmedid]
+            citation.provenance = "EuropePMC"
         if not citation.pmedid:
             if citation.doi:
                 doi = "https://doi.org/" + citation.doi
@@ -36,7 +39,8 @@ class EuropePMCMapping:
                     citation.pmedid = self.pm_doi[doi]
                     citation.provenance = "EuropePMC"
         if citation.pmedid:
-            citation.url = "http://europepmc.org/article/MED/" + citation.pmedid
+            citation.url = "https://pubmed.ncbi.nlm.nih.gov/" + citation.pmedid + "/"
+            # citation.url = "http://europepmc.org/article/MED/" + citation.pmedid
         if not citation.pmedid and not citation.doi:
             if citation.title:
                 queryString = (citation.title).replace("%", "%25")
@@ -60,13 +64,15 @@ class EuropePMCMapping:
                 if id:
                     pm_id = pmcjdata['resultList']['result'][0]['id']
                     citation.pmedid = pm_id
+                    pmc_id = pmcjdata['resultList']['result'][0]['pmcid']
+                    citation.pmcid = pmc_id
                 citation.provenance = "EuropePMC"
         # print(citation.__dict__)
         return citation
 
     def pm_doi_dict(self):
         """
-        Extract if both PMID and DOI exists for a publication from PMC's ftp file and convert it to dictionary
+        Extract if PMID, PMCID, if DOI exists for a publication from PMC's ftp file and convert it to dictionary
         """
 
         config = configparser.ConfigParser()
@@ -82,4 +88,8 @@ class EuropePMCMapping:
                     pmid = row[0]
                     doi = row[2]
                     pm_doi[doi] = pmid
+                if row[0] and row[1]:
+                    pmid = row[0]
+                    pmcid = row[1]
+                    pm_doi[pmid] = pmcid
         return pm_doi

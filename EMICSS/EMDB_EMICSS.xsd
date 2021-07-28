@@ -33,12 +33,13 @@
                             <xs:element maxOccurs="unbounded" minOccurs="0" name="pmc">
                                 <xs:complexType>
                                     <xs:attribute name="pubmed_id" type="xs:string"/>
+                                    <xs:attribute name="pmc_id" type="xs:string"/>
                                     <xs:attribute name="doi" type="xs:string"/>
                                     <xs:attribute name="issn" type="xs:string"/>
                                     <xs:attribute name="provenance" type="provenance_type"/>
                                 </xs:complexType>
                             </xs:element>
-                            <xs:element minOccurs="0" name="pmc_link" type="xs:string"/>
+                            <xs:element minOccurs="0" name="pubmed_link" type="xs:string"/>
                         </xs:sequence>
                     </xs:complexType>
                 </xs:element>

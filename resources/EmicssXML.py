@@ -162,7 +162,8 @@ class EmicssXML:
             sample.set_macromolecules(macromolecules)
             headerXML.set_sample(sample)
 
-            xmlFile = os.path.join(self.workDir, "emicss", em_id + "_emicss.xml")
+            entry_id = em_id.split("_")[1]
+            xmlFile = os.path.join(self.workDir, "emicss", "emd-", entry_id + "_emicss.xml")
             with open(xmlFile, 'w') as f:
                 headerXML.export(f, 0, name_='emicss')
 
@@ -187,6 +188,7 @@ class EmicssXML:
         Adding PUBMED_ID, DOI and ISSN to EMICSS
         """
         pmedid = val.get(samp_id, {}).get('pmedid')
+        pmcid = val.get(samp_id, {}).get('pmcid')
         doi = val.get(samp_id, {}).get('doi')
         issn = val.get(samp_id, {}).get('issn')
         title = val.get(samp_id, {}).get('title')
@@ -202,7 +204,9 @@ class EmicssXML:
         pmc = EMICSS.pmcType()
         if pmedid:
             pmc.set_pubmed_id("%s" % pmedid)
-            europe_pmc.set_pmc_link("%s" % link)
+            europe_pmc.set_pubmed_link("%s" % link)
+        if pmcid:
+            pmc.set_pmcid("%s" % pmcid)
         if doi:
             pmc.set_doi("%s" % doi)
         if issn:

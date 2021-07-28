@@ -182,6 +182,7 @@ class Citation:
     def __init__(self, emdb_id):
         self.emdb_id = emdb_id
         self.pmedid = ""
+        self.pmcid = ""
         self.doi = ""
         self.issn = ""
         self.status = ""

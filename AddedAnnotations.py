@@ -8,7 +8,7 @@ from resources.UniprotMapping import UniprotMapping
 from resources.StructureMapping import StructureMapping
 from resources.SampleWeight import SampleWeight
 from resources.EMPIARMapping import EMPIARMapping
-from resources.EuropePMCMapping import EuropePMCMapping
+from resources.PubmedMapping import PubmedMapping
 from resources.GOMapping import GOMapping
 from resources.EmicssXML import EmicssXML
 from XMLParser import XMLParser
@@ -89,7 +89,7 @@ if __name__ == "__main__":
         empiar_mapping = EMPIARMapping(args.workDir, models.EMPIAR)
         empiar_map = empiar_mapping.execute()
     if args.pmc:
-        pmc_mapping = EuropePMCMapping(args.workDir, xml.citations)
+        pmc_mapping = PubmedMapping(args.workDir, xml.citations)
         pmc_map = pmc_mapping.execute(args.threads)
     if args.GO:
         GO_mapping = GOMapping(args.workDir, xml.GOs)

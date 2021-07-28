@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Thu Jul 15 10:56:48 2021 by generateDS.py version 2.38.6.
+# Generated Wed Jul 28 13:22:14 2021 by generateDS.py version 2.38.6.
 # Python 3.7.6 (default, Dec 30 2019, 19:38:28)  [Clang 11.0.0 (clang-1100.0.33.16)]
 #
 # Command line options:
@@ -97,15 +97,15 @@ supermod.empiarType.subclass = empiarTypeSub
 
 
 class europe_pmcTypeSub(supermod.europe_pmcType):
-    def __init__(self, pmc=None, pmc_link=None, **kwargs_):
-        super(europe_pmcTypeSub, self).__init__(pmc, pmc_link,  **kwargs_)
+    def __init__(self, pmc=None, pubmed_link=None, **kwargs_):
+        super(europe_pmcTypeSub, self).__init__(pmc, pubmed_link,  **kwargs_)
 supermod.europe_pmcType.subclass = europe_pmcTypeSub
 # end class europe_pmcTypeSub
 
 
 class pmcTypeSub(supermod.pmcType):
-    def __init__(self, pubmed_id=None, doi=None, issn=None, provenance=None, **kwargs_):
-        super(pmcTypeSub, self).__init__(pubmed_id, doi, issn, provenance,  **kwargs_)
+    def __init__(self, pubmed_id=None, pmc_id=None, doi=None, issn=None, provenance=None, **kwargs_):
+        super(pmcTypeSub, self).__init__(pubmed_id, pmc_id, doi, issn, provenance,  **kwargs_)
 supermod.pmcType.subclass = pmcTypeSub
 # end class pmcTypeSub
 

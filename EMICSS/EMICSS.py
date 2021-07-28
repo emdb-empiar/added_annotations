@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Thu Jul 15 10:56:47 2021 by generateDS.py version 2.38.6.
+# Generated Wed Jul 28 13:22:14 2021 by generateDS.py version 2.38.6.
 # Python 3.7.6 (default, Dec 30 2019, 19:38:28)  [Clang 11.0.0 (clang-1100.0.33.16)]
 #
 # Command line options:
@@ -1601,7 +1601,7 @@ class europe_pmcType(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, pmc=None, pmc_link=None, gds_collector_=None, **kwargs_):
+    def __init__(self, pmc=None, pubmed_link=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
@@ -1612,8 +1612,8 @@ class europe_pmcType(GeneratedsSuper):
         else:
             self.pmc = pmc
         self.pmc_nsprefix_ = None
-        self.pmc_link = pmc_link
-        self.pmc_link_nsprefix_ = None
+        self.pubmed_link = pubmed_link
+        self.pubmed_link_nsprefix_ = None
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -1639,14 +1639,14 @@ class europe_pmcType(GeneratedsSuper):
         self.pmc.insert(index, value)
     def replace_pmc_at(self, index, value):
         self.pmc[index] = value
-    def get_pmc_link(self):
-        return self.pmc_link
-    def set_pmc_link(self, pmc_link):
-        self.pmc_link = pmc_link
+    def get_pubmed_link(self):
+        return self.pubmed_link
+    def set_pubmed_link(self, pubmed_link):
+        self.pubmed_link = pubmed_link
     def hasContent_(self):
         if (
             self.pmc or
-            self.pmc_link is not None
+            self.pubmed_link is not None
         ):
             return True
         else:
@@ -1684,10 +1684,10 @@ class europe_pmcType(GeneratedsSuper):
         for pmc_ in self.pmc:
             namespaceprefix_ = self.pmc_nsprefix_ + ':' if (UseCapturedNS_ and self.pmc_nsprefix_) else ''
             pmc_.export(outfile, level, namespaceprefix_, namespacedef_='', name_='pmc', pretty_print=pretty_print)
-        if self.pmc_link is not None:
-            namespaceprefix_ = self.pmc_link_nsprefix_ + ':' if (UseCapturedNS_ and self.pmc_link_nsprefix_) else ''
+        if self.pubmed_link is not None:
+            namespaceprefix_ = self.pubmed_link_nsprefix_ + ':' if (UseCapturedNS_ and self.pubmed_link_nsprefix_) else ''
             showIndent(outfile, level, pretty_print)
-            outfile.write('<%spmc_link>%s</%spmc_link>%s' % (namespaceprefix_ , self.gds_encode(self.gds_format_string(quote_xml(self.pmc_link), input_name='pmc_link')), namespaceprefix_ , eol_))
+            outfile.write('<%spubmed_link>%s</%spubmed_link>%s' % (namespaceprefix_ , self.gds_encode(self.gds_format_string(quote_xml(self.pubmed_link), input_name='pubmed_link')), namespaceprefix_ , eol_))
     def build(self, node, gds_collector_=None):
         self.gds_collector_ = gds_collector_
         if SaveElementTreeNode:
@@ -1707,12 +1707,12 @@ class europe_pmcType(GeneratedsSuper):
             obj_.build(child_, gds_collector_=gds_collector_)
             self.pmc.append(obj_)
             obj_.original_tagname_ = 'pmc'
-        elif nodeName_ == 'pmc_link':
+        elif nodeName_ == 'pubmed_link':
             value_ = child_.text
-            value_ = self.gds_parse_string(value_, node, 'pmc_link')
-            value_ = self.gds_validate_string(value_, node, 'pmc_link')
-            self.pmc_link = value_
-            self.pmc_link_nsprefix_ = child_.prefix
+            value_ = self.gds_parse_string(value_, node, 'pubmed_link')
+            value_ = self.gds_validate_string(value_, node, 'pubmed_link')
+            self.pubmed_link = value_
+            self.pubmed_link_nsprefix_ = child_.prefix
 # end class europe_pmcType
 
 
@@ -1720,7 +1720,7 @@ class pmcType(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, pubmed_id=None, doi=None, issn=None, provenance=None, gds_collector_=None, **kwargs_):
+    def __init__(self, pubmed_id=None, pmc_id=None, doi=None, issn=None, provenance=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
@@ -1728,6 +1728,8 @@ class pmcType(GeneratedsSuper):
         self.ns_prefix_ = None
         self.pubmed_id = _cast(None, pubmed_id)
         self.pubmed_id_nsprefix_ = None
+        self.pmc_id = _cast(None, pmc_id)
+        self.pmc_id_nsprefix_ = None
         self.doi = _cast(None, doi)
         self.doi_nsprefix_ = None
         self.issn = _cast(None, issn)
@@ -1753,6 +1755,10 @@ class pmcType(GeneratedsSuper):
         return self.pubmed_id
     def set_pubmed_id(self, pubmed_id):
         self.pubmed_id = pubmed_id
+    def get_pmc_id(self):
+        return self.pmc_id
+    def set_pmc_id(self, pmc_id):
+        self.pmc_id = pmc_id
     def get_doi(self):
         return self.doi
     def set_doi(self, doi):
@@ -1811,6 +1817,9 @@ class pmcType(GeneratedsSuper):
         if self.pubmed_id is not None and 'pubmed_id' not in already_processed:
             already_processed.add('pubmed_id')
             outfile.write(' pubmed_id=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.pubmed_id), input_name='pubmed_id')), ))
+        if self.pmc_id is not None and 'pmc_id' not in already_processed:
+            already_processed.add('pmc_id')
+            outfile.write(' pmc_id=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.pmc_id), input_name='pmc_id')), ))
         if self.doi is not None and 'doi' not in already_processed:
             already_processed.add('doi')
             outfile.write(' doi=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.doi), input_name='doi')), ))
@@ -1838,6 +1847,10 @@ class pmcType(GeneratedsSuper):
         if value is not None and 'pubmed_id' not in already_processed:
             already_processed.add('pubmed_id')
             self.pubmed_id = value
+        value = find_attr_value_('pmc_id', node)
+        if value is not None and 'pmc_id' not in already_processed:
+            already_processed.add('pmc_id')
+            self.pmc_id = value
         value = find_attr_value_('doi', node)
         if value is not None and 'doi' not in already_processed:
             already_processed.add('doi')
