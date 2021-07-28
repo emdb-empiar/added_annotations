@@ -162,8 +162,8 @@ class EmicssXML:
             sample.set_macromolecules(macromolecules)
             headerXML.set_sample(sample)
 
-            entry_id = em_id.split("_")[1]
-            xmlFile = os.path.join(self.workDir, "emicss", "emd-", entry_id + "_emicss.xml")
+            entry_id = em_id.split("-")[1]
+            xmlFile = os.path.join(self.workDir, "emicss", "emd-" + entry_id + "_emicss.xml")
             with open(xmlFile, 'w') as f:
                 headerXML.export(f, 0, name_='emicss')
 

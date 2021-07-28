@@ -88,7 +88,7 @@ class PubmedMapping:
                     pmid = row[0]
                     doi = row[2]
                     pm_doi[doi] = pmid
-                if row[0] and row[1]:
+                if (row[0] and row[1]) or (row[0] and row[1] and row[2]):
                     pmid = row[0]
                     pmcid = row[1]
                     pm_doi[pmid] = pmcid
