@@ -15,7 +15,7 @@
                         </xs:sequence>
                     </xs:complexType>
                 </xs:element>
-                <xs:element minOccurs="0" name="empiars">
+                <xs:element minOccurs="0" name="cross_refs">
                     <xs:complexType>
                         <xs:sequence>
                             <xs:element maxOccurs="unbounded" minOccurs="0" name="empiar">
@@ -24,13 +24,7 @@
                                     <xs:attribute name="provenance" type="xs:string"/>
                                 </xs:complexType>
                             </xs:element>
-                        </xs:sequence>
-                    </xs:complexType>
-                </xs:element>
-                <xs:element minOccurs="0" name="europe_pmc">
-                    <xs:complexType>
-                        <xs:sequence>
-                            <xs:element maxOccurs="unbounded" minOccurs="0" name="pmc">
+                            <xs:element maxOccurs="unbounded" minOccurs="0" name="citation">
                                 <xs:complexType>
                                     <xs:attribute name="pubmed_id" type="xs:string"/>
                                     <xs:attribute name="pmc_id" type="xs:string"/>
@@ -40,50 +34,28 @@
                                 </xs:complexType>
                             </xs:element>
                             <xs:element minOccurs="0" name="pubmed_link" type="xs:string"/>
-                        </xs:sequence>
-                    </xs:complexType>
-                </xs:element>
-                <xs:element minOccurs="0" name="molecular_weight">
-                    <xs:complexType>
-                        <xs:sequence>
-                            <xs:element minOccurs="0" name="models">
+                            <xs:element minOccurs="0" name="model" maxOccurs="unbounded">
                                 <xs:complexType>
-                                    <xs:sequence minOccurs="0">
-                                        <xs:element minOccurs="0" name="model" maxOccurs="unbounded">
-                                            <xs:complexType>
-                                                <xs:attribute name="pdb_id">
-                                                  <xs:simpleType>
-                                                  <xs:restriction base="xs:string">
-                                                  <xs:maxLength value="4"/>
-                                                  </xs:restriction>
-                                                  </xs:simpleType>
-                                                </xs:attribute>
-                                                <xs:attribute name="assemblies"
-                                                  type="xs:nonNegativeInteger"/>
-                                                <xs:attribute name="weight" type="xs:string"/>
-                                                <xs:attribute name="units" type="xs:string"/>
-                                                <xs:attribute name="provenance"
-                                                  type="provenance_type"/>
-                                            </xs:complexType>
-                                        </xs:element>
-                                    </xs:sequence>
+                                    <xs:attribute name="pdb_id">
+                                        <xs:simpleType>
+                                            <xs:restriction base="xs:string">
+                                                <xs:maxLength value="4"/>
+                                            </xs:restriction>
+                                        </xs:simpleType>
+                                    </xs:attribute>
+                                    <xs:attribute name="assemblies" type="xs:nonNegativeInteger"/>
+                                    <xs:attribute name="weight" type="xs:string"/>
+                                    <xs:attribute name="units" type="xs:string"/>
+                                    <xs:attribute name="provenance" type="provenance_type"/>
                                 </xs:complexType>
                             </xs:element>
-                            <xs:element minOccurs="0" name="weights">
+                            <xs:element maxOccurs="unbounded" minOccurs="0" name="weight">
                                 <xs:complexType>
-                                    <xs:sequence>
-                                        <xs:element maxOccurs="unbounded" minOccurs="0"
-                                            name="weight">
-                                            <xs:complexType>
-                                                <xs:attribute name="kind" type="xs:string"/>
-                                                <xs:attribute name="method" type="xs:string"/>
-                                                <xs:attribute name="weight" type="xs:string"/>
-                                                <xs:attribute name="units" type="xs:string"/>
-                                                <xs:attribute name="provenance"
-                                                  type="provenance_type"/>
-                                            </xs:complexType>
-                                        </xs:element>
-                                    </xs:sequence>
+                                    <xs:attribute name="kind" type="xs:string"/>
+                                    <xs:attribute name="method" type="xs:string"/>
+                                    <xs:attribute name="weight" type="xs:string"/>
+                                    <xs:attribute name="units" type="xs:string"/>
+                                    <xs:attribute name="provenance" type="provenance_type"/>
                                 </xs:complexType>
                             </xs:element>
                         </xs:sequence>

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Wed Jul 28 13:22:14 2021 by generateDS.py version 2.38.6.
+# Generated Thu Jul 29 00:06:39 2021 by generateDS.py version 2.38.6.
 # Python 3.7.6 (default, Dec 30 2019, 19:38:28)  [Clang 11.0.0 (clang-1100.0.33.16)]
 #
 # Command line options:
@@ -62,8 +62,8 @@ SaveElementTreeNode = True
 
 
 class emicssSub(supermod.emicss):
-    def __init__(self, emdb_id=None, dbs=None, empiars=None, europe_pmc=None, molecular_weight=None, sample=None, **kwargs_):
-        super(emicssSub, self).__init__(emdb_id, dbs, empiars, europe_pmc, molecular_weight, sample,  **kwargs_)
+    def __init__(self, emdb_id=None, dbs=None, cross_refs=None, sample=None, **kwargs_):
+        super(emicssSub, self).__init__(emdb_id, dbs, cross_refs, sample,  **kwargs_)
 supermod.emicss.subclass = emicssSub
 # end class emicssSub
 
@@ -82,11 +82,11 @@ supermod.dbType.subclass = dbTypeSub
 # end class dbTypeSub
 
 
-class empiarsTypeSub(supermod.empiarsType):
-    def __init__(self, empiar=None, **kwargs_):
-        super(empiarsTypeSub, self).__init__(empiar,  **kwargs_)
-supermod.empiarsType.subclass = empiarsTypeSub
-# end class empiarsTypeSub
+class cross_refsTypeSub(supermod.cross_refsType):
+    def __init__(self, empiar=None, citation=None, pubmed_link=None, model=None, weight=None, **kwargs_):
+        super(cross_refsTypeSub, self).__init__(empiar, citation, pubmed_link, model, weight,  **kwargs_)
+supermod.cross_refsType.subclass = cross_refsTypeSub
+# end class cross_refsTypeSub
 
 
 class empiarTypeSub(supermod.empiarType):
@@ -96,32 +96,11 @@ supermod.empiarType.subclass = empiarTypeSub
 # end class empiarTypeSub
 
 
-class europe_pmcTypeSub(supermod.europe_pmcType):
-    def __init__(self, pmc=None, pubmed_link=None, **kwargs_):
-        super(europe_pmcTypeSub, self).__init__(pmc, pubmed_link,  **kwargs_)
-supermod.europe_pmcType.subclass = europe_pmcTypeSub
-# end class europe_pmcTypeSub
-
-
-class pmcTypeSub(supermod.pmcType):
+class citationTypeSub(supermod.citationType):
     def __init__(self, pubmed_id=None, pmc_id=None, doi=None, issn=None, provenance=None, **kwargs_):
-        super(pmcTypeSub, self).__init__(pubmed_id, pmc_id, doi, issn, provenance,  **kwargs_)
-supermod.pmcType.subclass = pmcTypeSub
-# end class pmcTypeSub
-
-
-class molecular_weightTypeSub(supermod.molecular_weightType):
-    def __init__(self, models=None, weights=None, **kwargs_):
-        super(molecular_weightTypeSub, self).__init__(models, weights,  **kwargs_)
-supermod.molecular_weightType.subclass = molecular_weightTypeSub
-# end class molecular_weightTypeSub
-
-
-class modelsTypeSub(supermod.modelsType):
-    def __init__(self, model=None, **kwargs_):
-        super(modelsTypeSub, self).__init__(model,  **kwargs_)
-supermod.modelsType.subclass = modelsTypeSub
-# end class modelsTypeSub
+        super(citationTypeSub, self).__init__(pubmed_id, pmc_id, doi, issn, provenance,  **kwargs_)
+supermod.citationType.subclass = citationTypeSub
+# end class citationTypeSub
 
 
 class modelTypeSub(supermod.modelType):
@@ -129,13 +108,6 @@ class modelTypeSub(supermod.modelType):
         super(modelTypeSub, self).__init__(pdb_id, assemblies, weight, units, provenance,  **kwargs_)
 supermod.modelType.subclass = modelTypeSub
 # end class modelTypeSub
-
-
-class weightsTypeSub(supermod.weightsType):
-    def __init__(self, weight=None, **kwargs_):
-        super(weightsTypeSub, self).__init__(weight,  **kwargs_)
-supermod.weightsType.subclass = weightsTypeSub
-# end class weightsTypeSub
 
 
 class weightTypeSub(supermod.weightType):

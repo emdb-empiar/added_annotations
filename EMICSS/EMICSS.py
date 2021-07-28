@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Wed Jul 28 13:22:14 2021 by generateDS.py version 2.38.6.
+# Generated Thu Jul 29 00:06:38 2021 by generateDS.py version 2.38.6.
 # Python 3.7.6 (default, Dec 30 2019, 19:38:28)  [Clang 11.0.0 (clang-1100.0.33.16)]
 #
 # Command line options:
@@ -1004,7 +1004,7 @@ class emicss(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, emdb_id=None, dbs=None, empiars=None, europe_pmc=None, molecular_weight=None, sample=None, gds_collector_=None, **kwargs_):
+    def __init__(self, emdb_id=None, dbs=None, cross_refs=None, sample=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
@@ -1014,12 +1014,8 @@ class emicss(GeneratedsSuper):
         self.emdb_id_nsprefix_ = None
         self.dbs = dbs
         self.dbs_nsprefix_ = None
-        self.empiars = empiars
-        self.empiars_nsprefix_ = None
-        self.europe_pmc = europe_pmc
-        self.europe_pmc_nsprefix_ = None
-        self.molecular_weight = molecular_weight
-        self.molecular_weight_nsprefix_ = None
+        self.cross_refs = cross_refs
+        self.cross_refs_nsprefix_ = None
         self.sample = sample
         self.sample_nsprefix_ = None
     def factory(*args_, **kwargs_):
@@ -1041,18 +1037,10 @@ class emicss(GeneratedsSuper):
         return self.dbs
     def set_dbs(self, dbs):
         self.dbs = dbs
-    def get_empiars(self):
-        return self.empiars
-    def set_empiars(self, empiars):
-        self.empiars = empiars
-    def get_europe_pmc(self):
-        return self.europe_pmc
-    def set_europe_pmc(self, europe_pmc):
-        self.europe_pmc = europe_pmc
-    def get_molecular_weight(self):
-        return self.molecular_weight
-    def set_molecular_weight(self, molecular_weight):
-        self.molecular_weight = molecular_weight
+    def get_cross_refs(self):
+        return self.cross_refs
+    def set_cross_refs(self, cross_refs):
+        self.cross_refs = cross_refs
     def get_sample(self):
         return self.sample
     def set_sample(self, sample):
@@ -1075,9 +1063,7 @@ class emicss(GeneratedsSuper):
     def hasContent_(self):
         if (
             self.dbs is not None or
-            self.empiars is not None or
-            self.europe_pmc is not None or
-            self.molecular_weight is not None or
+            self.cross_refs is not None or
             self.sample is not None
         ):
             return True
@@ -1118,15 +1104,9 @@ class emicss(GeneratedsSuper):
         if self.dbs is not None:
             namespaceprefix_ = self.dbs_nsprefix_ + ':' if (UseCapturedNS_ and self.dbs_nsprefix_) else ''
             self.dbs.export(outfile, level, namespaceprefix_, namespacedef_='', name_='dbs', pretty_print=pretty_print)
-        if self.empiars is not None:
-            namespaceprefix_ = self.empiars_nsprefix_ + ':' if (UseCapturedNS_ and self.empiars_nsprefix_) else ''
-            self.empiars.export(outfile, level, namespaceprefix_, namespacedef_='', name_='empiars', pretty_print=pretty_print)
-        if self.europe_pmc is not None:
-            namespaceprefix_ = self.europe_pmc_nsprefix_ + ':' if (UseCapturedNS_ and self.europe_pmc_nsprefix_) else ''
-            self.europe_pmc.export(outfile, level, namespaceprefix_, namespacedef_='', name_='europe_pmc', pretty_print=pretty_print)
-        if self.molecular_weight is not None:
-            namespaceprefix_ = self.molecular_weight_nsprefix_ + ':' if (UseCapturedNS_ and self.molecular_weight_nsprefix_) else ''
-            self.molecular_weight.export(outfile, level, namespaceprefix_, namespacedef_='', name_='molecular_weight', pretty_print=pretty_print)
+        if self.cross_refs is not None:
+            namespaceprefix_ = self.cross_refs_nsprefix_ + ':' if (UseCapturedNS_ and self.cross_refs_nsprefix_) else ''
+            self.cross_refs.export(outfile, level, namespaceprefix_, namespacedef_='', name_='cross_refs', pretty_print=pretty_print)
         if self.sample is not None:
             namespaceprefix_ = self.sample_nsprefix_ + ':' if (UseCapturedNS_ and self.sample_nsprefix_) else ''
             self.sample.export(outfile, level, namespaceprefix_, namespacedef_='', name_='sample', pretty_print=pretty_print)
@@ -1154,21 +1134,11 @@ class emicss(GeneratedsSuper):
             obj_.build(child_, gds_collector_=gds_collector_)
             self.dbs = obj_
             obj_.original_tagname_ = 'dbs'
-        elif nodeName_ == 'empiars':
-            obj_ = empiarsType.factory(parent_object_=self)
+        elif nodeName_ == 'cross_refs':
+            obj_ = cross_refsType.factory(parent_object_=self)
             obj_.build(child_, gds_collector_=gds_collector_)
-            self.empiars = obj_
-            obj_.original_tagname_ = 'empiars'
-        elif nodeName_ == 'europe_pmc':
-            obj_ = europe_pmcType.factory(parent_object_=self)
-            obj_.build(child_, gds_collector_=gds_collector_)
-            self.europe_pmc = obj_
-            obj_.original_tagname_ = 'europe_pmc'
-        elif nodeName_ == 'molecular_weight':
-            obj_ = molecular_weightType.factory(parent_object_=self)
-            obj_.build(child_, gds_collector_=gds_collector_)
-            self.molecular_weight = obj_
-            obj_.original_tagname_ = 'molecular_weight'
+            self.cross_refs = obj_
+            obj_.original_tagname_ = 'cross_refs'
         elif nodeName_ == 'sample':
             obj_ = sampleType.factory(parent_object_=self)
             obj_.build(child_, gds_collector_=gds_collector_)
@@ -1395,11 +1365,11 @@ class dbType(GeneratedsSuper):
 # end class dbType
 
 
-class empiarsType(GeneratedsSuper):
+class cross_refsType(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, empiar=None, gds_collector_=None, **kwargs_):
+    def __init__(self, empiar=None, citation=None, pubmed_link=None, model=None, weight=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
@@ -1410,16 +1380,33 @@ class empiarsType(GeneratedsSuper):
         else:
             self.empiar = empiar
         self.empiar_nsprefix_ = None
+        if citation is None:
+            self.citation = []
+        else:
+            self.citation = citation
+        self.citation_nsprefix_ = None
+        self.pubmed_link = pubmed_link
+        self.pubmed_link_nsprefix_ = None
+        if model is None:
+            self.model = []
+        else:
+            self.model = model
+        self.model_nsprefix_ = None
+        if weight is None:
+            self.weight = []
+        else:
+            self.weight = weight
+        self.weight_nsprefix_ = None
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
-                CurrentSubclassModule_, empiarsType)
+                CurrentSubclassModule_, cross_refsType)
             if subclass is not None:
                 return subclass(*args_, **kwargs_)
-        if empiarsType.subclass:
-            return empiarsType.subclass(*args_, **kwargs_)
+        if cross_refsType.subclass:
+            return cross_refsType.subclass(*args_, **kwargs_)
         else:
-            return empiarsType(*args_, **kwargs_)
+            return cross_refsType(*args_, **kwargs_)
     factory = staticmethod(factory)
     def get_ns_prefix_(self):
         return self.ns_prefix_
@@ -1435,39 +1422,77 @@ class empiarsType(GeneratedsSuper):
         self.empiar.insert(index, value)
     def replace_empiar_at(self, index, value):
         self.empiar[index] = value
+    def get_citation(self):
+        return self.citation
+    def set_citation(self, citation):
+        self.citation = citation
+    def add_citation(self, value):
+        self.citation.append(value)
+    def insert_citation_at(self, index, value):
+        self.citation.insert(index, value)
+    def replace_citation_at(self, index, value):
+        self.citation[index] = value
+    def get_pubmed_link(self):
+        return self.pubmed_link
+    def set_pubmed_link(self, pubmed_link):
+        self.pubmed_link = pubmed_link
+    def get_model(self):
+        return self.model
+    def set_model(self, model):
+        self.model = model
+    def add_model(self, value):
+        self.model.append(value)
+    def insert_model_at(self, index, value):
+        self.model.insert(index, value)
+    def replace_model_at(self, index, value):
+        self.model[index] = value
+    def get_weight(self):
+        return self.weight
+    def set_weight(self, weight):
+        self.weight = weight
+    def add_weight(self, value):
+        self.weight.append(value)
+    def insert_weight_at(self, index, value):
+        self.weight.insert(index, value)
+    def replace_weight_at(self, index, value):
+        self.weight[index] = value
     def hasContent_(self):
         if (
-            self.empiar
+            self.empiar or
+            self.citation or
+            self.pubmed_link is not None or
+            self.model or
+            self.weight
         ):
             return True
         else:
             return False
-    def export(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='empiarsType', pretty_print=True):
-        imported_ns_def_ = GenerateDSNamespaceDefs_.get('empiarsType')
+    def export(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='cross_refsType', pretty_print=True):
+        imported_ns_def_ = GenerateDSNamespaceDefs_.get('cross_refsType')
         if imported_ns_def_ is not None:
             namespacedef_ = imported_ns_def_
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        if self.original_tagname_ is not None and name_ == 'empiarsType':
+        if self.original_tagname_ is not None and name_ == 'cross_refsType':
             name_ = self.original_tagname_
         if UseCapturedNS_ and self.ns_prefix_:
             namespaceprefix_ = self.ns_prefix_ + ':'
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='empiarsType')
+        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='cross_refsType')
         if self.hasContent_():
             outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='empiarsType', pretty_print=pretty_print)
+            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='cross_refsType', pretty_print=pretty_print)
             showIndent(outfile, level, pretty_print)
             outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='empiarsType'):
+    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='cross_refsType'):
         pass
-    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='empiarsType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='cross_refsType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
@@ -1475,6 +1500,19 @@ class empiarsType(GeneratedsSuper):
         for empiar_ in self.empiar:
             namespaceprefix_ = self.empiar_nsprefix_ + ':' if (UseCapturedNS_ and self.empiar_nsprefix_) else ''
             empiar_.export(outfile, level, namespaceprefix_, namespacedef_='', name_='empiar', pretty_print=pretty_print)
+        for citation_ in self.citation:
+            namespaceprefix_ = self.citation_nsprefix_ + ':' if (UseCapturedNS_ and self.citation_nsprefix_) else ''
+            citation_.export(outfile, level, namespaceprefix_, namespacedef_='', name_='citation', pretty_print=pretty_print)
+        if self.pubmed_link is not None:
+            namespaceprefix_ = self.pubmed_link_nsprefix_ + ':' if (UseCapturedNS_ and self.pubmed_link_nsprefix_) else ''
+            showIndent(outfile, level, pretty_print)
+            outfile.write('<%spubmed_link>%s</%spubmed_link>%s' % (namespaceprefix_ , self.gds_encode(self.gds_format_string(quote_xml(self.pubmed_link), input_name='pubmed_link')), namespaceprefix_ , eol_))
+        for model_ in self.model:
+            namespaceprefix_ = self.model_nsprefix_ + ':' if (UseCapturedNS_ and self.model_nsprefix_) else ''
+            model_.export(outfile, level, namespaceprefix_, namespacedef_='', name_='model', pretty_print=pretty_print)
+        for weight_ in self.weight:
+            namespaceprefix_ = self.weight_nsprefix_ + ':' if (UseCapturedNS_ and self.weight_nsprefix_) else ''
+            weight_.export(outfile, level, namespaceprefix_, namespacedef_='', name_='weight', pretty_print=pretty_print)
     def build(self, node, gds_collector_=None):
         self.gds_collector_ = gds_collector_
         if SaveElementTreeNode:
@@ -1494,7 +1532,28 @@ class empiarsType(GeneratedsSuper):
             obj_.build(child_, gds_collector_=gds_collector_)
             self.empiar.append(obj_)
             obj_.original_tagname_ = 'empiar'
-# end class empiarsType
+        elif nodeName_ == 'citation':
+            obj_ = citationType.factory(parent_object_=self)
+            obj_.build(child_, gds_collector_=gds_collector_)
+            self.citation.append(obj_)
+            obj_.original_tagname_ = 'citation'
+        elif nodeName_ == 'pubmed_link':
+            value_ = child_.text
+            value_ = self.gds_parse_string(value_, node, 'pubmed_link')
+            value_ = self.gds_validate_string(value_, node, 'pubmed_link')
+            self.pubmed_link = value_
+            self.pubmed_link_nsprefix_ = child_.prefix
+        elif nodeName_ == 'model':
+            obj_ = modelType.factory(parent_object_=self)
+            obj_.build(child_, gds_collector_=gds_collector_)
+            self.model.append(obj_)
+            obj_.original_tagname_ = 'model'
+        elif nodeName_ == 'weight':
+            obj_ = weightType.factory(parent_object_=self)
+            obj_.build(child_, gds_collector_=gds_collector_)
+            self.weight.append(obj_)
+            obj_.original_tagname_ = 'weight'
+# end class cross_refsType
 
 
 class empiarType(GeneratedsSuper):
@@ -1597,126 +1656,7 @@ class empiarType(GeneratedsSuper):
 # end class empiarType
 
 
-class europe_pmcType(GeneratedsSuper):
-    __hash__ = GeneratedsSuper.__hash__
-    subclass = None
-    superclass = None
-    def __init__(self, pmc=None, pubmed_link=None, gds_collector_=None, **kwargs_):
-        self.gds_collector_ = gds_collector_
-        self.gds_elementtree_node_ = None
-        self.original_tagname_ = None
-        self.parent_object_ = kwargs_.get('parent_object_')
-        self.ns_prefix_ = None
-        if pmc is None:
-            self.pmc = []
-        else:
-            self.pmc = pmc
-        self.pmc_nsprefix_ = None
-        self.pubmed_link = pubmed_link
-        self.pubmed_link_nsprefix_ = None
-    def factory(*args_, **kwargs_):
-        if CurrentSubclassModule_ is not None:
-            subclass = getSubclassFromModule_(
-                CurrentSubclassModule_, europe_pmcType)
-            if subclass is not None:
-                return subclass(*args_, **kwargs_)
-        if europe_pmcType.subclass:
-            return europe_pmcType.subclass(*args_, **kwargs_)
-        else:
-            return europe_pmcType(*args_, **kwargs_)
-    factory = staticmethod(factory)
-    def get_ns_prefix_(self):
-        return self.ns_prefix_
-    def set_ns_prefix_(self, ns_prefix):
-        self.ns_prefix_ = ns_prefix
-    def get_pmc(self):
-        return self.pmc
-    def set_pmc(self, pmc):
-        self.pmc = pmc
-    def add_pmc(self, value):
-        self.pmc.append(value)
-    def insert_pmc_at(self, index, value):
-        self.pmc.insert(index, value)
-    def replace_pmc_at(self, index, value):
-        self.pmc[index] = value
-    def get_pubmed_link(self):
-        return self.pubmed_link
-    def set_pubmed_link(self, pubmed_link):
-        self.pubmed_link = pubmed_link
-    def hasContent_(self):
-        if (
-            self.pmc or
-            self.pubmed_link is not None
-        ):
-            return True
-        else:
-            return False
-    def export(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='europe_pmcType', pretty_print=True):
-        imported_ns_def_ = GenerateDSNamespaceDefs_.get('europe_pmcType')
-        if imported_ns_def_ is not None:
-            namespacedef_ = imported_ns_def_
-        if pretty_print:
-            eol_ = '\n'
-        else:
-            eol_ = ''
-        if self.original_tagname_ is not None and name_ == 'europe_pmcType':
-            name_ = self.original_tagname_
-        if UseCapturedNS_ and self.ns_prefix_:
-            namespaceprefix_ = self.ns_prefix_ + ':'
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
-        already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='europe_pmcType')
-        if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='europe_pmcType', pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
-        else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='europe_pmcType'):
-        pass
-    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='europe_pmcType', fromsubclass_=False, pretty_print=True):
-        if pretty_print:
-            eol_ = '\n'
-        else:
-            eol_ = ''
-        for pmc_ in self.pmc:
-            namespaceprefix_ = self.pmc_nsprefix_ + ':' if (UseCapturedNS_ and self.pmc_nsprefix_) else ''
-            pmc_.export(outfile, level, namespaceprefix_, namespacedef_='', name_='pmc', pretty_print=pretty_print)
-        if self.pubmed_link is not None:
-            namespaceprefix_ = self.pubmed_link_nsprefix_ + ':' if (UseCapturedNS_ and self.pubmed_link_nsprefix_) else ''
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%spubmed_link>%s</%spubmed_link>%s' % (namespaceprefix_ , self.gds_encode(self.gds_format_string(quote_xml(self.pubmed_link), input_name='pubmed_link')), namespaceprefix_ , eol_))
-    def build(self, node, gds_collector_=None):
-        self.gds_collector_ = gds_collector_
-        if SaveElementTreeNode:
-            self.gds_elementtree_node_ = node
-        already_processed = set()
-        self.ns_prefix_ = node.prefix
-        self.buildAttributes(node, node.attrib, already_processed)
-        for child in node:
-            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
-            self.buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
-        return self
-    def buildAttributes(self, node, attrs, already_processed):
-        pass
-    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
-        if nodeName_ == 'pmc':
-            obj_ = pmcType.factory(parent_object_=self)
-            obj_.build(child_, gds_collector_=gds_collector_)
-            self.pmc.append(obj_)
-            obj_.original_tagname_ = 'pmc'
-        elif nodeName_ == 'pubmed_link':
-            value_ = child_.text
-            value_ = self.gds_parse_string(value_, node, 'pubmed_link')
-            value_ = self.gds_validate_string(value_, node, 'pubmed_link')
-            self.pubmed_link = value_
-            self.pubmed_link_nsprefix_ = child_.prefix
-# end class europe_pmcType
-
-
-class pmcType(GeneratedsSuper):
+class citationType(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
@@ -1739,13 +1679,13 @@ class pmcType(GeneratedsSuper):
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
-                CurrentSubclassModule_, pmcType)
+                CurrentSubclassModule_, citationType)
             if subclass is not None:
                 return subclass(*args_, **kwargs_)
-        if pmcType.subclass:
-            return pmcType.subclass(*args_, **kwargs_)
+        if citationType.subclass:
+            return citationType.subclass(*args_, **kwargs_)
         else:
-            return pmcType(*args_, **kwargs_)
+            return citationType(*args_, **kwargs_)
     factory = staticmethod(factory)
     def get_ns_prefix_(self):
         return self.ns_prefix_
@@ -1791,29 +1731,29 @@ class pmcType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='pmcType', pretty_print=True):
-        imported_ns_def_ = GenerateDSNamespaceDefs_.get('pmcType')
+    def export(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='citationType', pretty_print=True):
+        imported_ns_def_ = GenerateDSNamespaceDefs_.get('citationType')
         if imported_ns_def_ is not None:
             namespacedef_ = imported_ns_def_
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        if self.original_tagname_ is not None and name_ == 'pmcType':
+        if self.original_tagname_ is not None and name_ == 'citationType':
             name_ = self.original_tagname_
         if UseCapturedNS_ and self.ns_prefix_:
             namespaceprefix_ = self.ns_prefix_ + ':'
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='pmcType')
+        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='citationType')
         if self.hasContent_():
             outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='pmcType', pretty_print=pretty_print)
+            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='citationType', pretty_print=pretty_print)
             outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='pmcType'):
+    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='citationType'):
         if self.pubmed_id is not None and 'pubmed_id' not in already_processed:
             already_processed.add('pubmed_id')
             outfile.write(' pubmed_id=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.pubmed_id), input_name='pubmed_id')), ))
@@ -1829,7 +1769,7 @@ class pmcType(GeneratedsSuper):
         if self.provenance is not None and 'provenance' not in already_processed:
             already_processed.add('provenance')
             outfile.write(' provenance=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.provenance), input_name='provenance')), ))
-    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='pmcType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='citationType', fromsubclass_=False, pretty_print=True):
         pass
     def build(self, node, gds_collector_=None):
         self.gds_collector_ = gds_collector_
@@ -1867,217 +1807,7 @@ class pmcType(GeneratedsSuper):
             self.validate_provenance_type(self.provenance)    # validate type provenance_type
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         pass
-# end class pmcType
-
-
-class molecular_weightType(GeneratedsSuper):
-    __hash__ = GeneratedsSuper.__hash__
-    subclass = None
-    superclass = None
-    def __init__(self, models=None, weights=None, gds_collector_=None, **kwargs_):
-        self.gds_collector_ = gds_collector_
-        self.gds_elementtree_node_ = None
-        self.original_tagname_ = None
-        self.parent_object_ = kwargs_.get('parent_object_')
-        self.ns_prefix_ = None
-        self.models = models
-        self.models_nsprefix_ = None
-        self.weights = weights
-        self.weights_nsprefix_ = None
-    def factory(*args_, **kwargs_):
-        if CurrentSubclassModule_ is not None:
-            subclass = getSubclassFromModule_(
-                CurrentSubclassModule_, molecular_weightType)
-            if subclass is not None:
-                return subclass(*args_, **kwargs_)
-        if molecular_weightType.subclass:
-            return molecular_weightType.subclass(*args_, **kwargs_)
-        else:
-            return molecular_weightType(*args_, **kwargs_)
-    factory = staticmethod(factory)
-    def get_ns_prefix_(self):
-        return self.ns_prefix_
-    def set_ns_prefix_(self, ns_prefix):
-        self.ns_prefix_ = ns_prefix
-    def get_models(self):
-        return self.models
-    def set_models(self, models):
-        self.models = models
-    def get_weights(self):
-        return self.weights
-    def set_weights(self, weights):
-        self.weights = weights
-    def hasContent_(self):
-        if (
-            self.models is not None or
-            self.weights is not None
-        ):
-            return True
-        else:
-            return False
-    def export(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='molecular_weightType', pretty_print=True):
-        imported_ns_def_ = GenerateDSNamespaceDefs_.get('molecular_weightType')
-        if imported_ns_def_ is not None:
-            namespacedef_ = imported_ns_def_
-        if pretty_print:
-            eol_ = '\n'
-        else:
-            eol_ = ''
-        if self.original_tagname_ is not None and name_ == 'molecular_weightType':
-            name_ = self.original_tagname_
-        if UseCapturedNS_ and self.ns_prefix_:
-            namespaceprefix_ = self.ns_prefix_ + ':'
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
-        already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='molecular_weightType')
-        if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='molecular_weightType', pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
-        else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='molecular_weightType'):
-        pass
-    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='molecular_weightType', fromsubclass_=False, pretty_print=True):
-        if pretty_print:
-            eol_ = '\n'
-        else:
-            eol_ = ''
-        if self.models is not None:
-            namespaceprefix_ = self.models_nsprefix_ + ':' if (UseCapturedNS_ and self.models_nsprefix_) else ''
-            self.models.export(outfile, level, namespaceprefix_, namespacedef_='', name_='models', pretty_print=pretty_print)
-        if self.weights is not None:
-            namespaceprefix_ = self.weights_nsprefix_ + ':' if (UseCapturedNS_ and self.weights_nsprefix_) else ''
-            self.weights.export(outfile, level, namespaceprefix_, namespacedef_='', name_='weights', pretty_print=pretty_print)
-    def build(self, node, gds_collector_=None):
-        self.gds_collector_ = gds_collector_
-        if SaveElementTreeNode:
-            self.gds_elementtree_node_ = node
-        already_processed = set()
-        self.ns_prefix_ = node.prefix
-        self.buildAttributes(node, node.attrib, already_processed)
-        for child in node:
-            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
-            self.buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
-        return self
-    def buildAttributes(self, node, attrs, already_processed):
-        pass
-    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
-        if nodeName_ == 'models':
-            obj_ = modelsType.factory(parent_object_=self)
-            obj_.build(child_, gds_collector_=gds_collector_)
-            self.models = obj_
-            obj_.original_tagname_ = 'models'
-        elif nodeName_ == 'weights':
-            obj_ = weightsType.factory(parent_object_=self)
-            obj_.build(child_, gds_collector_=gds_collector_)
-            self.weights = obj_
-            obj_.original_tagname_ = 'weights'
-# end class molecular_weightType
-
-
-class modelsType(GeneratedsSuper):
-    __hash__ = GeneratedsSuper.__hash__
-    subclass = None
-    superclass = None
-    def __init__(self, model=None, gds_collector_=None, **kwargs_):
-        self.gds_collector_ = gds_collector_
-        self.gds_elementtree_node_ = None
-        self.original_tagname_ = None
-        self.parent_object_ = kwargs_.get('parent_object_')
-        self.ns_prefix_ = None
-        if model is None:
-            self.model = []
-        else:
-            self.model = model
-        self.model_nsprefix_ = None
-    def factory(*args_, **kwargs_):
-        if CurrentSubclassModule_ is not None:
-            subclass = getSubclassFromModule_(
-                CurrentSubclassModule_, modelsType)
-            if subclass is not None:
-                return subclass(*args_, **kwargs_)
-        if modelsType.subclass:
-            return modelsType.subclass(*args_, **kwargs_)
-        else:
-            return modelsType(*args_, **kwargs_)
-    factory = staticmethod(factory)
-    def get_ns_prefix_(self):
-        return self.ns_prefix_
-    def set_ns_prefix_(self, ns_prefix):
-        self.ns_prefix_ = ns_prefix
-    def get_model(self):
-        return self.model
-    def set_model(self, model):
-        self.model = model
-    def add_model(self, value):
-        self.model.append(value)
-    def insert_model_at(self, index, value):
-        self.model.insert(index, value)
-    def replace_model_at(self, index, value):
-        self.model[index] = value
-    def hasContent_(self):
-        if (
-            self.model
-        ):
-            return True
-        else:
-            return False
-    def export(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='modelsType', pretty_print=True):
-        imported_ns_def_ = GenerateDSNamespaceDefs_.get('modelsType')
-        if imported_ns_def_ is not None:
-            namespacedef_ = imported_ns_def_
-        if pretty_print:
-            eol_ = '\n'
-        else:
-            eol_ = ''
-        if self.original_tagname_ is not None and name_ == 'modelsType':
-            name_ = self.original_tagname_
-        if UseCapturedNS_ and self.ns_prefix_:
-            namespaceprefix_ = self.ns_prefix_ + ':'
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
-        already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='modelsType')
-        if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='modelsType', pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
-        else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='modelsType'):
-        pass
-    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='modelsType', fromsubclass_=False, pretty_print=True):
-        if pretty_print:
-            eol_ = '\n'
-        else:
-            eol_ = ''
-        for model_ in self.model:
-            namespaceprefix_ = self.model_nsprefix_ + ':' if (UseCapturedNS_ and self.model_nsprefix_) else ''
-            model_.export(outfile, level, namespaceprefix_, namespacedef_='', name_='model', pretty_print=pretty_print)
-    def build(self, node, gds_collector_=None):
-        self.gds_collector_ = gds_collector_
-        if SaveElementTreeNode:
-            self.gds_elementtree_node_ = node
-        already_processed = set()
-        self.ns_prefix_ = node.prefix
-        self.buildAttributes(node, node.attrib, already_processed)
-        for child in node:
-            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
-            self.buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
-        return self
-    def buildAttributes(self, node, attrs, already_processed):
-        pass
-    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
-        if nodeName_ == 'model':
-            obj_ = modelType.factory(parent_object_=self)
-            obj_.build(child_, gds_collector_=gds_collector_)
-            self.model.append(obj_)
-            obj_.original_tagname_ = 'model'
-# end class modelsType
+# end class citationType
 
 
 class modelType(GeneratedsSuper):
@@ -2246,108 +1976,6 @@ class modelType(GeneratedsSuper):
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         pass
 # end class modelType
-
-
-class weightsType(GeneratedsSuper):
-    __hash__ = GeneratedsSuper.__hash__
-    subclass = None
-    superclass = None
-    def __init__(self, weight=None, gds_collector_=None, **kwargs_):
-        self.gds_collector_ = gds_collector_
-        self.gds_elementtree_node_ = None
-        self.original_tagname_ = None
-        self.parent_object_ = kwargs_.get('parent_object_')
-        self.ns_prefix_ = None
-        if weight is None:
-            self.weight = []
-        else:
-            self.weight = weight
-        self.weight_nsprefix_ = None
-    def factory(*args_, **kwargs_):
-        if CurrentSubclassModule_ is not None:
-            subclass = getSubclassFromModule_(
-                CurrentSubclassModule_, weightsType)
-            if subclass is not None:
-                return subclass(*args_, **kwargs_)
-        if weightsType.subclass:
-            return weightsType.subclass(*args_, **kwargs_)
-        else:
-            return weightsType(*args_, **kwargs_)
-    factory = staticmethod(factory)
-    def get_ns_prefix_(self):
-        return self.ns_prefix_
-    def set_ns_prefix_(self, ns_prefix):
-        self.ns_prefix_ = ns_prefix
-    def get_weight(self):
-        return self.weight
-    def set_weight(self, weight):
-        self.weight = weight
-    def add_weight(self, value):
-        self.weight.append(value)
-    def insert_weight_at(self, index, value):
-        self.weight.insert(index, value)
-    def replace_weight_at(self, index, value):
-        self.weight[index] = value
-    def hasContent_(self):
-        if (
-            self.weight
-        ):
-            return True
-        else:
-            return False
-    def export(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='weightsType', pretty_print=True):
-        imported_ns_def_ = GenerateDSNamespaceDefs_.get('weightsType')
-        if imported_ns_def_ is not None:
-            namespacedef_ = imported_ns_def_
-        if pretty_print:
-            eol_ = '\n'
-        else:
-            eol_ = ''
-        if self.original_tagname_ is not None and name_ == 'weightsType':
-            name_ = self.original_tagname_
-        if UseCapturedNS_ and self.ns_prefix_:
-            namespaceprefix_ = self.ns_prefix_ + ':'
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
-        already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='weightsType')
-        if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='weightsType', pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
-        else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='weightsType'):
-        pass
-    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='weightsType', fromsubclass_=False, pretty_print=True):
-        if pretty_print:
-            eol_ = '\n'
-        else:
-            eol_ = ''
-        for weight_ in self.weight:
-            namespaceprefix_ = self.weight_nsprefix_ + ':' if (UseCapturedNS_ and self.weight_nsprefix_) else ''
-            weight_.export(outfile, level, namespaceprefix_, namespacedef_='', name_='weight', pretty_print=pretty_print)
-    def build(self, node, gds_collector_=None):
-        self.gds_collector_ = gds_collector_
-        if SaveElementTreeNode:
-            self.gds_elementtree_node_ = node
-        already_processed = set()
-        self.ns_prefix_ = node.prefix
-        self.buildAttributes(node, node.attrib, already_processed)
-        for child in node:
-            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
-            self.buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
-        return self
-    def buildAttributes(self, node, attrs, already_processed):
-        pass
-    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
-        if nodeName_ == 'weight':
-            obj_ = weightType.factory(parent_object_=self)
-            obj_.build(child_, gds_collector_=gds_collector_)
-            self.weight.append(obj_)
-            obj_.original_tagname_ = 'weight'
-# end class weightsType
 
 
 class weightType(GeneratedsSuper):
@@ -4209,27 +3837,23 @@ RenameMappings_ = {
 NamespaceToDefMappings_ = {}
 
 __all__ = [
+    "citationType",
     "cross_ref_dbType",
     "cross_ref_dbType2",
     "cross_ref_dbType4",
     "cross_ref_dbsType",
     "cross_ref_dbsType1",
     "cross_ref_dbsType3",
+    "cross_refsType",
     "dbType",
     "dbsType",
     "emicss",
     "empiarType",
-    "empiarsType",
-    "europe_pmcType",
     "macromoleculeType",
     "macromoleculesType",
     "modelType",
-    "modelsType",
-    "molecular_weightType",
-    "pmcType",
     "sampleType",
     "supramoleculeType",
     "supramoleculesType",
-    "weightType",
-    "weightsType"
+    "weightType"
 ]

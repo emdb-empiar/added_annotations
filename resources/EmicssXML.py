@@ -121,11 +121,7 @@ class EmicssXML:
             all_db = set()
             headerXML = EMICSS.emicss()
             dbs = EMICSS.dbsType()
-            molecular_weight = EMICSS.molecular_weightType()
-            empiars = EMICSS.empiarsType()
-            models = EMICSS.modelsType()
-            weights = EMICSS.weightsType()
-            europe_pmc = EMICSS.europe_pmcType()
+            cross_refs = EMICSS.cross_refsType()
             sample = EMICSS.sampleType()
             macromolecules = EMICSS.macromoleculesType()
 
@@ -134,16 +130,16 @@ class EmicssXML:
             for samp_id in val.keys():
                 if samp_id is not None:
                     if re.search(r'%s\-\d+' % "EMPIAR", samp_id):
-                        self.EMICSS_empiar(val, samp_id, all_db, dbs, empiars)
+                        self.EMICSS_empiar(val, samp_id, all_db, dbs, cross_refs)
                     if samp_id == "theoretical" or samp_id == "experimental":
-                        self.EMICSS_weight(val, samp_id, weights)
+                        self.EMICSS_weight(val, samp_id, cross_refs)
                     if samp_id == "PMC":
-                        self.EMICSS_PMC(val, samp_id, all_db, dbs, europe_pmc)
+                        self.EMICSS_PMC(val, samp_id, all_db, dbs, cross_refs)
                     if samp_id == "GO":
                         self.EMICSS_GO(val, samp_id, all_db, dbs, macromolecules)
                     if (samp_id.isalnum() and not samp_id.isalpha() and not samp_id.isnumeric()):
                         if len(samp_id) == 4:
-                            self.EMICSS_Pdbe(val, samp_id, all_db, dbs, models)
+                            self.EMICSS_Pdbe(val, samp_id, all_db, dbs, cross_refs)
                         if len(samp_id) != 4:
                             self.EMICSS_uniprot(val, samp_id, all_db, dbs, macromolecules)
                     if samp_id.isnumeric():
@@ -152,11 +148,7 @@ class EmicssXML:
                         supramolecules = self.EMICSS_CPX(val, samp_id, all_db, dbs)
 
             headerXML.set_dbs(dbs)
-            headerXML.set_empiars(empiars)
-            headerXML.set_europe_pmc(europe_pmc)
-            molecular_weight.set_models(models)
-            molecular_weight.set_weights(weights)
-            headerXML.set_molecular_weight(molecular_weight)
+            headerXML.set_cross_refs(cross_refs)
             if supramolecules:
                 sample.set_supramolecules(supramolecules)
             sample.set_macromolecules(macromolecules)
@@ -167,7 +159,7 @@ class EmicssXML:
             with open(xmlFile, 'w') as f:
                 headerXML.export(f, 0, name_='emicss')
 
-    def EMICSS_empiar(self, val, samp_id, all_db, dbs, empiars):
+    def EMICSS_empiar(self, val, samp_id, all_db, dbs, cross_refs):
         "Adding EMPIAR_ID to EMICSS"
 
         empiar_id = val.get(samp_id, {}).get('empiar_id')
@@ -181,9 +173,9 @@ class EmicssXML:
         empiar = EMICSS.empiarType()
         empiar.set_empiar_id("%s" % empiar_id)
         empiar.set_provenance("%s" % "AUTHOR")
-        empiars.add_empiar(empiar)
+        cross_refs.add_empiar(empiar)
 
-    def EMICSS_PMC(self, val, samp_id, all_db, dbs, europe_pmc):
+    def EMICSS_PMC(self, val, samp_id, all_db, dbs, cross_refs):
         """
         Adding PUBMED_ID, DOI and ISSN to EMICSS
         """
@@ -201,21 +193,21 @@ class EmicssXML:
                 db.set_db_version("%s" % "2.0")
                 dbs.add_db(db)
         all_db.add("EuropePMC")
-        pmc = EMICSS.pmcType()
+        citation = EMICSS.citationType()
         if pmedid:
-            pmc.set_pubmed_id("%s" % pmedid)
-            europe_pmc.set_pubmed_link("%s" % link)
+            citation.set_pubmed_id("%s" % pmedid)
+            cross_refs.set_pubmed_link("%s" % link)
         if pmcid:
-            pmc.set_pmcid("%s" % pmcid)
+            citation.set_pmc_id("%s" % pmcid)
         if doi:
-            pmc.set_doi("%s" % doi)
+            citation.set_doi("%s" % doi)
         if issn:
-            pmc.set_issn("%s" % issn)
+            citation.set_issn("%s" % issn)
         if pmedid or doi or issn:
-            pmc.set_provenance("%s" % provenance)
-        europe_pmc.add_pmc(pmc)
+            citation.set_provenance("%s" % provenance)
+        cross_refs.add_citation(citation)
 
-    def EMICSS_Pdbe(self, val, samp_id, all_db, dbs, models):
+    def EMICSS_Pdbe(self, val, samp_id, all_db, dbs, cross_refs):
         """
         Adding pdb_id and calulated assembly weight annotations to EMICSS
         """
@@ -235,9 +227,9 @@ class EmicssXML:
         model.set_weight(round(mw, 2))
         model.set_units("%s" % "Da")
         model.set_provenance("%s" % "PDBe")
-        models.add_model(model)
+        cross_refs.add_model(model)
 
-    def EMICSS_weight(self, val, samp_id, weights):
+    def EMICSS_weight(self, val, samp_id, cross_refs):
         "Adding author provided calulated total sample weight annotations to EMICSS"
 
         kind = val.get(samp_id, {}).get('kind')
@@ -252,7 +244,7 @@ class EmicssXML:
             weight.set_weight(round(th_weight, 3))
             weight.set_units("%s" % th_units)
             weight.set_provenance("%s" % "AUTHOR")
-            weights.add_weight(weight)
+            cross_refs.add_weight(weight)
         if exp_weight:
             weight = EMICSS.weightType()
             weight.set_kind("%s" % kind)
@@ -260,7 +252,7 @@ class EmicssXML:
             weight.set_weight(round(exp_weight, 3))
             weight.set_units("%s" % exp_units)
             weight.set_provenance("%s" % "AUTHOR")
-            weights.add_weight(weight)
+            cross_refs.add_weight(weight)
 
     def EMICSS_uniprot(self, val, samp_id, all_db, dbs, macromolecules):
         "Adding UNIPROT annotation to EMICSS"
