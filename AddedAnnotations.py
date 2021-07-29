@@ -58,7 +58,7 @@ if __name__ == "__main__":
     xml = XMLParser(args.headerDir)
     xml.execute()
     uniprot = False
-
+    mapping_list = []
     #CPX mapping requires Uniprot anotation
     if args.CPX or args.uniprot:
         uniprot = True
@@ -70,30 +70,38 @@ if __name__ == "__main__":
         unp_mapping.export_tsv()
         if args.download_uniprot:
             unp_mapping.download_uniprot()
+        mapping_list.extend("UNIPROT", unip_map)
     if args.CPX:
         cpx_mapping = CPMapping(args.workDir, unp_mapping.proteins, xml.supras)
         cpx_map = cpx_mapping.execute(args.threads)
         cpx_mapping.write_cpx_map()
+        mapping_list.extend("COMPLEX", cpx_map)
     if args.component:
         che_mapping = ComponentsMapping(args.workDir, xml.ligands)
         lig_map = che_mapping.execute(args.threads)
         che_mapping.write_ligands()
+        mapping_list.extend(["LIGANDS", lig_map])
     if args.model:
         mw_mapping = StructureMapping(args.workDir, xml.models)
         mw_map = mw_mapping.execute(args.threads)
         mw_mapping.export_tsv()
+        mapping_list.extend(["MODEL", mw_map])
     if args.weight:
         sw_mapping = SampleWeight(args.workDir, xml.weights)
         sw_map = sw_mapping.execute(args.threads)
+        mapping_list.extend(["WEIGHT", sw_map])
     if args.empiar:
         empiar_mapping = EMPIARMapping(args.workDir, models.EMPIAR)
         empiar_map = empiar_mapping.execute()
+        mapping_list.extend("EMPIAR", empiar_map)
     if args.pmc:
         pmc_mapping = PubmedMapping(args.workDir, xml.citations)
         pmc_map = pmc_mapping.execute(args.threads)
+        mapping_list.extend("CITATION", pmc_map)
     if args.GO:
         GO_mapping = GOMapping(args.workDir, xml.GOs)
         GO_map = GO_mapping.execute(args.threads)
+        mapping_list.extend(["GO", GO_map])
 
-    write_annotation_xml = EmicssXML(args.workDir, unip_map, cpx_map, lig_map, mw_map, sw_map, empiar_map, pmc_map, GO_map)
+    write_annotation_xml = EmicssXML(args.workDir, mapping_list)
     write_annotation_xml.execute()

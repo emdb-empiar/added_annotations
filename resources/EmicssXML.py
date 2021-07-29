@@ -7,16 +7,26 @@ class EmicssXML:
     Writing annotations to output xml file according to the EMdb_EMICSS.xsd schema
     """
 
-    def __init__(self, workDir, unip_map, cpx_map, lig_map, mw_map, sw_map, empiar_map, pmc_map, GO_map):
+    # def __init__(self, workDir, unip_map, cpx_map, lig_map, mw_map, sw_map, empiar_map, pmc_map, GO_map):
+    def __init__(self, workDir, mapping_list):
         self.workDir = workDir
-        self.unip_map = unip_map
-        self.cpx_map = cpx_map
-        self.lig_map = lig_map
-        self.mw_map = mw_map
-        self.sw_map = sw_map
-        self.empiar_map = empiar_map
-        self.pmc_map = pmc_map
-        self.GO_map = GO_map
+        for db in range(0, len(mapping_list), 2):
+            if mapping_list[db] == "UNIPROT":
+                self.unip_map = mapping_list[db+1]
+            if mapping_list[db] == "COMPLEX":
+                self.cpx_map = mapping_list[db + 1]
+            if mapping_list[db] == "LIGANDS":
+                self.lig_map = mapping_list[db+1]
+            if mapping_list[db] == "MODEL":
+                self.mw_map = mapping_list[db+1]
+            if mapping_list[db] == "WEIGHT":
+                self.sw_map = mapping_list[db + 1]
+            if mapping_list[db] == "EMPIAR":
+                self.empiar_map = mapping_list[db+1]
+            if mapping_list[db] == "CITATION":
+                self.pmc_map = mapping_list[db+1]
+            if mapping_list[db] == "GO":
+                self.GO_map = mapping_list[db+1]
 
     def execute(self):
         self.emicss_annotation = self.dict_emicss()
@@ -29,86 +39,110 @@ class EmicssXML:
 
         emicss_dict = {}
 
-        if self.mw_map:
-            for mw in self.mw_map:
-                if mw.emdb_id not in emicss_dict:
-                    emicss_dict[mw.emdb_id] = {}
-                if mw.emdb_id not in emicss_dict[mw.emdb_id]:
-                    emicss_dict[mw.emdb_id][mw.pdb_id] = mw.__dict__
-                else:
-                    emicss_dict[mw.emdb_id][mw.pdb_id] += mw.__dict__
+        try:
+            if self.mw_map:
+                for mw in self.mw_map:
+                    if mw.emdb_id not in emicss_dict:
+                        emicss_dict[mw.emdb_id] = {}
+                    if mw.emdb_id not in emicss_dict[mw.emdb_id]:
+                        emicss_dict[mw.emdb_id][mw.pdb_id] = mw.__dict__
+                    else:
+                        emicss_dict[mw.emdb_id][mw.pdb_id] += mw.__dict__
+        except AttributeError:
+            print("MODEL mapping doesn't exist")
 
-        if self.sw_map:
-            for sw in self.sw_map:
-                if sw.emdb_id not in emicss_dict:
-                    emicss_dict[sw.emdb_id] = {}
-                if sw.emdb_id not in emicss_dict[sw.emdb_id]:
-                    emicss_dict[sw.emdb_id][sw.method] = sw.__dict__
-                else:
-                    emicss_dict[sw.emdb_id][sw.method] += sw.__dict__
+        try:
+            if self.sw_map:
+                for sw in self.sw_map:
+                    if sw.emdb_id not in emicss_dict:
+                        emicss_dict[sw.emdb_id] = {}
+                    if sw.emdb_id not in emicss_dict[sw.emdb_id]:
+                        emicss_dict[sw.emdb_id][sw.method] = sw.__dict__
+                    else:
+                        emicss_dict[sw.emdb_id][sw.method] += sw.__dict__
+        except AttributeError:
+            print("WEIGHT mapping doesn't exist")
 
-        if self.empiar_map:
-            for empiar in self.empiar_map:
-                if empiar.emdb_id not in emicss_dict:
-                    emicss_dict[empiar.emdb_id] = {}
-                if empiar.emdb_id not in emicss_dict[empiar.emdb_id]:
-                    emicss_dict[empiar.emdb_id][empiar.empiar_id] = empiar.__dict__
-                else:
-                    emicss_dict[empiar.emdb_id][empiar.empiar_id] += empiar.__dict__
+        try:
+            if self.empiar_map:
+                for empiar in self.empiar_map:
+                    if empiar.emdb_id not in emicss_dict:
+                        emicss_dict[empiar.emdb_id] = {}
+                    if empiar.emdb_id not in emicss_dict[empiar.emdb_id]:
+                        emicss_dict[empiar.emdb_id][empiar.empiar_id] = empiar.__dict__
+                    else:
+                        emicss_dict[empiar.emdb_id][empiar.empiar_id] += empiar.__dict__
+        except AttributeError:
+            print("EMPIAR mapping doesn't exist")
 
-        if self.unip_map:
-            for unip in self.unip_map:
-                if unip.emdb_id not in emicss_dict:
-                    emicss_dict[unip.emdb_id] = {}
-                if unip.emdb_id not in emicss_dict[unip.emdb_id]:
-                    emicss_dict[unip.emdb_id][unip.uniprot_id] = unip.__dict__
-                else:
-                    emicss_dict[unip.emdb_id][unip.uniprot_id] += unip.__dict__
+        try:
+            if self.unip_map:
+                for unip in self.unip_map:
+                    if unip.emdb_id not in emicss_dict:
+                        emicss_dict[unip.emdb_id] = {}
+                    if unip.emdb_id not in emicss_dict[unip.emdb_id]:
+                        emicss_dict[unip.emdb_id][unip.uniprot_id] = unip.__dict__
+                    else:
+                        emicss_dict[unip.emdb_id][unip.uniprot_id] += unip.__dict__
+        except AttributeError:
+            print("UNIPROT mapping doesn't exist")
 
-        if self.cpx_map:
-            for emcpx in self.cpx_map:
-                if emcpx:
-                    for cpx in emcpx.cpx_list:
-                        if emcpx.emdb_id not in emicss_dict.keys():
-                            emicss_dict[emcpx.emdb_id] = {}
-                        if emcpx.sample_id not in emicss_dict[emcpx.emdb_id].keys():
-                            emicss_dict[emcpx.emdb_id][emcpx.sample_id] = {}
-                            ind = 0
-                        lcpx = ["supra_name", emcpx.supra_name, "sample_copies", emcpx.sample_copies, "cpx_id" + "_" + str(ind),
-                                cpx.cpx_id, "cpx_name" + "_" + str(ind), cpx.name, "provenance" + "_" + str(ind),
-                                emcpx.provenance, "score" + "_" + str(ind), emcpx.score]
-                        dcpx = dict(itertools.zip_longest(*[iter(lcpx)] * 2, fillvalue=""))
-                        for k in dcpx.keys():
-                            emicss_dict[emcpx.emdb_id][emcpx.sample_id][k] = dcpx[k]
-                        ind = ind + 1
-                    emicss_dict[emcpx.emdb_id][emcpx.sample_id]["ind"] = ind
+        try:
+            if self.cpx_map:
+                for emcpx in self.cpx_map:
+                    if emcpx:
+                        for cpx in emcpx.cpx_list:
+                            if emcpx.emdb_id not in emicss_dict.keys():
+                                emicss_dict[emcpx.emdb_id] = {}
+                            if emcpx.sample_id not in emicss_dict[emcpx.emdb_id].keys():
+                                emicss_dict[emcpx.emdb_id][emcpx.sample_id] = {}
+                                ind = 0
+                            lcpx = ["supra_name", emcpx.supra_name, "sample_copies", emcpx.sample_copies, "cpx_id" + "_" + str(ind),
+                                    cpx.cpx_id, "cpx_name" + "_" + str(ind), cpx.name, "provenance" + "_" + str(ind),
+                                    emcpx.provenance, "score" + "_" + str(ind), emcpx.score]
+                            dcpx = dict(itertools.zip_longest(*[iter(lcpx)] * 2, fillvalue=""))
+                            for k in dcpx.keys():
+                                emicss_dict[emcpx.emdb_id][emcpx.sample_id][k] = dcpx[k]
+                            ind = ind + 1
+                        emicss_dict[emcpx.emdb_id][emcpx.sample_id]["ind"] = ind
+        except AttributeError:
+            print("COMPLEX mapping doesn't exist")
 
-        if self.lig_map:
-            for ligand in self.lig_map:
-                if ligand.emdb_id not in emicss_dict:
-                    emicss_dict[ligand.emdb_id] = {}
-                if ligand.emdb_id not in emicss_dict[ligand.emdb_id]:
-                    emicss_dict[ligand.emdb_id][ligand.sample_id] = ligand.__dict__
-                else:
-                    emicss_dict[ligand.emdb_id][ligand.sample_id] += ligand.__dict__
+        try:
+            if self.lig_map:
+                for ligand in self.lig_map:
+                    if ligand.emdb_id not in emicss_dict:
+                        emicss_dict[ligand.emdb_id] = {}
+                    if ligand.emdb_id not in emicss_dict[ligand.emdb_id]:
+                        emicss_dict[ligand.emdb_id][ligand.sample_id] = ligand.__dict__
+                    else:
+                        emicss_dict[ligand.emdb_id][ligand.sample_id] += ligand.__dict__
+        except AttributeError:
+            print("LIGAND mapping doesn't exist")
 
-        if self.pmc_map:
-            for pmc in self.pmc_map:
-                if pmc.emdb_id not in emicss_dict:
-                    emicss_dict[pmc.emdb_id] = {}
-                if pmc.emdb_id not in emicss_dict[pmc.emdb_id]:
-                    emicss_dict[pmc.emdb_id]["PMC"] = pmc.__dict__
-                else:
-                    emicss_dict[pmc.emdb_id]["PMC"] += pmc.__dict__
+        try:
+            if self.pmc_map:
+                for pmc in self.pmc_map:
+                    if pmc.emdb_id not in emicss_dict:
+                        emicss_dict[pmc.emdb_id] = {}
+                    if pmc.emdb_id not in emicss_dict[pmc.emdb_id]:
+                        emicss_dict[pmc.emdb_id]["PMC"] = pmc.__dict__
+                    else:
+                        emicss_dict[pmc.emdb_id]["PMC"] += pmc.__dict__
+        except AttributeError:
+            print("CITATION mapping doesn't exist")
 
-        if self.GO_map:
-            for GO in self.GO_map:
-                if GO.emdb_id not in emicss_dict:
-                    emicss_dict[GO.emdb_id] = {}
-                if GO.emdb_id not in emicss_dict[GO.emdb_id]:
-                    emicss_dict[GO.emdb_id]["GO"] = GO.__dict__
-                else:
-                    emicss_dict[GO.emdb_id]["GO"] += GO.__dict__
+        try:
+            if self.GO_map:
+                for GO in self.GO_map:
+                    if GO.emdb_id not in emicss_dict:
+                        emicss_dict[GO.emdb_id] = {}
+                    if GO.emdb_id not in emicss_dict[GO.emdb_id]:
+                        emicss_dict[GO.emdb_id]["GO"] = GO.__dict__
+                    else:
+                        emicss_dict[GO.emdb_id]["GO"] += GO.__dict__
+        except AttributeError:
+            print("GO mapping doesn't exist")
 
         return emicss_dict
 
