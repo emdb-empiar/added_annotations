@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Fri Jul 30 18:14:17 2021 by generateDS.py version 2.38.6.
+# Generated Mon Aug  9 21:01:53 2021 by generateDS.py version 2.38.6.
 # Python 3.7.6 (default, Dec 30 2019, 19:38:28)  [Clang 11.0.0 (clang-1100.0.33.16)]
 #
 # Command line options:
@@ -62,15 +62,15 @@ SaveElementTreeNode = True
 
 
 class emicssSub(supermod.emicss):
-    def __init__(self, emdb_id=None, dbs=None, cross_ref_dbs=None, weights=None, sample=None, **kwargs_):
-        super(emicssSub, self).__init__(emdb_id, dbs, cross_ref_dbs, weights, sample,  **kwargs_)
+    def __init__(self, emdb_id=None, dbs=None, cross_ref_dbs=None, citations=None, weights=None, sample=None, **kwargs_):
+        super(emicssSub, self).__init__(emdb_id, dbs, cross_ref_dbs, citations, weights, sample,  **kwargs_)
 supermod.emicss.subclass = emicssSub
 # end class emicssSub
 
 
 class cross_ref_dbSub(supermod.cross_ref_db):
-    def __init__(self, name=None, db_source=None, db_accession_id=None, provenance=None, score=None, **kwargs_):
-        super(cross_ref_dbSub, self).__init__(name, db_source, db_accession_id, provenance, score,  **kwargs_)
+    def __init__(self, name=None, db_source=None, accession_id=None, type_=None, category=None, provenance=None, score=None, **kwargs_):
+        super(cross_ref_dbSub, self).__init__(name, db_source, accession_id, type_, category, provenance, score,  **kwargs_)
 supermod.cross_ref_db.subclass = cross_ref_dbSub
 # end class cross_ref_dbSub
 
@@ -94,6 +94,20 @@ class cross_ref_dbsTypeSub(supermod.cross_ref_dbsType):
         super(cross_ref_dbsTypeSub, self).__init__(cross_ref_db,  **kwargs_)
 supermod.cross_ref_dbsType.subclass = cross_ref_dbsTypeSub
 # end class cross_ref_dbsTypeSub
+
+
+class citationsTypeSub(supermod.citationsType):
+    def __init__(self, citation=None, **kwargs_):
+        super(citationsTypeSub, self).__init__(citation,  **kwargs_)
+supermod.citationsType.subclass = citationsTypeSub
+# end class citationsTypeSub
+
+
+class citationTypeSub(supermod.citationType):
+    def __init__(self, doi=None, provenance=None, **kwargs_):
+        super(citationTypeSub, self).__init__(doi, provenance,  **kwargs_)
+supermod.citationType.subclass = citationTypeSub
+# end class citationTypeSub
 
 
 class weightsTypeSub(supermod.weightsType):
@@ -125,8 +139,8 @@ supermod.cross_ref_dbsType1.subclass = cross_ref_dbsType1Sub
 
 
 class cross_ref_dbTypeSub(supermod.cross_ref_dbType):
-    def __init__(self, name=None, db_source=None, db_accession_id=None, provenance=None, score=None, **kwargs_):
-        super(cross_ref_dbTypeSub, self).__init__(name, db_source, db_accession_id, provenance, score,  **kwargs_)
+    def __init__(self, name=None, db_source=None, accession_id=None, type_=None, category=None, provenance=None, score=None, **kwargs_):
+        super(cross_ref_dbTypeSub, self).__init__(name, db_source, accession_id, type_, category, provenance, score,  **kwargs_)
 supermod.cross_ref_dbType.subclass = cross_ref_dbTypeSub
 # end class cross_ref_dbTypeSub
 
@@ -153,8 +167,8 @@ supermod.cross_ref_dbsType2.subclass = cross_ref_dbsType2Sub
 
 
 class cross_ref_dbType3Sub(supermod.cross_ref_dbType3):
-    def __init__(self, name=None, db_source=None, db_accession_id=None, provenance=None, score=None, **kwargs_):
-        super(cross_ref_dbType3Sub, self).__init__(name, db_source, db_accession_id, provenance, score,  **kwargs_)
+    def __init__(self, name=None, db_source=None, accession_id=None, type_=None, category=None, provenance=None, score=None, **kwargs_):
+        super(cross_ref_dbType3Sub, self).__init__(name, db_source, accession_id, type_, category, provenance, score,  **kwargs_)
 supermod.cross_ref_dbType3.subclass = cross_ref_dbType3Sub
 # end class cross_ref_dbType3Sub
 
@@ -181,8 +195,8 @@ supermod.cross_ref_dbsType4.subclass = cross_ref_dbsType4Sub
 
 
 class cross_ref_dbType5Sub(supermod.cross_ref_dbType5):
-    def __init__(self, name=None, db_source=None, db_accession_id=None, provenance=None, score=None, **kwargs_):
-        super(cross_ref_dbType5Sub, self).__init__(name, db_source, db_accession_id, provenance, score,  **kwargs_)
+    def __init__(self, name=None, db_source=None, accession_id=None, type_=None, category=None, provenance=None, score=None, **kwargs_):
+        super(cross_ref_dbType5Sub, self).__init__(name, db_source, accession_id, type_, category, provenance, score,  **kwargs_)
 supermod.cross_ref_dbType5.subclass = cross_ref_dbType5Sub
 # end class cross_ref_dbType5Sub
 

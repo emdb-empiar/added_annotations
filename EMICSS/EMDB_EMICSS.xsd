@@ -22,6 +22,18 @@
                         </xs:sequence>
                     </xs:complexType>
                 </xs:element>
+                <xs:element name="citations">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element maxOccurs="unbounded" minOccurs="0" name="citation">
+                                <xs:complexType>
+                                    <xs:attribute name="doi" type="xs:string"/>
+                                    <xs:attribute name="provenance" type="provenance_type"/>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
                 <xs:element minOccurs="0" name="weights">
                     <xs:complexType>
                         <xs:sequence>
@@ -50,7 +62,9 @@
                                             <xs:complexType>
                                                 <xs:attribute name="name" type="xs:string"/>
                                                 <xs:attribute name="db_source" type="db_source_type"/>
-                                                <xs:attribute name="db_accession_id" type="xs:ID"/>
+                                                <xs:attribute name="accession_id" type="xs:ID"/>
+                                                <xs:attribute name="type" type="xs:string"/>
+                                                <xs:attribute name="category" type="xs:string"/>
                                                 <xs:attribute name="provenance"
                                                   type="provenance_type"/>
                                                 <xs:attribute name="score" type="xs:float"/>
@@ -76,7 +90,9 @@
                                                   <xs:attribute name="name" type="xs:string"/>
                                                   <xs:attribute name="db_source"
                                                   type="db_source_type"/>
-                                                  <xs:attribute name="db_accession_id" type="xs:ID"/>
+                                                  <xs:attribute name="accession_id" type="xs:ID"/>
+                                                  <xs:attribute name="type" type="xs:string"/>
+                                                  <xs:attribute name="category" type="xs:string"/>
                                                   <xs:attribute name="provenance"
                                                   type="provenance_type"/>
                                                   <xs:attribute name="score" type="xs:float"/>
@@ -114,7 +130,9 @@
                                                   <xs:attribute name="name" type="xs:string"/>
                                                   <xs:attribute name="db_source"
                                                   type="db_source_type"/>
-                                                  <xs:attribute name="db_accession_id" type="xs:ID"/>
+                                                  <xs:attribute name="accession_id" type="xs:ID"/>
+                                                  <xs:attribute name="type" type="xs:string"/>
+                                                  <xs:attribute name="category" type="xs:string"/>
                                                   <xs:attribute name="provenance"
                                                   type="provenance_type"/>
                                                   <xs:attribute name="score" type="xs:float"/>
@@ -154,6 +172,10 @@
             <xs:enumeration value="CHEBI"/>
             <xs:enumeration value="DRUGBANK"/>
             <xs:enumeration value="EMPIAR"/>
+            <xs:enumeration value="PUBMED"/>
+            <xs:enumeration value="PUBMEDCENTRAL"/>
+            <xs:enumeration value="ISSN"/>
+            <xs:enumeration value="GO"/>
         </xs:restriction>
     </xs:simpleType>
     <xs:simpleType name="provenance_type">
@@ -184,7 +206,9 @@
         <xs:complexType>
             <xs:attribute name="name" type="xs:string"/>
             <xs:attribute name="db_source" type="db_source_type"/>
-            <xs:attribute name="db_accession_id" type="xs:ID"/>
+            <xs:attribute name="accession_id" type="xs:ID"/>
+            <xs:attribute name="type" type="xs:string"/>
+            <xs:attribute name="category" type="xs:string"/>
             <xs:attribute name="provenance" type="provenance_type"/>
             <xs:attribute name="score" type="xs:float"/>
         </xs:complexType>

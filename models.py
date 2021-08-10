@@ -187,11 +187,13 @@ class Citation:
         self.issn = ""
         self.status = ""
         self.title = ""
-        self.provenance = ""
+        self.provenance_pm = ""
+        self.provenance_pmc = ""
+        self.provenance_doi = ""
         self.url = ""
 
     def __str__(self):
-        return "%s\t%s\t%s\t%s\t%s" % (self.emdb_id, self.pmedid, self.doi, self.issn, self.title)
+        return "%s\t%s\t%s\t%s\t%s\n" % (self.emdb_id, self.pmedid, self.pmcid, self.doi, self.issn)
 
 class GO:
     """
@@ -202,9 +204,11 @@ class GO:
         self.sample_id = sample_id
         self.pdb_id = ""
         self.GO_id = set()
+        self.GO_namespace = []
         self.pubmed_id = None
         self.title = None
         self.provenance = ""
 
     def __str__(self):
-        return ("%s\t%s\t%s\t%s\t%s\n" % (self.emdb_id, self.sample_id, (self.pdb_id).text, self.GO_id, self.provenance ))
+        return ("%s\t%s\t%s\t%s\t%s\t%s\n" % (self.emdb_id, self.sample_id, (self.pdb_id).text, self.GO_id,
+                                              self.GO_namespace, self.provenance ))

@@ -17,7 +17,7 @@ class PubmedMapping:
         self.workDir = workDir
         self.citations = citations
 
-        self.pm_doi = self.pm_doi_dict()
+        self.pm_doi, self.pm_pmc = self.pm_doi_dict()
 
     def execute(self, threads):
         with Pool(processes=threads) as pool:
@@ -25,22 +25,36 @@ class PubmedMapping:
         return self.citations
 
     def worker(self, citation):
-        if citation.pmedid or citation.doi or citation.issn:
-            citation.provenance = "AUTHOR"
-        else:
-            citation.provenance = "EuropePMC"
-        if citation.pmedid in self.pm_doi:
-            citation.pmcdid = self.pm_doi[citation.pmedid]
-            citation.provenance = "EuropePMC"
+        if citation.pmcid:
+            citation.provenance_pmc = "AUTHOR"
+
+        if citation.doi:
+            citation.provenance_doi = "AUTHOR"
+
+        if citation.pmedid:
+            citation.provenance_pm = "AUTHOR"
+            citation.url = "https://pubmed.ncbi.nlm.nih.gov/" + citation.pmedid + "/"
+            if citation.pmedid in self.pm_pmc:
+                citation.pmcid = self.pm_pmc[citation.pmedid]
+                citation.provenance_pmc = "EuropePMC"
+
         if not citation.pmedid:
             if citation.doi:
+                citation.provenance_doi = "AUTHOR"
                 doi = "https://doi.org/" + citation.doi
                 if doi in self.pm_doi:
                     citation.pmedid = self.pm_doi[doi]
-                    citation.provenance = "EuropePMC"
-        if citation.pmedid:
-            citation.url = "https://pubmed.ncbi.nlm.nih.gov/" + citation.pmedid + "/"
-            # citation.url = "http://europepmc.org/article/MED/" + citation.pmedid
+                    citation.provenance_pm = "EuropePMC"
+                    if citation.pmedid in self.pm_pmc:
+                        citation.pmcid = self.pm_pmc[citation.pmedid]
+                        citation.provenance_pmc = "EuropePMC"
+
+        if not citation.doi:
+            if citation.pmedid:
+                if citation.pmedid in self.pm_doi:
+                    citation.doi = self.pm_doi[citation.pmedid]
+                    citation.provenance_doi = "EuropePMC"
+
         if not citation.pmedid and not citation.doi:
             if citation.title:
                 queryString = (citation.title).replace("%", "%25")
@@ -66,7 +80,8 @@ class PubmedMapping:
                     citation.pmedid = pm_id
                     pmc_id = pmcjdata['resultList']['result'][0]['pmcid']
                     citation.pmcid = pmc_id
-                citation.provenance = "EuropePMC"
+                citation.provenance_pm = "EuropePMC"
+                citation.provenance_pmc = "EuropePMC"
         # print(citation.__dict__)
         return citation
 
@@ -80,6 +95,7 @@ class PubmedMapping:
         pmc_ftp = config.get("file_paths", "pmc_ftp")
 
         pm_doi = {}
+        pm_pmc = {}
         with open(pmc_ftp, 'r') as f:
             reader = csv.reader(f, delimiter=',')
             next(reader, None)
@@ -88,8 +104,9 @@ class PubmedMapping:
                     pmid = row[0]
                     doi = row[2]
                     pm_doi[doi] = pmid
+                    pm_doi[pmid] = doi
                 if (row[0] and row[1]) or (row[0] and row[1] and row[2]):
                     pmid = row[0]
                     pmcid = row[1]
-                    pm_doi[pmid] = pmcid
-        return pm_doi
+                    pm_pmc[pmid] = pmcid
+        return pm_doi, pm_pmc
