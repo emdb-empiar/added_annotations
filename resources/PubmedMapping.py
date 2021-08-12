@@ -2,7 +2,6 @@ import os, csv
 from multiprocessing import Pool
 import json
 import urllib3
-import configparser
 import gzip
 import shutil
 
@@ -15,9 +14,11 @@ class PubmedMapping:
     EuropePMC if not provided by author.
     """
 
-    def __init__(self, workDir, citations):
+    def __init__(self, workDir, citations, pmc_ftp, pmc_ftp_gz):
         self.workDir = workDir
         self.citations = citations
+        self.pmc_ftp = pmc_ftp
+        self.pmc_ftp_gz = pmc_ftp_gz
 
         self.pm_doi, self.pm_pmc = self.pm_doi_dict()
 
@@ -91,20 +92,14 @@ class PubmedMapping:
         """
         Extract if PMID, PMCID, if DOI exists for a publication from PMC's ftp file and convert it to dictionary
         """
-
-        config = configparser.ConfigParser()
-        config.read(os.path.join(self.workDir, "git_code/added_annotations/config.ini"))
-        pmc_ftp_gz = config.get("file_paths", "pmc_ftp_gz")
-
-        if not os.path.exists(config.get("file_paths", "pmc_ftp")):
-            with gzip.open(pmc_ftp_gz, 'rb') as f_in:
-                with open(config.get("file_paths", "pmc_ftp"), 'wb') as f_out:
+        if not os.path.exists(self.pmc_ftp):
+            with gzip.open(self.pmc_ftp_gz, 'rb') as f_in:
+                with open(self.pmc_ftp, 'wb') as f_out:
                     shutil.copyfileobj(f_in, f_out)
 
-        pmc_ftp = config.get("file_paths", "pmc_ftp")
         pm_doi = {}
         pm_pmc = {}
-        with open(pmc_ftp, 'r') as f:
+        with open(self.pmc_ftp, 'r') as f:
             reader = csv.reader(f, delimiter=',')
             next(reader, None)
             for row in reader:

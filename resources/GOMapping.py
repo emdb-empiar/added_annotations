@@ -1,5 +1,4 @@
 import os, csv, re
-import configparser
 import urllib3
 import json
 from multiprocessing import Pool
@@ -14,9 +13,11 @@ class GOMapping:
     GO ids by the publication
     """
 
-    def __init__(self, workDir, GOs):
+    def __init__(self, workDir, GOs, shifts_GO, GO_obo):
         self.workDir = workDir
         self.GOs = GOs
+        self.shifts_GO = shifts_GO
+        self.GO_obo = GO_obo
 
         self.pdbe_GO = self.extract_resources_from_sifts()
         self.obo_dict = self.go_namespace()
@@ -74,13 +75,8 @@ class GOMapping:
         """
         Extract the GO ids for every pdb_id from pdbe sifts file
         """
-
-        config = configparser.ConfigParser()
-        config.read(os.path.join(self.workDir, "git_code/added_annotations/config.ini"))
-        shifts_GO = config.get("file_paths", "sifts_GO")
-
         pdb_GO = {}
-        with open(shifts_GO, 'r') as f:
+        with open(self.shifts_GO, 'r') as f:
             reader = csv.reader(f, delimiter=',')
             next(reader, None)
             for row in reader:
@@ -113,13 +109,8 @@ class GOMapping:
         """
         For every GO_ID get the corresponding GO_namespace
         """
-
-        config = configparser.ConfigParser()
-        config.read(os.path.join(self.workDir, "git_code/added_annotations/config.ini"))
-        GO_obo = config.get("file_paths", "GO_obo")
-
         obo_dict = {}
-        with open(GO_obo, 'r') as f:
+        with open(self.GO_obo, 'r') as f:
             for line in f:
                 if "[Term]" in line:
                     id = (next(f).strip()).split('id: ')[1]

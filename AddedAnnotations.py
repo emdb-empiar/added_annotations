@@ -1,6 +1,5 @@
-import argparse
+import argparse, configparser, os
 from pathlib import Path
-
 import models
 from resources.ComplexPortalMapping import CPMapping
 from resources.ComponentsMapping import ComponentsMapping
@@ -83,8 +82,14 @@ if __name__ == "__main__":
         pmc = True
         go = True
 
+    #Get config variables:
+    config = configparser.ConfigParser()
+    config.read("config.ini")
+
     if uniprot:
-        unp_mapping = UniprotMapping(args.workDir, xml.proteins)
+        blast_db = config.get("file_paths", "BLAST_DB")
+        blastp_bin = config.get("file_paths", "BLASTP_BIN")
+        unp_mapping = UniprotMapping(args.workDir, xml.proteins, blast_db, blastp_bin)
         unp_mapping.parseUniprot()
         unip_map = unp_mapping.execute(args.threads)
         unp_mapping.export_tsv()
@@ -92,17 +97,20 @@ if __name__ == "__main__":
             unp_mapping.download_uniprot()
         mapping_list.extend(["UNIPROT", unip_map])
     if cpx:
-        cpx_mapping = CPMapping(args.workDir, unp_mapping.proteins, xml.supras)
+        CP_ftp = config.get("file_paths", "CP_ftp")
+        cpx_mapping = CPMapping(args.workDir, unp_mapping.proteins, xml.supras, CP_ftp)
         cpx_map = cpx_mapping.execute(args.threads)
         cpx_mapping.write_cpx_map()
         mapping_list.extend(["COMPLEX", cpx_map])
     if component:
-        che_mapping = ComponentsMapping(args.workDir, xml.ligands)
+        components_cif = config.get("file_paths", "components_cif")
+        che_mapping = ComponentsMapping(args.workDir, xml.ligands, components_cif)
         lig_map = che_mapping.execute(args.threads)
         che_mapping.write_ligands()
         mapping_list.extend(["LIGANDS", lig_map])
     if model:
-        mw_mapping = StructureMapping(args.workDir, xml.models)
+        assembly_ftp = config.get("file_paths", "assembly_ftp")
+        mw_mapping = StructureMapping(args.workDir, xml.models, assembly_ftp)
         mw_map = mw_mapping.execute(args.threads)
         mw_mapping.export_tsv()
         mapping_list.extend(["MODEL", mw_map])
@@ -116,11 +124,15 @@ if __name__ == "__main__":
         empiar_map = empiar_mapping.execute()
         mapping_list.extend(["EMPIAR", empiar_map])
     if pmc:
-        pmc_mapping = PubmedMapping(args.workDir, xml.citations)
+        pmc_ftp_gz = config.get("file_paths", "pmc_ftp_gz")
+        pmc_ftp = config.get("file_paths", "pmc_ftp")
+        pmc_mapping = PubmedMapping(args.workDir, xml.citations, pmc_ftp, pmc_ftp_gz)
         pmc_map = pmc_mapping.execute(args.threads)
         mapping_list.extend(["CITATION", pmc_map])
     if go:
-        GO_mapping = GOMapping(args.workDir, xml.GOs)
+        shifts_GO = config.get("file_paths", "sifts_GO")
+        GO_obo = config.get("file_paths", "GO_obo")
+        GO_mapping = GOMapping(args.workDir, xml.GOs, shifts_GO, GO_obo)
         GO_map = GO_mapping.execute(args.threads)
         mapping_list.extend(["GO", GO_map])
 
