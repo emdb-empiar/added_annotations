@@ -31,19 +31,14 @@ class PubmedMapping:
         if citation.pmcid:
             citation.provenance_pmc = "AUTHOR"
 
-        if citation.doi:
-            citation.provenance_doi = "AUTHOR"
-
         if citation.pmedid:
             citation.provenance_pm = "AUTHOR"
             citation.url = "https://pubmed.ncbi.nlm.nih.gov/" + citation.pmedid + "/"
             if citation.pmedid in self.pm_pmc:
                 citation.pmcid = self.pm_pmc[citation.pmedid]
                 citation.provenance_pmc = "EuropePMC"
-
-        if not citation.pmedid:
+        else:
             if citation.doi:
-                citation.provenance_doi = "AUTHOR"
                 doi = "https://doi.org/" + citation.doi
                 if doi in self.pm_doi:
                     citation.pmedid = self.pm_doi[doi]
@@ -52,40 +47,14 @@ class PubmedMapping:
                         citation.pmcid = self.pm_pmc[citation.pmedid]
                         citation.provenance_pmc = "EuropePMC"
 
-        if not citation.doi:
+        if citation.doi:
+            citation.provenance_doi = "AUTHOR"
+        else:
             if citation.pmedid:
                 if citation.pmedid in self.pm_doi:
                     citation.doi = self.pm_doi[citation.pmedid]
                     citation.provenance_doi = "EuropePMC"
 
-        if not citation.pmedid and not citation.doi:
-            if citation.title:
-                queryString = (citation.title).replace("%", "%25")
-                queryString = queryString.replace(' ', '%20')
-                queryString = queryString.replace("\n", "%0A")
-                queryString = queryString.replace("=", "%3D")
-                queryString = queryString.replace("(", "%28")
-                queryString = queryString.replace(")", "%29")
-                queryString = queryString.replace(",", "%2C")
-                queryString = queryString.replace("-", "%2D")
-                queryString = queryString.replace("&#183;", "%2D")
-                queryString = queryString.replace("&#966;", "%CF%86")
-                queryString = queryString.replace("/", "%2F")
-                url = pmc_baseurl + "query=%22" + (queryString) + pmc_append
-
-                http = urllib3.PoolManager()
-                response = http.request('GET', url)
-                data = response.data
-                pmcjdata = json.loads(data)
-                id = pmcjdata['resultList']['result']
-                if id:
-                    pm_id = pmcjdata['resultList']['result'][0]['id']
-                    citation.pmedid = pm_id
-                    pmc_id = pmcjdata['resultList']['result'][0]['pmcid']
-                    citation.pmcid = pmc_id
-                citation.provenance_pm = "EuropePMC"
-                citation.provenance_pmc = "EuropePMC"
-        # print(citation.__dict__)
         return citation
 
     def pm_doi_dict(self):
@@ -113,3 +82,4 @@ class PubmedMapping:
                     pmcid = row[1]
                     pm_pmc[pmid] = pmcid
         return pm_doi, pm_pmc
+        
