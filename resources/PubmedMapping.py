@@ -3,6 +3,8 @@ from multiprocessing import Pool
 import json
 import urllib3
 import configparser
+import gzip
+import shutil
 
 pmc_baseurl = r'https://www.ebi.ac.uk/europepmc/webservices/rest/search?'
 pmc_append = r'%22&resultType=lite&pageSize=25&format=json'
@@ -92,8 +94,14 @@ class PubmedMapping:
 
         config = configparser.ConfigParser()
         config.read(os.path.join(self.workDir, "git_code/added_annotations/config.ini"))
-        pmc_ftp = config.get("file_paths", "pmc_ftp")
+        pmc_ftp_gz = config.get("file_paths", "pmc_ftp_gz")
 
+        if not os.path.exists(config.get("file_paths", "pmc_ftp")):
+            with gzip.open(pmc_ftp_gz, 'rb') as f_in:
+                with open(config.get("file_paths", "pmc_ftp"), 'wb') as f_out:
+                    shutil.copyfileobj(f_in, f_out)
+
+        pmc_ftp = config.get("file_paths", "pmc_ftp")
         pm_doi = {}
         pm_pmc = {}
         with open(pmc_ftp, 'r') as f:

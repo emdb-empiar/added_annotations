@@ -160,7 +160,8 @@ class XMLParser:
 										weight.sup_exp_unit = sup_exp_unit
 						if par_child != 0:
 							if not weight.sup_th_weight and not weight.sup_exp_weight:
-								macromolecule_list = ["protein_or_peptide", "ligand", "rna", "dna", "em_label", "other_macromolecule", "saccharide"]
+								macromolecule_list = ["protein_or_peptide", "ligand", "rna", "dna", "em_label",
+													  "other_macromolecule", "saccharide"]
 								for item in macromolecule_list:
 									if list(root.iter(item)):
 										for x in list(root.iter(item)):
