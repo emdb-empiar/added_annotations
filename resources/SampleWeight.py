@@ -1,13 +1,15 @@
 from multiprocessing import Pool
+import os
 
 class SampleWeight:
     """
     Calculating the total weight of the sample provided by the author
     """
 
-    def __init__(self, workDir, weights):
+    def __init__(self, workDir, weights, overall_mw):
         self.workDir = workDir
         self.weights = weights
+        self.entries = overall_mw
 
     def execute(self, threads):
         with Pool(processes=threads) as pool:
@@ -37,6 +39,13 @@ class SampleWeight:
             weight.exp_unit = weight.macro_exp_unit
         # print(weight.__dict__)
         return weight
+
+    def export_overall_mw(self):
+        filepath = os.path.join(self.workDir, "overall_mw.tsv")
+        with open(filepath, 'w') as fw:
+            fw.write("EMDB_ID\tOVERALL_MW\n")
+            for entry in self.entries:
+                fw.write(f"{str(entry)}\n")
 
 
 

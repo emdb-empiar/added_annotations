@@ -29,3 +29,4 @@ dependencies:
     - wheel==0.33.6
     - python-Levenshtein==0.12.2
     - fuzzywuzzy==0.18.0
+    - six==1.16.0

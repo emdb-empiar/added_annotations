@@ -88,8 +88,9 @@ if __name__ == "__main__":
         mw_mapping.export_tsv()
         mapping_list.extend(["MODEL", mw_map])
     if args.weight:
-        sw_mapping = SampleWeight(args.workDir, xml.weights)
+        sw_mapping = SampleWeight(args.workDir, xml.weights, xml.overall_mw)
         sw_map = sw_mapping.execute(args.threads)
+        sw_mapping.export_overall_mw()
         mapping_list.extend(["WEIGHT", sw_map])
     if args.empiar:
         empiar_mapping = EMPIARMapping(args.workDir, models.EMPIAR)
