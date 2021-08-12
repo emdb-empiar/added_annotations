@@ -27,6 +27,7 @@ class ComponentsMapping:
         self.chembl_map = {}
         self.chebi_map = {}
         self.drugbank_map = {}
+        self.components_cif = components_cif
 
     def execute(self, threads):
         ####### Extract only the HET_code, resource name and IDs from the PDBe componenets.cif file #####
