@@ -10,7 +10,7 @@ from resources.SampleWeight import SampleWeight
 from resources.EMPIARMapping import EMPIARMapping
 from resources.PubmedMapping import PubmedMapping
 from resources.GOMapping import GOMapping
-from resources.EmicssXML import EmicssXML
+from EMICSS.EmicssXML import EmicssXML
 from XMLParser import XMLParser
 
 
