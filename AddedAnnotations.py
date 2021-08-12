@@ -71,12 +71,12 @@ if __name__ == "__main__":
         uniprot = True
 
     if args.all:
-        uniprot = True
-        cpx = True
-        component = True
-        model = True
-        weight = True
-        empiar = True
+        uniprot = False
+        cpx = False
+        component = False
+        model = False
+        weight = False
+        empiar = False
         pmc = True
         go = True
 

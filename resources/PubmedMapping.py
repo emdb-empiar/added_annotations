@@ -5,9 +5,6 @@ import urllib3
 import gzip
 import shutil
 
-pmc_baseurl = r'https://www.ebi.ac.uk/europepmc/webservices/rest/search?'
-pmc_append = r'%22&resultType=lite&pageSize=25&format=json'
-
 class PubmedMapping:
     """
     Author provided publication IDs (PUBMED, DOI) and querying PMC API for title if any publication IDs available in 
@@ -20,7 +17,7 @@ class PubmedMapping:
         self.pmc_ftp = pmc_ftp
         self.pmc_ftp_gz = pmc_ftp_gz
 
-        self.pm_doi, self.pm_pmc = self.pm_doi_dict()
+        self.pmdic = self.pm_doi_dict()
 
     def execute(self, threads):
         with Pool(processes=threads) as pool:
@@ -28,32 +25,34 @@ class PubmedMapping:
         return self.citations
 
     def worker(self, citation):
-        if citation.pmcid:
-            citation.provenance_pmc = "AUTHOR"
-
-        if citation.pmedid:
-            citation.provenance_pm = "AUTHOR"
-            citation.url = "https://pubmed.ncbi.nlm.nih.gov/" + citation.pmedid + "/"
-            if citation.pmedid in self.pm_pmc:
-                citation.pmcid = self.pm_pmc[citation.pmedid]
-                citation.provenance_pmc = "EuropePMC"
+        print(str(citation))
+        if not citation.pmcid and not citation.doi:
+            if citation.pmedid in self.pmdic:
+                pmc, doi = self.pmdic[citation.pmedid]
+                if pmc:
+                    citation.pmcid = pmc
+                    citation.provenance_pmc = "EuropePMC"
+                if doi:
+                    citation.doi = doi
+                    citation.provenance_doi = "EuropePMC"
         else:
-            if citation.doi:
-                doi = "https://doi.org/" + citation.doi
-                if doi in self.pm_doi:
-                    citation.pmedid = self.pm_doi[doi]
-                    citation.provenance_pm = "EuropePMC"
-                    if citation.pmedid in self.pm_pmc:
-                        citation.pmcid = self.pm_pmc[citation.pmedid]
+            if citation.pmcid:
+                citation.provenance_pmc = "AUTHOR"
+            else:
+                if citation.pmedid in self.pmdic:
+                    pmc, doi = self.pmdic[citation.pmedid]
+                    if pmc:
+                        citation.pmcid = pmc
                         citation.provenance_pmc = "EuropePMC"
 
-        if citation.doi:
-            citation.provenance_doi = "AUTHOR"
-        else:
-            if citation.pmedid:
-                if citation.pmedid in self.pm_doi:
-                    citation.doi = self.pm_doi[citation.pmedid]
-                    citation.provenance_doi = "EuropePMC"
+            if citation.doi:
+                citation.provenance_doi = "AUTHOR"
+            else:
+                if citation.pmedid in self.pmdic:
+                    pmc, doi = self.pmdic[citation.pmedid]
+                    if doi:
+                        citation.doi = doi
+                        citation.provenance_doi = "EuropePMC"
 
         return citation
 
@@ -66,20 +65,10 @@ class PubmedMapping:
                 with open(self.pmc_ftp, 'wb') as f_out:
                     shutil.copyfileobj(f_in, f_out)
 
-        pm_doi = {}
-        pm_pmc = {}
+        pmdic = {}
         with open(self.pmc_ftp, 'r') as f:
             reader = csv.reader(f, delimiter=',')
             next(reader, None)
             for row in reader:
-                if row[0] and row[2]:
-                    pmid = row[0]
-                    doi = row[2]
-                    pm_doi[doi] = pmid
-                    pm_doi[pmid] = doi
-                if (row[0] and row[1]) or (row[0] and row[1] and row[2]):
-                    pmid = row[0]
-                    pmcid = row[1]
-                    pm_pmc[pmid] = pmcid
-        return pm_doi, pm_pmc
-        
+                pmdic[row[0]] = (row[1], row[2])
+        return pmdic
