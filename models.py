@@ -55,6 +55,37 @@ class CPX:
                 continue
             self.uniprot.add(idt)
 
+class EMDBEntry:
+    """
+    Single EMDB entry
+    """
+    def __init__(self, emdb_id, mw):
+        self.emdb_id = emdb_id
+        self.deposited_mw = mw #Overall calculated MW
+
+    def __str__(self):
+        return f"{self.emdb_id}\t{self.deposited_mw}"
+
+class Sample:
+    """
+    Unique sample along its parents and childrens
+    """
+    def __init__(self, sample_id, mw=None, copies=1):
+        self.id = sample_id
+        self.mw = mw
+        self.parent = []
+        self.children = []
+        self.copies = copies
+
+    def add_parent(self, node):
+        self.parent.append(node)
+
+    def add_child(self, node):
+        self.children.append(node)
+
+    def __str__(self):
+        return f"{self.id}: {self.mw} ({self.copies})"
+
 class Supra:
     """
     Defines the attributes of a supra_molecules in a EMDB entry
