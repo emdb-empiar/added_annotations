@@ -1,5 +1,6 @@
 import os, re
 import itertools
+from pathlib import Path
 from EMICSS import EMICSS
 
 class EmicssXML:
@@ -550,7 +551,9 @@ class EmicssXML:
             headerXML.set_sample(sample)
 
             entry_id = em_id.split("-")[1]
-            xmlFile = os.path.join(self.workDir, "emicss", "emd-" + entry_id + "_emicss.xml")
+            output_path = os.path.join(self.workDir, "emicss")
+            Path(output_path).mkdir(parents=True, exist_ok=True)
+            xmlFile = os.path.join(output_path, "emd-" + entry_id + "_emicss.xml")
             with open(xmlFile, 'w') as f:
                 headerXML.export(f, 0, name_='emicss')
 
