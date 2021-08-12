@@ -120,6 +120,7 @@ if __name__ == "__main__":
         sw_mapping.export_overall_mw()
         mapping_list.extend(["WEIGHT", sw_map])
     if empiar:
+        emdb_empiar_list = config.get("file_paths", "emdb_empiar_list")
         empiar_mapping = EMPIARMapping(args.workDir, models.EMPIAR)
         empiar_map = empiar_mapping.execute()
         mapping_list.extend(["EMPIAR", empiar_map])

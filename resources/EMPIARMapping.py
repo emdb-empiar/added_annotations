@@ -1,22 +1,19 @@
 import os
 import json
 
-# empiar_ftp = r'/nfs/ftp/pub/databases/emtest/'
-empiar_ftp = r'/users/amudha/project/ftp_data/EMPIAR/'
-
 class EMPIARMapping:
     """
     Mapping EMPIAR ID to EMDB entry
     """
 
-    def __init__(self, workDir, EMPIAR):
+    def __init__(self, workDir, EMPIAR, emdb_empiar_list):
         self.output_dir = workDir
         self.EMPIAR = EMPIAR
+        self.emdb_empiar_list = emdb_empiar_list
 
     def execute(self):
         empiars = []
-        json_file = os.path.join(str(empiar_ftp), "emdb_empiar_list.json")
-        with open(json_file, "r") as file:
+        with open(self.emdb_empiar_list, "r") as file:
             data = json.load(file)
             for key, value in data.items():
                 for item in value:
