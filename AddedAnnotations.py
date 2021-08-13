@@ -82,7 +82,8 @@ if __name__ == "__main__":
 
     #Get config variables:
     config = configparser.ConfigParser()
-    config.read("config.ini")
+    env_file = os.path.join(Path(__file__).parent.absolute(), "config.ini")
+    config.read(env_file)
 
     if uniprot:
         print("Running UniProt...")
