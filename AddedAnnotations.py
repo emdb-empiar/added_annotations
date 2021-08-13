@@ -87,14 +87,14 @@ if __name__ == "__main__":
 
     if uniprot:
         print("Running UniProt...")
+        if args.download_uniprot:
+            unp_mapping.download_uniprot()
         blast_db = config.get("file_paths", "BLAST_DB")
         blastp_bin = config.get("file_paths", "BLASTP_BIN")
         unp_mapping = UniprotMapping(args.workDir, xml.proteins, blast_db, blastp_bin)
         unp_mapping.parseUniprot()
         unip_map = unp_mapping.execute(args.threads)
         unp_mapping.export_tsv()
-        if args.download_uniprot:
-            unp_mapping.download_uniprot()
         mapping_list.extend(["UNIPROT", unip_map])
     if cpx:
         print("Running Complex Portal...")
