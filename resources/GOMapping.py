@@ -40,6 +40,10 @@ class GOMapping:
                 if GO.pubmed_id is not None:
                     ids = self.pmc_annotation(GO.pubmed_id)
                     GO.GO_id = ids
+                    for go_id in GO.GO_id:
+                        if go_id in self.obo_dict:
+                            go_namespace = self.obo_dict[go_id]
+                            (GO.GO_namespace).append(go_namespace)
                     GO.provenance = "EuropePMC"
                 if GO.pubmed_id is None:
                     if GO.title:
@@ -66,6 +70,10 @@ class GOMapping:
                             GO.pubmed_id = pm_id
                         ids = self.pmc_annotation(GO.pubmed_id)
                         GO.GO_id = ids
+                        for go_id in GO.GO_id:
+                            if go_id in self.obo_dict:
+                                go_namespace = self.obo_dict[go_id]
+                                (GO.GO_namespace).append(go_namespace)
                         GO.provenance = "EuropePMC"
         # print(GO.__dict__)
         return GO
