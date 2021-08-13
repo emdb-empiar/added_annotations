@@ -128,6 +128,7 @@ if __name__ == "__main__":
         emdb_empiar_list = config.get("file_paths", "emdb_empiar_list")
         empiar_mapping = EMPIARMapping(args.workDir, models.EMPIAR, emdb_empiar_list)
         empiar_map = empiar_mapping.execute()
+        empiar_mapping.export_tsv()
         mapping_list.extend(["EMPIAR", empiar_map])
     if pmc:
         print("Running Europe PMC...")
