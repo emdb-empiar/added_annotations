@@ -1,7 +1,6 @@
 import os
 import logging
 from gemmi import cif
-import configparser
 from multiprocessing import Pool
 
 logger = logging.getLogger(__name__)
@@ -22,12 +21,13 @@ class ComponentsMapping:
     mapping to various database like ChEMBL, ChEBI and DrugBank.
     """
 
-    def __init__(self, workDir, ligands):
+    def __init__(self, workDir, ligands, components_cif):
         self.workDir = workDir
         self.ligands = ligands
         self.chembl_map = {}
         self.chebi_map = {}
         self.drugbank_map = {}
+        self.components_cif = components_cif
 
     def execute(self, threads):
         ####### Extract only the HET_code, resource name and IDs from the PDBe componenets.cif file #####
@@ -64,11 +64,7 @@ class ComponentsMapping:
         chebi_map = {}
         drugbank_map = {}
 
-        config = configparser.ConfigParser()
-        config.read(os.path.join(self.workDir, "git_code/added_annotations/config.ini"))
-        components_cif = config.get("file_paths", "components_cif")
-
-        doc = cif.read_file(components_cif)
+        doc = cif.read_file(self.components_cif)
         for block in doc:
             HET = block.name
             name = block.find_value('_chem_comp.name')

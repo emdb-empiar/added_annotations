@@ -1,5 +1,4 @@
 import os, csv
-import configparser
 from glob import glob
 from models import CPX, EMDB_complex
 import logging
@@ -68,18 +67,15 @@ class CPMapping:
     Querying with the extracted IDs for mapping the EMDB entries to the complex portal if exists.
     """
 
-    def __init__(self, workDir, proteins, supras):
+    def __init__(self, workDir, proteins, supras, CP_ftp):
         self.cpx_db = CPX_database()
         self.emdb_complexes = {}
         self.annotations = []
         self.workDir = workDir
-
-        config = configparser.ConfigParser()
-        config.read(os.path.join(self.workDir, "git_code/added_annotations/config.ini"))
-        CP_ftp = config.get("file_paths", "CP_ftp")
+        self.CP_ftp = CP_ftp
 
         # Parse Complex Portal tables
-        for fn in glob(os.path.join(str(CP_ftp), '*.tsv')):
+        for fn in glob(os.path.join(str(self.CP_ftp), '*.tsv')):
             with open(fn, 'r') as f:
                 reader = csv.reader(f, delimiter='\t')
                 next(reader, None)  # skip the headers

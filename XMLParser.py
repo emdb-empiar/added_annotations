@@ -1,6 +1,6 @@
 import lxml.etree as ET
 from glob import glob
-from models import Protein, Supra, Ligand, Model, Weight, Citation, GO
+from models import Protein, Supra, Ligand, Model, Weight, Citation, GO, Sample, EMDBEntry
 import os, re
 
 class XMLParser:
@@ -17,6 +17,7 @@ class XMLParser:
 		self.weights = []
 		self.citations = []
 		self.GOs = []
+		self.overall_mw = []
 
 	def execute(self):
 		for fn in glob(os.path.join(str(self.header_dir), '*')):
@@ -24,7 +25,7 @@ class XMLParser:
 			xml_filename = "emd-" + id_num + "-v30.xml"
 			xml_dirpath = os.path.join(str(self.header_dir), fn, "header")
 			xml_filepath = os.path.join(xml_dirpath, xml_filename)
-			proteins, supras, ligands, models , weights, citations, GOs = self.read_xml(xml_filepath)
+			proteins, supras, ligands, models , weights, citations, GOs, entry = self.read_xml(xml_filepath)
 			self.proteins += proteins
 			self.supras += supras
 			self.ligands += ligands
@@ -32,6 +33,69 @@ class XMLParser:
 			self.weights += weights
 			self.citations += citations
 			self.GOs += GOs
+			self.overall_mw.append(entry)
+
+	def get_mw(self, sample):
+		if sample.xpath('.//molecular_weight/experimental'):
+			return float(sample.find('molecular_weight/experimental').text)
+		elif sample.xpath('.//molecular_weight/theoretical'):
+			return float(sample.find('molecular_weight/theoretical').text)
+		return None
+
+	def get_n_copies(self, sample):
+		try:
+			number_copies = int(sample.find('number_of_copies').text)
+		except AttributeError:
+			number_copies = 1
+
+		return number_copies
+
+	def get_multiplier(self, node):
+		multiplier = node.copies
+		stack = node.parent
+
+		while(len(stack) > 0):
+			current_node = stack.pop()
+			multiplier *= current_node.copies if current_node.copies else 1
+			for parent in current_node.parent:
+				stack.append(parent)
+		return multiplier
+
+	def sum_mw(self, samples, start_nodes):
+		stack = []
+		single_mw_list = []
+		overall_mw = 0.0
+		nodes_counted = set()
+
+		for start_node_id in start_nodes:
+			start_node = samples[start_node_id]
+			if start_node.mw:
+				if (start_node_id not in nodes_counted):
+					multiplier = self.get_multiplier(start_node)
+					try:
+						overall_mw += (start_node.mw*multiplier)
+					except TypeError:
+						overall_mw += 0.0
+					nodes_counted.add(start_node_id)
+			else:
+				stack.append(start_node)
+
+		while(len(stack) > 0):
+			current_node = stack.pop()
+
+			if current_node.mw:
+				if (current_node.id not in nodes_counted):
+					multiplier = self.get_multiplier(current_node)
+					try:
+						overall_mw += (current_node.mw*multiplier)
+					except TypeError:
+						overall_mw += 0.0
+					nodes_counted.add(current_node.id)
+			else:
+				for child in current_node.children:
+					child_obj = samples[child.id]
+					stack.append(child)
+		return overall_mw
 
 	def read_xml(self, xml_file):
 		proteins = []
@@ -244,4 +308,64 @@ class XMLParser:
 								citation.issn = pmedid
 					citations.append(citation)
 
-		return proteins, supras, ligands, pdb_ids, weights, citations, GOs
+			#MW calculation
+			sample_dic = {}
+			start_nodes = set()
+			macromolecules = set()
+			sample = root.find('sample')
+			supramolecule_list = root.xpath('.//sample/supramolecule_list/*')
+			macromolecule_list = root.xpath('.//sample/macromolecule_list/*')
+
+			for sample in macromolecule_list:
+				sample_id = 'm' + sample.attrib['macromolecule_id']
+				
+				number_copies = self.get_n_copies(sample)
+				mw = self.get_mw(sample)
+
+				sample_obj = Sample(sample_id,mw,number_copies)
+				sample_dic[sample_id] = sample_obj
+
+				if mw:
+					macromolecules.add(sample_id)
+
+			for sample in supramolecule_list:
+				sample_id = 's' + sample.attrib['supramolecule_id']
+				try:
+					parent = sample.find('parent').text
+				except AttributeError:
+					parent = '0'
+
+				number_copies = self.get_n_copies(sample)
+				mw = self.get_mw(sample)
+
+				sample_obj = Sample(sample_id,mw,number_copies)
+				
+				if parent == '0':
+					start_nodes.add(sample_id)
+				else:
+					parent_id = 's' + parent
+					if parent_id in sample_dic:
+						parent_obj = sample_dic[parent_id]
+						sample_obj.add_parent(parent_obj)
+						parent_obj.add_child(sample_obj)
+
+				if sample.xpath('.//macromolecule_list'):
+					child_list = sample.xpath('.//macromolecule_list/macromolecule/macromolecule_id/text()')
+					for child in child_list:
+						child_id = "m" + child
+						if child_id in sample_dic:
+							child_obj = sample_dic[child_id]
+							child_obj.add_parent(sample_obj)
+							sample_obj.add_child(child_obj)
+			
+				sample_dic[sample_id] = sample_obj
+
+			for molecule_id in macromolecules:
+				molecule = sample_dic[molecule_id]
+				if len(molecule.parent) == 0:
+					start_nodes.add(molecule_id)
+
+			final_mw = self.sum_mw(sample_dic, start_nodes)
+			entry = EMDBEntry(emd_id, final_mw)
+
+		return proteins, supras, ligands, pdb_ids, weights, citations, GOs, entry

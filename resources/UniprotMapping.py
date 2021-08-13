@@ -3,7 +3,6 @@ import lxml.etree as ET
 import urllib.parse
 import urllib.request
 import logging
-import configparser
 from fuzzywuzzy import fuzz
 from models import Protein, Model
 from multiprocessing import Pool
@@ -24,11 +23,13 @@ class UniprotMapping:
 	"""
 	Map EMDB protein samples to Uniprot IDs
 	"""
-	def __init__(self, workDir, proteins):
+	def __init__(self, workDir, proteins, blast_db, blastp_bin):
 		self.output_dir = workDir
 		self.uniprot_tab = os.path.join(self.output_dir, "uniprot.tsv")
 		self.uniprot = {}
 		self.proteins = proteins
+		self.blast_db = blast_db
+		self.blastp_bin = blastp_bin
 
 	def parseUniprot(self):
 		"""
@@ -80,10 +81,6 @@ class UniprotMapping:
 		return protein
 
 	def blastp(self, protein):
-		config = configparser.ConfigParser()
-		config.read(os.path.join(self.workDir, "git_code/added_annotations/config.ini"))
-		BLAST_DB = config.get("file_paths", "BLAST_DB")
-		BLASTP_BIN = config.get("file_paths", "BLASTP_BIN")
 		#Create fasta file
 		directory = os.path.join(self.output_dir, "fasta")
 		if not os.path.exists(directory):
@@ -92,7 +89,7 @@ class UniprotMapping:
 		with open(fasta_file, "w") as f:
 			f.write(">seq\n%s" % protein.sequence)
 		qout = os.path.join(self.output_dir, "fasta", protein.emdb_id + ".xml")
-		blastp_command = [BLASTP_BIN, "-query", fasta_file, "-db", BLAST_DB, "-out", qout, "-outfmt", "5",
+		blastp_command = [self.blastp_bin, "-query", fasta_file, "-db", self.blast_db, "-out", qout, "-outfmt", "5",
 						 "-evalue", "1e-40"]
 		subprocess.call(blastp_command)
 		

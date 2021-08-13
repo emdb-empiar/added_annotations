@@ -1,15 +1,15 @@
 from multiprocessing import Pool
 import os
-import configparser
 import lxml.etree as ET
 
 class StructureMapping:
 	"""
 	Map PDB ids and they overall molecular weight
 	"""
-	def __init__(self, workDir, models):
+	def __init__(self, workDir, models, assembly_ftp):
 		self.output_dir = workDir
 		self.models = models
+		self.assembly_ftp = assembly_ftp
 
 	def execute(self, threads):
 		with Pool(processes=threads) as pool:
@@ -18,10 +18,7 @@ class StructureMapping:
 
 	def worker(self, model):
 		try:
-			config = configparser.ConfigParser()
-			config.read(os.path.join(self.output_dir, "git_code/added_annotations/config.ini"))
-			assembly_ftp = config.get("file_paths", "assembly_ftp")
-			assembly_file = os.path.join(assembly_ftp, "%s/%s/%s-assembly.xml" % (model.pdb_id[1:3],model.pdb_id,model.pdb_id))
+			assembly_file = os.path.join(self.assembly_ftp, "%s/%s/%s-assembly.xml" % (model.pdb_id[1:3],model.pdb_id,model.pdb_id))
 			mw, order = self.parse_assembly(assembly_file)
 			if mw:
 				model.molecular_weight = mw
