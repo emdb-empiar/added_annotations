@@ -131,9 +131,9 @@ if __name__ == "__main__":
         mapping_list.extend(["EMPIAR", empiar_map])
     if pmc:
         print("Running Europe PMC...")
-        pmc_ftp_gz = config.get("file_paths", "pmc_ftp_gz")
-        pmc_ftp = config.get("file_paths", "pmc_ftp")
-        pmc_mapping = PubmedMapping(args.workDir, xml.citations, pmc_ftp, pmc_ftp_gz)
+        # pmc_ftp_gz = config.get("file_paths", "pmc_ftp_gz")
+        # pmc_ftp = config.get("file_paths", "pmc_ftp")
+        pmc_mapping = PubmedMapping(args.workDir, xml.citations)
         pmc_map = pmc_mapping.execute(args.threads)
         mapping_list.extend(["CITATION", pmc_map])
     if go:
