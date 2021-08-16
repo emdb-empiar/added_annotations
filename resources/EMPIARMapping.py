@@ -12,7 +12,7 @@ class EMPIARMapping:
         self.emdb_empiar_list = emdb_empiar_list
 
     def execute(self):
-        empiars = []
+        self.empiars = []
         with open(self.emdb_empiar_list, "r") as file:
             data = json.load(file)
             for key, value in data.items():
@@ -21,5 +21,12 @@ class EMPIARMapping:
                     empiar.emdb_id = key
                     empiar.empiar_id = item
                     empiar.provenance = "AUTHOR"
-                    empiars.append(empiar)
-        return empiars
+                    self.empiars.append(empiar)
+        return self.empiars
+
+    def export_tsv(self):
+        filepath = os.path.join(self.output_dir, "emdb_empiar.tsv")
+        with open(filepath, 'w') as fw:
+            fw.write("EMDB_ID\tEMPIAR_ID\n")
+            for empiar in self.empiars:
+                fw.write(str(empiar))

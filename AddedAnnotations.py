@@ -90,11 +90,11 @@ if __name__ == "__main__":
         blast_db = config.get("file_paths", "BLAST_DB")
         blastp_bin = config.get("file_paths", "BLASTP_BIN")
         unp_mapping = UniprotMapping(args.workDir, xml.proteins, blast_db, blastp_bin)
+        if args.download_uniprot:
+            unp_mapping.download_uniprot()
         unp_mapping.parseUniprot()
         unip_map = unp_mapping.execute(args.threads)
         unp_mapping.export_tsv()
-        if args.download_uniprot:
-            unp_mapping.download_uniprot()
         mapping_list.extend(["UNIPROT", unip_map])
     if cpx:
         print("Running Complex Portal...")
@@ -128,6 +128,7 @@ if __name__ == "__main__":
         emdb_empiar_list = config.get("file_paths", "emdb_empiar_list")
         empiar_mapping = EMPIARMapping(args.workDir, models.EMPIAR, emdb_empiar_list)
         empiar_map = empiar_mapping.execute()
+        empiar_mapping.export_tsv()
         mapping_list.extend(["EMPIAR", empiar_map])
     if pmc:
         print("Running Europe PMC...")
