@@ -1,6 +1,6 @@
 import lxml.etree as ET
 from glob import glob
-from models import Protein, Supra, Ligand, Model, Weight, Citation, GO, Sample, EMDBEntry
+from models import Protein, Supra, Ligand, Model, Weight, Citation, GO, Sample
 import os, re
 
 class XMLParser:
@@ -8,8 +8,9 @@ class XMLParser:
 	Parse the XML files and store the objects
 	"""
 
-	def __init__(self, header_dir):
-		self.header_dir = header_dir
+	def __init__(self, file):
+		self.xml_file = file
+		self.emdb_id = ""
 		self.proteins = []
 		self.supras = []
 		self.ligands = []
@@ -17,23 +18,8 @@ class XMLParser:
 		self.weights = []
 		self.citations = []
 		self.GOs = []
-		self.overall_mw = []
-
-	def execute(self):
-		for fn in glob(os.path.join(str(self.header_dir), '*')):
-			id_num = fn.split('-')[1]
-			xml_filename = "emd-" + id_num + "-v30.xml"
-			xml_dirpath = os.path.join(str(self.header_dir), fn, "header")
-			xml_filepath = os.path.join(xml_dirpath, xml_filename)
-			proteins, supras, ligands, models , weights, citations, GOs, entry = self.read_xml(xml_filepath)
-			self.proteins += proteins
-			self.supras += supras
-			self.ligands += ligands
-			self.models += models
-			self.weights += weights
-			self.citations += citations
-			self.GOs += GOs
-			self.overall_mw.append(entry)
+		self.overall_mw = 0.0
+		self.read_xml()
 
 	def get_mw(self, sample):
 		if sample.xpath('.//molecular_weight/experimental'):
@@ -97,35 +83,27 @@ class XMLParser:
 					stack.append(child)
 		return overall_mw
 
-	def read_xml(self, xml_file):
-		proteins = []
-		supras = []
-		pdb_ids = []
-		ligands = []
-		weights = []
-		citations = []
-		GOs = []
-
-		with open(xml_file, 'r') as filexml:
+	def read_xml(self):
+		with open(self.xml_file, 'r') as filexml:
 			tree = ET.parse(filexml)
 			root = tree.getroot()
 			a = root.attrib
-			emd_id = a.get('emdb_id')
+			self.emdb_id = a.get('emdb_id')
 			prt_cpx = {} #Macromolecule -> Supramolecule
 			for x in list(root.iter('pdb_reference')):
 				pdb_id = x.find('pdb_id').text.lower()
-				model = Model(emd_id, pdb_id)
-				pdb_ids.append(model)
+				model = Model(self.emdb_id, pdb_id)
+				self.models.append(model)
 
 			if list(root.iter('complex_supramolecule')):			
 				for x in list(root.iter('complex_supramolecule')):
 					complex_id = x.attrib['supramolecule_id']
-					supra = Supra(emd_id, complex_id)
+					supra = Supra(self.emdb_id, complex_id)
 					supra.supra_id = "supra_" + complex_id
 					supra.kind = "supra"
 					if x.find('name') is not None:
 						supra.supra_name = x.find('name').text
-					supras.append(supra)
+					self.supras.append(supra)
 
 					for y in list(x.iter('macromolecule_id')):
 						protein_id = y.text
@@ -137,8 +115,8 @@ class XMLParser:
 			if list(root.iter('protein_or_peptide')):
 				for x in list(root.iter('protein_or_peptide')):
 					sample_id = x.attrib['macromolecule_id']
-					protein = Protein(emd_id,sample_id)
-					protein.pdb = pdb_ids
+					protein = Protein(self.emdb_id,sample_id)
+					protein.pdb = self.models
 					protein.sample_name = x.find('name').text
 					if sample_id in prt_cpx:
 						protein.sample_complexes = list(prt_cpx[sample_id])
@@ -154,7 +132,7 @@ class XMLParser:
 								ncbi_id = nat_sor.find('organism').attrib['ncbi']
 								protein.sample_organism = ncbi_id
 
-					go = GO(emd_id, sample_id)
+					go = GO(self.emdb_id, sample_id)
 					qs = x.find('sequence')
 					for x in list(root.iter('pdb_reference')):
 						pdb_id = x.find('pdb_id').text.lower()
@@ -181,7 +159,7 @@ class XMLParser:
 								go_id = t.text
 								go.GO_id.add(go_id)
 								go.provenance = "AUTHOR"
-					GOs.append(go)
+					self.GOs.append(go)
 
 					if qs.find('string') is not None:
 						seq = qs.find('string').text
@@ -189,14 +167,14 @@ class XMLParser:
 						seq = re.sub(r'\(.*?\)', 'X', seq)
 						seq = seq.replace("\n", "")
 						protein.sequence = seq
-					proteins.append(protein)
+					self.proteins.append(protein)
 
 			supramolecule_list = ["cell_supramolecule", "complex_supramolecule", "organelle_or_cellular_component_supramolecule",
 								  "sample_supramolecule", "virus_supramolecule"]
 			for element in supramolecule_list:
 				if list(root.iter(element)):
 					for x in list(root.iter(element)):
-						weight = Weight(emd_id)
+						weight = Weight(self.emdb_id)
 						weight.provenance = "AUTHOR"
 						if x.find('parent') is not None:
 							par_child = x.find('parent').text
@@ -248,13 +226,13 @@ class XMLParser:
 													if 'units' in mol_wei.find('experimental').attrib:
 														exp_weight_unit = mol_wei.find('experimental').attrib['units']
 														weight.macro_exp_unit = exp_weight_unit
-						weights.append(weight)
+						self.weights.append(weight)
 
 			if list(root.iter('ligand')):
 				for x in list(root.iter('ligand')):
 					if x is not None:
 						ligand_id = x.attrib['macromolecule_id']
-						ligand = Ligand(emd_id, ligand_id)
+						ligand = Ligand(self.emdb_id, ligand_id)
 						HET = x.find('formula')
 						if HET is not None:
 							ligand.HET = HET.text
@@ -281,11 +259,11 @@ class XMLParser:
 								drugbank_id = ref.text
 								ligand.drugbank_id = drugbank_id
 								ligand.provenance = "AUTHOR"
-					ligands.append(ligand)
+					self.ligands.append(ligand)
 
 			if list(root.iter('primary_citation')):
 				for y in list(root.iter('primary_citation')):
-					citation = Citation(emd_id)
+					citation = Citation(self.emdb_id)
 					pub = y.find('journal_citation')
 					nas = pub.find('title').text
 					title = nas.split('\n\n', 1)[0]
@@ -306,7 +284,7 @@ class XMLParser:
 								citation.doi = doi
 							if pmedty == 'ISSN':
 								citation.issn = pmedid
-					citations.append(citation)
+					self.citations.append(citation)
 
 			#MW calculation
 			sample_dic = {}
@@ -365,7 +343,4 @@ class XMLParser:
 				if len(molecule.parent) == 0:
 					start_nodes.add(molecule_id)
 
-			final_mw = self.sum_mw(sample_dic, start_nodes)
-			entry = EMDBEntry(emd_id, final_mw)
-
-		return proteins, supras, ligands, pdb_ids, weights, citations, GOs, entry
+			self.overall_mw = self.sum_mw(sample_dic, start_nodes)

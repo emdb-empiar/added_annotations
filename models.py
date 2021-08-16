@@ -25,7 +25,7 @@ class Protein:
     def get_tsv(self):
         complex_str = ';'.join([str(elem) for elem in self.sample_complexes])
         if self.provenance:
-            return ("%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n" % (self.emdb_id, self.sample_id, self.sample_name, self.sample_copies,
+            return ("%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s" % (self.emdb_id, self.sample_id, self.sample_name, self.sample_copies,
                                                           self.sample_organism, self.uniprot_id, self.provenance, complex_str))
         else:
             return ""
@@ -54,17 +54,6 @@ class CPX:
             if  '_' in idt:
                 continue
             self.uniprot.add(idt)
-
-class EMDBEntry:
-    """
-    Single EMDB entry
-    """
-    def __init__(self, emdb_id, mw):
-        self.emdb_id = emdb_id
-        self.deposited_mw = mw #Overall calculated MW
-
-    def __str__(self):
-        return f"{self.emdb_id}\t{self.deposited_mw}"
 
 class Sample:
     """

@@ -1,9 +1,9 @@
-import argparse, configparser, os
+import argparse, configparser, os, sys, time
 from pathlib import Path
 import models
 from resources.ComplexPortalMapping import CPMapping
 from resources.ComponentsMapping import ComponentsMapping
-from resources.UniprotMapping import UniprotMapping
+from resources.UniprotMapping import UniprotMapping, generate_unp_dictionary, download_uniprot
 from resources.StructureMapping import StructureMapping
 from resources.SampleWeight import SampleWeight
 from resources.EMPIARMapping import EMPIARMapping
@@ -11,7 +11,45 @@ from resources.PubmedMapping import PubmedMapping
 from resources.GOMapping import GOMapping
 from EMICSS.EmicssXML import EmicssXML
 from XMLParser import XMLParser
+from glob import glob
+import logging
+from joblib import Parallel, delayed
+formatter = logging.Formatter('%(message)s')
 
+def setup_logger(name, log_file, level=logging.INFO, mode='w'):
+    """To setup as many loggers as you want"""
+
+    handler = logging.FileHandler(log_file, mode=mode)        
+    handler.setFormatter(formatter)
+
+    logger = logging.getLogger(name)
+    logger.setLevel(level)
+    logger.addHandler(handler)
+
+    return logger
+
+def start_logger_if_necessary(log_name, log_file):
+    logger = logging.getLogger(log_name)
+    if len(logger.handlers) == 0:
+        logger.setLevel(logging.INFO)
+        fh = logging.FileHandler(log_file, mode='a')
+        logger.addHandler(fh)
+    return logger
+
+def run(filename):
+    id_num = filename.split('-')[1]
+    print(f"Running EMD-{id_num}")
+    xml_filepath = os.path.join(filename, f"header/emd-{id_num}-v30.xml")
+    xml = XMLParser(xml_filepath)
+    if uniprot:
+        uniprot_log = start_logger_if_necessary("uniprot_logger", uniprot_log_file)
+        unp_mapping = UniprotMapping(args.workDir, xml.proteins, uniprot_tab, blast_db, blastp_bin)
+        unip_map = unp_mapping.execute()
+        unp_mapping.export_tsv(uniprot_log)
+    if cpx:
+        cpx_mapping = CPMapping(args.workDir, unp_mapping.proteins, xml.supras, CP_ftp)
+        cpx_map = cpx_mapping.execute(args.threads)
+        cpx_mapping.write_cpx_map()
 
 """
 List of things to do:
@@ -53,8 +91,6 @@ if __name__ == "__main__":
     parser.add_argument("--GO", type=bool, nargs='?', const=True, default=False, help="Mapping GO ids to EMDB entries")
     args = parser.parse_args()
 
-    xml = XMLParser(args.headerDir)
-    xml.execute()
     mapping_list = []
 
     uniprot = args.uniprot
@@ -65,6 +101,7 @@ if __name__ == "__main__":
     empiar = args.empiar
     pmc = args.pmc
     go = args.GO
+    uniprot_dictionary = {}
     
     #CPX mapping requires Uniprot anotation
     if cpx:
@@ -84,66 +121,21 @@ if __name__ == "__main__":
     config = configparser.ConfigParser()
     env_file = os.path.join(Path(__file__).parent.absolute(), "config.ini")
     config.read(env_file)
+    blast_db = config.get("file_paths", "BLAST_DB")
+    blastp_bin = config.get("file_paths", "BLASTP_BIN")
+    CP_ftp = config.get("file_paths", "CP_ftp")
 
+    uniprot_tab = os.path.join(args.workDir, "uniprot.tsv")
+
+    #Start loggers
+    uniprot_log_file = os.path.join(args.workDir, 'emdb_uniprot.log')
+    uniprot_log = setup_logger('uniprot_logger', uniprot_log_file)
+    uniprot_log.info("EMDB_ID\tSAMPLE_ID\tSAMPLE_NAME\tSAMPLE_COPIES\tNCBI_ID\tUNIPROT_ID\tPROVENANCE\tSAMPLE_COMPLEX_IDS")
+
+    if args.download_uniprot:
+            download_uniprot(uniprot_tab)
     if uniprot:
-        print("Running UniProt...")
-        blast_db = config.get("file_paths", "BLAST_DB")
-        blastp_bin = config.get("file_paths", "BLASTP_BIN")
-        unp_mapping = UniprotMapping(args.workDir, xml.proteins, blast_db, blastp_bin)
-        if args.download_uniprot:
-            unp_mapping.download_uniprot()
-        unp_mapping.parseUniprot()
-        unip_map = unp_mapping.execute(args.threads)
-        unp_mapping.export_tsv()
-        mapping_list.extend(["UNIPROT", unip_map])
-    if cpx:
-        print("Running Complex Portal...")
-        CP_ftp = config.get("file_paths", "CP_ftp")
-        cpx_mapping = CPMapping(args.workDir, unp_mapping.proteins, xml.supras, CP_ftp)
-        cpx_map = cpx_mapping.execute(args.threads)
-        cpx_mapping.write_cpx_map()
-        mapping_list.extend(["COMPLEX", cpx_map])
-    if component:
-        print("Running Chemical Compounds...")
-        components_cif = config.get("file_paths", "components_cif")
-        che_mapping = ComponentsMapping(args.workDir, xml.ligands, components_cif)
-        lig_map = che_mapping.execute(args.threads)
-        che_mapping.write_ligands()
-        mapping_list.extend(["LIGANDS", lig_map])
-    if model:
-        print("Running Atomic models...")
-        assembly_ftp = config.get("file_paths", "assembly_ftp")
-        mw_mapping = StructureMapping(args.workDir, xml.models, assembly_ftp)
-        mw_map = mw_mapping.execute(args.threads)
-        mw_mapping.export_tsv()
-        mapping_list.extend(["MODEL", mw_map])
-    if weight:
-        print("Running Molecular weight...")
-        sw_mapping = SampleWeight(args.workDir, xml.weights, xml.overall_mw)
-        sw_map = sw_mapping.execute(args.threads)
-        sw_mapping.export_overall_mw()
-        mapping_list.extend(["WEIGHT", sw_map])
-    if empiar:
-        print("Running EMPIAR...")
-        emdb_empiar_list = config.get("file_paths", "emdb_empiar_list")
-        empiar_mapping = EMPIARMapping(args.workDir, models.EMPIAR, emdb_empiar_list)
-        empiar_map = empiar_mapping.execute()
-        empiar_mapping.export_tsv()
-        mapping_list.extend(["EMPIAR", empiar_map])
-    if pmc:
-        print("Running Europe PMC...")
-        pmc_ftp_gz = config.get("file_paths", "pmc_ftp_gz")
-        pmc_ftp = config.get("file_paths", "pmc_ftp")
-        pmc_mapping = PubmedMapping(args.workDir, xml.citations, pmc_ftp, pmc_ftp_gz)
-        pmc_map = pmc_mapping.execute(args.threads)
-        mapping_list.extend(["CITATION", pmc_map])
-    if go:
-        print("Running Gene Ontology...")
-        shifts_GO = config.get("file_paths", "sifts_GO")
-        GO_obo = config.get("file_paths", "GO_obo")
-        GO_mapping = GOMapping(args.workDir, xml.GOs, shifts_GO, GO_obo)
-        GO_map = GO_mapping.execute(args.threads)
-        mapping_list.extend(["GO", GO_map])
+        uniprot_dictionary = generate_unp_dictionary(uniprot_tab)
 
-    write_annotation_xml = EmicssXML(args.workDir, mapping_list)
-    write_annotation_xml.execute()
+    Parallel(n_jobs=4)(delayed(run)(file) for file in glob(os.path.join(args.headerDir, '*')))
+

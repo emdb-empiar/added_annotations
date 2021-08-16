@@ -5,7 +5,6 @@ import urllib.request
 import logging
 from fuzzywuzzy import fuzz
 from models import Protein, Model
-from multiprocessing import Pool
 
 uniprot_api = "www.uniprot.org/uniprot/?query=\"%s\" AND database:(type:pdb %s)&format=tab&limit=100&columns=id,organism-id&sort=score"
 
@@ -19,46 +18,51 @@ file_handler.setLevel(logging.DEBUG)
 file_handler.setFormatter(formatter)
 logger.addHandler(file_handler)
 
+def generate_unp_dictionary(uniprot_tab):
+	"""
+	Parse the Uniprot tab file containg all entries with models and resulting in
+	 a dictionary of pdb_id -> [(Uniprot_id, protein_names)]
+	"""
+	uniprot = {}
+	with open(uniprot_tab, 'r') as fr:
+		next(fr) #Skip header
+		for line in fr:
+			line = line.strip()
+			uniprot_id, pdb_list, protein_names = line.split('\t')
+			pdb_list = pdb_list.split(';')[:-1]
+			for pdb_id in pdb_list:
+				pdb_id = pdb_id.lower()
+				if pdb_id in uniprot:
+					uniprot[pdb_id].append((uniprot_id, protein_names))
+				else:
+					uniprot[pdb_id] = [(uniprot_id, protein_names)]
+	return uniprot
+
+def download_uniprot(uniprot_tab):
+	os.system('wget "https://www.uniprot.org/uniprot/?query=database:(type:pdb)&format=tab&limit=100000&columns=id,'
+                  'database(PDB),protein names&sort=score" -O %s' % uniprot_tab)
+
 class UniprotMapping:
 	"""
 	Map EMDB protein samples to Uniprot IDs
 	"""
-	def __init__(self, workDir, proteins, blast_db, blastp_bin):
+	def __init__(self, workDir, proteins, uniprot_tab, blast_db, blastp_bin):
 		self.output_dir = workDir
-		self.uniprot_tab = os.path.join(self.output_dir, "uniprot.tsv")
+		self.uniprot_tab = uniprot_tab
 		self.uniprot = {}
 		self.proteins = proteins
 		self.blast_db = blast_db
 		self.blastp_bin = blastp_bin
 
-	def parseUniprot(self):
-		"""
-		Parse the Uniprot tab file containg all entries with models and resulting in
-		 a dictionary of pdb_id -> [(Uniprot_id, protein_names)]
-		"""
-		with open(self.uniprot_tab, 'r') as fr:
-			next(fr) #Skip header
-			for line in fr:
-				line = line.strip()
-				uniprot_id, pdb_list, protein_names = line.split('\t')
-				pdb_list = pdb_list.split(';')[:-1]
-				for pdb_id in pdb_list:
-					pdb_id = pdb_id.lower()
-					if pdb_id in self.uniprot:
-						self.uniprot[pdb_id].append((uniprot_id, protein_names))
-					else:
-						self.uniprot[pdb_id] = [(uniprot_id, protein_names)]
+	def export_tsv(self, unp_logger):
+		for protein in self.proteins:
+			row = protein.get_tsv()
+			if row:
+				unp_logger.error(row)
 
-	def export_tsv(self):
-		filepath = os.path.join(self.output_dir, "emdb_uniprot.tsv")
-		with open(filepath, 'w') as fw:
-			fw.write("EMDB_ID\tSAMPLE_ID\tSAMPLE_NAME\tSAMPLE_COPIES\tNCBI_ID\tUNIPROT_ID\tPROVENANCE\tSAMPLE_COMPLEX_IDS\n")
-			for protein in self.proteins:
-				fw.write(protein.get_tsv())
-
-	def execute(self, threads):
-		with Pool(processes=threads) as pool:
-			self.proteins = pool.map(self.worker, self.proteins)
+	def execute(self):
+		for protein in self.proteins:
+			protein = self.worker(protein)
 		return self.proteins
 
 	def worker(self, protein):
@@ -147,8 +151,4 @@ class UniprotMapping:
 			protein.provenance = "PDBe + UNIPROT"
 			return True
 		return False
-
-	def download_uniprot(self):
-		os.system('wget "https://www.uniprot.org/uniprot/?query=database:(type:pdb)&format=tab&limit=100000&columns=id,'
-				  'database(PDB),protein names&sort=score" -O %s' % self.uniprot_tab)
 
