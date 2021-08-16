@@ -6,7 +6,7 @@ from resources.ComponentsMapping import ComponentsMapping
 from resources.UniprotMapping import UniprotMapping, generate_unp_dictionary, download_uniprot
 from resources.StructureMapping import StructureMapping
 from resources.SampleWeight import SampleWeight
-from resources.EMPIARMapping import EMPIARMapping
+from resources.EMPIARMapping import EMPIARMapping, generate_emp_dictionary
 from resources.PubmedMapping import PubmedMapping
 from resources.GOMapping import GOMapping
 from EMICSS.EmicssXML import EmicssXML
@@ -43,13 +43,27 @@ def run(filename):
     xml = XMLParser(xml_filepath)
     if uniprot:
         uniprot_log = start_logger_if_necessary("uniprot_logger", uniprot_log_file)
-        unp_mapping = UniprotMapping(args.workDir, xml.proteins, uniprot_tab, blast_db, blastp_bin)
+        unp_mapping = UniprotMapping(args.workDir, xml.proteins, uniprot_dictionary, blast_db, blastp_bin)
         unip_map = unp_mapping.execute()
         unp_mapping.export_tsv(uniprot_log)
     if cpx:
-        cpx_mapping = CPMapping(args.workDir, unp_mapping.proteins, xml.supras, CP_ftp)
-        cpx_map = cpx_mapping.execute(args.threads)
-        cpx_mapping.write_cpx_map()
+        cpx_logger = start_logger_if_necessary("cpx_logger", cpx_log_file)
+        cpx_mapping = CPMapping(unp_mapping.proteins, xml.supras, CP_ftp)
+        cpx_map = cpx_mapping.execute()
+        cpx_mapping.export_tsv(cpx_logger)
+    if model:
+        model_logger = start_logger_if_necessary("model_logger", model_log_file)
+        mw_mapping = StructureMapping(xml.models, assembly_ftp)
+        mw_map = mw_mapping.execute()
+        mw_mapping.export_tsv(model_logger)
+    if weight:
+        weight_logger = start_logger_if_necessary("weight_logger", weight_log_file)
+        weight_logger.info(f"{xml.emdb_id}\t{xml.overall_mw}")
+        sw_mapping = SampleWeight(xml.weights)
+        sw_map = sw_mapping.execute()
+    if empiar:
+        empiar_logger = start_logger_if_necessary("empiar_logger", empiar_log_file)
+        empiar_mapping = EMPIARMapping(xml.emdb_id, empiar_dictionary, empiar_logger)
 
 """
 List of things to do:
@@ -124,18 +138,34 @@ if __name__ == "__main__":
     blast_db = config.get("file_paths", "BLAST_DB")
     blastp_bin = config.get("file_paths", "BLASTP_BIN")
     CP_ftp = config.get("file_paths", "CP_ftp")
-
+    assembly_ftp = config.get("file_paths", "assembly_ftp")
+    emdb_empiar_list = config.get("file_paths", "emdb_empiar_list")
     uniprot_tab = os.path.join(args.workDir, "uniprot.tsv")
 
     #Start loggers
     uniprot_log_file = os.path.join(args.workDir, 'emdb_uniprot.log')
+    cpx_log_file = os.path.join(args.workDir, 'emdb_cpx.log')
+    model_log_file = os.path.join(args.workDir, 'emdb_model.log')
+    weight_log_file = os.path.join(args.workDir, 'overall_mw.log')
+    empiar_log_file = os.path.join(args.workDir, 'emdb_empiar.log')
+    
     uniprot_log = setup_logger('uniprot_logger', uniprot_log_file)
     uniprot_log.info("EMDB_ID\tSAMPLE_ID\tSAMPLE_NAME\tSAMPLE_COPIES\tNCBI_ID\tUNIPROT_ID\tPROVENANCE\tSAMPLE_COMPLEX_IDS")
+    cpx_log = setup_logger('cpx_logger', cpx_log_file)
+    cpx_log.info("EMDB_ID\tEMDB_SAMPLE_ID\tSAMPLE_NAME\tSAMPLE_COPIES\tCPX_ID\tCPX_TITLE\tPROVENANCE\tSCORE")
+    model_log = setup_logger('model_logger', model_log_file)
+    model_log.info("EMDB_ID\tPDB_ID\tASSEMBLY\tMOLECULAR_WEIGHT")
+    weight_log = setup_logger('weight_logger', weight_log_file)
+    weight_log.info("EMDB_ID\tOVERALL_MW")
+    empiar_log = setup_logger('empiar_logger', empiar_log_file)
+    empiar_log.info("EMDB_ID\tEMPIAR_ID\tPROVENANCE")
 
     if args.download_uniprot:
             download_uniprot(uniprot_tab)
     if uniprot:
         uniprot_dictionary = generate_unp_dictionary(uniprot_tab)
+    if empiar:
+        empiar_dictionary = generate_emp_dictionary(emdb_empiar_list)
 
-    Parallel(n_jobs=4)(delayed(run)(file) for file in glob(os.path.join(args.headerDir, '*')))
+    Parallel(n_jobs=args.threads)(delayed(run)(file) for file in glob(os.path.join(args.headerDir, '*')))
 

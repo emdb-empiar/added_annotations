@@ -46,10 +46,9 @@ class UniprotMapping:
 	"""
 	Map EMDB protein samples to Uniprot IDs
 	"""
-	def __init__(self, workDir, proteins, uniprot_tab, blast_db, blastp_bin):
+	def __init__(self, workDir, proteins, uniprot_dic, blast_db, blastp_bin):
 		self.output_dir = workDir
-		self.uniprot_tab = uniprot_tab
-		self.uniprot = {}
+		self.uniprot = uniprot_dic
 		self.proteins = proteins
 		self.blast_db = blast_db
 		self.blastp_bin = blastp_bin
@@ -58,7 +57,7 @@ class UniprotMapping:
 		for protein in self.proteins:
 			row = protein.get_tsv()
 			if row:
-				unp_logger.error(row)
+				unp_logger.info(row)
 
 	def execute(self):
 		for protein in self.proteins:
@@ -145,7 +144,7 @@ class UniprotMapping:
 			if score > best_score:
 				best_score = score
 				best_match = uniprot_id
-
+		
 		if best_match and best_score > 80:
 			protein.uniprot_id = best_match
 			protein.provenance = "PDBe + UNIPROT"
