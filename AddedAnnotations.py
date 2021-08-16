@@ -64,6 +64,9 @@ def run(filename):
     if empiar:
         empiar_logger = start_logger_if_necessary("empiar_logger", empiar_log_file)
         empiar_mapping = EMPIARMapping(xml.emdb_id, empiar_dictionary, empiar_logger)
+    if pmc:
+        pmc_mapping = PubmedMapping(xml.citations, pmc_api)
+        pmc_map = pmc_mapping.execute()
 
 """
 List of things to do:
@@ -140,6 +143,7 @@ if __name__ == "__main__":
     CP_ftp = config.get("file_paths", "CP_ftp")
     assembly_ftp = config.get("file_paths", "assembly_ftp")
     emdb_empiar_list = config.get("file_paths", "emdb_empiar_list")
+    pmc_api = config.get("api", "pmc")
     uniprot_tab = os.path.join(args.workDir, "uniprot.tsv")
 
     #Start loggers
