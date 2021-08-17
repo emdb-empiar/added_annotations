@@ -88,18 +88,20 @@ class CPMapping:
                 emdb_id = protein.emdb_id
                 sample_id = protein.sample_id
                 uniprot_id = protein.uniprot_id
+                supra_name = []
                 for supra in supras:
                     if supra.emdb_id == emdb_id:
-                        supra_name = supra.supra_name
+                        supra_name.append(supra.supra_name)
                 sample_copies = protein.sample_copies
                 for complex_id in protein.sample_complexes:
                     emdb_complex_id = emdb_id + "_" + str(complex_id)
-                    if emdb_complex_id in self.emdb_complexes:
-                        self.emdb_complexes[emdb_complex_id].add_protein(uniprot_id)
-                    else:
-                        emdb_cpx = EMDB_complex(emdb_id, complex_id, supra_name, sample_copies, emdb_complex_id)
-                        emdb_cpx.add_protein(uniprot_id)
-                        self.emdb_complexes[emdb_complex_id] = emdb_cpx
+                    for name in supra_name:
+                        if emdb_complex_id in self.emdb_complexes:
+                            self.emdb_complexes[emdb_complex_id].add_protein(uniprot_id)
+                        else:
+                            emdb_cpx = EMDB_complex(emdb_id, complex_id, name, sample_copies, emdb_complex_id)
+                            emdb_cpx.add_protein(uniprot_id)
+                            self.emdb_complexes[emdb_complex_id] = emdb_cpx
 
 
     def execute(self):

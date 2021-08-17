@@ -75,7 +75,7 @@ List of things to do:
 """
 
 if __name__ == "__main__":
-    ######### Command : python /Users/amudha/project/ComplexPortal/AddedAnnotations.py
+    ######### Command : python /Users/amudha/project/git_code/added_annotations/AddedAnnotations.py
     # -w /Users/amudha/project/ -f /Users/amudha/project/EMD_XML/ -p /Users/amudha/project/pdbeFiles/ --CPX --model
     # --component --uniprot --weight --empiar --pmc
 
