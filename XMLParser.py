@@ -137,18 +137,6 @@ class XMLParser:
 					for x in list(root.iter('pdb_reference')):
 						pdb_id = x.find('pdb_id').text.lower()
 						go.pdb_id = pdb_id
-					if list(root.iter('primary_citation')):
-						for y in list(root.iter('primary_citation')):
-							pub = y.find('journal_citation')
-							nas = pub.find('title').text
-							title = nas.split('\n\n', 1)[0]
-							go.title = title
-							for child in pub:
-								pmedid = child.text
-								pmedty = (child.attrib).get('type')
-								if pmedty is not None:
-									if pmedty == 'PUBMED':
-										go.pubmed_id = pmedid
 					if qs.find('external_references') is not None:
 						if qs.find('external_references').attrib['type'] == 'UNIPROTKB':
 							uniprot_id = qs.find('external_references').text

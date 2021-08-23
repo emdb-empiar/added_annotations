@@ -42,9 +42,14 @@ def run(filename):
     xml_filepath = os.path.join(filename, f"header/emd-{id_num}-v30.xml")
     xml = XMLParser(xml_filepath)
     if uniprot:
+        uniprot_ids = []
         uniprot_log = start_logger_if_necessary("uniprot_logger", uniprot_log_file)
         unp_mapping = UniprotMapping(args.workDir, xml.proteins, uniprot_dictionary, blast_db, blastp_bin)
         unip_map = unp_mapping.execute()
+        for unip in unip_map:
+            unip_id = unip.__dict__["uniprot_id"]
+            if unip_id is not None:
+                uniprot_ids.append(unip_id)
         unp_mapping.export_tsv(uniprot_log)
     if cpx:
         cpx_logger = start_logger_if_necessary("cpx_logger", cpx_log_file)
@@ -67,6 +72,11 @@ def run(filename):
     if pmc:
         pmc_mapping = PubmedMapping(xml.citations, pmc_api)
         pmc_map = pmc_mapping.execute()
+    if go:
+        if not uniprot:
+            print("Needs UNIPROT mapping for GO annotation")
+        GO_mapping = GOMapping(args.workDir, xml.GOs, shifts_GO, GO_obo, uniprot_ids)
+        GO_map = GO_mapping.execute()
 
 """
 List of things to do:
@@ -145,6 +155,8 @@ if __name__ == "__main__":
     emdb_empiar_list = config.get("file_paths", "emdb_empiar_list")
     pmc_api = config.get("api", "pmc")
     uniprot_tab = os.path.join(args.workDir, "uniprot.tsv")
+    shifts_GO = config.get("file_paths", "sifts_GO")
+    GO_obo = config.get("file_paths", "GO_obo")
 
     #Start loggers
     uniprot_log_file = os.path.join(args.workDir, 'emdb_uniprot.log')

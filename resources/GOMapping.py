@@ -1,11 +1,8 @@
-import os, csv, re
+import csv
 import urllib3
-import json
-from multiprocessing import Pool
+import lxml.etree as ET
 
-pmc_annotation_api = r'https://www.ebi.ac.uk/europepmc/annotations_api/annotationsByArticleIds?articleIds='
-pmc_baseurl = r'https://www.ebi.ac.uk/europepmc/webservices/rest/search?'
-pmc_append = r'%22&resultType=lite&pageSize=25&format=json'
+uni_api = r'https://www.uniprot.org/uniprot/'
 
 class GOMapping:
     """
@@ -13,69 +10,41 @@ class GOMapping:
     GO ids by the publication
     """
 
-    def __init__(self, workDir, GOs, shifts_GO, GO_obo):
+    def __init__(self, workDir, GOs, shifts_GO, GO_obo, uniprot_ids):
         self.workDir = workDir
         self.GOs = GOs
         self.shifts_GO = shifts_GO
         self.GO_obo = GO_obo
+        self.uniprot_ids = uniprot_ids
 
         self.pdbe_GO = self.extract_resources_from_sifts()
         self.obo_dict = self.go_namespace()
 
-    def execute(self, threads):
-        with Pool(processes=threads) as pool:
-            self.GOs = pool.map(self.worker, self.GOs)
+    def execute(self):
+        for GO in self.GOs:
+            GO = self.worker(GO)
         return self.GOs
 
     def worker(self, GO):
         if GO.provenance != "AUTHOR":
-            if GO.pdb_id in self.pdbe_GO:
-                GO.GO_id = self.pdbe_GO[GO.pdb_id]
-                for go_id in GO.GO_id:
-                    if go_id in self.obo_dict:
-                        go_namespace = self.obo_dict[go_id]
-                        (GO.GO_namespace).append(go_namespace)
-                GO.provenance = "PDBe"
-
-            if not GO.pdb_id:
-                if GO.pubmed_id is not None:
-                    ids = self.pmc_annotation(GO.pubmed_id)
-                    GO.GO_id = ids
+            if GO.pdb_id:
+                if GO.pdb_id in self.pdbe_GO:
+                    GO.GO_id = self.pdbe_GO[GO.pdb_id]
                     for go_id in GO.GO_id:
                         if go_id in self.obo_dict:
                             go_namespace = self.obo_dict[go_id]
                             (GO.GO_namespace).append(go_namespace)
-                    GO.provenance = "EuropePMC"
-                if GO.pubmed_id is None:
-                    if GO.title:
-                        queryString = (GO.title).replace("%", "%25")
-                        queryString = queryString.replace(' ', '%20')
-                        queryString = queryString.replace("\n", "%0A")
-                        queryString = queryString.replace("=", "%3D")
-                        queryString = queryString.replace("(", "%28")
-                        queryString = queryString.replace(")", "%29")
-                        queryString = queryString.replace(",", "%2C")
-                        queryString = queryString.replace("-", "%2D")
-                        queryString = queryString.replace("&#183;", "%2D")
-                        queryString = queryString.replace("&#966;", "%CF%86")
-                        queryString = queryString.replace("/", "%2F")
-                        url = pmc_baseurl + "query=%22" + (queryString) + pmc_append
-
-                        http = urllib3.PoolManager()
-                        response = http.request('GET', url)
-                        data = response.data
-                        pmcjdata = json.loads(data)
-                        id = pmcjdata['resultList']['result']
-                        if id:
-                            pm_id = pmcjdata['resultList']['result'][0]['id']
-                            GO.pubmed_id = pm_id
-                        ids = self.pmc_annotation(GO.pubmed_id)
+                    GO.provenance = "PDBe"
+            else:
+                if self.uniprot_ids:
+                    for uid in self.uniprot_ids:
+                        ids = self.uniprot_api(uid)
                         GO.GO_id = ids
                         for go_id in GO.GO_id:
                             if go_id in self.obo_dict:
                                 go_namespace = self.obo_dict[go_id]
                                 (GO.GO_namespace).append(go_namespace)
-                        GO.provenance = "EuropePMC"
+                        GO.provenance = "UNIPROT"
         # print(GO.__dict__)
         return GO
 
@@ -95,22 +64,25 @@ class GOMapping:
         pdbe_GO = {a: list(set(b)) for a, b in pdb_GO.items()}
         return pdbe_GO
 
-    def pmc_annotation(self, id):
+    def uniprot_api(self, uid):
         """
-        Query for GO_id if pubmed id exists in EuropePMC
+        Query for GO_id if Uniprot_id exists for map only entries
         """
 
         ids = set()
-        url = pmc_annotation_api + 'MED%3A' + str(id) + '&format=JSON'
+        url = uni_api + uid + ".xml"
         http = urllib3.PoolManager()
         response = http.request('GET', url)
         data = response.data
-        pmcjdata = json.loads(data)
-        if pmcjdata:
-            for result in re.findall("go/(.*?)'", str(pmcjdata)):
-                ident = ",".join(re.findall(r'GO:\d*', result))
-                if ident:
-                    ids.add(ident)
+        if data:
+            tree = ET.parse(data)
+            root = tree.getroot()
+            if list(root.iter('dbReference')):
+                for x in list(root.iter('dbReference')):
+                    if x.attrib == "GO":
+                        go_id = x.get('id').text
+                        if go_id:
+                            ids.add(go_id)
         return ids
 
     def go_namespace(self):

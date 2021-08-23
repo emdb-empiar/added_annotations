@@ -214,8 +214,6 @@ class GO:
         self.pdb_id = ""
         self.GO_id = set()
         self.GO_namespace = []
-        self.pubmed_id = None
-        self.title = None
         self.provenance = ""
 
     def __str__(self):
