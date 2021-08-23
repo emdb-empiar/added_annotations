@@ -42,7 +42,6 @@ class GOMapping:
                         else:
                             (GO.GO_namespace).append("N/A")
                     GO.provenance = "UNIPROT"
-        print(GO.__dict__)
         return GO
 
     def uniprot_api(self, uid):
