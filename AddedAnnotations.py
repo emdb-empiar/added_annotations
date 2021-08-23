@@ -73,8 +73,6 @@ def run(filename):
         pmc_mapping = PubmedMapping(xml.citations, pmc_api)
         pmc_map = pmc_mapping.execute()
     if go:
-        if not uniprot:
-            print("Needs UNIPROT mapping for GO annotation")
         GO_mapping = GOMapping(args.workDir, xml.GOs, GO_obo, uniprot_ids)
         GO_map = GO_mapping.execute()
 
@@ -132,6 +130,8 @@ if __name__ == "__main__":
     
     #CPX mapping requires Uniprot anotation
     if cpx:
+        uniprot = True
+    if go:
         uniprot = True
 
     if args.all:
