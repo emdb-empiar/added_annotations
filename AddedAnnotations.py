@@ -75,7 +75,7 @@ def run(filename):
     if go:
         if not uniprot:
             print("Needs UNIPROT mapping for GO annotation")
-        GO_mapping = GOMapping(args.workDir, xml.GOs, shifts_GO, GO_obo, uniprot_ids)
+        GO_mapping = GOMapping(args.workDir, xml.GOs, GO_obo, uniprot_ids)
         GO_map = GO_mapping.execute()
 
 """
@@ -155,7 +155,6 @@ if __name__ == "__main__":
     emdb_empiar_list = config.get("file_paths", "emdb_empiar_list")
     pmc_api = config.get("api", "pmc")
     uniprot_tab = os.path.join(args.workDir, "uniprot.tsv")
-    shifts_GO = config.get("file_paths", "sifts_GO")
     GO_obo = config.get("file_paths", "GO_obo")
 
     #Start loggers
