@@ -192,4 +192,3 @@ if __name__ == "__main__":
         empiar_dictionary = generate_emp_dictionary(emdb_empiar_list)
 
     Parallel(n_jobs=args.threads)(delayed(run)(file) for file in glob(os.path.join(args.headerDir, '*')))
-

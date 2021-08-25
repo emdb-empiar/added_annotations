@@ -194,10 +194,10 @@ class Citation:
     """
     def __init__(self, emdb_id):
         self.emdb_id = emdb_id
-        self.pmedid = ""
-        self.pmcid = ""
-        self.doi = ""
-        self.issn = ""
+        self.pmedid = None
+        self.pmcid = None
+        self.doi = None
+        self.issn = None
         self.status = ""
         self.title = ""
         self.provenance_pm = ""
