@@ -1,6 +1,6 @@
 import lxml.etree as ET
 from glob import glob
-from models import Protein, Supra, Ligand, Model, Weight, Citation, GO, Sample
+from models import Protein, Supra, Ligand, Model, Weight, Citation, GO, Sample, Interpro
 import os, re
 
 class XMLParser:
@@ -17,7 +17,6 @@ class XMLParser:
 		self.models = []
 		self.weights = []
 		self.citations = []
-		self.GOs = []
 		self.overall_mw = 0.0
 		self.read_xml()
 
@@ -132,11 +131,7 @@ class XMLParser:
 								ncbi_id = nat_sor.find('organism').attrib['ncbi']
 								protein.sample_organism = ncbi_id
 
-					go = GO(self.emdb_id, sample_id)
 					qs = x.find('sequence')
-					for x in list(root.iter('pdb_reference')):
-						pdb_id = x.find('pdb_id').text.lower()
-						go.pdb_id = pdb_id
 					if qs.find('external_references') is not None:
 						if qs.find('external_references').attrib['type'] == 'UNIPROTKB':
 							uniprot_id = qs.find('external_references').text
@@ -144,11 +139,15 @@ class XMLParser:
 							protein.provenance = "AUTHOR"
 						for t in list(qs.iter('external_references')):
 							if t.attrib['type'] == 'GO':
-								go_id = t.text
-								go.GO_id.add(go_id)
-								go.provenance = "AUTHOR"
-					self.GOs.append(go)
-
+								go = GO()
+								go.add_from_author(t.text)
+								if go.id:
+									protein.go.append(go)
+							elif t.attrib['type'] == 'INTERPRO':
+								ipr = Interpro()
+								ipr.add_from_author(t.text)
+								if ipr.id:
+									protein.interpro.append(ipr)
 					if qs.find('string') is not None:
 						seq = qs.find('string').text
 						#seq = re.sub(r'\(\s*UNK\s*\)', 'X', seq)

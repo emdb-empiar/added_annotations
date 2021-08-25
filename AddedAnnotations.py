@@ -8,7 +8,7 @@ from resources.StructureMapping import StructureMapping
 from resources.SampleWeight import SampleWeight
 from resources.EMPIARMapping import EMPIARMapping, generate_emp_dictionary
 from resources.PubmedMapping import PubmedMapping
-from resources.GOMapping import GOMapping
+from resources.ProteinTermsMapping import ProteinTermsMapping
 from EMICSS.EmicssXML import EmicssXML
 from XMLParser import XMLParser
 from glob import glob
@@ -42,14 +42,9 @@ def run(filename):
     xml_filepath = os.path.join(filename, f"header/emd-{id_num}-v30.xml")
     xml = XMLParser(xml_filepath)
     if uniprot:
-        uniprot_ids = []
         uniprot_log = start_logger_if_necessary("uniprot_logger", uniprot_log_file)
         unp_mapping = UniprotMapping(args.workDir, xml.proteins, uniprot_dictionary, blast_db, blastp_bin)
         unip_map = unp_mapping.execute()
-        for unip in unip_map:
-            unip_id = unip.__dict__["uniprot_id"]
-            if unip_id is not None:
-                uniprot_ids.append(unip_id)
         unp_mapping.export_tsv(uniprot_log)
     if cpx:
         cpx_logger = start_logger_if_necessary("cpx_logger", cpx_log_file)
@@ -72,9 +67,12 @@ def run(filename):
     if pmc:
         pmc_mapping = PubmedMapping(xml.citations, pmc_api)
         pmc_map = pmc_mapping.execute()
-    if go:
-        GO_mapping = GOMapping(args.workDir, xml.GOs, GO_obo, uniprot_ids)
-        GO_map = GO_mapping.execute()
+    if go or interpro:
+        go_log = start_logger_if_necessary("go_logger", go_log_file)
+        interpro_log = start_logger_if_necessary("interpro_logger", interpro_log_file)
+        PT_mapping = ProteinTermsMapping(unp_mapping.proteins, go, interpro)
+        proteins_map = PT_mapping.execute()
+        PT_mapping.export_tsv(go_log, interpro_log)
 
 """
 List of things to do:
@@ -114,6 +112,7 @@ if __name__ == "__main__":
     parser.add_argument("--empiar", type=bool, nargs='?', const=True, default=False, help="Mapping EMPIAR ID to EMDB entries")
     parser.add_argument("--pmc", type=bool, nargs='?', const=True, default=False, help="Mapping publication ID to EMDB entries")
     parser.add_argument("--GO", type=bool, nargs='?', const=True, default=False, help="Mapping GO ids to EMDB entries")
+    parser.add_argument("--interpro", type=bool, nargs='?', const=True, default=False, help="Mapping InterPro ids to EMDB entries")
     args = parser.parse_args()
 
     mapping_list = []
@@ -126,12 +125,15 @@ if __name__ == "__main__":
     empiar = args.empiar
     pmc = args.pmc
     go = args.GO
+    interpro = args.interpro
     uniprot_dictionary = {}
     
     #CPX mapping requires Uniprot anotation
     if cpx:
         uniprot = True
     if go:
+        uniprot = True
+    if interpro:
         uniprot = True
 
     if args.all:
@@ -143,6 +145,7 @@ if __name__ == "__main__":
         empiar = True
         pmc = True
         go = True
+        interpro = True
 
     #Get config variables:
     config = configparser.ConfigParser()
@@ -163,6 +166,8 @@ if __name__ == "__main__":
     model_log_file = os.path.join(args.workDir, 'emdb_model.log')
     weight_log_file = os.path.join(args.workDir, 'overall_mw.log')
     empiar_log_file = os.path.join(args.workDir, 'emdb_empiar.log')
+    go_log_file = os.path.join(args.workDir, 'emdb_go.log')
+    interpro_log_file = os.path.join(args.workDir, 'emdb_interpro.log')
     
     uniprot_log = setup_logger('uniprot_logger', uniprot_log_file)
     uniprot_log.info("EMDB_ID\tSAMPLE_ID\tSAMPLE_NAME\tSAMPLE_COPIES\tNCBI_ID\tUNIPROT_ID\tPROVENANCE\tSAMPLE_COMPLEX_IDS")
@@ -174,6 +179,10 @@ if __name__ == "__main__":
     weight_log.info("EMDB_ID\tOVERALL_MW")
     empiar_log = setup_logger('empiar_logger', empiar_log_file)
     empiar_log.info("EMDB_ID\tEMPIAR_ID\tPROVENANCE")
+    go_log = setup_logger('go_logger', go_log_file)
+    go_log.info("EMDB_ID\tEMDB_SAMPLE_ID\tGO_ID\tGO_NAMESPACE\tGO_TYPE\tPROVENANCE")
+    interpro_log = setup_logger('interpro_logger', interpro_log_file)
+    interpro_log.info("EMDB_ID\tEMDB_SAMPLE_ID\tINTERPRO_ID\tINTERPRO_NAMESPACE\tPROVENANCE")
 
     if args.download_uniprot:
             download_uniprot(uniprot_tab)
