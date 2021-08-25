@@ -1,4 +1,3 @@
-from multiprocessing import Pool
 import os
 import lxml.etree as ET
 
@@ -6,14 +5,13 @@ class StructureMapping:
 	"""
 	Map PDB ids and they overall molecular weight
 	"""
-	def __init__(self, workDir, models, assembly_ftp):
-		self.output_dir = workDir
+	def __init__(self, models, assembly_ftp):
 		self.models = models
 		self.assembly_ftp = assembly_ftp
 
-	def execute(self, threads):
-		with Pool(processes=threads) as pool:
-			self.models = pool.map(self.worker, self.models)
+	def execute(self):
+		for model in self.models:
+			model = self.worker(model)
 		return self.models
 
 	def worker(self, model):
@@ -40,9 +38,6 @@ class StructureMapping:
 					return mw,order
 			return None, None
 
-	def export_tsv(self):
-		filepath = os.path.join(self.output_dir, "emdb_model.tsv")
-		with open(filepath, 'w') as fw:
-			fw.write("EMDB_ID\tPDB_ID\tASSEMBLY\tMOLECULAR_WEIGHT\n")
-			for model in self.models:
-				fw.write(str(model))
+	def export_tsv(self, model_logger):
+		for model in self.models:
+			model_logger.info(str(model))

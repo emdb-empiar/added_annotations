@@ -2,7 +2,6 @@ import os, csv
 from glob import glob
 from models import CPX, EMDB_complex
 import logging
-from multiprocessing import Pool
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
@@ -67,11 +66,10 @@ class CPMapping:
     Querying with the extracted IDs for mapping the EMDB entries to the complex portal if exists.
     """
 
-    def __init__(self, workDir, proteins, supras, CP_ftp):
+    def __init__(self, proteins, supras, CP_ftp):
         self.cpx_db = CPX_database()
         self.emdb_complexes = {}
         self.annotations = []
-        self.workDir = workDir
         self.CP_ftp = CP_ftp
 
         # Parse Complex Portal tables
@@ -90,23 +88,25 @@ class CPMapping:
                 emdb_id = protein.emdb_id
                 sample_id = protein.sample_id
                 uniprot_id = protein.uniprot_id
+                supra_name = []
                 for supra in supras:
                     if supra.emdb_id == emdb_id:
-                        supra_name = supra.supra_name
+                        supra_name.append(supra.supra_name)
                 sample_copies = protein.sample_copies
                 for complex_id in protein.sample_complexes:
                     emdb_complex_id = emdb_id + "_" + str(complex_id)
-                    if emdb_complex_id in self.emdb_complexes:
-                        self.emdb_complexes[emdb_complex_id].add_protein(uniprot_id)
-                    else:
-                        emdb_cpx = EMDB_complex(emdb_id, complex_id, supra_name, sample_copies, emdb_complex_id)
-                        emdb_cpx.add_protein(uniprot_id)
-                        self.emdb_complexes[emdb_complex_id] = emdb_cpx
+                    for name in supra_name:
+                        if emdb_complex_id in self.emdb_complexes:
+                            self.emdb_complexes[emdb_complex_id].add_protein(uniprot_id)
+                        else:
+                            emdb_cpx = EMDB_complex(emdb_id, complex_id, name, sample_copies, emdb_complex_id)
+                            emdb_cpx.add_protein(uniprot_id)
+                            self.emdb_complexes[emdb_complex_id] = emdb_cpx
 
 
-    def execute(self, threads):
-        with Pool(processes=threads) as pool:
-            self.annotations = pool.map(self.worker, self.emdb_complexes.values())
+    def execute(self):
+        for emdb_complex in self.emdb_complexes.values():
+            self.annotations.append(self.worker(emdb_complex))
         return self.annotations
 
     def worker(self, emdb_complex):
@@ -138,13 +138,9 @@ class CPMapping:
             return emdb_complex
         return None
 
-    def write_cpx_map(self):
-        filepath = os.path.join(self.workDir, "emdb_cpx.tsv")
-        with open(filepath, 'w') as f:
-            f.write("%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n" % ("EMDB_ID", "EMDB_SAMPLE_ID", "SAMPLE_NAME", "SAMPLE_COPIES",
-                                                          "CPX_ID", "CPX_TITLE", "PROVENANCE", "SCORE"))
-            for emcpx in self.annotations:
-                if emcpx:
-                    for cpx in emcpx.cpx_list:
-                        f.write("%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n" % (emcpx.emdb_id, (emcpx.sample_id).split("_")[1], emcpx.supra_name,
-                                                                      emcpx.sample_copies, cpx.cpx_id, cpx.name, emcpx.provenance, emcpx.score))
+    def export_tsv(self, cpx_logger):
+        for emcpx in self.annotations:
+            if emcpx:
+                for cpx in emcpx.cpx_list:
+                    cpx_logger.info("%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s" % (emcpx.emdb_id, (emcpx.sample_id).split("_")[1], emcpx.supra_name,
+                                                                  emcpx.sample_copies, cpx.cpx_id, cpx.name, emcpx.provenance, emcpx.score))

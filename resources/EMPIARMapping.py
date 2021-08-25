@@ -1,32 +1,20 @@
 import os
 import json
 
+def generate_emp_dictionary(emdb_empiar_list):
+    empiar_dictionary = {}
+    with open(emdb_empiar_list, "r") as file:
+        data = json.load(file)
+        for emdb, empiar_list in data.items():
+            empiar_dictionary[emdb] = empiar_list
+        return empiar_dictionary
+
 class EMPIARMapping:
     """
     Mapping EMPIAR ID to EMDB entry
     """
 
-    def __init__(self, workDir, EMPIAR, emdb_empiar_list):
-        self.output_dir = workDir
-        self.EMPIAR = EMPIAR
-        self.emdb_empiar_list = emdb_empiar_list
-
-    def execute(self):
-        self.empiars = []
-        with open(self.emdb_empiar_list, "r") as file:
-            data = json.load(file)
-            for key, value in data.items():
-                for item in value:
-                    empiar = self.EMPIAR(key)
-                    empiar.emdb_id = key
-                    empiar.empiar_id = item
-                    empiar.provenance = "AUTHOR"
-                    self.empiars.append(empiar)
-        return self.empiars
-
-    def export_tsv(self):
-        filepath = os.path.join(self.output_dir, "emdb_empiar.tsv")
-        with open(filepath, 'w') as fw:
-            fw.write("EMDB_ID\tEMPIAR_ID\n")
-            for empiar in self.empiars:
-                fw.write(str(empiar))
+    def __init__(self, emdb_id, empiar_dictionary, empiar_logger):
+        if emdb_id in empiar_dictionary:
+            for empiar_id in empiar_dictionary[emdb_id]:
+                empiar_logger.info(f"{emdb_id}\t{empiar_id}\tAUTHOR")

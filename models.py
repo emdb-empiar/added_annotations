@@ -1,4 +1,6 @@
 import re
+import requests
+import json
 
 class Protein:
     """
@@ -15,17 +17,19 @@ class Protein:
         self.provenance = None
         self.sequence = ""
         self.sample_copies = ""
+        self.go = []
+        self.interpro = []
 
     def __str__(self):
         return "%s (%s)\n%s (%s) %s - %s [%s]\nComplexes: %s\nPDB: %s\n%s" % (self.sample_name, self.sample_organism,
                                                                               self.emdb_id, self.sample_id, self.sample_copies,
                                                                               self.uniprot_id, self.provenance, str(self.sample_complexes),
-                                                                              str(self.pdb), self.sequence)
+                                                                              str(self.interpro), str(self.go))
 
     def get_tsv(self):
         complex_str = ';'.join([str(elem) for elem in self.sample_complexes])
         if self.provenance:
-            return ("%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n" % (self.emdb_id, self.sample_id, self.sample_name, self.sample_copies,
+            return ("%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s" % (self.emdb_id, self.sample_id, self.sample_name, self.sample_copies,
                                                           self.sample_organism, self.uniprot_id, self.provenance, complex_str))
         else:
             return ""
@@ -54,17 +58,6 @@ class CPX:
             if  '_' in idt:
                 continue
             self.uniprot.add(idt)
-
-class EMDBEntry:
-    """
-    Single EMDB entry
-    """
-    def __init__(self, emdb_id, mw):
-        self.emdb_id = emdb_id
-        self.deposited_mw = mw #Overall calculated MW
-
-    def __str__(self):
-        return f"{self.emdb_id}\t{self.deposited_mw}"
 
 class Sample:
     """
@@ -166,7 +159,7 @@ class Model:
         self.molecular_weight = 0.0 #Dalton
 
     def __str__(self):
-        return ("%s\t%s\t%d\t%f\n" % (self.emdb_id, self.pdb_id, self.assembly, self.molecular_weight))
+        return ("%s\t%s\t%d\t%f" % (self.emdb_id, self.pdb_id, self.assembly, self.molecular_weight))
 
 class Weight:
     """
@@ -194,17 +187,6 @@ class Weight:
     def __str__(self):
             return ("%s\t%s\t%s\t%s\t%s\t%s\t%s\n" % (self.emdb_id, self.sample_th_weight, self.sample_exp_weight, self.sup_th_weight,
                                                       self.sup_exp_weight, self.macro_th_weight, self.macro_exp_weight))
-class EMPIAR:
-    """
-    EMPIAR ID MAPPING TO EMDB ENTIRES
-    """
-    def __init__(self, emdb_id):
-        self.emdb_id = emdb_id
-        self.empiar_id = ""
-        self.provenance = ""
-
-    def __str__(self):
-            return ("%s\t%s\t%s\n" % (self.emdb_id, self.emdb_id, self.provenance))
 
 class Citation:
     """
@@ -230,16 +212,66 @@ class GO:
     """
     Define the GO terms for the sample in the EMDB entry
     """
-    def __init__(self, emdb_id, sample_id):
-        self.emdb_id = emdb_id
-        self.sample_id = sample_id
-        self.pdb_id = ""
-        self.GO_id = set()
-        self.GO_namespace = []
-        self.pubmed_id = None
-        self.title = None
+    def __init__(self):
+        self.id = ""
+        self.namespace = ""
+        self.type = ""
         self.provenance = ""
 
     def __str__(self):
-        return ("%s\t%s\t%s\t%s\t%s\t%s\n" % (self.emdb_id, self.sample_id, (self.pdb_id).text, self.GO_id,
-                                              self.GO_namespace, self.provenance ))
+        return f"{self.id}\t{self.namespace}\t{self.type}\t{self.provenance}"
+
+    def add_from_author(self, go_text):
+        self.provenance = "AUTHOR"
+        if "GO:" in go_text:
+            self.id = go_text
+        elif go_text.isdigit():
+            self.id = f"GO:{go_text}"
+
+        if self.id and not self.namespace:
+            url = f"https://www.ebi.ac.uk/QuickGO/services/ontology/go/terms/{self.id}"
+            response = requests.get(url)
+            if response.status_code == 200:
+                res_text = response.text
+                data = json.loads(res_text)
+                hits = data['numberOfHits']
+                if hits > 0:
+                    result = data['results'][0]
+                    self.namespace = result['name']
+                    aspect = result['aspect']
+                    if aspect == 'biological_process':
+                        self.type = "P"
+                    elif aspect == 'cellular_component':
+                        self.type = "C"
+                    elif aspect == 'molecular_function':
+                        self.type = "F"
+
+
+class Interpro:
+    """
+    Define the InterPro terms for the sample in the EMDB entry
+    """
+    def __init__(self):
+        self.id = ""
+        self.namespace = ""
+        self.provenance = ""
+
+    def __str__(self):
+        return f"{self.id}\t{self.namespace}\t{self.type}\t{self.provenance}"
+
+    def add_from_author(self, ipr_text):
+        self.provenance = "AUTHOR"
+        if "IPR" in ipr_text:
+            self.id = ipr_text
+
+        if self.id and not self.namespace:
+            url = f"https://www.ebi.ac.uk/interpro/api/entry/interpro/{self.id}"
+            response = requests.get(url)
+            if response.status_code == 200:
+                res_text = response.text
+                data = json.loads(res_text)
+                if 'metadata' in data:
+                    result = data['metadata']
+                    if 'hierarchy' in result:
+                        if 'name' in result['hierarchy']:
+                            self.namespace = result['hierarchy']['name']
