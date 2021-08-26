@@ -29,7 +29,7 @@ class ProteinTermsMapping:
         uid = protein.uniprot_id
         url = uni_api + uid + ".xml"
         response = requests.get(url)
-        if response.status_code == 200:   
+        if response.status_code == 200 and response.content:
             root = ET.fromstring(response.content)
 
             if self.is_go:
