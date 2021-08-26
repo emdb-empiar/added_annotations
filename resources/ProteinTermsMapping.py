@@ -43,7 +43,7 @@ class ProteinTermsMapping:
                         go.type = term_text[0]
                         go.namespace = term_text[2:]
                         go.provenance = "UNIPROT"
-                    protein.go.append(go)
+                        protein.go.append(go)
 
             if self.is_interpro:
                 interpro_elements = root.findall(".//{http://uniprot.org/uniprot}dbReference[@type='InterPro']")
@@ -54,7 +54,7 @@ class ProteinTermsMapping:
                     if terms:
                         interpro.namespace = terms[0].get("value")
                         interpro.provenance = "UNIPROT"
-                    protein.interpro.append(interpro)
+                        protein.interpro.append(interpro)
 
             if self.is_pfam:
                 pfam_elements = root.findall(".//{http://uniprot.org/uniprot}dbReference[@type='Pfam']")
@@ -65,7 +65,7 @@ class ProteinTermsMapping:
                     if terms:
                         pfam.namespace = terms[0].get("value")
                         pfam.provenance = "UNIPROT"
-                    protein.pfam.append(pfam)
+                        protein.pfam.append(pfam)
 
         return protein
 

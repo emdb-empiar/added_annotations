@@ -291,7 +291,7 @@ class Pfam:
 
     def add_from_author(self, pfam_text):
         self.provenance = "AUTHOR"
-        if "Pfam" in pfam_text:
+        if "PF" in pfam_text:
             self.id = pfam_text
 
         if self.id and not self.namespace:
@@ -303,6 +303,5 @@ class Pfam:
                 if 'description' in data:
                     result = data['description']
                     self.namespace = result['description']
-                    print(result)
 
 
