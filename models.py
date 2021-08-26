@@ -19,12 +19,13 @@ class Protein:
         self.sample_copies = ""
         self.go = []
         self.interpro = []
+        self.pfam = []
 
     def __str__(self):
-        return "%s (%s)\n%s (%s) %s - %s [%s]\nComplexes: %s\nPDB: %s\n%s" % (self.sample_name, self.sample_organism,
+        return "%s (%s)\n%s (%s) %s - %s [%s]\nComplexes: %s\nPDB: %s\n%s\n%s" % (self.sample_name, self.sample_organism,
                                                                               self.emdb_id, self.sample_id, self.sample_copies,
                                                                               self.uniprot_id, self.provenance, str(self.sample_complexes),
-                                                                              str(self.interpro), str(self.go))
+                                                                              str(self.interpro), str(self.go), str(self.pfam))
 
     def get_tsv(self):
         complex_str = ';'.join([str(elem) for elem in self.sample_complexes])
@@ -257,7 +258,7 @@ class Interpro:
         self.provenance = ""
 
     def __str__(self):
-        return f"{self.id}\t{self.namespace}\t{self.type}\t{self.provenance}"
+        return f"{self.id}\t{self.namespace}\t{self.provenance}"
 
     def add_from_author(self, ipr_text):
         self.provenance = "AUTHOR"
@@ -275,3 +276,33 @@ class Interpro:
                     if 'hierarchy' in result:
                         if 'name' in result['hierarchy']:
                             self.namespace = result['hierarchy']['name']
+
+class Pfam:
+    """
+    Define the InterPro terms for the sample in the EMDB entry
+    """
+    def __init__(self):
+        self.id = ""
+        self.namespace = ""
+        self.provenance = ""
+
+    def __str__(self):
+        return f"{self.id}\t{self.namespace}\t{self.provenance}"
+
+    def add_from_author(self, pfam_text):
+        self.provenance = "AUTHOR"
+        if "Pfam" in pfam_text:
+            self.id = pfam_text
+
+        if self.id and not self.namespace:
+            url = f"https://pfam.xfam.org/family/{self.id}?output=xml"
+            response = requests.get(url)
+            if response.status_code == 200:
+                res_text = response.text
+                data = json.loads(res_text)
+                if 'description' in data:
+                    result = data['description']
+                    self.namespace = result['description']
+                    print(result)
+
+
