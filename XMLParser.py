@@ -1,6 +1,6 @@
 import lxml.etree as ET
 from glob import glob
-from models import Protein, Supra, Ligand, Model, Weight, Citation, GO, Sample, Interpro
+from models import Protein, Supra, Ligand, Model, Weight, Citation, GO, Sample, Interpro, Pfam
 import os, re
 
 class XMLParser:
@@ -148,6 +148,11 @@ class XMLParser:
 								ipr.add_from_author(t.text)
 								if ipr.id:
 									protein.interpro.append(ipr)
+							elif t.attrib['type'] == 'PFAM':
+								pfam = Pfam()
+								pfam.add_from_author(t.text)
+								if pfam.id:
+									protein.pfam.append(pfam)
 					if qs.find('string') is not None:
 						seq = qs.find('string').text
 						#seq = re.sub(r'\(\s*UNK\s*\)', 'X', seq)

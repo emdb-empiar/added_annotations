@@ -1,5 +1,5 @@
 import requests
-from models import GO, Interpro
+from models import GO, Interpro, Pfam
 import lxml.etree as ET
 
 uni_api = r'https://www.uniprot.org/uniprot/'
@@ -9,10 +9,11 @@ class ProteinTermsMapping:
     Extract GO and InterPro terms from the UniProt ID mapping web API
     """
 
-    def __init__(self, proteins, is_go=True, is_interpro=True):
+    def __init__(self, proteins, is_go=True, is_interpro=True, is_pfam=True):
         self.proteins = proteins
         self.is_interpro = is_interpro
         self.is_go = is_go
+        self.is_pfam = is_pfam
 
 
     def execute(self):
@@ -22,11 +23,9 @@ class ProteinTermsMapping:
         return self.proteins
 
     def worker(self, protein):
-        #TODO: Add translator to obtain namespace and type from author submited GO and InterPro
         return self.uniprot_api(protein) 
 
     def uniprot_api(self, protein):
-        ids = set()
         uid = protein.uniprot_id
         url = uni_api + uid + ".xml"
         response = requests.get(url)
@@ -57,9 +56,20 @@ class ProteinTermsMapping:
                         interpro.provenance = "UNIPROT"
                     protein.interpro.append(interpro)
 
+            if self.is_pfam:
+                pfam_elements = root.findall(".//{http://uniprot.org/uniprot}dbReference[@type='Pfam']")
+                for element in pfam_elements:
+                    pfam = Pfam()
+                    pfam.id = element.get("id")
+                    terms = element.findall("{http://uniprot.org/uniprot}property[@type='entry name']")
+                    if terms:
+                        pfam.namespace = terms[0].get("value")
+                        pfam.provenance = "UNIPROT"
+                    protein.pfam.append(pfam)
+
         return protein
 
-    def export_tsv(self, go_logger, interpro_logger):
+    def export_tsv(self, go_logger, interpro_logger, pfam_logger):
         for protein in self.proteins:
             if self.is_go and protein.go:
                 for go in protein.go:
@@ -69,4 +79,9 @@ class ProteinTermsMapping:
                 for ipr in protein.interpro:
                     row = f"{protein.emdb_id}\t{protein.sample_id}\t{ipr.id}\t{ipr.namespace}\t{ipr.provenance}"
                     interpro_logger.info(row)
+            if self.is_pfam and protein.pfam:
+                for pfam in protein.pfam:
+                    row = f"{protein.emdb_id}\t{protein.sample_id}\t{pfam.id}\t{pfam.namespace}\t{pfam.provenance}"
+                    pfam_logger.info(row)
+
 
