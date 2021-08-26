@@ -67,11 +67,11 @@ class PubmedMapping:
         response = requests.post(self.api, data=data)
         res_text = response.text
         pmcjdata = json.loads(res_text)
-        id = pmcjdata['resultList']['result']
-        if id:
-            source = pmcjdata['resultList']['result'][0]['source']
+        result = pmcjdata['resultList']['result']
+        if result:
+            source = result[0]['source']
             if source == 'MED':
-                pm_id = pmcjdata['resultList']['result'][0]['id']
-                pmc_id = pmcjdata['resultList']['result'][0]['pmcid']
-                doi = pmcjdata['resultList']['result'][0]['doi']
+                pm_id = result[0]['id']
+                pmc_id = result[0]['pmcid'] if 'pmcid' in result[0] else ""
+                doi = result[0]['doi'] if 'doi' in result[0] else ""
         return pm_id, pmc_id, doi
