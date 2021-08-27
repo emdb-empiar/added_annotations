@@ -1,18 +1,8 @@
-import os
-import logging
 from gemmi import cif
-from multiprocessing import Pool
 
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
-formatter = logging.Formatter('%(funcName)s:%(message)s')
-file_handler = logging.FileHandler('logging_components.log')
-file_handler.setFormatter(formatter)
-logger.addHandler(file_handler)
-
-### TO DO LIST
+### TO DO LIST: ##
 #### Replace (logger.debug(HET, "NOT IN PDB_CCD") with corresponding resource API,
-# as of now no entry has HET which is not in CCD #
+##### as of now no entry has HET which is not in CCD ####
 
 class ComponentsMapping:
     """
@@ -21,21 +11,20 @@ class ComponentsMapping:
     mapping to various database like ChEMBL, ChEBI and DrugBank.
     """
 
-    def __init__(self, workDir, ligands, components_cif):
-        self.workDir = workDir
+    def __init__(self, ligands, components_cif):
         self.ligands = ligands
         self.chembl_map = {}
         self.chebi_map = {}
         self.drugbank_map = {}
         self.components_cif = components_cif
 
-    def execute(self, threads):
+    def execute(self):
         ####### Extract only the HET_code, resource name and IDs from the PDBe componenets.cif file #####
         self.chembl_map, self.chebi_map, self.drugbank_map = self.extract_resources_from_cif()
 
         ###### Mapping HET_CODE TO CHEMBL, CHEBI and DRUGBANK ########
-        with Pool(processes=threads) as pool:
-            self.ligands = pool.map(self.worker, self.ligands)
+        for ligand in self.ligands:
+            ligand = self.worker(ligand)
         return self.ligands
 
     def worker(self, ligand):
@@ -53,7 +42,7 @@ class ComponentsMapping:
                 ligand.drugbank_id = self.drugbank_map[HET]
                 ligand.provenance = "CCD"
             else:
-                logger.debug("NOT IN CCD %s" % (HET))  #### Replace with corresponding resource API
+                print("NOT IN CCD %s" % (HET))  #### Replace with corresponding resource API
         return ligand
 
     def extract_resources_from_cif(self):
@@ -77,16 +66,12 @@ class ComponentsMapping:
                     drugbank_map[HET] = value
         return chembl_map, chebi_map, drugbank_map
 
-    def write_ligands(self):
-        chembl_file = os.path.join(self.workDir, "emdb_chembl.tsv")
-        chebi_file = os.path.join(self.workDir, "emdb_chebi.tsv")
-        db_file = os.path.join(self.workDir, "emdb_drugbank.tsv")
-        with open(chembl_file, 'w') as f1, open(chebi_file, 'w') as f2, open(db_file, 'w') as f3:
-            f1.write("%s\t%s\t%s\t%s\t%s\t%s\t%s\n" % ("EMDB_ID", "SAMPLE_ID", "HET_CODE", "COMP_NAME", "COMP_COPIES", "ChEMBL_ID", "PROVENANCE"))
-            f2.write("%s\t%s\t%s\t%s\t%s\t%s\t%s\n" % ("EMDB_ID", "SAMPLE_ID", "HET_CODE", "COMP_NAME", "COMP_COPIES", "ChEBI_ID", "PROVENANCE"))
-            f3.write("%s\t%s\t%s\t%s\t%s\t%s\t%s\n" % ("EMDB_ID", "SAMPLE_ID", "HET_CODE", "COMP_NAME", "COMP_COPIES", "DrugBank_ID", "PROVENANCE"))
+    def export_tsv(self, chembl_logger, chebi_logger, drugbank_logger):
+        for ligand in self.ligands:
+            chembl_row = f"{ligand.emdb_id}\t{ligand.sample_id}\t{ligand.HET}\t{ligand.lig_name}\t{ligand.lig_copies}\t{ligand.chembl_id}\t{ligand.provenance}"
+            chembl_logger.info(chembl_row)
+            chebi_row = f"{ligand.emdb_id}\t{ligand.sample_id}\t{ligand.HET}\t{ligand.lig_name}\t{ligand.lig_copies}\t{ligand.chebi_id}\t{ligand.provenance}"
+            chebi_logger.info(chebi_row)
+            db_row = f"{ligand.emdb_id}\t{ligand.sample_id}\t{ligand.HET}\t{ligand.lig_name}\t{ligand.lig_copies}\t{ligand.drugbank_id}\t{ligand.provenance}"
+            drugbank_logger.info(db_row)
 
-            for ligand in self.ligands:
-                f1.write(ligand.get_chembl_tsv())
-                f2.write(ligand.get_chebi_tsv())
-                f3.write(ligand.get_drugbank_tsv())

@@ -6,7 +6,7 @@ uni_api = r'https://www.uniprot.org/uniprot/'
 
 class ProteinTermsMapping:
     """
-    Extract GO and InterPro terms from the UniProt ID mapping web API
+    Extract GO, InterPro and Pfam terms from the UniProt ID mapping web API
     """
 
     def __init__(self, proteins, is_go=True, is_interpro=True, is_pfam=True):
@@ -14,7 +14,6 @@ class ProteinTermsMapping:
         self.is_interpro = is_interpro
         self.is_go = is_go
         self.is_pfam = is_pfam
-
 
     def execute(self):
         for protein in self.proteins:
