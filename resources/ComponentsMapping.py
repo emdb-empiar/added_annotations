@@ -58,6 +58,6 @@ class ComponentsMapping:
             if ligand.provenance_chembl:
                 chembl_logger.info(ligand.get_chembl_tsv())
             if ligand.provenance_chebi:
-                chebi_logger.info(ligand.get_chebi_tsv)
+                chebi_logger.info(ligand.get_chebi_tsv())
             if ligand.provenance_drugbank:
                 drugbank_logger.info(ligand.get_drugbank_tsv())
