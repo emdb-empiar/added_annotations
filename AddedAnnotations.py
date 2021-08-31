@@ -84,7 +84,6 @@ def run(filename):
 
 """
 List of things to do:
-  - Change the GO terms to be obtained from the UniProt instead of PMC
   - Adapt the unit tests to work with this version
 """
 
@@ -101,7 +100,7 @@ if __name__ == "__main__":
             -f '[{"/path/to/EMDB/header/files/folder"}]'
             
             -p '[{"/path/to/PDBe/files/folder"}]'
-            --download_uniprot --uniprot --CPX --component --model --weight --empiar --pmc --GO
+            --download_uniprot --uniprot --CPX --component --model --weight --empiar --pmc --GO --interpro --pfam
           """
     parser = argparse.ArgumentParser(prog=prog, usage=usage, add_help=False,
                                      formatter_class=argparse.RawTextHelpFormatter)
@@ -138,7 +137,7 @@ if __name__ == "__main__":
     pfam = args.pfam
     uniprot_dictionary = {}
     
-    #CPX mapping requires Uniprot anotation
+    #CPX, GO, Interpro, Pfam mapping requires Uniprot anotation
     if cpx:
         uniprot = True
     if go:
