@@ -2,7 +2,7 @@ import argparse, configparser, os, sys, time
 from pathlib import Path
 import models
 from resources.ComplexPortalMapping import CPMapping
-from resources.ComponentsMapping import ComponentsMapping
+from resources.ComponentsMapping import ComponentsMapping, parseCCD
 from resources.UniprotMapping import UniprotMapping, generate_unp_dictionary, download_uniprot
 from resources.StructureMapping import StructureMapping
 from resources.SampleWeight import SampleWeight
@@ -55,8 +55,8 @@ def run(filename):
         chembl_log = start_logger_if_necessary("chembl_logger", chembl_log_file)
         chebi_log = start_logger_if_necessary("chebi_logger", chebi_log_file)
         drugbank_log = start_logger_if_necessary("drugbank_logger", drugbank_log_file)
-        comp_mapping = ComponentsMapping(xml.ligands, components_cif)
-        comp_map = comp_mapping.execute()
+        comp_mapping = ComponentsMapping(xml.ligands)
+        comp_map = comp_mapping.execute(chembl_map, chebi_map, drugbank_map)
         comp_mapping.export_tsv(chembl_log, chebi_log, drugbank_log)
     if model:
         model_logger = start_logger_if_necessary("model_logger", model_log_file)
@@ -147,7 +147,6 @@ if __name__ == "__main__":
         uniprot = True
     if pfam:
         uniprot = True
-
     if args.all:
         uniprot = True
         cpx = True
@@ -173,6 +172,7 @@ if __name__ == "__main__":
     pmc_api = config.get("api", "pmc")
     uniprot_tab = os.path.join(args.workDir, "uniprot.tsv")
     GO_obo = config.get("file_paths", "GO_obo")
+    
 
     #Start loggers
     uniprot_log_file = os.path.join(args.workDir, 'emdb_uniprot.log')
@@ -216,5 +216,7 @@ if __name__ == "__main__":
         uniprot_dictionary = generate_unp_dictionary(uniprot_tab)
     if empiar:
         empiar_dictionary = generate_emp_dictionary(emdb_empiar_list)
+    if component:
+        chembl_map, chebi_map, drugbank_map = parseCCD(components_cif)
 
     Parallel(n_jobs=args.threads)(delayed(run)(file) for file in glob(os.path.join(args.headerDir, '*')))
