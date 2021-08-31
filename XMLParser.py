@@ -141,12 +141,12 @@ class XMLParser:
 							if t.attrib['type'] == 'GO':
 								go = GO()
 								go.add_from_author(t.text)
-								if go.id:
+								if go.id and go.namespace and go.type:
 									protein.go.append(go)
 							elif t.attrib['type'] == 'INTERPRO':
 								ipr = Interpro()
 								ipr.add_from_author(t.text)
-								if ipr.id:
+								if ipr.id and ipr.namespace:
 									protein.interpro.append(ipr)
 							elif t.attrib['type'] == 'PFAM':
 								pfam = Pfam()
@@ -228,30 +228,30 @@ class XMLParser:
 						HET = x.find('formula')
 						if HET is not None:
 							ligand.HET = HET.text
-						lig_name = x.find('name').text
-						if lig_name:
-							ligand.lig_name = lig_name
-						if x.find('number_of_copies') is not None:
-							lig_copies = x.find('number_of_copies').text
-							if lig_copies:
-								ligand.lig_copies = lig_copies
-							else:
-								ligand.lig_copies = "1"
+							lig_name = x.find('name').text
+							if lig_name:
+								ligand.lig_name = lig_name
+							if x.find('number_of_copies') is not None:
+								lig_copies = x.find('number_of_copies').text
+								if lig_copies:
+									ligand.lig_copies = lig_copies
+								else:
+									ligand.lig_copies = "1"
 
-						for ref in x.iter('external_references'):
-							if ref.attrib['type'] == 'CHEMBL':
-								chembl_id = ref.text
-								ligand.chembl_id = chembl_id
-								ligand.provenance = "AUTHOR"
-							if ref.attrib['type'] == 'CHEBI':
-								chebi_id = ref.text
-								ligand.chebi_id = chebi_id
-								ligand.provenance = "AUTHOR"
-							if ref.attrib['type'] == 'DRUGBANK':
-								drugbank_id = ref.text
-								ligand.drugbank_id = drugbank_id
-								ligand.provenance = "AUTHOR"
-					self.ligands.append(ligand)
+							for ref in x.iter('external_references'):
+								if ref.attrib['type'] == 'CHEMBL':
+									chembl_id = ref.text
+									ligand.chembl_id = chembl_id
+									ligand.provenance_chembl = "AUTHOR"
+								if ref.attrib['type'] == 'CHEBI':
+									chebi_id = ref.text
+									ligand.chebi_id = chebi_id
+									ligand.provenance_chebi = "AUTHOR"
+								if ref.attrib['type'] == 'DRUGBANK':
+									drugbank_id = ref.text
+									ligand.drugbank_id = drugbank_id
+									ligand.provenance_drugbank = "AUTHOR"
+							self.ligands.append(ligand)
 
 			if list(root.iter('primary_citation')):
 				for y in list(root.iter('primary_citation')):

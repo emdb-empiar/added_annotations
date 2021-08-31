@@ -1,8 +1,28 @@
 from gemmi import cif
-
 ### TO DO LIST: ##
 #### Replace (logger.debug(HET, "NOT IN PDB_CCD") with corresponding resource API,
 ##### as of now no entry has HET which is not in CCD ####
+
+def parseCCD(cdd_file):
+    """
+    Extract only the external mapping for the HET_CODE from the pdbe components.cif file
+    """
+    chembl_map = {}
+    chebi_map = {}
+    drugbank_map = {}
+
+    doc = cif.read_file(cdd_file)
+    for block in doc:
+        HET = block.name
+        name = block.find_value('_chem_comp.name')
+        for db,value in block.find('_pdbe_chem_comp_external_mappings.', ['resource', 'resource_id']):
+            if db == "ChEMBL":
+                chembl_map[HET] = value
+            elif db == "ChEBI":
+                chebi_map[HET] = value
+            elif db == "DrugBank":
+                drugbank_map[HET] = value
+    return chembl_map, chebi_map, drugbank_map
 
 class ComponentsMapping:
     """
@@ -11,67 +31,33 @@ class ComponentsMapping:
     mapping to various database like ChEMBL, ChEBI and DrugBank.
     """
 
-    def __init__(self, ligands, components_cif):
+    def __init__(self, ligands):
         self.ligands = ligands
-        self.chembl_map = {}
-        self.chebi_map = {}
-        self.drugbank_map = {}
-        self.components_cif = components_cif
 
-    def execute(self):
-        ####### Extract only the HET_code, resource name and IDs from the PDBe componenets.cif file #####
-        self.chembl_map, self.chebi_map, self.drugbank_map = self.extract_resources_from_cif()
-
+    def execute(self, chembl_map, chebi_map, drugbank_map):
         ###### Mapping HET_CODE TO CHEMBL, CHEBI and DRUGBANK ########
         for ligand in self.ligands:
-            ligand = self.worker(ligand)
+            ligand = self.worker(ligand, chembl_map, chebi_map, drugbank_map)
         return self.ligands
 
-    def worker(self, ligand):
+    def worker(self, ligand, chembl_map, chebi_map, drugbank_map):
         HET = ligand.HET
-        if ligand.provenance == "AUTHOR":
-            return ligand
-        else:
-            if HET in self.chembl_map:
-                ligand.chembl_id = self.chembl_map[HET]
-                ligand.provenance = "CCD"
-            if HET in self.chebi_map:
-                ligand.chebi_id = self.chebi_map[HET]
-                ligand.provenance = "CCD"
-            if HET in self.drugbank_map:
-                ligand.drugbank_id = self.drugbank_map[HET]
-                ligand.provenance = "CCD"
-            else:
-                print("NOT IN CCD %s" % (HET))  #### Replace with corresponding resource API
+        if HET in chembl_map:
+            ligand.chembl_id = chembl_map[HET]
+            ligand.provenance_chembl = "CCD"
+        if HET in chebi_map:
+            ligand.chebi_id = chebi_map[HET]
+            ligand.provenance_chebi = "CCD"
+        if HET in drugbank_map:
+            ligand.drugbank_id = drugbank_map[HET]
+            ligand.provenance_drugbank = "CCD"
         return ligand
-
-    def extract_resources_from_cif(self):
-        """
-        Extract only the external mapping for the HET_CODE from the pdbe components.cif file
-        """
-        chembl_map = {}
-        chebi_map = {}
-        drugbank_map = {}
-
-        doc = cif.read_file(self.components_cif)
-        for block in doc:
-            HET = block.name
-            name = block.find_value('_chem_comp.name')
-            for db,value in block.find('_pdbe_chem_comp_external_mappings.', ['resource', 'resource_id']):
-                if db == "ChEMBL":
-                    chembl_map[HET] = value
-                elif db == "ChEBI":
-                    chebi_map[HET] = value
-                elif db == "DrugBank":
-                    drugbank_map[HET] = value
-        return chembl_map, chebi_map, drugbank_map
 
     def export_tsv(self, chembl_logger, chebi_logger, drugbank_logger):
         for ligand in self.ligands:
-            chembl_row = f"{ligand.emdb_id}\t{ligand.sample_id}\t{ligand.HET}\t{ligand.lig_name}\t{ligand.lig_copies}\t{ligand.chembl_id}\t{ligand.provenance}"
-            chembl_logger.info(chembl_row)
-            chebi_row = f"{ligand.emdb_id}\t{ligand.sample_id}\t{ligand.HET}\t{ligand.lig_name}\t{ligand.lig_copies}\t{ligand.chebi_id}\t{ligand.provenance}"
-            chebi_logger.info(chebi_row)
-            db_row = f"{ligand.emdb_id}\t{ligand.sample_id}\t{ligand.HET}\t{ligand.lig_name}\t{ligand.lig_copies}\t{ligand.drugbank_id}\t{ligand.provenance}"
-            drugbank_logger.info(db_row)
-
+            if ligand.provenance_chembl:
+                chembl_logger.info(ligand.get_chembl_tsv())
+            if ligand.provenance_chebi:
+                chebi_logger.info(ligand.get_chebi_tsv())
+            if ligand.provenance_drugbank:
+                drugbank_logger.info(ligand.get_drugbank_tsv())
