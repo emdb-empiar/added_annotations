@@ -141,12 +141,12 @@ class XMLParser:
 							if t.attrib['type'] == 'GO':
 								go = GO()
 								go.add_from_author(t.text)
-								if go.id:
+								if go.id and go.namespace and go.type:
 									protein.go.append(go)
 							elif t.attrib['type'] == 'INTERPRO':
 								ipr = Interpro()
 								ipr.add_from_author(t.text)
-								if ipr.id:
+								if ipr.id and ipr.namespace:
 									protein.interpro.append(ipr)
 							elif t.attrib['type'] == 'PFAM':
 								pfam = Pfam()
