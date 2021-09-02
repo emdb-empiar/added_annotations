@@ -46,11 +46,13 @@ def run(filename):
         unp_mapping = UniprotMapping(args.workDir, xml.proteins, uniprot_dictionary, blast_db, blastp_bin)
         unip_map = unp_mapping.execute()
         unp_mapping.export_tsv(uniprot_log)
+        mapping_list.extend(["UNIPROT", unip_map])
     if cpx:
         cpx_logger = start_logger_if_necessary("cpx_logger", cpx_log_file)
         cpx_mapping = CPMapping(unp_mapping.proteins, xml.supras, CP_ftp)
         cpx_map = cpx_mapping.execute()
         cpx_mapping.export_tsv(cpx_logger)
+        mapping_list.extend(["COMPLEX", cpx_map])
     if component:
         chembl_log = start_logger_if_necessary("chembl_logger", chembl_log_file)
         chebi_log = start_logger_if_necessary("chebi_logger", chebi_log_file)
@@ -58,22 +60,28 @@ def run(filename):
         comp_mapping = ComponentsMapping(xml.ligands)
         comp_map = comp_mapping.execute(chembl_map, chebi_map, drugbank_map)
         comp_mapping.export_tsv(chembl_log, chebi_log, drugbank_log)
+        mapping_list.extend(["LIGANDS", comp_map])
     if model:
         model_logger = start_logger_if_necessary("model_logger", model_log_file)
         mw_mapping = StructureMapping(xml.models, assembly_ftp)
         mw_map = mw_mapping.execute()
         mw_mapping.export_tsv(model_logger)
+        mapping_list.extend(["MODEL", mw_map])
     if weight:
         weight_logger = start_logger_if_necessary("weight_logger", weight_log_file)
         weight_logger.info(f"{xml.emdb_id}\t{xml.overall_mw}")
         sw_mapping = SampleWeight(xml.weights)
         sw_map = sw_mapping.execute()
+        mapping_list.extend(["WEIGHT", sw_map])
     if empiar:
         empiar_logger = start_logger_if_necessary("empiar_logger", empiar_log_file)
         empiar_mapping = EMPIARMapping(xml.emdb_id, empiar_dictionary, empiar_logger)
+        empiar_map = empiar_mapping.execute()
+        mapping_list.extend(["EMPIAR", empiar_map])
     if pmc:
         pmc_mapping = PubmedMapping(xml.citations, pmc_api)
         pmc_map = pmc_mapping.execute()
+        mapping_list.extend(["CITATION", pmc_map])
     if go or interpro or pfam:
         go_log = start_logger_if_necessary("go_logger", go_log_file)
         interpro_log = start_logger_if_necessary("interpro_logger", interpro_log_file)
@@ -81,6 +89,10 @@ def run(filename):
         PT_mapping = ProteinTermsMapping(unp_mapping.proteins, go, interpro, pfam)
         proteins_map = PT_mapping.execute()
         PT_mapping.export_tsv(go_log, interpro_log, pfam_log)
+        mapping_list.extend(["PROTEIN-TERMS", proteins_map])
+    if emicss:
+        write_annotation_xml = EmicssXML(args.workDir, mapping_list)
+        write_annotation_xml.execute()
 
 """
 List of things to do:
@@ -100,7 +112,7 @@ if __name__ == "__main__":
             -f '[{"/path/to/EMDB/header/files/folder"}]'
             
             -p '[{"/path/to/PDBe/files/folder"}]'
-            --download_uniprot --uniprot --CPX --component --model --weight --empiar --pmc --GO --interpro --pfam
+            --download_uniprot --uniprot --CPX --component --model --weight --empiar --pmc --GO --interpro --pfam --emicss
           """
     parser = argparse.ArgumentParser(prog=prog, usage=usage, add_help=False,
                                      formatter_class=argparse.RawTextHelpFormatter)
@@ -121,6 +133,7 @@ if __name__ == "__main__":
     parser.add_argument("--GO", type=bool, nargs='?', const=True, default=False, help="Mapping GO ids to EMDB entries")
     parser.add_argument("--interpro", type=bool, nargs='?', const=True, default=False, help="Mapping InterPro ids to EMDB entries")
     parser.add_argument("--pfam", type=bool, nargs='?', const=True, default=False, help="Mapping pfam ids to EMDB entries")
+    parser.add_argument("--emicss", type=bool, nargs='?', const=True, default=False, help="writting EMICSS XML file for each EMDB entry")
     args = parser.parse_args()
 
     mapping_list = []
@@ -135,6 +148,7 @@ if __name__ == "__main__":
     go = args.GO
     interpro = args.interpro
     pfam = args.pfam
+    emicss = args.emicss
     uniprot_dictionary = {}
     
     #CPX, GO, Interpro, Pfam mapping requires Uniprot anotation
@@ -157,6 +171,7 @@ if __name__ == "__main__":
         go = True
         interpro = True
         pfam = True
+        emicss = True
 
     #Get config variables:
     config = configparser.ConfigParser()
@@ -171,7 +186,6 @@ if __name__ == "__main__":
     pmc_api = config.get("api", "pmc")
     uniprot_tab = os.path.join(args.workDir, "uniprot.tsv")
     GO_obo = config.get("file_paths", "GO_obo")
-    
 
     #Start loggers
     uniprot_log_file = os.path.join(args.workDir, 'emdb_uniprot.log')

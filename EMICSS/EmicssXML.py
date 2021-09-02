@@ -5,10 +5,10 @@ from EMICSS import EMICSS
 
 class EmicssXML:
     """
-    Writing annotations to output xml file according to the EMdb_EMICSS.xsd schema
+    Writing annotations to output xml file according to the EMDB_EMICSS.xsd schema
     """
 
-    # def __init__(self, workDir, unip_map, cpx_map, lig_map, mw_map, sw_map, empiar_map, pmc_map, GO_map):
+    # def __init__(self, workDir, unip_map, cpx_map, lig_map, mw_map, sw_map, empiar_map, pmc_map, proteins_map):
     def __init__(self, workDir, mapping_list):
         self.workDir = workDir
         self.mapping_list = mapping_list
@@ -40,8 +40,8 @@ class EmicssXML:
                 self.empiar_map = mapping_list[db+1]
             if mapping_list[db] == "CITATION":
                 self.pmc_map = mapping_list[db+1]
-            if mapping_list[db] == "GO":
-                self.GO_map = mapping_list[db+1]
+            if mapping_list[db] == "PROTEIN-TERMS":
+                self.proteins_map = mapping_list[db+1]
         try:
             if self.mw_map:
                 for mw in self.mw_map:
@@ -124,6 +124,19 @@ class EmicssXML:
             print("LIGAND mapping doesn't exist")
 
         try:
+            if self.proteins_map:
+                for protein in self.proteins_map:
+                    if protein.emdb_id not in emicss_dict:
+                        emicss_dict[protein.emdb_id] = {}
+                    if protein.emdb_id not in emicss_dict[protein.emdb_id]:
+                        emicss_dict[protein.emdb_id][protein.sample_id] = protein.__dict__
+                    else:
+                        emicss_dict[protein.emdb_id][protein.sample_id] += protein.__dict__
+        except AttributeError:
+            print("PROTEIN-TERMS mapping doesn't exist")
+
+
+        try:
             if self.pmc_map:
                 for pmc in self.pmc_map:
                     if pmc.emdb_id not in emicss_dict:
@@ -135,25 +148,25 @@ class EmicssXML:
         except AttributeError:
             print("CITATION mapping doesn't exist")
 
-        try:
-            if self.GO_map:
-                for GO in self.GO_map:
-                    if GO.emdb_id not in emicss_dict.keys():
-                        emicss_dict[GO.emdb_id] = {}
-                    if GO.emdb_id not in emicss_dict[GO.emdb_id].keys():
-                        emicss_dict[GO.emdb_id]["GO"] = {}
-                        ind = 0
-                    for i, j in zip(GO.GO_id, GO.GO_namespace):
-                        GO_lists = [ "emdb_id", GO.emdb_id, "GO_id" + "_" + str(ind), i, "GO_namespace" + "_" + str(ind), j,
-                                     "provenance" + "_" + str(ind),
-                                     GO.provenance]
-                        GO_dicts = dict(itertools.zip_longest(*[iter(GO_lists)] * 2, fillvalue=""))
-                        for k in GO_dicts.keys():
-                            emicss_dict[GO.emdb_id]["GO"][k] = GO_dicts[k]
-                        ind = ind + 1
-                    emicss_dict[GO.emdb_id]["GO"]["ind"] = ind
-        except AttributeError:
-            print("GO mapping doesn't exist")
+        # try:
+        #     if self.proteins_map:
+        #         for GO in self.proteins_map:
+        #             if GO.emdb_id not in emicss_dict.keys():
+        #                 emicss_dict[GO.emdb_id] = {}
+        #             if GO.emdb_id not in emicss_dict[GO.emdb_id].keys():
+        #                 emicss_dict[GO.emdb_id]["GO"] = {}
+        #                 ind = 0
+        #             for i, j in zip(GO.GO_id, GO.GO_namespace):
+        #                 GO_lists = [ "emdb_id", GO.emdb_id, "GO_id" + "_" + str(ind), i, "GO_namespace" + "_" + str(ind), j,
+        #                              "provenance" + "_" + str(ind),
+        #                              GO.provenance]
+        #                 GO_dicts = dict(itertools.zip_longest(*[iter(GO_lists)] * 2, fillvalue=""))
+        #                 for k in GO_dicts.keys():
+        #                     emicss_dict[GO.emdb_id]["GO"][k] = GO_dicts[k]
+        #                 ind = ind + 1
+        #             emicss_dict[GO.emdb_id]["GO"]["ind"] = ind
+        # except AttributeError:
+        #     print("ProteinTerms mapping doesn't exist")
 
         return emicss_dict
 
@@ -161,7 +174,7 @@ class EmicssXML:
         """
         Create and write added annotations to individual EMICSS file for every EMDB entry
         """
-        # print(self.emicss_annotation)
+        print(self.emicss_annotation)
         for em_id, val in self.emicss_annotation.items():
             all_db = set()
             headerXML = EMICSS.emicss()
@@ -182,8 +195,8 @@ class EmicssXML:
                         self.EMICSS_weight(val, samp_id, weights)
                     if samp_id == "PMC":
                         self.EMICSS_PMC(val, samp_id, all_db, dbs, cross_ref_dbs, citations)
-                    if samp_id == "GO":
-                        self.EMICSS_GO(val, samp_id, all_db, dbs, cross_ref_dbs)
+                    # if samp_id == "GO":
+                    #     self.EMICSS_GO(val, samp_id, all_db, dbs, cross_ref_dbs)
                     if (samp_id.isalnum() and not samp_id.isalpha() and not samp_id.isnumeric()):
                         if len(samp_id) == 4:
                             self.EMICSS_Pdbe(val, samp_id, all_db, dbs, weights)

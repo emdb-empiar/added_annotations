@@ -1,7 +1,5 @@
 import json
 import requests
-import urllib3
-from multiprocessing import Pool
 
 class PubmedMapping:
     """

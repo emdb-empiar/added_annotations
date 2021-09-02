@@ -187,6 +187,17 @@ class Weight:
             return ("%s\t%s\t%s\t%s\t%s\t%s\t%s\n" % (self.emdb_id, self.sample_th_weight, self.sample_exp_weight, self.sup_th_weight,
                                                       self.sup_exp_weight, self.macro_th_weight, self.macro_exp_weight))
 
+class Empiar:
+    """
+    Defines the EMPIAR ID in a EMDB entry
+    """
+    def __init__(self, emdb_id):
+        self.emdb_id = emdb_id
+        self.empiar_id = ""
+
+    def __str__(self):
+        return "%s\t%s\n" % (self.emdb_id, self.empiar_id)
+
 class Citation:
     """
     Defines the attributes of a publication in a EMDB entry
@@ -301,5 +312,3 @@ class Pfam:
                 if 'description' in data:
                     result = data['description']
                     self.namespace = result['description']
-
-
