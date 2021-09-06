@@ -117,24 +117,11 @@ class EmicssXML:
                     if ligand.emdb_id not in emicss_dict:
                         emicss_dict[ligand.emdb_id] = {}
                     if ligand.emdb_id not in emicss_dict[ligand.emdb_id]:
-                        emicss_dict[ligand.emdb_id][ligand.sample_id] = ligand.__dict__
+                        emicss_dict[ligand.emdb_id]["ligand_"+ligand.sample_id] = ligand.__dict__
                     else:
-                        emicss_dict[ligand.emdb_id][ligand.sample_id] += ligand.__dict__
+                        emicss_dict[ligand.emdb_id]["ligand_"+ligand.sample_id] += ligand.__dict__
         except AttributeError:
             print("LIGAND mapping doesn't exist")
-
-        try:
-            if self.proteins_map:
-                for protein in self.proteins_map:
-                    if protein.emdb_id not in emicss_dict:
-                        emicss_dict[protein.emdb_id] = {}
-                    if protein.emdb_id not in emicss_dict[protein.emdb_id]:
-                        emicss_dict[protein.emdb_id][protein.sample_id] = protein.__dict__
-                    else:
-                        emicss_dict[protein.emdb_id][protein.sample_id] += protein.__dict__
-        except AttributeError:
-            print("PROTEIN-TERMS mapping doesn't exist")
-
 
         try:
             if self.pmc_map:
@@ -202,7 +189,8 @@ class EmicssXML:
                             self.EMICSS_Pdbe(val, samp_id, all_db, dbs, weights)
                         if len(samp_id) != 4:
                             self.EMICSS_uniprot(val, samp_id, all_db, dbs, macromolecules)
-                    if samp_id.isnumeric():
+                    if re.search(r'%s\_\d+' % "ligand", samp_id):
+                    # if samp_id == "ligand":
                         self.EMICSS_ligands(val, samp_id, all_db, dbs, macromolecules)
                     if re.search(r'%s\_\d+' % em_id, samp_id):
                         supramolecules = self.EMICSS_CPX(val, samp_id, all_db, dbs)
@@ -407,15 +395,18 @@ class EmicssXML:
         cross_ref_dbs = EMICSS.cross_ref_dbsType()
         lig_copies = val.get(samp_id, {}).get('lig_copies')
         lig_name = val.get(samp_id, {}).get('lig_name')
+        sample_id = val.get(samp_id, {}).get('sample_id')
         HET = val.get(samp_id, {}).get('HET')
         chembl_id = val.get(samp_id, {}).get('chembl_id')
         chebi_id = val.get(samp_id, {}).get('chebi_id')
         drugbank_id = val.get(samp_id, {}).get('drugbank_id')
-        provenance = val.get(samp_id, {}).get('provenance')
+        provenance_chembl = val.get(samp_id, {}).get('provenance_chembl')
+        provenance_chebi = val.get(samp_id, {}).get('provenance_chebi')
+        provenance_drugbank = val.get(samp_id, {}).get('provenance_drugbank')
 
         macromolecule = EMICSS.macromoleculeType()
         macromolecule.set_kind("%s" % "ligand")
-        macromolecule.set_id(int(samp_id))
+        macromolecule.set_id(int(sample_id))
         macromolecule.set_ccd_id("%s" % HET)
         macromolecule.set_copies(int(lig_copies))
         macromolecule.set_name("%s" % lig_name)
@@ -428,7 +419,7 @@ class EmicssXML:
                 dbs.add_db(db)
             cross_ref_db = EMICSS.cross_ref_dbType()
             cross_ref_db.set_db_source("%s" % "ChEMBL")
-            cross_ref_db.set_provenance("%s" % provenance)
+            cross_ref_db.set_provenance("%s" % provenance_chembl)
             cross_ref_db.set_accession_id("%s" % chembl_id)
             cross_ref_dbs.add_cross_ref_db(cross_ref_db)
             macromolecule.set_cross_ref_dbs(cross_ref_dbs)
@@ -441,7 +432,7 @@ class EmicssXML:
                 dbs.add_db(db)
             cross_ref_db = EMICSS.cross_ref_dbType()
             cross_ref_db.set_db_source("%s" % "ChEBI")
-            cross_ref_db.set_provenance("%s" % provenance)
+            cross_ref_db.set_provenance("%s" % provenance_chebi)
             cross_ref_db.set_accession_id("%s" % chebi_id)
             cross_ref_dbs.add_cross_ref_db(cross_ref_db)
             macromolecule.set_cross_ref_dbs(cross_ref_dbs)
@@ -454,7 +445,7 @@ class EmicssXML:
                 dbs.add_db(db)
             cross_ref_db = EMICSS.cross_ref_dbType()
             cross_ref_db.set_db_source("%s" % "DrugBank")
-            cross_ref_db.set_provenance("%s" % provenance)
+            cross_ref_db.set_provenance("%s" % provenance_drugbank)
             cross_ref_db.set_accession_id("%s" % drugbank_id)
             cross_ref_dbs.add_cross_ref_db(cross_ref_db)
             macromolecule.set_cross_ref_dbs(cross_ref_dbs)
