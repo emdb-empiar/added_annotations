@@ -22,7 +22,7 @@ class ProteinTermsMapping:
         return self.proteins
 
     def worker(self, protein):
-        return self.uniprot_api(protein) 
+        return self.uniprot_api(protein)
 
     def uniprot_api(self, protein):
         uid = protein.uniprot_id
@@ -41,6 +41,7 @@ class ProteinTermsMapping:
                         term_text = terms[0].get("value")
                         go.type = term_text[0]
                         go.namespace = term_text[2:]
+                        go.unip_id = uid
                         go.provenance = "UNIPROT"
                         protein.go.append(go)
 
@@ -53,6 +54,7 @@ class ProteinTermsMapping:
                     if terms:
                         interpro.namespace = terms[0].get("value")
                         interpro.provenance = "UNIPROT"
+                        interpro.unip_id = uid
                         protein.interpro.append(interpro)
 
             if self.is_pfam:
@@ -64,8 +66,8 @@ class ProteinTermsMapping:
                     if terms:
                         pfam.namespace = terms[0].get("value")
                         pfam.provenance = "UNIPROT"
+                        pfam.unip_id = uid
                         protein.pfam.append(pfam)
-
         return protein
 
     def export_tsv(self, go_logger, interpro_logger, pfam_logger):

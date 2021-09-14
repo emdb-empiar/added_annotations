@@ -23,7 +23,6 @@ class EmicssXML:
         """
 
         emicss_dict = {}
-        # print(mapping_list)
 
         for db in range(0, len(mapping_list), 2):
             if mapping_list[db] == "UNIPROT":
@@ -79,6 +78,18 @@ class EmicssXML:
             print("EMPIAR mapping doesn't exist")
 
         try:
+            if self.pmc_map:
+                for pmc in self.pmc_map:
+                    if pmc.emdb_id not in emicss_dict:
+                        emicss_dict[pmc.emdb_id] = {}
+                    if pmc.emdb_id not in emicss_dict[pmc.emdb_id]:
+                        emicss_dict[pmc.emdb_id]["PMC"] = pmc.__dict__
+                    else:
+                        emicss_dict[pmc.emdb_id]["PMC"] += pmc.__dict__
+        except AttributeError:
+            print("CITATION mapping doesn't exist")
+
+        try:
             if self.unip_map:
                 for unip in self.unip_map:
                     if unip.emdb_id not in emicss_dict:
@@ -87,8 +98,28 @@ class EmicssXML:
                         emicss_dict[unip.emdb_id][unip.uniprot_id] = unip.__dict__
                     else:
                         emicss_dict[unip.emdb_id][unip.uniprot_id] += unip.__dict__
-        except AttributeError:
-            print("UNIPROT mapping doesn't exist")
+                    try:
+                        if self.unip_map and self.proteins_map:
+                            for GIP in self.proteins_map:
+                                if GIP:
+                                    go_key = GIP.uniprot_id
+                                    ind = 0
+                                    if GIP.emdb_id not in emicss_dict.keys():
+                                        emicss_dict[GIP.emdb_id] = {}
+                                    if GIP.sample_id not in emicss_dict[GIP.emdb_id].keys():
+                                        emicss_dict[GIP.emdb_id][go_key] = {}
+                                    emicss_dict[GIP.emdb_id][go_key] = unip.__dict__
+                                    for go2 in GIP.go:
+                                        go = go2.__dict__
+                                        for k in go.keys():
+                                            new_key = '{}_{}'.format(k, ind)
+                                            emicss_dict[GIP.emdb_id][go_key][new_key] = go[k]
+                                        ind = ind + 1
+                                    emicss_dict[GIP.emdb_id][go_key]["ind"] = ind
+                    except AttributeError as e:
+                        print("PROTEIN-TERMS mapping doesn't exist", e)
+        except AttributeError as e:
+            print("UNIPROT mapping doesn't exist", e)
 
         try:
             if self.cpx_map:
@@ -123,45 +154,13 @@ class EmicssXML:
         except AttributeError:
             print("LIGAND mapping doesn't exist")
 
-        try:
-            if self.pmc_map:
-                for pmc in self.pmc_map:
-                    if pmc.emdb_id not in emicss_dict:
-                        emicss_dict[pmc.emdb_id] = {}
-                    if pmc.emdb_id not in emicss_dict[pmc.emdb_id]:
-                        emicss_dict[pmc.emdb_id]["PMC"] = pmc.__dict__
-                    else:
-                        emicss_dict[pmc.emdb_id]["PMC"] += pmc.__dict__
-        except AttributeError:
-            print("CITATION mapping doesn't exist")
-
-        # try:
-        #     if self.proteins_map:
-        #         for GO in self.proteins_map:
-        #             if GO.emdb_id not in emicss_dict.keys():
-        #                 emicss_dict[GO.emdb_id] = {}
-        #             if GO.emdb_id not in emicss_dict[GO.emdb_id].keys():
-        #                 emicss_dict[GO.emdb_id]["GO"] = {}
-        #                 ind = 0
-        #             for i, j in zip(GO.GO_id, GO.GO_namespace):
-        #                 GO_lists = [ "emdb_id", GO.emdb_id, "GO_id" + "_" + str(ind), i, "GO_namespace" + "_" + str(ind), j,
-        #                              "provenance" + "_" + str(ind),
-        #                              GO.provenance]
-        #                 GO_dicts = dict(itertools.zip_longest(*[iter(GO_lists)] * 2, fillvalue=""))
-        #                 for k in GO_dicts.keys():
-        #                     emicss_dict[GO.emdb_id]["GO"][k] = GO_dicts[k]
-        #                 ind = ind + 1
-        #             emicss_dict[GO.emdb_id]["GO"]["ind"] = ind
-        # except AttributeError:
-        #     print("ProteinTerms mapping doesn't exist")
-
         return emicss_dict
 
     def writeXML_emicss(self):
         """
         Create and write added annotations to individual EMICSS file for every EMDB entry
         """
-        print(self.emicss_annotation)
+        # print(self.emicss_annotation)
         for em_id, val in self.emicss_annotation.items():
             all_db = set()
             headerXML = EMICSS.emicss()
@@ -182,15 +181,12 @@ class EmicssXML:
                         self.EMICSS_weight(val, samp_id, weights)
                     if samp_id == "PMC":
                         self.EMICSS_PMC(val, samp_id, all_db, dbs, cross_ref_dbs, citations)
-                    # if samp_id == "GO":
-                    #     self.EMICSS_GO(val, samp_id, all_db, dbs, cross_ref_dbs)
                     if (samp_id.isalnum() and not samp_id.isalpha() and not samp_id.isnumeric()):
                         if len(samp_id) == 4:
                             self.EMICSS_Pdbe(val, samp_id, all_db, dbs, weights)
                         if len(samp_id) != 4:
                             self.EMICSS_uniprot(val, samp_id, all_db, dbs, macromolecules)
                     if re.search(r'%s\_\d+' % "ligand", samp_id):
-                    # if samp_id == "ligand":
                         self.EMICSS_ligands(val, samp_id, all_db, dbs, macromolecules)
                     if re.search(r'%s\_\d+' % em_id, samp_id):
                         supramolecules = self.EMICSS_CPX(val, samp_id, all_db, dbs)
@@ -285,35 +281,6 @@ class EmicssXML:
             cross_ref_dbs.add_cross_ref_db(cross_ref_db)
         return cross_ref_dbs
 
-    def EMICSS_GO(self, val, samp_id, all_db, dbs, cross_ref_dbs):
-        "Adding GO annotation to EMICSS"
-
-        ind = val.get(samp_id, {}).get('ind')
-
-        for x in range(ind):
-            go_id = "GO_id_" + str(x)
-            GO_id = val.get(samp_id, {}).get(go_id)
-            go_namespace = "GO_namespace_" + str(x)
-            GO_namespace = val.get(samp_id, {}).get(go_namespace)
-            go_provenance = "provenance_" + str(x)
-            GO_provenance = val.get(samp_id, {}).get(go_provenance)
-
-            if GO_id:
-                if "GO" not in all_db:
-                    db = EMICSS.dbType()
-                    db.set_db_source("%s" % "GO")
-                    db.set_db_version("%s" % "20210616")
-                    dbs.add_db(db)
-            all_db.add("GO")
-            cross_ref_db = EMICSS.cross_ref_dbType()
-            cross_ref_db.set_db_source("%s" % "GO")
-            cross_ref_db.set_provenance("%s" % GO_provenance)
-            cross_ref_db.set_accession_id("%s" % GO_id)
-            cross_ref_db.set_category("%s" % GO_namespace)
-            cross_ref_dbs.add_cross_ref_db(cross_ref_db)
-
-        return cross_ref_dbs
-
     def EMICSS_Pdbe(self, val, samp_id, all_db, dbs, weights):
         """
         Adding pdb_id and calulated assembly weight annotations to EMICSS
@@ -354,7 +321,7 @@ class EmicssXML:
         if exp_weight:
             weight = EMICSS.weightType()
             weight.set_method("%s" % "experimental")
-            weight.set_weight(round(exp_weight, 3))
+            weight.set_weight(round(float(exp_weight), 3))
             weight.set_unit("%s" % exp_units)
             weight.set_provenance("%s" % "AUTHOR")
             weights.add_weight(weight)
@@ -362,32 +329,65 @@ class EmicssXML:
     def EMICSS_uniprot(self, val, samp_id, all_db, dbs, macromolecules):
         "Adding UNIPROT annotation to EMICSS"
 
+        macromolecule = EMICSS.macromoleculeType()
         cross_ref_dbs = EMICSS.cross_ref_dbsType()
+        print(samp_id)
         sample_id = val.get(samp_id, {}).get('sample_id')
         sample_copies = val.get(samp_id, {}).get('sample_copies')
         name = val.get(samp_id, {}).get('sample_name')
         uniprot_id = val.get(samp_id, {}).get('uniprot_id')
         uni_provenance = val.get(samp_id, {}).get('provenance')
 
-        macromolecule = EMICSS.macromoleculeType()
         macromolecule.set_kind("%s" % "protein")
         macromolecule.set_id(int(sample_id))
         macromolecule.set_copies(int(sample_copies))
         macromolecule.set_name("%s" % name)
-        macromolecules.add_macromolecule(macromolecule)
         if uniprot_id:
             if "UNIPROT" not in all_db:
                 db = EMICSS.dbType()
                 db.set_db_source("%s" % "UNIPROT")
                 db.set_db_version("%s" % "2021.02")
                 dbs.add_db(db)
+            all_db.add("UNIPROT")
             cross_ref_db = EMICSS.cross_ref_dbType()
             cross_ref_db.set_db_source("%s" % "UNIPROT")
             cross_ref_db.set_provenance("%s" % uni_provenance)
             cross_ref_db.set_accession_id("%s" % uniprot_id)
             cross_ref_dbs.add_cross_ref_db(cross_ref_db)
-            macromolecule.set_cross_ref_dbs(cross_ref_dbs)
-        all_db.add("UNIPROT")
+
+        ind = val.get(samp_id, {}).get('ind')
+        for x in range(ind):
+            print(x)
+            go_id = "id_" + str(x)
+            GO_id = val.get(samp_id, {}).get(go_id)
+            print(GO_id)
+            go_namespace = "namespace_" + str(x)
+            GO_namespace = val.get(samp_id, {}).get(go_namespace)
+            go_type = "type_" + str(x)
+            GO_type = val.get(samp_id, {}).get(go_type)
+            go_provenance = "provenance_" + str(x)
+            GO_provenance = val.get(samp_id, {}).get(go_provenance)
+            if "GO" not in all_db:
+                db = EMICSS.dbType()
+                db.set_db_source("%s" % "GO")
+                db.set_db_version("%s" % "2021.02")
+                dbs.add_db(db)
+            all_db.add("GO")
+
+            cross_ref_db = EMICSS.cross_ref_dbType()
+            cross_ref_db.set_db_source("%s" % "GO")
+            cross_ref_db.set_accession_id("%s" % GO_id)
+            cross_ref_db.set_name("%s" % GO_namespace)
+            if GO_type == "P":
+                cross_ref_db.set_type("%s" % "biological_process")
+            if GO_type == "C":
+                cross_ref_db.set_type("%s" % "cellular_component")
+            if GO_type == "F":
+                cross_ref_db.set_type("%s" % "molecular_function")
+            cross_ref_db.set_provenance("%s" % GO_provenance)
+            cross_ref_dbs.add_cross_ref_db(cross_ref_db)
+        macromolecule.set_cross_ref_dbs(cross_ref_dbs)
+        macromolecules.add_macromolecule(macromolecule)
 
     def EMICSS_ligands(self, val, samp_id, all_db, dbs, macromolecules):
         "Adding components annotation to EMICSS"

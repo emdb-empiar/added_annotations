@@ -22,10 +22,10 @@ class Protein:
         self.pfam = []
 
     def __str__(self):
-        return "%s (%s)\n%s (%s) %s - %s [%s]\nComplexes: %s\nPDB: %s\n%s\n%s" % (self.sample_name, self.sample_organism,
+        return "%s (%s)\n%s (%s) %s - %s [%s]\nComplexes: %s\nPDB: \n%s\n%s\n%s\n " % (self.sample_name, self.sample_organism,
                                                                               self.emdb_id, self.sample_id, self.sample_copies,
                                                                               self.uniprot_id, self.provenance, str(self.sample_complexes),
-                                                                              str(self.interpro), str(self.go), str(self.pfam))
+                                                                              str(self.go), str(self.interpro), str(self.pfam))
 
     def get_tsv(self):
         complex_str = ';'.join([str(elem) for elem in self.sample_complexes])
@@ -226,13 +226,15 @@ class GO:
         self.id = ""
         self.namespace = ""
         self.type = ""
+        self.unip_id = ""
         self.provenance = ""
 
     def __str__(self):
         return f"{self.id}\t{self.namespace}\t{self.type}\t{self.provenance}"
 
-    def add_from_author(self, go_text):
+    def add_from_author(self, go_text, unip_id):
         self.provenance = "AUTHOR"
+        self.unip_id = unip_id
         if "GO:" in go_text:
             self.id = go_text
         elif go_text.isdigit():
@@ -264,13 +266,15 @@ class Interpro:
     def __init__(self):
         self.id = ""
         self.namespace = ""
+        self.unip_id = ""
         self.provenance = ""
 
     def __str__(self):
         return f"{self.id}\t{self.namespace}\t{self.provenance}"
 
-    def add_from_author(self, ipr_text):
+    def add_from_author(self, ipr_text, unip_id):
         self.provenance = "AUTHOR"
+        self.unip_id = unip_id
         if "IPR" in ipr_text:
             self.id = ipr_text
 
@@ -293,13 +297,17 @@ class Pfam:
     def __init__(self):
         self.id = ""
         self.namespace = ""
+        self.unip_id = ""
+        self.sample_id = ""
         self.provenance = ""
 
     def __str__(self):
         return f"{self.id}\t{self.namespace}\t{self.provenance}"
 
-    def add_from_author(self, pfam_text):
+    def add_from_author(self, pfam_text, unip_id, sample_id):
         self.provenance = "AUTHOR"
+        self.unip_id = unip_id
+        self.sample_id = sample_id
         if "PF" in pfam_text:
             self.id = pfam_text
 
