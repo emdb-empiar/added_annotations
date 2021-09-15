@@ -92,6 +92,7 @@ class EmicssXML:
         try:
             if self.unip_map:
                 for unip in self.unip_map:
+                    print("START", unip.uniprot_id)
                     if unip.emdb_id not in emicss_dict:
                         emicss_dict[unip.emdb_id] = {}
                     if unip.emdb_id not in emicss_dict[unip.emdb_id]:
@@ -100,35 +101,39 @@ class EmicssXML:
                         emicss_dict[unip.emdb_id][unip.uniprot_id] += unip.__dict__
                     try:
                         if self.unip_map and self.proteins_map:
+                            print("NEXT", unip.uniprot_id)
                             for GIP in self.proteins_map:
-                                if GIP:
+                                if GIP.uniprot_id == unip.uniprot_id:
                                     ind = 0
                                     if GIP.emdb_id not in emicss_dict.keys():
                                         emicss_dict[GIP.emdb_id] = {}
-                                    if GIP.sample_id not in emicss_dict[GIP.emdb_id].keys():
+                                    if GIP.emdb_id not in emicss_dict[GIP.emdb_id].keys():
                                         emicss_dict[GIP.emdb_id][GIP.uniprot_id] = {}
-                                    emicss_dict[GIP.emdb_id][GIP.uniprot_id] = unip.__dict__
+                                    if GIP.sample_id not in emicss_dict[GIP.emdb_id]:
+                                        emicss_dict[GIP.emdb_id][GIP.uniprot_id] = unip.__dict__
                                     for go2 in GIP.go:
                                         go = go2.__dict__
-                                        for k in go.keys():
-                                            new_key = '{}_{}'.format(k, ind)
-                                            emicss_dict[GIP.emdb_id][GIP.uniprot_id][new_key] = go[k]
-                                        ind = ind + 1
+                                        if GIP.uniprot_id == go2.unip_id:
+                                            for k in go.keys():
+                                                new_key = '{}_{}'.format(k, ind)
+                                                emicss_dict[GIP.emdb_id][GIP.uniprot_id][new_key] = go[k]
+                                            ind = ind + 1
 
                                     for ipr2 in GIP.interpro:
                                         ipr = ipr2.__dict__
-                                        for k in ipr.keys():
-                                            new_key = '{}_{}_{}'.format("ipr", k, ind)
-                                            emicss_dict[GIP.emdb_id][GIP.uniprot_id][new_key] = ipr[k]
-                                        ind = ind + 1
+                                        if GIP.uniprot_id == ipr2.unip_id:
+                                            for k in ipr.keys():
+                                                new_key = '{}_{}_{}'.format("ipr", k, ind)
+                                                emicss_dict[GIP.emdb_id][GIP.uniprot_id][new_key] = ipr[k]
+                                            ind = ind + 1
 
                                     for pfam2 in GIP.pfam:
                                         pfam = pfam2.__dict__
-                                        for k in pfam.keys():
-                                            new_key = '{}_{}_{}'.format("pfam", k, ind)
-                                            emicss_dict[GIP.emdb_id][GIP.uniprot_id][new_key] = pfam[k]
-                                        ind = ind + 1
-
+                                        if GIP.uniprot_id == pfam2.unip_id:
+                                            for k in pfam.keys():
+                                                new_key = '{}_{}_{}'.format("pfam", k, ind)
+                                                emicss_dict[GIP.emdb_id][GIP.uniprot_id][new_key] = pfam[k]
+                                            ind = ind + 1
                                     emicss_dict[GIP.emdb_id][GIP.uniprot_id]["ind"] = ind
                     except AttributeError as e:
                         print("PROTEIN-TERMS mapping doesn't exist", e)
