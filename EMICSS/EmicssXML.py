@@ -121,8 +121,15 @@ class EmicssXML:
                                             new_key = '{}_{}_{}'.format("ipr", k, ind)
                                             emicss_dict[GIP.emdb_id][GIP.uniprot_id][new_key] = ipr[k]
                                         ind = ind + 1
+
+                                    for pfam2 in GIP.pfam:
+                                        pfam = pfam2.__dict__
+                                        for k in pfam.keys():
+                                            new_key = '{}_{}_{}'.format("pfam", k, ind)
+                                            emicss_dict[GIP.emdb_id][GIP.uniprot_id][new_key] = pfam[k]
+                                        ind = ind + 1
+
                                     emicss_dict[GIP.emdb_id][GIP.uniprot_id]["ind"] = ind
-                        # print(emicss_dict)
                     except AttributeError as e:
                         print("PROTEIN-TERMS mapping doesn't exist", e)
         except AttributeError as e:
@@ -412,6 +419,28 @@ class EmicssXML:
                 cross_ref_db.set_name("%s" % IPR_namespace)
                 cross_ref_db.set_provenance("%s" % IPR_provenance)
                 cross_ref_dbs.add_cross_ref_db(cross_ref_db)
+
+            pfam_id = "pfam_id_" + str(x)
+            PFAM_id = val.get(samp_id, {}).get(pfam_id)
+            pfam_namespace = "pfam_namespace_" + str(x)
+            PFAM_namespace = val.get(samp_id, {}).get(pfam_namespace)
+            pfam_provenance = "pfam_provenance_" + str(x)
+            PFAM_provenance = val.get(samp_id, {}).get(pfam_provenance)
+            if PFAM_id:
+                if "PFAM" not in all_db:
+                    db = EMICSS.dbType()
+                    db.set_db_source("%s" % "PFAM")
+                    db.set_db_version("%s" % "2021.02")
+                    dbs.add_db(db)
+                all_db.add("PFAM")
+
+                cross_ref_db = EMICSS.cross_ref_dbType()
+                cross_ref_db.set_db_source("%s" % "PFAM")
+                cross_ref_db.set_accession_id("%s" % PFAM_id)
+                cross_ref_db.set_name("%s" % PFAM_namespace)
+                cross_ref_db.set_provenance("%s" % PFAM_provenance)
+                cross_ref_dbs.add_cross_ref_db(cross_ref_db)
+
         macromolecule.set_cross_ref_dbs(cross_ref_dbs)
         macromolecules.add_macromolecule(macromolecule)
 
