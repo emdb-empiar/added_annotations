@@ -102,20 +102,27 @@ class EmicssXML:
                         if self.unip_map and self.proteins_map:
                             for GIP in self.proteins_map:
                                 if GIP:
-                                    go_key = GIP.uniprot_id
                                     ind = 0
                                     if GIP.emdb_id not in emicss_dict.keys():
                                         emicss_dict[GIP.emdb_id] = {}
                                     if GIP.sample_id not in emicss_dict[GIP.emdb_id].keys():
-                                        emicss_dict[GIP.emdb_id][go_key] = {}
-                                    emicss_dict[GIP.emdb_id][go_key] = unip.__dict__
+                                        emicss_dict[GIP.emdb_id][GIP.uniprot_id] = {}
+                                    emicss_dict[GIP.emdb_id][GIP.uniprot_id] = unip.__dict__
                                     for go2 in GIP.go:
                                         go = go2.__dict__
                                         for k in go.keys():
                                             new_key = '{}_{}'.format(k, ind)
-                                            emicss_dict[GIP.emdb_id][go_key][new_key] = go[k]
+                                            emicss_dict[GIP.emdb_id][GIP.uniprot_id][new_key] = go[k]
                                         ind = ind + 1
-                                    emicss_dict[GIP.emdb_id][go_key]["ind"] = ind
+
+                                    for ipr2 in GIP.interpro:
+                                        ipr = ipr2.__dict__
+                                        for k in ipr.keys():
+                                            new_key = '{}_{}_{}'.format("ipr", k, ind)
+                                            emicss_dict[GIP.emdb_id][GIP.uniprot_id][new_key] = ipr[k]
+                                        ind = ind + 1
+                                    emicss_dict[GIP.emdb_id][GIP.uniprot_id]["ind"] = ind
+                        # print(emicss_dict)
                     except AttributeError as e:
                         print("PROTEIN-TERMS mapping doesn't exist", e)
         except AttributeError as e:
@@ -185,7 +192,7 @@ class EmicssXML:
                         if len(samp_id) == 4:
                             self.EMICSS_Pdbe(val, samp_id, all_db, dbs, weights)
                         if len(samp_id) != 4:
-                            self.EMICSS_uniprot(val, samp_id, all_db, dbs, macromolecules)
+                            self.EMICSS_unip_go_ipr_pfam(val, samp_id, all_db, dbs, macromolecules)
                     if re.search(r'%s\_\d+' % "ligand", samp_id):
                         self.EMICSS_ligands(val, samp_id, all_db, dbs, macromolecules)
                     if re.search(r'%s\_\d+' % em_id, samp_id):
@@ -326,8 +333,8 @@ class EmicssXML:
             weight.set_provenance("%s" % "AUTHOR")
             weights.add_weight(weight)
 
-    def EMICSS_uniprot(self, val, samp_id, all_db, dbs, macromolecules):
-        "Adding UNIPROT annotation to EMICSS"
+    def EMICSS_unip_go_ipr_pfam(self, val, samp_id, all_db, dbs, macromolecules):
+        "Adding UNIPROT, GO, INTERPRO and PFAM annotations to EMICSS"
 
         macromolecule = EMICSS.macromoleculeType()
         cross_ref_dbs = EMICSS.cross_ref_dbsType()
@@ -364,25 +371,47 @@ class EmicssXML:
             GO_type = val.get(samp_id, {}).get(go_type)
             go_provenance = "provenance_" + str(x)
             GO_provenance = val.get(samp_id, {}).get(go_provenance)
-            if "GO" not in all_db:
-                db = EMICSS.dbType()
-                db.set_db_source("%s" % "GO")
-                db.set_db_version("%s" % "2021.02")
-                dbs.add_db(db)
-            all_db.add("GO")
+            if GO_id:
+                if "GO" not in all_db:
+                    db = EMICSS.dbType()
+                    db.set_db_source("%s" % "GO")
+                    db.set_db_version("%s" % "2021.02")
+                    dbs.add_db(db)
+                all_db.add("GO")
 
-            cross_ref_db = EMICSS.cross_ref_dbType()
-            cross_ref_db.set_db_source("%s" % "GO")
-            cross_ref_db.set_accession_id("%s" % GO_id)
-            cross_ref_db.set_name("%s" % GO_namespace)
-            if GO_type == "P":
-                cross_ref_db.set_type("%s" % "biological_process")
-            if GO_type == "C":
-                cross_ref_db.set_type("%s" % "cellular_component")
-            if GO_type == "F":
-                cross_ref_db.set_type("%s" % "molecular_function")
-            cross_ref_db.set_provenance("%s" % GO_provenance)
-            cross_ref_dbs.add_cross_ref_db(cross_ref_db)
+                cross_ref_db = EMICSS.cross_ref_dbType()
+                cross_ref_db.set_db_source("%s" % "GO")
+                cross_ref_db.set_accession_id("%s" % GO_id)
+                cross_ref_db.set_name("%s" % GO_namespace)
+                if GO_type == "P":
+                    cross_ref_db.set_type("%s" % "biological_process")
+                if GO_type == "C":
+                    cross_ref_db.set_type("%s" % "cellular_component")
+                if GO_type == "F":
+                    cross_ref_db.set_type("%s" % "molecular_function")
+                cross_ref_db.set_provenance("%s" % GO_provenance)
+                cross_ref_dbs.add_cross_ref_db(cross_ref_db)
+
+            ipr_id = "ipr_id_" + str(x)
+            IPR_id = val.get(samp_id, {}).get(ipr_id)
+            ipr_namespace = "ipr_namespace_" + str(x)
+            IPR_namespace = val.get(samp_id, {}).get(ipr_namespace)
+            ipr_provenance = "ipr_provenance_" + str(x)
+            IPR_provenance = val.get(samp_id, {}).get(ipr_provenance)
+            if IPR_id:
+                if "INTERPRO" not in all_db:
+                    db = EMICSS.dbType()
+                    db.set_db_source("%s" % "INTERPRO")
+                    db.set_db_version("%s" % "2021.02")
+                    dbs.add_db(db)
+                all_db.add("INTERPRO")
+
+                cross_ref_db = EMICSS.cross_ref_dbType()
+                cross_ref_db.set_db_source("%s" % "INTERPRO")
+                cross_ref_db.set_accession_id("%s" % IPR_id)
+                cross_ref_db.set_name("%s" % IPR_namespace)
+                cross_ref_db.set_provenance("%s" % IPR_provenance)
+                cross_ref_dbs.add_cross_ref_db(cross_ref_db)
         macromolecule.set_cross_ref_dbs(cross_ref_dbs)
         macromolecules.add_macromolecule(macromolecule)
 

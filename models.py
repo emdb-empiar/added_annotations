@@ -304,10 +304,9 @@ class Pfam:
     def __str__(self):
         return f"{self.id}\t{self.namespace}\t{self.provenance}"
 
-    def add_from_author(self, pfam_text, unip_id, sample_id):
+    def add_from_author(self, pfam_text, unip_id):
         self.provenance = "AUTHOR"
         self.unip_id = unip_id
-        self.sample_id = sample_id
         if "PF" in pfam_text:
             self.id = pfam_text
 
