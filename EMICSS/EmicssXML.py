@@ -50,8 +50,8 @@ class EmicssXML:
                         emicss_dict[mw.emdb_id][mw.pdb_id] = mw.__dict__
                     else:
                         emicss_dict[mw.emdb_id][mw.pdb_id] += mw.__dict__
-        except AttributeError:
-            print("MODEL mapping doesn't exist")
+        except AttributeError as e:
+            print("MODEL mapping doesn't exist", e)
 
         try:
             if self.sw_map:
@@ -62,8 +62,8 @@ class EmicssXML:
                         emicss_dict[sw.emdb_id][sw.method] = sw.__dict__
                     else:
                         emicss_dict[sw.emdb_id][sw.method] += sw.__dict__
-        except AttributeError:
-            print("WEIGHT mapping doesn't exist")
+        except AttributeError as e:
+            print("WEIGHT mapping doesn't exist", e)
 
         try:
             if self.empiar_map:
@@ -74,8 +74,8 @@ class EmicssXML:
                         emicss_dict[empiar.emdb_id][empiar.empiar_id] = empiar.__dict__
                     else:
                         emicss_dict[empiar.emdb_id][empiar.empiar_id] += empiar.__dict__
-        except AttributeError:
-            print("EMPIAR mapping doesn't exist")
+        except AttributeError as e:
+            print("EMPIAR mapping doesn't exist", e)
 
         try:
             if self.pmc_map:
@@ -86,8 +86,8 @@ class EmicssXML:
                         emicss_dict[pmc.emdb_id]["PMC"] = pmc.__dict__
                     else:
                         emicss_dict[pmc.emdb_id]["PMC"] += pmc.__dict__
-        except AttributeError:
-            print("CITATION mapping doesn't exist")
+        except AttributeError as e:
+            print("CITATION mapping doesn't exist", e)
 
         try:
             if self.unip_map:
@@ -139,8 +139,8 @@ class EmicssXML:
                                 emicss_dict[emcpx.emdb_id][emcpx.sample_id][k] = dcpx[k]
                             ind = ind + 1
                         emicss_dict[emcpx.emdb_id][emcpx.sample_id]["ind"] = ind
-        except AttributeError:
-            print("COMPLEX mapping doesn't exist")
+        except AttributeError as e:
+            print("COMPLEX mapping doesn't exist", e)
 
         try:
             if self.lig_map:
@@ -151,8 +151,8 @@ class EmicssXML:
                         emicss_dict[ligand.emdb_id]["ligand_"+ligand.sample_id] = ligand.__dict__
                     else:
                         emicss_dict[ligand.emdb_id]["ligand_"+ligand.sample_id] += ligand.__dict__
-        except AttributeError:
-            print("LIGAND mapping doesn't exist")
+        except AttributeError as e:
+            print("LIGAND mapping doesn't exist", e)
 
         return emicss_dict
 
@@ -331,7 +331,6 @@ class EmicssXML:
 
         macromolecule = EMICSS.macromoleculeType()
         cross_ref_dbs = EMICSS.cross_ref_dbsType()
-        print(samp_id)
         sample_id = val.get(samp_id, {}).get('sample_id')
         sample_copies = val.get(samp_id, {}).get('sample_copies')
         name = val.get(samp_id, {}).get('sample_name')
@@ -357,10 +356,8 @@ class EmicssXML:
 
         ind = val.get(samp_id, {}).get('ind')
         for x in range(ind):
-            print(x)
             go_id = "id_" + str(x)
             GO_id = val.get(samp_id, {}).get(go_id)
-            print(GO_id)
             go_namespace = "namespace_" + str(x)
             GO_namespace = val.get(samp_id, {}).get(go_namespace)
             go_type = "type_" + str(x)

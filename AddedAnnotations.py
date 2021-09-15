@@ -91,6 +91,7 @@ def run(filename):
         PT_mapping.export_tsv(go_log, interpro_log, pfam_log)
         mapping_list.extend(["PROTEIN-TERMS", proteins_map])
     if emicss:
+        # emicss_log = start_logger_if_necessary("emicss_logger", emicss_log_file)
         write_annotation_xml = EmicssXML(args.workDir, mapping_list)
         write_annotation_xml.execute()
 
@@ -199,6 +200,7 @@ if __name__ == "__main__":
     go_log_file = os.path.join(args.workDir, 'emdb_go.log')
     interpro_log_file = os.path.join(args.workDir, 'emdb_interpro.log')
     pfam_log_file = os.path.join(args.workDir, 'emdb_pfam.log')
+    emicss_log_file = os.path.join(args.workDir, 'emdb_emicss.log')
     
     uniprot_log = setup_logger('uniprot_logger', uniprot_log_file)
     uniprot_log.info("EMDB_ID\tSAMPLE_ID\tSAMPLE_NAME\tSAMPLE_COPIES\tNCBI_ID\tUNIPROT_ID\tPROVENANCE\tSAMPLE_COMPLEX_IDS")
@@ -222,6 +224,7 @@ if __name__ == "__main__":
     interpro_log.info("EMDB_ID\tEMDB_SAMPLE_ID\tINTERPRO_ID\tINTERPRO_NAMESPACE\tPROVENANCE")
     pfam_log = setup_logger('pfam_logger', pfam_log_file)
     pfam_log.info("EMDB_ID\tEMDB_SAMPLE_ID\tPFAM_ID\tPFAM_NAMESPACE\tPROVENANCE")
+    emicss_log = setup_logger('emicss_logger', emicss_log_file)
 
     if args.download_uniprot:
             download_uniprot(uniprot_tab)

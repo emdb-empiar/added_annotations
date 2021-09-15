@@ -84,5 +84,3 @@ class ProteinTermsMapping:
                 for pfam in protein.pfam:
                     row = f"{protein.emdb_id}\t{protein.sample_id}\t{pfam.id}\t{pfam.namespace}\t{pfam.provenance}"
                     pfam_logger.info(row)
-
-
