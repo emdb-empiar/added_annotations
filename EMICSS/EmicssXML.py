@@ -92,7 +92,6 @@ class EmicssXML:
         try:
             if self.unip_map:
                 for unip in self.unip_map:
-                    print("START", unip.uniprot_id)
                     if unip.emdb_id not in emicss_dict:
                         emicss_dict[unip.emdb_id] = {}
                     if unip.emdb_id not in emicss_dict[unip.emdb_id]:
@@ -101,7 +100,6 @@ class EmicssXML:
                         emicss_dict[unip.emdb_id][unip.uniprot_id] += unip.__dict__
                     try:
                         if self.unip_map and self.proteins_map:
-                            print("NEXT", unip.uniprot_id)
                             for GIP in self.proteins_map:
                                 if GIP.uniprot_id == unip.uniprot_id:
                                     ind = 0
@@ -355,6 +353,11 @@ class EmicssXML:
         name = val.get(samp_id, {}).get('sample_name')
         uniprot_id = val.get(samp_id, {}).get('uniprot_id')
         uni_provenance = val.get(samp_id, {}).get('provenance')
+        if "+" in uni_provenance:
+            uni_provenance1 = uni_provenance.split("+")[0]
+            uni_provenance2 = uni_provenance.split("+")[1]
+        else:
+            uni_provenance1 = uni_provenance2 = "None"
 
         macromolecule.set_kind("%s" % "protein")
         macromolecule.set_id(int(sample_id))
@@ -367,9 +370,13 @@ class EmicssXML:
                 db.set_db_version("%s" % "2021.02")
                 dbs.add_db(db)
             all_db.add("UNIPROT")
-            cross_ref_db = EMICSS.cross_ref_dbType()
+            cross_ref_db = EMICSS.cross_ref_db()
             cross_ref_db.set_db_source("%s" % "UNIPROT")
-            cross_ref_db.set_provenance("%s" % uni_provenance)
+            if uni_provenance1 is not None and uni_provenance2 is not None:
+                cross_ref_db.set_provenance1("%s" % uni_provenance1)
+                cross_ref_db.set_provenance2("%s" % uni_provenance2)
+            else:
+                cross_ref_db.set_provenance("%s" % uni_provenance)
             cross_ref_db.set_accession_id("%s" % uniprot_id)
             cross_ref_dbs.add_cross_ref_db(cross_ref_db)
 
@@ -531,10 +538,15 @@ class EmicssXML:
             c_score = "score_" + str(x)
             cpx_name = val.get(samp_id, {}).get(c_name)
             cpx_provenance = val.get(samp_id, {}).get(c_provenance)
+            if "+" in cpx_provenance:
+                cpx_provenance1 = cpx_provenance.split("+")[0]
+                cpx_provenance2 = cpx_provenance.split("+")[1]
+            else:
+                cpx_provenance1 = cpx_provenance2 = "None"
             cpx_score = val.get(samp_id, {}).get(c_score)
             if cpx_samp_id is not None:
                 if cpx_samp_id not in cp_id:
-                    cross_ref_db = EMICSS.cross_ref_dbType()
+                    cross_ref_db = EMICSS.cross_ref_db()
                     supramolecule.set_kind("%s" % "complex")
                     supramolecule.set_id(int(cpx_samp_id))
                     supramolecule.set_copies(int(cpx_sample_copies))
@@ -547,15 +559,23 @@ class EmicssXML:
 
                     cross_ref_db.set_name("%s" % cpx_name)
                     cross_ref_db.set_db_source("%s" % "COMPLEX PORTAL")
-                    cross_ref_db.set_provenance("%s" % cpx_provenance)
+                    if cpx_provenance1 is not None and cpx_provenance2 is not None:
+                        cross_ref_db.set_provenance1("%s" % cpx_provenance1)
+                        cross_ref_db.set_provenance2("%s" % cpx_provenance2)
+                    else:
+                        cross_ref_db.set_provenance("%s" % cpx_provenance)
                     cross_ref_db.set_accession_id("%s" % cpx_id)
                     cross_ref_db.set_score(float(cpx_score))
                     cross_ref_dbs.add_cross_ref_db(cross_ref_db)
                 if cpx_samp_id in cp_id:
-                    cross_ref_db = EMICSS.cross_ref_dbType()
+                    cross_ref_db = EMICSS.cross_ref_db()
                     cross_ref_db.set_name("%s" % cpx_name)
                     cross_ref_db.set_db_source("%s" % "COMPLEX PORTAL")
-                    cross_ref_db.set_provenance("%s" % cpx_provenance)
+                    if cpx_provenance1 is not None and cpx_provenance2 is not None:
+                        cross_ref_db.set_provenance1("%s" % cpx_provenance1)
+                        cross_ref_db.set_provenance2("%s" % cpx_provenance2)
+                    else:
+                        cross_ref_db.set_provenance("%s" % cpx_provenance)
                     cross_ref_db.set_accession_id("%s" % cpx_id)
                     cross_ref_db.set_score(float(cpx_score))
                     cross_ref_dbs.add_cross_ref_db(cross_ref_db)

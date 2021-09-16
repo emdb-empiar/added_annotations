@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Mon Aug  9 21:01:53 2021 by generateDS.py version 2.38.6.
+# Generated Wed Sep 15 20:40:29 2021 by generateDS.py version 2.38.6.
 # Python 3.7.6 (default, Dec 30 2019, 19:38:28)  [Clang 11.0.0 (clang-1100.0.33.16)]
 #
 # Command line options:
@@ -69,8 +69,8 @@ supermod.emicss.subclass = emicssSub
 
 
 class cross_ref_dbSub(supermod.cross_ref_db):
-    def __init__(self, name=None, db_source=None, accession_id=None, type_=None, category=None, provenance=None, score=None, **kwargs_):
-        super(cross_ref_dbSub, self).__init__(name, db_source, accession_id, type_, category, provenance, score,  **kwargs_)
+    def __init__(self, name=None, db_source=None, accession_id=None, type_=None, category=None, provenance=None, provenance1=None, provenance2=None, score=None, **kwargs_):
+        super(cross_ref_dbSub, self).__init__(name, db_source, accession_id, type_, category, provenance, provenance1, provenance2, score,  **kwargs_)
 supermod.cross_ref_db.subclass = cross_ref_dbSub
 # end class cross_ref_dbSub
 
@@ -166,13 +166,6 @@ supermod.cross_ref_dbsType2.subclass = cross_ref_dbsType2Sub
 # end class cross_ref_dbsType2Sub
 
 
-class cross_ref_dbType3Sub(supermod.cross_ref_dbType3):
-    def __init__(self, name=None, db_source=None, accession_id=None, type_=None, category=None, provenance=None, score=None, **kwargs_):
-        super(cross_ref_dbType3Sub, self).__init__(name, db_source, accession_id, type_, category, provenance, score,  **kwargs_)
-supermod.cross_ref_dbType3.subclass = cross_ref_dbType3Sub
-# end class cross_ref_dbType3Sub
-
-
 class macromoleculesTypeSub(supermod.macromoleculesType):
     def __init__(self, macromolecule=None, **kwargs_):
         super(macromoleculesTypeSub, self).__init__(macromolecule,  **kwargs_)
@@ -187,18 +180,11 @@ supermod.macromoleculeType.subclass = macromoleculeTypeSub
 # end class macromoleculeTypeSub
 
 
-class cross_ref_dbsType4Sub(supermod.cross_ref_dbsType4):
+class cross_ref_dbsType3Sub(supermod.cross_ref_dbsType3):
     def __init__(self, cross_ref_db=None, **kwargs_):
-        super(cross_ref_dbsType4Sub, self).__init__(cross_ref_db,  **kwargs_)
-supermod.cross_ref_dbsType4.subclass = cross_ref_dbsType4Sub
-# end class cross_ref_dbsType4Sub
-
-
-class cross_ref_dbType5Sub(supermod.cross_ref_dbType5):
-    def __init__(self, name=None, db_source=None, accession_id=None, type_=None, category=None, provenance=None, score=None, **kwargs_):
-        super(cross_ref_dbType5Sub, self).__init__(name, db_source, accession_id, type_, category, provenance, score,  **kwargs_)
-supermod.cross_ref_dbType5.subclass = cross_ref_dbType5Sub
-# end class cross_ref_dbType5Sub
+        super(cross_ref_dbsType3Sub, self).__init__(cross_ref_db,  **kwargs_)
+supermod.cross_ref_dbsType3.subclass = cross_ref_dbsType3Sub
+# end class cross_ref_dbsType3Sub
 
 
 def get_root_tag(node):
