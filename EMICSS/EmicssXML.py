@@ -260,12 +260,12 @@ class EmicssXML:
                 dbs.add_db(db)
         all_db.add("PUBMED")
         if pmcid:
-            if "PUBMEDCENTRAL" not in all_db:
+            if "PUBMED CENTRAL" not in all_db:
                 db = EMICSS.dbType()
-                db.set_db_source("%s" % "PUBMEDCENTRAL")
+                db.set_db_source("%s" % "PUBMED CENTRAL")
                 db.set_db_version("%s" % "2.0")
                 dbs.add_db(db)
-        all_db.add("PUBMEDCENTRAL")
+        all_db.add("PUBMED CENTRAL")
         if issn:
             if "ISSN" not in all_db:
                 db = EMICSS.dbType()
@@ -281,7 +281,7 @@ class EmicssXML:
             cross_ref_dbs.add_cross_ref_db(cross_ref_db)
         if pmcid:
             cross_ref_db = EMICSS.cross_ref_dbType()
-            cross_ref_db.set_db_source("%s" % "PUBMEDCENTRAL")
+            cross_ref_db.set_db_source("%s" % "PUBMED CENTRAL")
             cross_ref_db.set_accession_id("%s" % pmcid)
             cross_ref_db.set_provenance("%s" % provenance_pmc)
             cross_ref_dbs.add_cross_ref_db(cross_ref_db)
@@ -485,7 +485,7 @@ class EmicssXML:
                 db.set_db_version("%s" % "4.2.0")
                 dbs.add_db(db)
             cross_ref_db = EMICSS.cross_ref_dbType()
-            cross_ref_db.set_db_source("%s" % "ChEMBL")
+            cross_ref_db.set_db_source("%s" % "CHEMBL")
             cross_ref_db.set_provenance("%s" % provenance_chembl)
             cross_ref_db.set_accession_id("%s" % chembl_id)
             cross_ref_dbs.add_cross_ref_db(cross_ref_db)
@@ -498,7 +498,7 @@ class EmicssXML:
                 db.set_db_version("%s" % "15.21")
                 dbs.add_db(db)
             cross_ref_db = EMICSS.cross_ref_dbType()
-            cross_ref_db.set_db_source("%s" % "ChEBI")
+            cross_ref_db.set_db_source("%s" % "CHEBI")
             cross_ref_db.set_provenance("%s" % provenance_chebi)
             cross_ref_db.set_accession_id("%s" % chebi_id)
             cross_ref_dbs.add_cross_ref_db(cross_ref_db)
@@ -511,7 +511,7 @@ class EmicssXML:
                 db.set_db_version("%s" % "2021.03.30")
                 dbs.add_db(db)
             cross_ref_db = EMICSS.cross_ref_dbType()
-            cross_ref_db.set_db_source("%s" % "DrugBank")
+            cross_ref_db.set_db_source("%s" % "DRUGBANK")
             cross_ref_db.set_provenance("%s" % provenance_drugbank)
             cross_ref_db.set_accession_id("%s" % drugbank_id)
             cross_ref_dbs.add_cross_ref_db(cross_ref_db)

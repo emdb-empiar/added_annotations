@@ -18,7 +18,7 @@
                 <xs:element minOccurs="0" name="cross_ref_dbs">
                     <xs:complexType>
                         <xs:sequence>
-                            <xs:element maxOccurs="unbounded" minOccurs="0" ref="cross_ref_db"/>
+                            <xs:element maxOccurs="unbounded" ref="cross_ref_db"/>
                         </xs:sequence>
                     </xs:complexType>
                 </xs:element>
@@ -142,14 +142,14 @@
     <xs:simpleType name="db_source_type">
         <xs:restriction base="xs:token">
             <xs:enumeration value="UNIPROT"/>
-            <xs:enumeration value="COMPLEXPORTAL"/>
+            <xs:enumeration value="COMPLEX PORTAL"/>
             <xs:enumeration value="PDBe"/>
             <xs:enumeration value="CHEMBL"/>
             <xs:enumeration value="CHEBI"/>
             <xs:enumeration value="DRUGBANK"/>
             <xs:enumeration value="EMPIAR"/>
             <xs:enumeration value="PUBMED"/>
-            <xs:enumeration value="PUBMEDCENTRAL"/>
+            <xs:enumeration value="PUBMED CENTRAL"/>
             <xs:enumeration value="ISSN"/>
             <xs:enumeration value="GO"/>
             <xs:enumeration value="INTERPRO"/>
@@ -165,10 +165,12 @@
             <xs:enumeration value="EuropePMC"/>
             <xs:enumeration value="CPX"/>
             <xs:enumeration value="BLASTP"/>
-            <xs:enumeration value="COMPLEXPORTAL"/>
+            <xs:enumeration value="COMPLEX PORTAL"/>
             <xs:enumeration value="ChEMBL"/>
             <xs:enumeration value="ChEBI"/>
             <xs:enumeration value="DrugBank"/>
+            <xs:enumeration value="CCD"/>
+            <xs:enumeration value="PUBMED CENTRAL"/>
             <xs:enumeration value="CALCULATED"/>
             <xs:enumeration value="GO"/>
             <xs:enumeration value="INTERPRO"/>
@@ -186,7 +188,7 @@
         <xs:complexType>
             <xs:attribute name="name" type="xs:string"/>
             <xs:attribute name="db_source" type="db_source_type"/>
-            <xs:attribute name="accession_id" type="xs:ID"/>
+            <xs:attribute name="accession_id" type="xs:string"/>
             <xs:attribute name="type" type="xs:string"/>
             <xs:attribute name="category" type="xs:string"/>
             <xs:attribute name="provenance" type="provenance_type"/>
