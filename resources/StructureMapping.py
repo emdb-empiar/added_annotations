@@ -19,7 +19,7 @@ class StructureMapping:
 			assembly_file = os.path.join(self.assembly_ftp, "%s/%s/%s-assembly.xml" % (model.pdb_id[1:3],model.pdb_id,model.pdb_id))
 			mw, order = self.parse_assembly(assembly_file)
 			if mw:
-				model.molecular_weight = mw
+				model.molecular_weight = round(mw, 3)
 				model.assembly = order
 				return model
 		except Exception as e:
@@ -33,7 +33,7 @@ class StructureMapping:
 			assemblies = tree.xpath("//assembly")
 			for assembly in assemblies:
 				if assembly.attrib['prefered'] == 'True':
-					mw = float(assembly.attrib['molecular_weight'])
+					mw = round(float(assembly.attrib['molecular_weight']), 3)
 					order = int(assembly.attrib['order'])
 					return mw,order
 			return None, None

@@ -158,7 +158,7 @@ class Model:
         self.molecular_weight = 0.0 #Dalton
 
     def __str__(self):
-        return ("%s\t%s\t%d\t%f" % (self.emdb_id, self.pdb_id, self.assembly, self.molecular_weight))
+        return ("{}\t{}\t{}\t{:0.3f}".format(self.emdb_id, self.pdb_id, self.assembly, self.molecular_weight))
 
 class Weight:
     """

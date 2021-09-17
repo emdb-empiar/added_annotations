@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Thu Sep 16 14:10:20 2021 by generateDS.py version 2.38.6.
+# Generated Fri Sep 17 14:07:27 2021 by generateDS.py version 2.38.6.
 # Python 3.7.6 (default, Dec 30 2019, 19:38:28)  [Clang 11.0.0 (clang-1100.0.33.16)]
 #
 # Command line options:
@@ -69,8 +69,8 @@ supermod.emicss.subclass = emicssSub
 
 
 class cross_ref_dbSub(supermod.cross_ref_db):
-    def __init__(self, name=None, db_source=None, accession_id=None, type_=None, category=None, provenance=None, provenance1=None, provenance2=None, score=None, **kwargs_):
-        super(cross_ref_dbSub, self).__init__(name, db_source, accession_id, type_, category, provenance, provenance1, provenance2, score,  **kwargs_)
+    def __init__(self, name=None, db_source=None, accession_id=None, type_=None, category=None, link=None, provenance=None, provenance1=None, provenance2=None, score=None, **kwargs_):
+        super(cross_ref_dbSub, self).__init__(name, db_source, accession_id, type_, category, link, provenance, provenance1, provenance2, score,  **kwargs_)
 supermod.cross_ref_db.subclass = cross_ref_dbSub
 # end class cross_ref_dbSub
 
@@ -136,13 +136,6 @@ class cross_ref_dbsType1Sub(supermod.cross_ref_dbsType1):
         super(cross_ref_dbsType1Sub, self).__init__(cross_ref_db,  **kwargs_)
 supermod.cross_ref_dbsType1.subclass = cross_ref_dbsType1Sub
 # end class cross_ref_dbsType1Sub
-
-
-class cross_ref_dbTypeSub(supermod.cross_ref_dbType):
-    def __init__(self, name=None, db_source=None, accession_id=None, type_=None, category=None, provenance=None, score=None, **kwargs_):
-        super(cross_ref_dbTypeSub, self).__init__(name, db_source, accession_id, type_, category, provenance, score,  **kwargs_)
-supermod.cross_ref_dbType.subclass = cross_ref_dbTypeSub
-# end class cross_ref_dbTypeSub
 
 
 class supramoleculesTypeSub(supermod.supramoleculesType):

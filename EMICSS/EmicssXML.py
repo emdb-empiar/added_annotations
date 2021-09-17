@@ -235,7 +235,7 @@ class EmicssXML:
                 db.set_db_version("%s" % "2.0")
                 dbs.add_db(db)
         all_db.add("EMPIAR")
-        cross_ref_db = EMICSS.cross_ref_dbType()
+        cross_ref_db = EMICSS.cross_ref_db()
         cross_ref_db.set_db_source("%s" % "EMPIAR")
         cross_ref_db.set_accession_id("%s" % empiar_id)
         cross_ref_db.set_provenance("%s" % "AUTHOR")
@@ -274,13 +274,13 @@ class EmicssXML:
                 dbs.add_db(db)
         all_db.add("ISSN")
         if pmedid:
-            cross_ref_db = EMICSS.cross_ref_dbType()
+            cross_ref_db = EMICSS.cross_ref_db()
             cross_ref_db.set_db_source("%s" % "PUBMED")
             cross_ref_db.set_accession_id("%s" % pmedid)
             cross_ref_db.set_provenance("%s" % provenance_pm)
             cross_ref_dbs.add_cross_ref_db(cross_ref_db)
         if pmcid:
-            cross_ref_db = EMICSS.cross_ref_dbType()
+            cross_ref_db = EMICSS.cross_ref_db()
             cross_ref_db.set_db_source("%s" % "PUBMED CENTRAL")
             cross_ref_db.set_accession_id("%s" % pmcid)
             cross_ref_db.set_provenance("%s" % provenance_pmc)
@@ -291,7 +291,7 @@ class EmicssXML:
             citation.set_provenance("%s" % provenance_doi)
             citations.add_citation(citation)
         if issn:
-            cross_ref_db = EMICSS.cross_ref_dbType()
+            cross_ref_db = EMICSS.cross_ref_db()
             cross_ref_db.set_db_source("%s" % "ISSN")
             cross_ref_db.set_accession_id("%s" % issn)
             cross_ref_db.set_provenance("%s" % "AUTHOR")
@@ -314,9 +314,8 @@ class EmicssXML:
         all_db.add("PDBe")
         weight = EMICSS.weightType()
         weight.set_pdb_id("%s" % pdb_id)
-        # weight.set_db_source("%s" % "PDB")
         weight.set_assemblies(int(assembly))
-        weight.set_weight(round(mw, 2))
+        weight.set_weight(mw)
         weight.set_unit("%s" % "Da")
         weight.set_provenance("%s" % "PDBe")
         weights.add_weight(weight)
@@ -369,11 +368,37 @@ class EmicssXML:
             if not "+" in uni_provenance:
                 cross_ref_db.set_provenance("%s" % uni_provenance)
             if "+" in uni_provenance:
-                uni_provenance1 = uni_provenance.split("+")[0]
-                uni_provenance2 = uni_provenance.split("+")[1]
+                uni_provenance1 = uni_provenance.split(" + ")[0]
+                uni_provenance2 = uni_provenance.split(" + ")[1]
                 cross_ref_db.set_provenance1("%s" % uni_provenance1)
                 cross_ref_db.set_provenance2("%s" % uni_provenance2)
             cross_ref_db.set_accession_id("%s" % uniprot_id)
+            cross_ref_dbs.add_cross_ref_db(cross_ref_db)
+
+            if "PDBe-KB" not in all_db:
+                db = EMICSS.dbType()
+                db.set_db_source("%s" % "PDBe-KB")
+                db.set_db_version("%s" % "2021.02")
+                dbs.add_db(db)
+            all_db.add("PDBe-KB")
+            cross_ref_db = EMICSS.cross_ref_db()
+            cross_ref_db.set_db_source("%s" % "PDBe-KB")
+            cross_ref_db.set_provenance("%s" % "PDBe-KB")
+            pdbekb_link = "https://www.ebi.ac.uk/pdbe/pdbe-kb/proteins/" + uniprot_id
+            cross_ref_db.set_link("%s" % pdbekb_link)
+            cross_ref_dbs.add_cross_ref_db(cross_ref_db)
+
+            if "ALPHAFOLD" not in all_db:
+                db = EMICSS.dbType()
+                db.set_db_source("%s" % "ALPHAFOLD")
+                db.set_db_version("%s" % "2021.02")
+                dbs.add_db(db)
+            all_db.add("ALPHAFOLD")
+            cross_ref_db = EMICSS.cross_ref_db()
+            cross_ref_db.set_db_source("%s" % "ALPHAFOLD")
+            cross_ref_db.set_provenance("%s" % "ALPHAFOLD")
+            alphafold_link = "https://alphafold.ebi.ac.uk/search/text/" + uniprot_id
+            cross_ref_db.set_link("%s" % alphafold_link)
             cross_ref_dbs.add_cross_ref_db(cross_ref_db)
 
         ind = val.get(samp_id, {}).get('ind')
@@ -394,7 +419,7 @@ class EmicssXML:
                     dbs.add_db(db)
                 all_db.add("GO")
 
-                cross_ref_db = EMICSS.cross_ref_dbType()
+                cross_ref_db = EMICSS.cross_ref_db()
                 cross_ref_db.set_db_source("%s" % "GO")
                 cross_ref_db.set_accession_id("%s" % GO_id)
                 cross_ref_db.set_name("%s" % GO_namespace)
@@ -421,7 +446,7 @@ class EmicssXML:
                     dbs.add_db(db)
                 all_db.add("INTERPRO")
 
-                cross_ref_db = EMICSS.cross_ref_dbType()
+                cross_ref_db = EMICSS.cross_ref_db()
                 cross_ref_db.set_db_source("%s" % "INTERPRO")
                 cross_ref_db.set_accession_id("%s" % IPR_id)
                 cross_ref_db.set_name("%s" % IPR_namespace)
@@ -442,7 +467,7 @@ class EmicssXML:
                     dbs.add_db(db)
                 all_db.add("PFAM")
 
-                cross_ref_db = EMICSS.cross_ref_dbType()
+                cross_ref_db = EMICSS.cross_ref_db()
                 cross_ref_db.set_db_source("%s" % "PFAM")
                 cross_ref_db.set_accession_id("%s" % PFAM_id)
                 cross_ref_db.set_name("%s" % PFAM_namespace)
@@ -480,7 +505,7 @@ class EmicssXML:
                 db.set_db_source("%s" % "CHEMBL")
                 db.set_db_version("%s" % "4.2.0")
                 dbs.add_db(db)
-            cross_ref_db = EMICSS.cross_ref_dbType()
+            cross_ref_db = EMICSS.cross_ref_db()
             cross_ref_db.set_db_source("%s" % "CHEMBL")
             cross_ref_db.set_provenance("%s" % provenance_chembl)
             cross_ref_db.set_accession_id("%s" % chembl_id)
@@ -493,7 +518,7 @@ class EmicssXML:
                 db.set_db_source("%s" % "CHEBI")
                 db.set_db_version("%s" % "15.21")
                 dbs.add_db(db)
-            cross_ref_db = EMICSS.cross_ref_dbType()
+            cross_ref_db = EMICSS.cross_ref_db()
             cross_ref_db.set_db_source("%s" % "CHEBI")
             cross_ref_db.set_provenance("%s" % provenance_chebi)
             cross_ref_db.set_accession_id("%s" % chebi_id)
@@ -506,7 +531,7 @@ class EmicssXML:
                 db.set_db_source("%s" % "DRUGBANK")
                 db.set_db_version("%s" % "2021.03.30")
                 dbs.add_db(db)
-            cross_ref_db = EMICSS.cross_ref_dbType()
+            cross_ref_db = EMICSS.cross_ref_db()
             cross_ref_db.set_db_source("%s" % "DRUGBANK")
             cross_ref_db.set_provenance("%s" % provenance_drugbank)
             cross_ref_db.set_accession_id("%s" % drugbank_id)
@@ -551,8 +576,8 @@ class EmicssXML:
                     cross_ref_db.set_name("%s" % cpx_name)
                     cross_ref_db.set_db_source("%s" % "COMPLEX PORTAL")
                     if "+" in cpx_provenance:
-                        cpx_provenance1 = cpx_provenance.split("+")[0]
-                        cpx_provenance2 = cpx_provenance.split("+")[1]
+                        cpx_provenance1 = cpx_provenance.split(" + ")[0]
+                        cpx_provenance2 = cpx_provenance.split(" + ")[1]
                         cross_ref_db.set_provenance1("%s" % cpx_provenance1)
                         cross_ref_db.set_provenance2("%s" % cpx_provenance2)
                     if not "+" in cpx_provenance:

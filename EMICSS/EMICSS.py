@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Thu Sep 16 14:10:20 2021 by generateDS.py version 2.38.6.
+# Generated Fri Sep 17 14:07:26 2021 by generateDS.py version 2.38.6.
 # Python 3.7.6 (default, Dec 30 2019, 19:38:28)  [Clang 11.0.0 (clang-1100.0.33.16)]
 #
 # Command line options:
@@ -970,14 +970,16 @@ def _cast(typ, value):
 
 class db_source_type(str, Enum):
     UNIPROT='UNIPROT'
-    COMPLEXPORTAL='COMPLEXPORTAL'
+    COMPLEXPORTAL='COMPLEX PORTAL'
     PD_BE='PDBe'
+    PD_BEKB='PDBe-KB'
+    ALPHAFOLD='ALPHAFOLD'
     CHEMBL='CHEMBL'
     CHEBI='CHEBI'
     DRUGBANK='DRUGBANK'
     EMPIAR='EMPIAR'
     PUBMED='PUBMED'
-    PUBMEDCENTRAL='PUBMEDCENTRAL'
+    PUBMEDCENTRAL='PUBMED CENTRAL'
     ISSN='ISSN'
     GO='GO'
     INTERPRO='INTERPRO'
@@ -988,14 +990,18 @@ class provenance_type(str, Enum):
     AUTHOR='AUTHOR'
     UNIPROT='UNIPROT'
     PD_BE='PDBe'
+    PD_BEKB='PDBe-KB'
+    ALPHAFOLD='ALPHAFOLD'
     EMPIAR='EMPIAR'
     EUROPE_PMC='EuropePMC'
     CPX='CPX'
     BLASTP='BLASTP'
-    COMPLEXPORTAL='COMPLEXPORTAL'
+    COMPLEXPORTAL='COMPLEX PORTAL'
     CH_EMBL='ChEMBL'
     CH_EBI='ChEBI'
     DRUG_BANK='DrugBank'
+    CCD='CCD'
+    PUBMEDCENTRAL='PUBMED CENTRAL'
     CALCULATED='CALCULATED'
     GO='GO'
     INTERPRO='INTERPRO'
@@ -1189,7 +1195,7 @@ class cross_ref_db(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, name=None, db_source=None, accession_id=None, type_=None, category=None, provenance=None, provenance1=None, provenance2=None, score=None, gds_collector_=None, **kwargs_):
+    def __init__(self, name=None, db_source=None, accession_id=None, type_=None, category=None, link=None, provenance=None, provenance1=None, provenance2=None, score=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
@@ -1205,6 +1211,8 @@ class cross_ref_db(GeneratedsSuper):
         self.type__nsprefix_ = None
         self.category = _cast(None, category)
         self.category_nsprefix_ = None
+        self.link = _cast(None, link)
+        self.link_nsprefix_ = None
         self.provenance = _cast(None, provenance)
         self.provenance_nsprefix_ = None
         self.provenance1 = _cast(None, provenance1)
@@ -1248,6 +1256,10 @@ class cross_ref_db(GeneratedsSuper):
         return self.category
     def set_category(self, category):
         self.category = category
+    def get_link(self):
+        return self.link
+    def set_link(self, link):
+        self.link = link
     def get_provenance(self):
         return self.provenance
     def set_provenance(self, provenance):
@@ -1272,7 +1284,7 @@ class cross_ref_db(GeneratedsSuper):
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
                 return False
             value = value
-            enumerations = ['UNIPROT', 'COMPLEXPORTAL', 'PDBe', 'CHEMBL', 'CHEBI', 'DRUGBANK', 'EMPIAR', 'PUBMED', 'PUBMEDCENTRAL', 'ISSN', 'GO', 'INTERPRO', 'PFAM']
+            enumerations = ['UNIPROT', 'COMPLEX PORTAL', 'PDBe', 'PDBe-KB', 'ALPHAFOLD', 'CHEMBL', 'CHEBI', 'DRUGBANK', 'EMPIAR', 'PUBMED', 'PUBMED CENTRAL', 'ISSN', 'GO', 'INTERPRO', 'PFAM']
             if value not in enumerations:
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd enumeration restriction on db_source_type' % {"value" : encode_str_2_3(value), "lineno": lineno} )
@@ -1285,7 +1297,7 @@ class cross_ref_db(GeneratedsSuper):
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
                 return False
             value = value
-            enumerations = ['AUTHOR', 'UNIPROT', 'PDBe', 'EMPIAR', 'EuropePMC', 'CPX', 'BLASTP', 'COMPLEXPORTAL', 'ChEMBL', 'ChEBI', 'DrugBank', 'CALCULATED', 'GO', 'INTERPRO', 'PFAM']
+            enumerations = ['AUTHOR', 'UNIPROT', 'PDBe', 'PDBe-KB', 'ALPHAFOLD', 'EMPIAR', 'EuropePMC', 'CPX', 'BLASTP', 'COMPLEX PORTAL', 'ChEMBL', 'ChEBI', 'DrugBank', 'CCD', 'PUBMED CENTRAL', 'CALCULATED', 'GO', 'INTERPRO', 'PFAM']
             if value not in enumerations:
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd enumeration restriction on provenance_type' % {"value" : encode_str_2_3(value), "lineno": lineno} )
@@ -1335,6 +1347,9 @@ class cross_ref_db(GeneratedsSuper):
         if self.category is not None and 'category' not in already_processed:
             already_processed.add('category')
             outfile.write(' category=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.category), input_name='category')), ))
+        if self.link is not None and 'link' not in already_processed:
+            already_processed.add('link')
+            outfile.write(' link=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.link), input_name='link')), ))
         if self.provenance is not None and 'provenance' not in already_processed:
             already_processed.add('provenance')
             outfile.write(' provenance=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.provenance), input_name='provenance')), ))
@@ -1383,6 +1398,10 @@ class cross_ref_db(GeneratedsSuper):
         if value is not None and 'category' not in already_processed:
             already_processed.add('category')
             self.category = value
+        value = find_attr_value_('link', node)
+        if value is not None and 'link' not in already_processed:
+            already_processed.add('link')
+            self.link = value
         value = find_attr_value_('provenance', node)
         if value is not None and 'provenance' not in already_processed:
             already_processed.add('provenance')
@@ -1558,7 +1577,7 @@ class dbType(GeneratedsSuper):
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
                 return False
             value = value
-            enumerations = ['UNIPROT', 'COMPLEXPORTAL', 'PDBe', 'CHEMBL', 'CHEBI', 'DRUGBANK', 'EMPIAR', 'PUBMED', 'PUBMEDCENTRAL', 'ISSN', 'GO', 'INTERPRO', 'PFAM']
+            enumerations = ['UNIPROT', 'COMPLEX PORTAL', 'PDBe', 'PDBe-KB', 'ALPHAFOLD', 'CHEMBL', 'CHEBI', 'DRUGBANK', 'EMPIAR', 'PUBMED', 'PUBMED CENTRAL', 'ISSN', 'GO', 'INTERPRO', 'PFAM']
             if value not in enumerations:
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd enumeration restriction on db_source_type' % {"value" : encode_str_2_3(value), "lineno": lineno} )
@@ -1878,7 +1897,7 @@ class citationType(GeneratedsSuper):
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
                 return False
             value = value
-            enumerations = ['AUTHOR', 'UNIPROT', 'PDBe', 'EMPIAR', 'EuropePMC', 'CPX', 'BLASTP', 'COMPLEXPORTAL', 'ChEMBL', 'ChEBI', 'DrugBank', 'CALCULATED', 'GO', 'INTERPRO', 'PFAM']
+            enumerations = ['AUTHOR', 'UNIPROT', 'PDBe', 'PDBe-KB', 'ALPHAFOLD', 'EMPIAR', 'EuropePMC', 'CPX', 'BLASTP', 'COMPLEX PORTAL', 'ChEMBL', 'ChEBI', 'DrugBank', 'CCD', 'PUBMED CENTRAL', 'CALCULATED', 'GO', 'INTERPRO', 'PFAM']
             if value not in enumerations:
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd enumeration restriction on provenance_type' % {"value" : encode_str_2_3(value), "lineno": lineno} )
@@ -2119,7 +2138,7 @@ class weightType(GeneratedsSuper):
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
                 return False
             value = value
-            enumerations = ['AUTHOR', 'UNIPROT', 'PDBe', 'EMPIAR', 'EuropePMC', 'CPX', 'BLASTP', 'COMPLEXPORTAL', 'ChEMBL', 'ChEBI', 'DrugBank', 'CALCULATED', 'GO', 'INTERPRO', 'PFAM']
+            enumerations = ['AUTHOR', 'UNIPROT', 'PDBe', 'PDBe-KB', 'ALPHAFOLD', 'EMPIAR', 'EuropePMC', 'CPX', 'BLASTP', 'COMPLEX PORTAL', 'ChEMBL', 'ChEBI', 'DrugBank', 'CCD', 'PUBMED CENTRAL', 'CALCULATED', 'GO', 'INTERPRO', 'PFAM']
             if value not in enumerations:
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd enumeration restriction on provenance_type' % {"value" : encode_str_2_3(value), "lineno": lineno} )
@@ -2453,207 +2472,11 @@ class cross_ref_dbsType1(GeneratedsSuper):
         pass
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         if nodeName_ == 'cross_ref_db':
-            obj_ = cross_ref_dbType.factory(parent_object_=self)
+            obj_ = cross_ref_db.factory(parent_object_=self)
             obj_.build(child_, gds_collector_=gds_collector_)
             self.cross_ref_db.append(obj_)
             obj_.original_tagname_ = 'cross_ref_db'
 # end class cross_ref_dbsType1
-
-
-class cross_ref_dbType(GeneratedsSuper):
-    __hash__ = GeneratedsSuper.__hash__
-    subclass = None
-    superclass = None
-    def __init__(self, name=None, db_source=None, accession_id=None, type_=None, category=None, provenance=None, score=None, gds_collector_=None, **kwargs_):
-        self.gds_collector_ = gds_collector_
-        self.gds_elementtree_node_ = None
-        self.original_tagname_ = None
-        self.parent_object_ = kwargs_.get('parent_object_')
-        self.ns_prefix_ = None
-        self.name = _cast(None, name)
-        self.name_nsprefix_ = None
-        self.db_source = _cast(None, db_source)
-        self.db_source_nsprefix_ = None
-        self.accession_id = _cast(None, accession_id)
-        self.accession_id_nsprefix_ = None
-        self.type_ = _cast(None, type_)
-        self.type__nsprefix_ = None
-        self.category = _cast(None, category)
-        self.category_nsprefix_ = None
-        self.provenance = _cast(None, provenance)
-        self.provenance_nsprefix_ = None
-        self.score = _cast(float, score)
-        self.score_nsprefix_ = None
-    def factory(*args_, **kwargs_):
-        if CurrentSubclassModule_ is not None:
-            subclass = getSubclassFromModule_(
-                CurrentSubclassModule_, cross_ref_dbType)
-            if subclass is not None:
-                return subclass(*args_, **kwargs_)
-        if cross_ref_dbType.subclass:
-            return cross_ref_dbType.subclass(*args_, **kwargs_)
-        else:
-            return cross_ref_dbType(*args_, **kwargs_)
-    factory = staticmethod(factory)
-    def get_ns_prefix_(self):
-        return self.ns_prefix_
-    def set_ns_prefix_(self, ns_prefix):
-        self.ns_prefix_ = ns_prefix
-    def get_name(self):
-        return self.name
-    def set_name(self, name):
-        self.name = name
-    def get_db_source(self):
-        return self.db_source
-    def set_db_source(self, db_source):
-        self.db_source = db_source
-    def get_accession_id(self):
-        return self.accession_id
-    def set_accession_id(self, accession_id):
-        self.accession_id = accession_id
-    def get_type(self):
-        return self.type_
-    def set_type(self, type_):
-        self.type_ = type_
-    def get_category(self):
-        return self.category
-    def set_category(self, category):
-        self.category = category
-    def get_provenance(self):
-        return self.provenance
-    def set_provenance(self, provenance):
-        self.provenance = provenance
-    def get_score(self):
-        return self.score
-    def set_score(self, score):
-        self.score = score
-    def validate_db_source_type(self, value):
-        # Validate type db_source_type, a restriction on xs:token.
-        if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, str):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
-                return False
-            value = value
-            enumerations = ['UNIPROT', 'COMPLEXPORTAL', 'PDBe', 'CHEMBL', 'CHEBI', 'DRUGBANK', 'EMPIAR', 'PUBMED', 'PUBMEDCENTRAL', 'ISSN', 'GO', 'INTERPRO', 'PFAM']
-            if value not in enumerations:
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd enumeration restriction on db_source_type' % {"value" : encode_str_2_3(value), "lineno": lineno} )
-                result = False
-    def validate_provenance_type(self, value):
-        # Validate type provenance_type, a restriction on xs:token.
-        if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, str):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
-                return False
-            value = value
-            enumerations = ['AUTHOR', 'UNIPROT', 'PDBe', 'EMPIAR', 'EuropePMC', 'CPX', 'BLASTP', 'COMPLEXPORTAL', 'ChEMBL', 'ChEBI', 'DrugBank', 'CALCULATED', 'GO', 'INTERPRO', 'PFAM']
-            if value not in enumerations:
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd enumeration restriction on provenance_type' % {"value" : encode_str_2_3(value), "lineno": lineno} )
-                result = False
-    def hasContent_(self):
-        if (
-
-        ):
-            return True
-        else:
-            return False
-    def export(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='cross_ref_dbType', pretty_print=True):
-        imported_ns_def_ = GenerateDSNamespaceDefs_.get('cross_ref_dbType')
-        if imported_ns_def_ is not None:
-            namespacedef_ = imported_ns_def_
-        if pretty_print:
-            eol_ = '\n'
-        else:
-            eol_ = ''
-        if self.original_tagname_ is not None and name_ == 'cross_ref_dbType':
-            name_ = self.original_tagname_
-        if UseCapturedNS_ and self.ns_prefix_:
-            namespaceprefix_ = self.ns_prefix_ + ':'
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
-        already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='cross_ref_dbType')
-        if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='cross_ref_dbType', pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
-        else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='cross_ref_dbType'):
-        if self.name is not None and 'name' not in already_processed:
-            already_processed.add('name')
-            outfile.write(' name=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.name), input_name='name')), ))
-        if self.db_source is not None and 'db_source' not in already_processed:
-            already_processed.add('db_source')
-            outfile.write(' db_source=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.db_source), input_name='db_source')), ))
-        if self.accession_id is not None and 'accession_id' not in already_processed:
-            already_processed.add('accession_id')
-            outfile.write(' accession_id=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.accession_id), input_name='accession_id')), ))
-        if self.type_ is not None and 'type_' not in already_processed:
-            already_processed.add('type_')
-            outfile.write(' type=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.type_), input_name='type')), ))
-        if self.category is not None and 'category' not in already_processed:
-            already_processed.add('category')
-            outfile.write(' category=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.category), input_name='category')), ))
-        if self.provenance is not None and 'provenance' not in already_processed:
-            already_processed.add('provenance')
-            outfile.write(' provenance=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.provenance), input_name='provenance')), ))
-        if self.score is not None and 'score' not in already_processed:
-            already_processed.add('score')
-            outfile.write(' score="%s"' % self.gds_format_float(self.score, input_name='score'))
-    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='cross_ref_dbType', fromsubclass_=False, pretty_print=True):
-        pass
-    def build(self, node, gds_collector_=None):
-        self.gds_collector_ = gds_collector_
-        if SaveElementTreeNode:
-            self.gds_elementtree_node_ = node
-        already_processed = set()
-        self.ns_prefix_ = node.prefix
-        self.buildAttributes(node, node.attrib, already_processed)
-        for child in node:
-            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
-            self.buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
-        return self
-    def buildAttributes(self, node, attrs, already_processed):
-        value = find_attr_value_('name', node)
-        if value is not None and 'name' not in already_processed:
-            already_processed.add('name')
-            self.name = value
-        value = find_attr_value_('db_source', node)
-        if value is not None and 'db_source' not in already_processed:
-            already_processed.add('db_source')
-            self.db_source = value
-            self.db_source = ' '.join(self.db_source.split())
-            self.validate_db_source_type(self.db_source)    # validate type db_source_type
-        value = find_attr_value_('accession_id', node)
-        if value is not None and 'accession_id' not in already_processed:
-            already_processed.add('accession_id')
-            self.accession_id = value
-        value = find_attr_value_('type', node)
-        if value is not None and 'type' not in already_processed:
-            already_processed.add('type')
-            self.type_ = value
-        value = find_attr_value_('category', node)
-        if value is not None and 'category' not in already_processed:
-            already_processed.add('category')
-            self.category = value
-        value = find_attr_value_('provenance', node)
-        if value is not None and 'provenance' not in already_processed:
-            already_processed.add('provenance')
-            self.provenance = value
-            self.provenance = ' '.join(self.provenance.split())
-            self.validate_provenance_type(self.provenance)    # validate type provenance_type
-        value = find_attr_value_('score', node)
-        if value is not None and 'score' not in already_processed:
-            already_processed.add('score')
-            value = self.gds_parse_float(value, node, 'score')
-            self.score = value
-    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
-        pass
-# end class cross_ref_dbType
 
 
 class supramoleculesType(GeneratedsSuper):
@@ -3612,7 +3435,6 @@ __all__ = [
     "citationType",
     "citationsType",
     "cross_ref_db",
-    "cross_ref_dbType",
     "cross_ref_dbsType",
     "cross_ref_dbsType1",
     "cross_ref_dbsType2",

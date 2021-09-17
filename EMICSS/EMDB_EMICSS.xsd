@@ -22,7 +22,7 @@
                         </xs:sequence>
                     </xs:complexType>
                 </xs:element>
-                <xs:element name="citations">
+                <xs:element name="citations" minOccurs="0">
                     <xs:complexType>
                         <xs:sequence>
                             <xs:element maxOccurs="unbounded" minOccurs="0" name="citation">
@@ -57,19 +57,7 @@
                             <xs:element minOccurs="0" name="cross_ref_dbs">
                                 <xs:complexType>
                                     <xs:sequence>
-                                        <xs:element maxOccurs="unbounded" minOccurs="0"
-                                            name="cross_ref_db">
-                                            <xs:complexType>
-                                                <xs:attribute name="name" type="xs:string"/>
-                                                <xs:attribute name="db_source" type="db_source_type"/>
-                                                <xs:attribute name="accession_id" type="xs:ID"/>
-                                                <xs:attribute name="type" type="xs:string"/>
-                                                <xs:attribute name="category" type="xs:string"/>
-                                                <xs:attribute name="provenance"
-                                                  type="provenance_type"/>
-                                                <xs:attribute name="score" type="xs:float"/>
-                                            </xs:complexType>
-                                        </xs:element>
+                                        <xs:element maxOccurs="unbounded" ref="cross_ref_db"/>
                                     </xs:sequence>
                                 </xs:complexType>
                             </xs:element>
@@ -144,6 +132,8 @@
             <xs:enumeration value="UNIPROT"/>
             <xs:enumeration value="COMPLEX PORTAL"/>
             <xs:enumeration value="PDBe"/>
+            <xs:enumeration value="PDBe-KB"/>
+            <xs:enumeration value="ALPHAFOLD"/>
             <xs:enumeration value="CHEMBL"/>
             <xs:enumeration value="CHEBI"/>
             <xs:enumeration value="DRUGBANK"/>
@@ -161,6 +151,8 @@
             <xs:enumeration value="AUTHOR"/>
             <xs:enumeration value="UNIPROT"/>
             <xs:enumeration value="PDBe"/>
+            <xs:enumeration value="PDBe-KB"/>
+            <xs:enumeration value="ALPHAFOLD"/>
             <xs:enumeration value="EMPIAR"/>
             <xs:enumeration value="EuropePMC"/>
             <xs:enumeration value="CPX"/>
@@ -191,6 +183,7 @@
             <xs:attribute name="accession_id" type="xs:string"/>
             <xs:attribute name="type" type="xs:string"/>
             <xs:attribute name="category" type="xs:string"/>
+            <xs:attribute name="link" type="xs:string"/>
             <xs:attribute name="provenance" type="provenance_type"/>
             <xs:attribute name="provenance1" type="provenance_type"/>
             <xs:attribute name="provenance2" type="provenance_type"/>
