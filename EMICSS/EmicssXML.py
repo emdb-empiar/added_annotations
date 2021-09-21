@@ -136,6 +136,7 @@ class EmicssXML:
                                                 emicss_dict[GIP.emdb_id][GIP.uniprot_id][new_key] = pfam[k]
                                             ind = ind + 1
                                     emicss_dict[GIP.emdb_id][GIP.uniprot_id]["ind"] = ind
+                                    self.ind = ind
                     except AttributeError as e:
                         print("PROTEIN-TERMS mapping doesn't exist", e)
 
@@ -143,7 +144,10 @@ class EmicssXML:
                         if self.unip_map and self.KB_AF_map:
                             for KB_AF in self.KB_AF_map:
                                 if KB_AF.uniprot_id == unip.uniprot_id:
-                                    ind = 0
+                                    if self.ind:
+                                        ind = self.ind
+                                    if not self.ind:
+                                        ind = 0
                                     if KB_AF.emdb_id not in emicss_dict.keys():
                                         emicss_dict[KB_AF.emdb_id] = {}
                                     if KB_AF.emdb_id not in emicss_dict[KB_AF.emdb_id].keys():
@@ -165,6 +169,7 @@ class EmicssXML:
                                                 new_key = '{}_{}_{}'.format("af", k, ind)
                                                 emicss_dict[KB_AF.emdb_id][KB_AF.uniprot_id][new_key] = alphafold[k]
                                             ind = ind + 1
+                                    emicss_dict[KB_AF.emdb_id][KB_AF.uniprot_id]["ind"] = ind
                     except AttributeError as e:
                         print("PDBeKB-ALPHAFOLD mapping doesn't exist", e)
         except AttributeError as e:
@@ -480,7 +485,7 @@ class EmicssXML:
                 cross_ref_db.set_provenance("%s" % PFAM_provenance)
                 cross_ref_dbs.add_cross_ref_db(cross_ref_db)
 
-            kb_link = "kb_id_" + str(x)
+            kb_link = "kb_link_" + str(x)
             KB_link = val.get(samp_id, {}).get(kb_link)
             kb_provenance = "kb_provenance_" + str(x)
             KB_provenance = val.get(samp_id, {}).get(kb_provenance)
@@ -498,7 +503,7 @@ class EmicssXML:
                 cross_ref_db.set_provenance("%s" % KB_provenance)
                 cross_ref_dbs.add_cross_ref_db(cross_ref_db)
 
-            af_link = "af_id_" + str(x)
+            af_link = "af_link_" + str(x)
             AF_link = val.get(samp_id, {}).get(af_link)
             af_provenance = "af_provenance_" + str(x)
             AF_provenance = val.get(samp_id, {}).get(af_provenance)
