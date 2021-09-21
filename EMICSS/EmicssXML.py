@@ -41,6 +41,8 @@ class EmicssXML:
                 self.pmc_map = mapping_list[db+1]
             if mapping_list[db] == "PROTEIN-TERMS":
                 self.proteins_map = mapping_list[db+1]
+            if mapping_list[db] == "PDBeKB-ALPHAFOLD":
+                self.KB_AF_map = mapping_list[db+1]
 
         try:
             if self.mw_map:
@@ -136,6 +138,35 @@ class EmicssXML:
                                     emicss_dict[GIP.emdb_id][GIP.uniprot_id]["ind"] = ind
                     except AttributeError as e:
                         print("PROTEIN-TERMS mapping doesn't exist", e)
+
+                    try:
+                        if self.unip_map and self.KB_AF_map:
+                            for KB_AF in self.KB_AF_map:
+                                if KB_AF.uniprot_id == unip.uniprot_id:
+                                    ind = 0
+                                    if KB_AF.emdb_id not in emicss_dict.keys():
+                                        emicss_dict[KB_AF.emdb_id] = {}
+                                    if KB_AF.emdb_id not in emicss_dict[KB_AF.emdb_id].keys():
+                                        emicss_dict[KB_AF.emdb_id][KB_AF.uniprot_id] = {}
+                                    if KB_AF.sample_id not in emicss_dict[KB_AF.emdb_id]:
+                                        emicss_dict[KB_AF.emdb_id][KB_AF.uniprot_id] = unip.__dict__
+                                    for pdbekb2 in KB_AF.pdbekb:
+                                        pdbekb = pdbekb2.__dict__
+                                        if KB_AF.uniprot_id == pdbekb2.unip_id:
+                                            for k in pdbekb.keys():
+                                                new_key = '{}_{}_{}'.format("kb", k, ind)
+                                                emicss_dict[KB_AF.emdb_id][KB_AF.uniprot_id][new_key] = pdbekb[k]
+                                            ind = ind + 1
+
+                                    for alphafold2 in KB_AF.alphafold:
+                                        alphafold = alphafold2.__dict__
+                                        if KB_AF.uniprot_id == alphafold2.unip_id:
+                                            for k in alphafold.keys():
+                                                new_key = '{}_{}_{}'.format("af", k, ind)
+                                                emicss_dict[KB_AF.emdb_id][KB_AF.uniprot_id][new_key] = alphafold[k]
+                                            ind = ind + 1
+                    except AttributeError as e:
+                        print("PDBeKB-ALPHAFOLD mapping doesn't exist", e)
         except AttributeError as e:
             print("UNIPROT mapping doesn't exist", e)
 
@@ -376,32 +407,6 @@ class EmicssXML:
             cross_ref_db.set_accession_id("%s" % uniprot_id)
             cross_ref_dbs.add_cross_ref_db(cross_ref_db)
 
-            if "PDBe-KB" not in all_db:
-                db = EMICSS.dbType()
-                db.set_db_source("%s" % "PDBe-KB")
-                db.set_db_version("%s" % "2021.02")
-                dbs.add_db(db)
-            all_db.add("PDBe-KB")
-            cross_ref_db = EMICSS.cross_ref_db()
-            cross_ref_db.set_db_source("%s" % "PDBe-KB")
-            cross_ref_db.set_provenance("%s" % "PDBe-KB")
-            pdbekb_link = "https://www.ebi.ac.uk/pdbe/pdbe-kb/proteins/"
-            cross_ref_db.set_link("%s" % pdbekb_link)
-            cross_ref_dbs.add_cross_ref_db(cross_ref_db)
-
-            if "ALPHAFOLD" not in all_db:
-                db = EMICSS.dbType()
-                db.set_db_source("%s" % "ALPHAFOLD")
-                db.set_db_version("%s" % "2021.02")
-                dbs.add_db(db)
-            all_db.add("ALPHAFOLD")
-            cross_ref_db = EMICSS.cross_ref_db()
-            cross_ref_db.set_db_source("%s" % "ALPHAFOLD")
-            cross_ref_db.set_provenance("%s" % "ALPHAFOLD")
-            alphafold_link = "https://alphafold.ebi.ac.uk/search/text/" + uniprot_id
-            cross_ref_db.set_link("%s" % alphafold_link)
-            cross_ref_dbs.add_cross_ref_db(cross_ref_db)
-
         ind = val.get(samp_id, {}).get('ind')
         for x in range(ind):
             go_id = "id_" + str(x)
@@ -473,6 +478,42 @@ class EmicssXML:
                 cross_ref_db.set_accession_id("%s" % PFAM_id)
                 cross_ref_db.set_name("%s" % PFAM_namespace)
                 cross_ref_db.set_provenance("%s" % PFAM_provenance)
+                cross_ref_dbs.add_cross_ref_db(cross_ref_db)
+
+            kb_link = "kb_id_" + str(x)
+            KB_link = val.get(samp_id, {}).get(kb_link)
+            kb_provenance = "kb_provenance_" + str(x)
+            KB_provenance = val.get(samp_id, {}).get(kb_provenance)
+            if KB_link:
+                if "PDBe-KB" not in all_db:
+                    db = EMICSS.dbType()
+                    db.set_db_source("%s" % "PDBe-KB")
+                    db.set_db_version("%s" % "2021.02")
+                    dbs.add_db(db)
+                all_db.add("PDBe-KB")
+
+                cross_ref_db = EMICSS.cross_ref_db()
+                cross_ref_db.set_db_source("%s" % "PDBe-KB")
+                cross_ref_db.set_link("%s" % KB_link)
+                cross_ref_db.set_provenance("%s" % KB_provenance)
+                cross_ref_dbs.add_cross_ref_db(cross_ref_db)
+
+            af_link = "af_id_" + str(x)
+            AF_link = val.get(samp_id, {}).get(af_link)
+            af_provenance = "af_provenance_" + str(x)
+            AF_provenance = val.get(samp_id, {}).get(af_provenance)
+            if AF_link:
+                if "ALPHAFOLD" not in all_db:
+                    db = EMICSS.dbType()
+                    db.set_db_source("%s" % "ALPHAFOLD")
+                    db.set_db_version("%s" % "2021.02")
+                    dbs.add_db(db)
+                all_db.add("ALPHAFOLD")
+
+                cross_ref_db = EMICSS.cross_ref_db()
+                cross_ref_db.set_db_source("%s" % "ALPHAFOLD")
+                cross_ref_db.set_link("%s" % AF_link)
+                cross_ref_db.set_provenance("%s" % AF_provenance)
                 cross_ref_dbs.add_cross_ref_db(cross_ref_db)
 
         macromolecule.set_cross_ref_dbs(cross_ref_dbs)

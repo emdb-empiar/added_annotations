@@ -33,6 +33,7 @@ class PdbeKB_AlphafoldMapping:
                 pdbekb = Pdbekb()
                 pdbekb.emdb_id = protein.emdb_id
                 pdbekb.sample_id = protein.sample_id
+                pdbekb.unip_id = uid
                 pdbekb.link = "https://www.ebi.ac.uk/pdbe/pdbe-kb/proteins/" + uid
                 pdbekb.provenance = "PDBe-KB"
                 protein.pdbekb.append(pdbekb)
@@ -44,6 +45,7 @@ class PdbeKB_AlphafoldMapping:
                 alphafold = Alphafold()
                 alphafold.emdb_id = protein.emdb_id
                 alphafold.sample_id = protein.sample_id
+                alphafold.unip_id = uid
                 alphafold.link = "https://alphafold.ebi.ac.uk/entry/" + uid
                 alphafold.provenance = "ALPHAFOLD"
                 protein.alphafold.append(alphafold)

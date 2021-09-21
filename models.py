@@ -24,10 +24,11 @@ class Protein:
         self.alphafold = []
 
     def __str__(self):
-        return "%s (%s)\n%s (%s) %s - %s [%s]\nComplexes: %s\nPDB: \n%s\n%s\n%s\n " % (self.sample_name, self.sample_organism,
+        return "%s (%s)\n%s (%s) %s - %s [%s]\nComplexes: %s\nPDB: \n%s\n%s\n%s\n  %s\n%s\n" % (self.sample_name, self.sample_organism,
                                                                               self.emdb_id, self.sample_id, self.sample_copies,
                                                                               self.uniprot_id, self.provenance, str(self.sample_complexes),
-                                                                              str(self.go), str(self.interpro), str(self.pfam))
+                                                                              str(self.go), str(self.interpro), str(self.pfam),
+                                                                              str(self.pdbekb), str(self.alphafold))
 
     def get_tsv(self):
         complex_str = ';'.join([str(elem) for elem in self.sample_complexes])
@@ -329,6 +330,7 @@ class Pdbekb:
     def __init__(self):
         self.emdb_id = ""
         self.sample_id = ""
+        self.unip_id = ""
         self.link = ""
         self.provenance = ""
 
@@ -342,6 +344,7 @@ class Alphafold:
     def __init__(self):
         self.emdb_id = ""
         self.sample_id = ""
+        self.unip_id = ""
         self.link = ""
         self.provenance = ""
 
