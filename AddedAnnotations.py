@@ -9,6 +9,7 @@ from resources.SampleWeight import SampleWeight
 from resources.EMPIARMapping import EMPIARMapping, generate_emp_dictionary
 from resources.PubmedMapping import PubmedMapping
 from resources.ProteinTermsMapping import ProteinTermsMapping
+from resources.PdbeKB_AlphafoldMapping import PdbeKB_AlphafoldMapping
 from EMICSS.EmicssXML import EmicssXML
 from XMLParser import XMLParser
 from glob import glob
@@ -90,6 +91,13 @@ def run(filename):
         proteins_map = PT_mapping.execute()
         PT_mapping.export_tsv(go_log, interpro_log, pfam_log)
         mapping_list.extend(["PROTEIN-TERMS", proteins_map])
+    if pdbekb or alphafold:
+        pdbekb_log = start_logger_if_necessary("pdbekb_logger", pdbekb_log_file)
+        alphafold_log = start_logger_if_necessary("alphafold_logger", alphafold_log_file)
+        Pdb_AF_mapping = PdbeKB_AlphafoldMapping(unp_mapping.proteins, pdbekb, alphafold)
+        KB_AF_map = Pdb_AF_mapping.execute()
+        Pdb_AF_mapping.export_tsv(pdbekb_log, alphafold_log)
+        mapping_list.extend(["PDBeKB-ALPHAFOLD", KB_AF_map])
     if emicss:
         # emicss_log = start_logger_if_necessary("emicss_logger", emicss_log_file)
         write_annotation_xml = EmicssXML(args.workDir, mapping_list)
@@ -134,6 +142,8 @@ if __name__ == "__main__":
     parser.add_argument("--GO", type=bool, nargs='?', const=True, default=False, help="Mapping GO ids to EMDB entries")
     parser.add_argument("--interpro", type=bool, nargs='?', const=True, default=False, help="Mapping InterPro ids to EMDB entries")
     parser.add_argument("--pfam", type=bool, nargs='?', const=True, default=False, help="Mapping pfam ids to EMDB entries")
+    parser.add_argument("--pdbekb", type=bool, nargs='?', const=True, default=False, help="Mapping PDBeKB links to EMDB entries")
+    parser.add_argument("--alphafold", type=bool, nargs='?', const=True, default=False, help="Mapping Alphafold links to EMDB entries")
     parser.add_argument("--emicss", type=bool, nargs='?', const=True, default=False, help="writting EMICSS XML file for each EMDB entry")
     args = parser.parse_args()
 
@@ -149,6 +159,8 @@ if __name__ == "__main__":
     go = args.GO
     interpro = args.interpro
     pfam = args.pfam
+    pdbekb = args.pdbekb
+    alphafold = args.alphafold
     emicss = args.emicss
     uniprot_dictionary = {}
     
@@ -161,6 +173,10 @@ if __name__ == "__main__":
         uniprot = True
     if pfam:
         uniprot = True
+    if pdbekb:
+        uniprot = True
+    if alphafold:
+        uniprot = True
     if args.all:
         uniprot = True
         cpx = True
@@ -172,6 +188,8 @@ if __name__ == "__main__":
         go = True
         interpro = True
         pfam = True
+        pdbekb = True
+        alphafold = True
         emicss = True
 
     #Get config variables:
@@ -200,6 +218,8 @@ if __name__ == "__main__":
     go_log_file = os.path.join(args.workDir, 'emdb_go.log')
     interpro_log_file = os.path.join(args.workDir, 'emdb_interpro.log')
     pfam_log_file = os.path.join(args.workDir, 'emdb_pfam.log')
+    pdbekb_log_file = os.path.join(args.workDir, 'emdb_pdbekb.log')
+    alphafold_log_file = os.path.join(args.workDir, 'emdb_alphafold.log')
     emicss_log_file = os.path.join(args.workDir, 'emdb_emicss.log')
     
     uniprot_log = setup_logger('uniprot_logger', uniprot_log_file)
@@ -224,6 +244,10 @@ if __name__ == "__main__":
     interpro_log.info("EMDB_ID\tEMDB_SAMPLE_ID\tINTERPRO_ID\tINTERPRO_NAMESPACE\tPROVENANCE")
     pfam_log = setup_logger('pfam_logger', pfam_log_file)
     pfam_log.info("EMDB_ID\tEMDB_SAMPLE_ID\tPFAM_ID\tPFAM_NAMESPACE\tPROVENANCE")
+    pdbekb_log = setup_logger('pdbekb_logger', pdbekb_log_file)
+    pdbekb_log.info("EMDB_ID\tEMDB_SAMPLE_ID\tPDBeKB_LINK\tPROVENANCE")
+    alphafold_log = setup_logger('alphafold_logger', alphafold_log_file)
+    alphafold_log.info("EMDB_ID\tEMDB_SAMPLE_ID\tALPHAFOLD_LINK\tPROVENANCE")
     emicss_log = setup_logger('emicss_logger', emicss_log_file)
 
     if args.download_uniprot:

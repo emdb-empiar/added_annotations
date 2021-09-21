@@ -41,6 +41,7 @@ class EmicssXML:
                 self.pmc_map = mapping_list[db+1]
             if mapping_list[db] == "PROTEIN-TERMS":
                 self.proteins_map = mapping_list[db+1]
+
         try:
             if self.mw_map:
                 for mw in self.mw_map:
