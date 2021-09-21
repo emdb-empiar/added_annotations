@@ -202,7 +202,7 @@ class EmicssXML:
                         if len(samp_id) == 4:
                             self.EMICSS_Pdbe(val, samp_id, all_db, dbs, weights)
                         if len(samp_id) != 4:
-                            self.EMICSS_unip_go_ipr_pfam(val, samp_id, all_db, dbs, macromolecules)
+                            self.EMICSS_proteins(val, samp_id, all_db, dbs, macromolecules)
                     if re.search(r'%s\_\d+' % "ligand", samp_id):
                         self.EMICSS_ligands(val, samp_id, all_db, dbs, macromolecules)
                     if re.search(r'%s\_\d+' % em_id, samp_id):
@@ -342,7 +342,7 @@ class EmicssXML:
             weight.set_provenance("%s" % "AUTHOR")
             weights.add_weight(weight)
 
-    def EMICSS_unip_go_ipr_pfam(self, val, samp_id, all_db, dbs, macromolecules):
+    def EMICSS_proteins(self, val, samp_id, all_db, dbs, macromolecules):
         "Adding UNIPROT, GO, INTERPRO and PFAM annotations to EMICSS"
 
         macromolecule = EMICSS.macromoleculeType()
@@ -360,7 +360,7 @@ class EmicssXML:
             if "UNIPROT" not in all_db:
                 db = EMICSS.dbType()
                 db.set_db_source("%s" % "UNIPROT")
-                db.set_db_version("%s" % "2021.02")
+                db.set_db_version("%s" % "2021.04")
                 dbs.add_db(db)
             all_db.add("UNIPROT")
             cross_ref_db = EMICSS.cross_ref_db()
@@ -384,7 +384,7 @@ class EmicssXML:
             cross_ref_db = EMICSS.cross_ref_db()
             cross_ref_db.set_db_source("%s" % "PDBe-KB")
             cross_ref_db.set_provenance("%s" % "PDBe-KB")
-            pdbekb_link = "https://www.ebi.ac.uk/pdbe/pdbe-kb/proteins/" + uniprot_id
+            pdbekb_link = "https://www.ebi.ac.uk/pdbe/pdbe-kb/proteins/"
             cross_ref_db.set_link("%s" % pdbekb_link)
             cross_ref_dbs.add_cross_ref_db(cross_ref_db)
 
@@ -415,7 +415,7 @@ class EmicssXML:
                 if "GO" not in all_db:
                     db = EMICSS.dbType()
                     db.set_db_source("%s" % "GO")
-                    db.set_db_version("%s" % "2021.02")
+                    db.set_db_version("%s" % "20210616")
                     dbs.add_db(db)
                 all_db.add("GO")
 
@@ -442,7 +442,7 @@ class EmicssXML:
                 if "INTERPRO" not in all_db:
                     db = EMICSS.dbType()
                     db.set_db_source("%s" % "INTERPRO")
-                    db.set_db_version("%s" % "2021.02")
+                    db.set_db_version("%s" % "86.0")
                     dbs.add_db(db)
                 all_db.add("INTERPRO")
 
@@ -463,7 +463,7 @@ class EmicssXML:
                 if "PFAM" not in all_db:
                     db = EMICSS.dbType()
                     db.set_db_source("%s" % "PFAM")
-                    db.set_db_version("%s" % "2021.02")
+                    db.set_db_version("%s" % "34.0")
                     dbs.add_db(db)
                 all_db.add("PFAM")
 

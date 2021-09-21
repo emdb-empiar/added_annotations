@@ -114,7 +114,8 @@ class UniprotMapping:
 			for x in list(root.iter('Hit')):
 				Hit_def = x.find('Hit_def').text
 				Hit_split = Hit_def.split("OS")
-				uniprot_id = Hit_split[0]
+				uniprot = Hit_split[0]
+				uniprot_id = uniprot.split("|")[1]
 				tax_id = re.findall('OX=(.*)=', Hit_def, re.S)[0].split("GN")[0].strip()
 				ident_num = x.find('Hit_len').text
 				if tax_id == ncbi_id:

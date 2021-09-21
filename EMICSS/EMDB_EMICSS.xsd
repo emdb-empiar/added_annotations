@@ -25,7 +25,7 @@
                 <xs:element name="citations" minOccurs="0">
                     <xs:complexType>
                         <xs:sequence>
-                            <xs:element maxOccurs="unbounded" minOccurs="0" name="citation">
+                            <xs:element maxOccurs="unbounded" name="citation">
                                 <xs:complexType>
                                     <xs:attribute name="doi" type="xs:string"/>
                                     <xs:attribute name="provenance" type="provenance_type"/>
@@ -37,7 +37,7 @@
                 <xs:element minOccurs="0" name="weights">
                     <xs:complexType>
                         <xs:sequence>
-                            <xs:element maxOccurs="unbounded" minOccurs="0" name="weight">
+                            <xs:element maxOccurs="unbounded" name="weight">
                                 <xs:complexType>
                                     <xs:attribute name="pdb_id" type="xs:string"/>
                                     <xs:attribute name="assemblies" type="xs:int"/>
@@ -64,8 +64,7 @@
                             <xs:element name="supramolecules" minOccurs="0">
                                 <xs:complexType>
                                     <xs:sequence>
-                                        <xs:element name="supramolecule" maxOccurs="unbounded"
-                                            minOccurs="0">
+                                        <xs:element name="supramolecule" maxOccurs="unbounded">
                                             <xs:complexType>
                                                 <xs:sequence>
                                                   <xs:element name="name" type="xs:string"/>
@@ -90,8 +89,7 @@
                             <xs:element name="macromolecules" minOccurs="0">
                                 <xs:complexType>
                                     <xs:sequence>
-                                        <xs:element name="macromolecule" maxOccurs="unbounded"
-                                            minOccurs="0">
+                                        <xs:element name="macromolecule" maxOccurs="unbounded">
                                             <xs:complexType>
                                                 <xs:sequence>
                                                   <xs:element name="name" type="xs:string"/>
