@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Tue Sep 21 09:19:33 2021 by generateDS.py version 2.38.6.
+# Generated Wed Sep 22 14:45:59 2021 by generateDS.py version 2.38.6.
 # Python 3.7.6 (default, Dec 30 2019, 19:38:28)  [Clang 11.0.0 (clang-1100.0.33.16)]
 #
 # Command line options:
@@ -1018,7 +1018,7 @@ class emicss(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, emdb_id=None, dbs=None, cross_ref_dbs=None, citations=None, weights=None, sample=None, gds_collector_=None, **kwargs_):
+    def __init__(self, emdb_id=None, version=None, schemaLocation=None, dbs=None, cross_ref_dbs=None, citations=None, weights=None, sample=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
@@ -1026,6 +1026,10 @@ class emicss(GeneratedsSuper):
         self.ns_prefix_ = None
         self.emdb_id = _cast(None, emdb_id)
         self.emdb_id_nsprefix_ = None
+        self.version = _cast(None, version)
+        self.version_nsprefix_ = None
+        self.schemaLocation = _cast(None, schemaLocation)
+        self.schemaLocation_nsprefix_ = None
         self.dbs = dbs
         self.dbs_nsprefix_ = None
         self.cross_ref_dbs = cross_ref_dbs
@@ -1075,6 +1079,14 @@ class emicss(GeneratedsSuper):
         return self.emdb_id
     def set_emdb_id(self, emdb_id):
         self.emdb_id = emdb_id
+    def get_version(self):
+        return self.version
+    def set_version(self, version):
+        self.version = version
+    def get_schemaLocation(self):
+        return self.schemaLocation
+    def set_schemaLocation(self, schemaLocation):
+        self.schemaLocation = schemaLocation
     def validate_emdb_id_type(self, value):
         # Validate type emdb_id_type, a restriction on xs:token.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
@@ -1124,6 +1136,12 @@ class emicss(GeneratedsSuper):
         if self.emdb_id is not None and 'emdb_id' not in already_processed:
             already_processed.add('emdb_id')
             outfile.write(' emdb_id=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.emdb_id), input_name='emdb_id')), ))
+        if self.version is not None and 'version' not in already_processed:
+            already_processed.add('version')
+            outfile.write(' version=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.version), input_name='version')), ))
+        if self.schemaLocation is not None and 'schemaLocation' not in already_processed:
+            already_processed.add('schemaLocation')
+            outfile.write(' schemaLocation=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.schemaLocation), input_name='schemaLocation')), ))
     def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='emicss', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
@@ -1162,6 +1180,15 @@ class emicss(GeneratedsSuper):
             self.emdb_id = value
             self.emdb_id = ' '.join(self.emdb_id.split())
             self.validate_emdb_id_type(self.emdb_id)    # validate type emdb_id_type
+        value = find_attr_value_('version', node)
+        if value is not None and 'version' not in already_processed:
+            already_processed.add('version')
+            self.version = value
+            self.version = ' '.join(self.version.split())
+        value = find_attr_value_('schemaLocation', node)
+        if value is not None and 'schemaLocation' not in already_processed:
+            already_processed.add('schemaLocation')
+            self.schemaLocation = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         if nodeName_ == 'dbs':
             obj_ = dbsType.factory(parent_object_=self)

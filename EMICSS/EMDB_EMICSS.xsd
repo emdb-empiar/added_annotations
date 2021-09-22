@@ -118,6 +118,8 @@
                 </xs:element>
             </xs:sequence>
             <xs:attribute name="emdb_id" type="emdb_id_type"/>
+            <xs:attribute name="version" type="xs:token"/>
+            <xs:attribute name="schemaLocation" type="xs:string"/>
         </xs:complexType>
     </xs:element>
     <xs:simpleType name="emdb_id_type">

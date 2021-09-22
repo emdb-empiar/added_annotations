@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Tue Sep 21 09:19:34 2021 by generateDS.py version 2.38.6.
+# Generated Wed Sep 22 14:46:00 2021 by generateDS.py version 2.38.6.
 # Python 3.7.6 (default, Dec 30 2019, 19:38:28)  [Clang 11.0.0 (clang-1100.0.33.16)]
 #
 # Command line options:
@@ -62,8 +62,8 @@ SaveElementTreeNode = True
 
 
 class emicssSub(supermod.emicss):
-    def __init__(self, emdb_id=None, dbs=None, cross_ref_dbs=None, citations=None, weights=None, sample=None, **kwargs_):
-        super(emicssSub, self).__init__(emdb_id, dbs, cross_ref_dbs, citations, weights, sample,  **kwargs_)
+    def __init__(self, emdb_id=None, version=None, schemaLocation=None, dbs=None, cross_ref_dbs=None, citations=None, weights=None, sample=None, **kwargs_):
+        super(emicssSub, self).__init__(emdb_id, version, schemaLocation, dbs, cross_ref_dbs, citations, weights, sample,  **kwargs_)
 supermod.emicss.subclass = emicssSub
 # end class emicssSub
 

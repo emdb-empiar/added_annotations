@@ -226,6 +226,7 @@ class EmicssXML:
             macromolecules = EMICSS.macromoleculesType()
 
             headerXML.set_emdb_id(em_id)
+            headerXML.set_version("1.0.0")
             supramolecules = None
             for samp_id in val.keys():
                 if samp_id is not None:
