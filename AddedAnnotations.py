@@ -9,7 +9,8 @@ from resources.SampleWeight import SampleWeight
 from resources.EMPIARMapping import EMPIARMapping, generate_emp_dictionary
 from resources.PubmedMapping import PubmedMapping
 from resources.ProteinTermsMapping import ProteinTermsMapping
-from resources.PdbeKB_AlphafoldMapping import PdbeKB_AlphafoldMapping
+from resources.PdbeKbMapping import PdbeKbMapping
+from resources.AlphaFoldMapping import AlphaFoldMapping
 from EMICSS.EmicssXML import EmicssXML
 from XMLParser import XMLParser
 from glob import glob
@@ -91,17 +92,22 @@ def run(filename):
         proteins_map = PT_mapping.execute()
         PT_mapping.export_tsv(go_log, interpro_log, pfam_log)
         mapping_list.extend(["PROTEIN-TERMS", proteins_map])
-    if pdbekb or alphafold:
+    if pdbekb:
         pdbekb_log = start_logger_if_necessary("pdbekb_logger", pdbekb_log_file)
+        pdbekb_map = PdbeKbMapping()
+        pdbekb_entries = pdbekb_map.execute(unp_mapping.proteins)
+        pdbekb_map.export_tsv(pdbekb_log)
+        mapping_list.extend(["PDBeKB", pdbekb_entries])
+    if alphafold:
         alphafold_log = start_logger_if_necessary("alphafold_logger", alphafold_log_file)
-        Pdb_AF_mapping = PdbeKB_AlphafoldMapping(unp_mapping.proteins, pdbekb, alphafold)
-        KB_AF_map = Pdb_AF_mapping.execute()
-        Pdb_AF_mapping.export_tsv(pdbekb_log, alphafold_log)
-        mapping_list.extend(["PDBeKB-ALPHAFOLD", KB_AF_map])
-    if emicss:
-        # emicss_log = start_logger_if_necessary("emicss_logger", emicss_log_file)
-        write_annotation_xml = EmicssXML(args.workDir, mapping_list)
-        write_annotation_xml.execute()
+        af_mapping = AlphaFoldMapping()
+        af_entries = af_mapping.execute(unp_mapping.proteins)
+        af_mapping.export_tsv(alphafold_log)
+        mapping_list.extend(["ALPHAFOLD", af_entries])
+    # if emicss:
+    #     # emicss_log = start_logger_if_necessary("emicss_logger", emicss_log_file)
+    #     write_annotation_xml = EmicssXML(args.workDir, mapping_list)
+    #     write_annotation_xml.execute()
 
 """
 List of things to do:
@@ -245,9 +251,9 @@ if __name__ == "__main__":
     pfam_log = setup_logger('pfam_logger', pfam_log_file)
     pfam_log.info("EMDB_ID\tEMDB_SAMPLE_ID\tPFAM_ID\tPFAM_NAMESPACE\tPROVENANCE")
     pdbekb_log = setup_logger('pdbekb_logger', pdbekb_log_file)
-    pdbekb_log.info("EMDB_ID\tEMDB_SAMPLE_ID\tPDBeKB_LINK\tPROVENANCE")
+    pdbekb_log.info("EMDB_ID\tEMDB_SAMPLE_ID\tPDBeKB_ID\tPROVENANCE")
     alphafold_log = setup_logger('alphafold_logger', alphafold_log_file)
-    alphafold_log.info("EMDB_ID\tEMDB_SAMPLE_ID\tALPHAFOLD_LINK\tPROVENANCE")
+    alphafold_log.info("EMDB_ID\tEMDB_SAMPLE_ID\tALPHAFOLDDB_ID\tPROVENANCE")
     emicss_log = setup_logger('emicss_logger', emicss_log_file)
 
     if args.download_uniprot:
