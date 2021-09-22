@@ -1,4 +1,5 @@
 import requests, json
+from models import Alphafold
 
 class AlphaFoldMapping:
 	"""
@@ -15,8 +16,12 @@ class AlphaFoldMapping:
 				response = requests.get(url)
 				if response.status_code == 200 and response.content:
 					if json.loads(response.content):
+						alphafold = Alphafold()
+						alphafold.unip_id = uid
+						alphafold.link = f"https://alphafold.ebi.ac.uk/entry/{uid}"
+						alphafold.provenance = "ALPHAFOLD"
+						protein.alphafold.append(alphafold)
 						self.proteins.append(protein)
-
 		return self.proteins
 
 	def export_tsv(self, logger):

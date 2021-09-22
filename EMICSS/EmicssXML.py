@@ -41,8 +41,10 @@ class EmicssXML:
                 self.pmc_map = mapping_list[db+1]
             if mapping_list[db] == "PROTEIN-TERMS":
                 self.proteins_map = mapping_list[db+1]
-            if mapping_list[db] == "PDBeKB-ALPHAFOLD":
-                self.KB_AF_map = mapping_list[db+1]
+            if mapping_list[db] == "PDBeKB":
+                self.KB_map = mapping_list[db+1]
+            if mapping_list[db] == "ALPHAFOLD":
+                self.AF_map = mapping_list[db+1]
 
         try:
             if self.mw_map:
@@ -141,37 +143,43 @@ class EmicssXML:
                         print("PROTEIN-TERMS mapping doesn't exist", e)
 
                     try:
-                        if self.unip_map and self.KB_AF_map:
-                            for KB_AF in self.KB_AF_map:
-                                if KB_AF.uniprot_id == unip.uniprot_id:
+                        if self.unip_map and self.KB_map:
+                            for KB in self.KB_map:
+                                if KB.uniprot_id == unip.uniprot_id:
                                     if self.ind:
                                         ind = self.ind
                                     if not self.ind:
                                         ind = 0
-                                    if KB_AF.emdb_id not in emicss_dict.keys():
-                                        emicss_dict[KB_AF.emdb_id] = {}
-                                    if KB_AF.emdb_id not in emicss_dict[KB_AF.emdb_id].keys():
-                                        emicss_dict[KB_AF.emdb_id][KB_AF.uniprot_id] = {}
-                                    if KB_AF.sample_id not in emicss_dict[KB_AF.emdb_id]:
-                                        emicss_dict[KB_AF.emdb_id][KB_AF.uniprot_id] = unip.__dict__
-                                    for pdbekb2 in KB_AF.pdbekb:
+                                    for pdbekb2 in KB.pdbekb:
                                         pdbekb = pdbekb2.__dict__
-                                        if KB_AF.uniprot_id == pdbekb2.unip_id:
+                                        if KB.uniprot_id == pdbekb2.unip_id:
                                             for k in pdbekb.keys():
                                                 new_key = '{}_{}_{}'.format("kb", k, ind)
-                                                emicss_dict[KB_AF.emdb_id][KB_AF.uniprot_id][new_key] = pdbekb[k]
+                                                emicss_dict[unip.emdb_id][KB.uniprot_id][new_key] = pdbekb[k]
                                             ind = ind + 1
+                                    emicss_dict[unip.emdb_id][KB.uniprot_id]["ind"] = ind
+                                    self.ind = ind
+                    except AttributeError as e:
+                        print("PDBeKB mapping doesn't exist", e)
 
-                                    for alphafold2 in KB_AF.alphafold:
+                    try:
+                        if self.unip_map and self.AF_map:
+                            for AF in self.AF_map:
+                                if AF.uniprot_id == unip.uniprot_id:
+                                    if self.ind:
+                                        ind = self.ind
+                                    if not self.ind:
+                                        ind = 0
+                                    for alphafold2 in AF.alphafold:
                                         alphafold = alphafold2.__dict__
-                                        if KB_AF.uniprot_id == alphafold2.unip_id:
+                                        if AF.uniprot_id == alphafold2.unip_id:
                                             for k in alphafold.keys():
                                                 new_key = '{}_{}_{}'.format("af", k, ind)
-                                                emicss_dict[KB_AF.emdb_id][KB_AF.uniprot_id][new_key] = alphafold[k]
+                                                emicss_dict[AF.emdb_id][AF.uniprot_id][new_key] = alphafold[k]
                                             ind = ind + 1
-                                    emicss_dict[KB_AF.emdb_id][KB_AF.uniprot_id]["ind"] = ind
+                                    emicss_dict[AF.emdb_id][AF.uniprot_id]["ind"] = ind
                     except AttributeError as e:
-                        print("PDBeKB-ALPHAFOLD mapping doesn't exist", e)
+                        print("ALPHAFOLD mapping doesn't exist", e)
         except AttributeError as e:
             print("UNIPROT mapping doesn't exist", e)
 

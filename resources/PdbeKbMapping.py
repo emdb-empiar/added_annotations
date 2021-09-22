@@ -1,4 +1,5 @@
 import requests
+from models import Pdbekb
 
 class PdbeKbMapping:
 	"""
@@ -14,8 +15,12 @@ class PdbeKbMapping:
 				url = f"https://www.uniprot.org/uniprot/?query=id:{uid}%20database:(type:pdb)&sort=score&columns=id&format=tab"
 				response = requests.get(url)
 				if response.status_code == 200 and response.content:
+					pdbekb = Pdbekb()
+					pdbekb.unip_id = uid
+					pdbekb.link = f"https://www.ebi.ac.uk/pdbe/pdbe-kb/proteins/{uid}"
+					pdbekb.provenance = "PDBe-KB"
+					protein.pdbekb.append(pdbekb)
 					self.proteins.append(protein)
-
 		return self.proteins
 
 	def export_tsv(self, logger):

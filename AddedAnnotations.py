@@ -104,10 +104,10 @@ def run(filename):
         af_entries = af_mapping.execute(unp_mapping.proteins)
         af_mapping.export_tsv(alphafold_log)
         mapping_list.extend(["ALPHAFOLD", af_entries])
-    # if emicss:
-    #     # emicss_log = start_logger_if_necessary("emicss_logger", emicss_log_file)
-    #     write_annotation_xml = EmicssXML(args.workDir, mapping_list)
-    #     write_annotation_xml.execute()
+    if emicss:
+        # emicss_log = start_logger_if_necessary("emicss_logger", emicss_log_file)
+        write_annotation_xml = EmicssXML(args.workDir, mapping_list)
+        write_annotation_xml.execute()
 
 """
 List of things to do:

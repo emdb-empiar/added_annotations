@@ -322,3 +322,28 @@ class Pfam:
                 if 'description' in data:
                     result = data['description']
                     self.namespace = result['description']
+
+class Pdbekb:
+    """
+    Define the PDBeKB terms for the sample in the EMDB entry
+    """
+    def __init__(self):
+        self.link = ""
+        self.unip_id = ""
+        self.provenance = ""
+
+    def __str__(self):
+        return f"{self.unip_id}\t{self.link}\t{self.provenance}"
+
+class Alphafold:
+    """
+    Define the Alphafold terms for the sample in the EMDB entry
+    """
+    def __init__(self):
+        self.link = ""
+        self.unip_id = ""
+        self.provenance = ""
+
+    def __str__(self):
+        return f"{self.unip_id}\t{self.link}\t{self.provenance}"
+
