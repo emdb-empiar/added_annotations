@@ -137,22 +137,22 @@ class XMLParser:
 							uniprot_id = qs.find('external_references').text
 							protein.uniprot_id = uniprot_id
 							protein.provenance = "AUTHOR"
-						for t in list(qs.iter('external_references')):
-							if t.attrib['type'] == 'GO':
-								go = GO()
-								go.add_from_author(t.text, uniprot_id)
-								if go.id and go.namespace and go.type:
-									protein.go.append(go)
-							elif t.attrib['type'] == 'INTERPRO':
-								ipr = Interpro()
-								ipr.add_from_author(t.text, uniprot_id)
-								if ipr.id and ipr.namespace:
-									protein.interpro.append(ipr)
-							elif t.attrib['type'] == 'PFAM':
-								pfam = Pfam()
-								pfam.add_from_author(t.text, uniprot_id)
-								if pfam.id:
-									protein.pfam.append(pfam)
+							for t in list(qs.iter('external_references')):
+								if t.attrib['type'] == 'GO':
+									go = GO()
+									go.add_from_author(t.text, uniprot_id)
+									if go.id and go.namespace and go.type:
+										protein.go.append(go)
+								elif t.attrib['type'] == 'INTERPRO':
+									ipr = Interpro()
+									ipr.add_from_author(t.text, uniprot_id)
+									if ipr.id and ipr.namespace:
+										protein.interpro.append(ipr)
+								elif t.attrib['type'] == 'PFAM':
+									pfam = Pfam()
+									pfam.add_from_author(t.text, uniprot_id)
+									if pfam.id:
+										protein.pfam.append(pfam)
 					if qs.find('string') is not None:
 						seq = qs.find('string').text
 						#seq = re.sub(r'\(\s*UNK\s*\)', 'X', seq)
