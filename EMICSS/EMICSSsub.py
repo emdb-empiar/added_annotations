@@ -1,18 +1,19 @@
 #!/usr/bin/env python
 
 #
-# Generated Wed Sep 22 14:46:00 2021 by generateDS.py version 2.38.6.
+# Generated Thu Sep 23 15:11:31 2021 by generateDS.py version 2.38.6.
 # Python 3.7.6 (default, Dec 30 2019, 19:38:28)  [Clang 11.0.0 (clang-1100.0.33.16)]
 #
 # Command line options:
 #   ('-o', 'EMICSS.py')
 #   ('-s', 'EMICSSsub.py')
+#   ('--external-encoding', 'utf-8')
 #
 # Command line arguments:
 #   EMDB_EMICSS.xsd
 #
 # Command line:
-#   /usr/local/bin/generateDS.py -o "EMICSS.py" -s "EMICSSsub.py" EMDB_EMICSS.xsd
+#   /usr/local/bin/generateDS.py -o "EMICSS.py" -s "EMICSSsub.py" --external-encoding="utf-8" EMDB_EMICSS.xsd
 #
 # Current working directory (os.getcwd()):
 #   EMICSS
@@ -53,7 +54,7 @@ def parsexmlstring_(instring, parser=None, **kwargs):
 # Globals
 #
 
-ExternalEncoding = ''
+ExternalEncoding = 'utf-8'
 SaveElementTreeNode = True
 
 #
@@ -62,8 +63,8 @@ SaveElementTreeNode = True
 
 
 class emicssSub(supermod.emicss):
-    def __init__(self, emdb_id=None, version=None, schemaLocation=None, dbs=None, cross_ref_dbs=None, citations=None, weights=None, sample=None, **kwargs_):
-        super(emicssSub, self).__init__(emdb_id, version, schemaLocation, dbs, cross_ref_dbs, citations, weights, sample,  **kwargs_)
+    def __init__(self, emdb_id=None, schema_version=None, dbs=None, cross_ref_dbs=None, citations=None, weights=None, sample=None, **kwargs_):
+        super(emicssSub, self).__init__(emdb_id, schema_version, dbs, cross_ref_dbs, citations, weights, sample,  **kwargs_)
 supermod.emicss.subclass = emicssSub
 # end class emicssSub
 

@@ -18,7 +18,7 @@ class PdbeKbMapping:
 					pdbekb = Pdbekb()
 					pdbekb.unip_id = uid
 					pdbekb.link = f"https://www.ebi.ac.uk/pdbe/pdbe-kb/proteins/{uid}"
-					pdbekb.provenance = "PDBe-KB"
+					pdbekb.provenance = "UNIPROT"
 					protein.pdbekb.append(pdbekb)
 					self.proteins.append(protein)
 		return self.proteins

@@ -2,18 +2,19 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Wed Sep 22 14:45:59 2021 by generateDS.py version 2.38.6.
+# Generated Thu Sep 23 15:11:30 2021 by generateDS.py version 2.38.6.
 # Python 3.7.6 (default, Dec 30 2019, 19:38:28)  [Clang 11.0.0 (clang-1100.0.33.16)]
 #
 # Command line options:
 #   ('-o', 'EMICSS.py')
 #   ('-s', 'EMICSSsub.py')
+#   ('--external-encoding', 'utf-8')
 #
 # Command line arguments:
 #   EMDB_EMICSS.xsd
 #
 # Command line:
-#   /usr/local/bin/generateDS.py -o "EMICSS.py" -s "EMICSSsub.py" EMDB_EMICSS.xsd
+#   /usr/local/bin/generateDS.py -o "EMICSS.py" -s "EMICSSsub.py" --external-encoding="utf-8" EMDB_EMICSS.xsd
 #
 # Current working directory (os.getcwd()):
 #   EMICSS
@@ -686,7 +687,7 @@ except ModulenotfoundExp_ as exp:
 # Globals
 #
 
-ExternalEncoding = ''
+ExternalEncoding = 'utf-8'
 # Set this to false in order to deactivate during export, the use of
 # name space prefixes captured from the input document.
 UseCapturedNS_ = True
@@ -987,6 +988,8 @@ class db_source_type(str, Enum):
 
 
 class provenance_type(str, Enum):
+    """Annotations done from the respective database. Could be more than one
+    database"""
     AUTHOR='AUTHOR'
     UNIPROT='UNIPROT'
     PD_BE='PDBe'
@@ -1018,7 +1021,7 @@ class emicss(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, emdb_id=None, version=None, schemaLocation=None, dbs=None, cross_ref_dbs=None, citations=None, weights=None, sample=None, gds_collector_=None, **kwargs_):
+    def __init__(self, emdb_id=None, schema_version=None, dbs=None, cross_ref_dbs=None, citations=None, weights=None, sample=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
@@ -1026,10 +1029,8 @@ class emicss(GeneratedsSuper):
         self.ns_prefix_ = None
         self.emdb_id = _cast(None, emdb_id)
         self.emdb_id_nsprefix_ = None
-        self.version = _cast(None, version)
-        self.version_nsprefix_ = None
-        self.schemaLocation = _cast(None, schemaLocation)
-        self.schemaLocation_nsprefix_ = None
+        self.schema_version = _cast(None, schema_version)
+        self.schema_version_nsprefix_ = None
         self.dbs = dbs
         self.dbs_nsprefix_ = None
         self.cross_ref_dbs = cross_ref_dbs
@@ -1079,14 +1080,10 @@ class emicss(GeneratedsSuper):
         return self.emdb_id
     def set_emdb_id(self, emdb_id):
         self.emdb_id = emdb_id
-    def get_version(self):
-        return self.version
-    def set_version(self, version):
-        self.version = version
-    def get_schemaLocation(self):
-        return self.schemaLocation
-    def set_schemaLocation(self, schemaLocation):
-        self.schemaLocation = schemaLocation
+    def get_schema_version(self):
+        return self.schema_version
+    def set_schema_version(self, schema_version):
+        self.schema_version = schema_version
     def validate_emdb_id_type(self, value):
         # Validate type emdb_id_type, a restriction on xs:token.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
@@ -1136,12 +1133,9 @@ class emicss(GeneratedsSuper):
         if self.emdb_id is not None and 'emdb_id' not in already_processed:
             already_processed.add('emdb_id')
             outfile.write(' emdb_id=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.emdb_id), input_name='emdb_id')), ))
-        if self.version is not None and 'version' not in already_processed:
-            already_processed.add('version')
-            outfile.write(' version=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.version), input_name='version')), ))
-        if self.schemaLocation is not None and 'schemaLocation' not in already_processed:
-            already_processed.add('schemaLocation')
-            outfile.write(' schemaLocation=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.schemaLocation), input_name='schemaLocation')), ))
+        if self.schema_version is not None and 'schema_version' not in already_processed:
+            already_processed.add('schema_version')
+            outfile.write(' schema_version=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.schema_version), input_name='schema_version')), ))
     def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='emicss', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
@@ -1180,15 +1174,11 @@ class emicss(GeneratedsSuper):
             self.emdb_id = value
             self.emdb_id = ' '.join(self.emdb_id.split())
             self.validate_emdb_id_type(self.emdb_id)    # validate type emdb_id_type
-        value = find_attr_value_('version', node)
-        if value is not None and 'version' not in already_processed:
-            already_processed.add('version')
-            self.version = value
-            self.version = ' '.join(self.version.split())
-        value = find_attr_value_('schemaLocation', node)
-        if value is not None and 'schemaLocation' not in already_processed:
-            already_processed.add('schemaLocation')
-            self.schemaLocation = value
+        value = find_attr_value_('schema_version', node)
+        if value is not None and 'schema_version' not in already_processed:
+            already_processed.add('schema_version')
+            self.schema_version = value
+            self.schema_version = ' '.join(self.schema_version.split())
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         if nodeName_ == 'dbs':
             obj_ = dbsType.factory(parent_object_=self)
@@ -1458,6 +1448,7 @@ class cross_ref_db(GeneratedsSuper):
 
 
 class dbsType(GeneratedsSuper):
+    """List of databases annotated for this EMDB entry"""
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
@@ -1676,6 +1667,7 @@ class dbType(GeneratedsSuper):
 
 
 class cross_ref_dbsType(GeneratedsSuper):
+    """Entry based annotations"""
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
@@ -1995,6 +1987,8 @@ class citationType(GeneratedsSuper):
 
 
 class weightsType(GeneratedsSuper):
+    """Total weight of the assemblies. Calculated from both PDBe and author
+    provided experimental and theoretical values"""
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
@@ -2405,6 +2399,7 @@ class sampleType(GeneratedsSuper):
 
 
 class cross_ref_dbsType1(GeneratedsSuper):
+    """Sample based annotations"""
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
@@ -2507,6 +2502,7 @@ class cross_ref_dbsType1(GeneratedsSuper):
 
 
 class supramoleculesType(GeneratedsSuper):
+    """Supramolecule annotations"""
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
@@ -2877,6 +2873,7 @@ class cross_ref_dbsType2(GeneratedsSuper):
 
 
 class macromoleculesType(GeneratedsSuper):
+    """Macromolecule annotations"""
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None

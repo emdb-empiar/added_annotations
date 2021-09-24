@@ -234,7 +234,7 @@ class EmicssXML:
             macromolecules = EMICSS.macromoleculesType()
 
             headerXML.set_emdb_id(em_id)
-            headerXML.set_version("1.0.0")
+            headerXML.set_schema_version("1.0.0")
             supramolecules = None
             for samp_id in val.keys():
                 if samp_id is not None:
@@ -269,6 +269,10 @@ class EmicssXML:
             xmlFile = os.path.join(output_path, "emd-" + entry_id + "_emicss.xml")
             with open(xmlFile, 'w') as f:
                 headerXML.export(f, 0, name_='emicss')
+                # headerXML.export(f, 0, name_='emicss',
+                #                  namespacedef_='xmlns="http://pdbe.org/empiar" '
+                #                                'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" '
+                #                                'xsi:schemaLocation="https://ftp.ebi.ac.uk/pub/databases/emtest/empiar/schema/empiar.xsd"')
 
     def EMICSS_empiar(self, val, samp_id, all_db, dbs, cross_ref_dbs):
         "Adding EMPIAR_ID to EMICSS"

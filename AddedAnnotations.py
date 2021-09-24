@@ -127,7 +127,8 @@ if __name__ == "__main__":
             -f '[{"/path/to/EMDB/header/files/folder"}]'
             
             -p '[{"/path/to/PDBe/files/folder"}]'
-            --download_uniprot --uniprot --CPX --component --model --weight --empiar --pmc --GO --interpro --pfam --emicss
+            --download_uniprot --uniprot --CPX --component --model --weight --empiar --pmc --GO --interpro --pfam --pbdekb 
+            --alphafold --emicss
           """
     parser = argparse.ArgumentParser(prog=prog, usage=usage, add_help=False,
                                      formatter_class=argparse.RawTextHelpFormatter)

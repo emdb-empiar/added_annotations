@@ -4,6 +4,11 @@
         <xs:complexType>
             <xs:sequence>
                 <xs:element name="dbs">
+                    <xs:annotation>
+                        <xs:documentation>
+                            List of databases annotated for this EMDB entry
+                        </xs:documentation>
+                    </xs:annotation>
                     <xs:complexType>
                         <xs:sequence>
                             <xs:element maxOccurs="unbounded" name="db">
@@ -16,6 +21,11 @@
                     </xs:complexType>
                 </xs:element>
                 <xs:element minOccurs="0" name="cross_ref_dbs">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Entry based annotations
+                        </xs:documentation>
+                    </xs:annotation>
                     <xs:complexType>
                         <xs:sequence>
                             <xs:element maxOccurs="unbounded" ref="cross_ref_db"/>
@@ -35,6 +45,11 @@
                     </xs:complexType>
                 </xs:element>
                 <xs:element minOccurs="0" name="weights">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Total weight of the assemblies. Calculated from both PDBe and author provided experimental and theoretical values
+                        </xs:documentation>
+                    </xs:annotation>
                     <xs:complexType>
                         <xs:sequence>
                             <xs:element maxOccurs="unbounded" name="weight">
@@ -55,6 +70,11 @@
                         <xs:sequence minOccurs="0">
                             <xs:element name="name" type="xs:string" minOccurs="0"/>
                             <xs:element minOccurs="0" name="cross_ref_dbs">
+                                <xs:annotation>
+                                    <xs:documentation>
+                                        Sample based annotations
+                                    </xs:documentation>
+                                </xs:annotation>
                                 <xs:complexType>
                                     <xs:sequence>
                                         <xs:element maxOccurs="unbounded" ref="cross_ref_db"/>
@@ -62,6 +82,11 @@
                                 </xs:complexType>
                             </xs:element>
                             <xs:element name="supramolecules" minOccurs="0">
+                                <xs:annotation>
+                                    <xs:documentation>
+                                        Supramolecule annotations
+                                    </xs:documentation>
+                                </xs:annotation>
                                 <xs:complexType>
                                     <xs:sequence>
                                         <xs:element name="supramolecule" maxOccurs="unbounded">
@@ -87,6 +112,11 @@
                                 </xs:complexType>
                             </xs:element>
                             <xs:element name="macromolecules" minOccurs="0">
+                                <xs:annotation>
+                                    <xs:documentation>
+                                        Macromolecule annotations
+                                    </xs:documentation>
+                                </xs:annotation>
                                 <xs:complexType>
                                     <xs:sequence>
                                         <xs:element name="macromolecule" maxOccurs="unbounded">
@@ -118,8 +148,7 @@
                 </xs:element>
             </xs:sequence>
             <xs:attribute name="emdb_id" type="emdb_id_type"/>
-            <xs:attribute name="version" type="xs:token"/>
-            <xs:attribute name="schemaLocation" type="xs:string"/>
+            <xs:attribute name="schema_version" type="xs:token"/>
         </xs:complexType>
     </xs:element>
     <xs:simpleType name="emdb_id_type">
@@ -148,6 +177,11 @@
     </xs:simpleType>
     <xs:simpleType name="provenance_type">
         <xs:restriction base="xs:token">
+            <xs:annotation>
+                <xs:documentation>
+                    Annotations done from the respective database. Could be more than one database
+                </xs:documentation>
+            </xs:annotation>
             <xs:enumeration value="AUTHOR"/>
             <xs:enumeration value="UNIPROT"/>
             <xs:enumeration value="PDBe"/>
