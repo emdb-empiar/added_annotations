@@ -159,10 +159,11 @@
     <xs:simpleType name="db_source_type">
         <xs:restriction base="xs:token">
             <xs:enumeration value="UNIPROT"/>
+            <xs:enumeration value="UNIPROTKB"/>
             <xs:enumeration value="COMPLEX PORTAL"/>
             <xs:enumeration value="PDBe"/>
             <xs:enumeration value="PDBe-KB"/>
-            <xs:enumeration value="ALPHAFOLD"/>
+            <xs:enumeration value="ALPHAFOLDDB"/>
             <xs:enumeration value="CHEMBL"/>
             <xs:enumeration value="CHEBI"/>
             <xs:enumeration value="DRUGBANK"/>
@@ -184,9 +185,10 @@
             </xs:annotation>
             <xs:enumeration value="AUTHOR"/>
             <xs:enumeration value="UNIPROT"/>
+            <xs:enumeration value="UniProtKB"/>
             <xs:enumeration value="PDBe"/>
             <xs:enumeration value="PDBe-KB"/>
-            <xs:enumeration value="ALPHAFOLD"/>
+            <xs:enumeration value="AlphaFoldDB"/>
             <xs:enumeration value="EMPIAR"/>
             <xs:enumeration value="EuropePMC"/>
             <xs:enumeration value="CPX"/>
