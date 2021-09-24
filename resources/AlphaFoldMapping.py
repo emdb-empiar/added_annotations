@@ -10,7 +10,7 @@ class AlphaFoldMapping:
 
 	def execute(self, proteins):
 		for protein in proteins:
-			if protein.uniprot_id:
+			if protein.uniprot_id and protein.sample_id:
 				uid = protein.uniprot_id
 				url = f"https://alphafold.ebi.ac.uk/api/prediction/{uid}"
 				response = requests.get(url)
@@ -19,7 +19,7 @@ class AlphaFoldMapping:
 						alphafold = Alphafold()
 						alphafold.unip_id = uid
 						alphafold.link = f"https://alphafold.ebi.ac.uk/entry/{uid}"
-						alphafold.provenance = "ALPHAFOLD"
+						alphafold.provenance = "AlphaFoldDB"
 						protein.alphafold.append(alphafold)
 						self.proteins.append(protein)
 		return self.proteins

@@ -10,7 +10,7 @@ class PdbeKbMapping:
 
 	def execute(self, proteins):
 		for protein in proteins:
-			if protein.uniprot_id:
+			if protein.uniprot_id and protein.sample_id:
 				uid = protein.uniprot_id
 				url = f"https://www.uniprot.org/uniprot/?query=id:{uid}%20database:(type:pdb)&sort=score&columns=id&format=tab"
 				response = requests.get(url)
@@ -18,7 +18,7 @@ class PdbeKbMapping:
 					pdbekb = Pdbekb()
 					pdbekb.unip_id = uid
 					pdbekb.link = f"https://www.ebi.ac.uk/pdbe/pdbe-kb/proteins/{uid}"
-					pdbekb.provenance = "PDBe-KB"
+					pdbekb.provenance = "UniProtKb"
 					protein.pdbekb.append(pdbekb)
 					self.proteins.append(protein)
 		return self.proteins
