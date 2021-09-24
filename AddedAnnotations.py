@@ -85,9 +85,9 @@ def run(filename):
         pmc_map = pmc_mapping.execute()
         mapping_list.extend(["CITATION", pmc_map])
     if go or interpro or pfam:
-        go_log = start_logger_if_necessary("go_logger", go_log_file)
-        interpro_log = start_logger_if_necessary("interpro_logger", interpro_log_file)
-        pfam_log = start_logger_if_necessary("pfam_logger", pfam_log_file)
+        go_log = start_logger_if_necessary("go_logger", go_log_file) if go else None
+        interpro_log = start_logger_if_necessary("interpro_logger", interpro_log_file)  if interpro else None
+        pfam_log = start_logger_if_necessary("pfam_logger", pfam_log_file)  if pfam else None
         PT_mapping = ProteinTermsMapping(unp_mapping.proteins, go, interpro, pfam)
         proteins_map = PT_mapping.execute()
         PT_mapping.export_tsv(go_log, interpro_log, pfam_log)
@@ -214,48 +214,59 @@ if __name__ == "__main__":
     GO_obo = config.get("file_paths", "GO_obo")
 
     #Start loggers
-    uniprot_log_file = os.path.join(args.workDir, 'emdb_uniprot.log')
-    cpx_log_file = os.path.join(args.workDir, 'emdb_cpx.log')
-    chembl_log_file = os.path.join(args.workDir, 'emdb_chembl.log')
-    chebi_log_file = os.path.join(args.workDir, 'emdb_chebi.log')
-    drugbank_log_file = os.path.join(args.workDir, 'emdb_drugbank.log')
-    model_log_file = os.path.join(args.workDir, 'emdb_model.log')
-    weight_log_file = os.path.join(args.workDir, 'overall_mw.log')
-    empiar_log_file = os.path.join(args.workDir, 'emdb_empiar.log')
-    go_log_file = os.path.join(args.workDir, 'emdb_go.log')
-    interpro_log_file = os.path.join(args.workDir, 'emdb_interpro.log')
-    pfam_log_file = os.path.join(args.workDir, 'emdb_pfam.log')
-    pdbekb_log_file = os.path.join(args.workDir, 'emdb_pdbekb.log')
-    alphafold_log_file = os.path.join(args.workDir, 'emdb_alphafold.log')
-    emicss_log_file = os.path.join(args.workDir, 'emdb_emicss.log')
-    
-    uniprot_log = setup_logger('uniprot_logger', uniprot_log_file)
-    uniprot_log.info("EMDB_ID\tSAMPLE_ID\tSAMPLE_NAME\tSAMPLE_COPIES\tNCBI_ID\tUNIPROT_ID\tPROVENANCE\tSAMPLE_COMPLEX_IDS")
-    cpx_log = setup_logger('cpx_logger', cpx_log_file)
-    cpx_log.info("EMDB_ID\tEMDB_SAMPLE_ID\tSAMPLE_NAME\tSAMPLE_COPIES\tCPX_ID\tCPX_TITLE\tPROVENANCE\tSCORE")
-    chembl_log = setup_logger('chembl_logger', chembl_log_file)
-    chembl_log.info("EMDB_ID\tSAMPLE_ID\tHET_CODE\tCOMP_NAME\tCOMP_COPIES\tChEMBL_ID\tPROVENANCE")
-    chebi_log = setup_logger('chebi_logger', chebi_log_file)
-    chebi_log.info("EMDB_ID\tSAMPLE_ID\tHET_CODE\tCOMP_NAME\tCOMP_COPIES\tChEBI_ID\tPROVENANCE")
-    drugbank_log = setup_logger('drugbank_logger', drugbank_log_file)
-    drugbank_log.info("EMDB_ID\tSAMPLE_ID\tHET_CODE\tCOMP_NAME\tCOMP_COPIES\tDRUGBANK_ID\tPROVENANCE")
-    model_log = setup_logger('model_logger', model_log_file)
-    model_log.info("EMDB_ID\tPDB_ID\tASSEMBLY\tMOLECULAR_WEIGHT")
-    weight_log = setup_logger('weight_logger', weight_log_file)
-    weight_log.info("EMDB_ID\tOVERALL_MW")
-    empiar_log = setup_logger('empiar_logger', empiar_log_file)
-    empiar_log.info("EMDB_ID\tEMPIAR_ID\tPROVENANCE")
-    go_log = setup_logger('go_logger', go_log_file)
-    go_log.info("EMDB_ID\tEMDB_SAMPLE_ID\tGO_ID\tGO_NAMESPACE\tGO_TYPE\tPROVENANCE")
-    interpro_log = setup_logger('interpro_logger', interpro_log_file)
-    interpro_log.info("EMDB_ID\tEMDB_SAMPLE_ID\tINTERPRO_ID\tINTERPRO_NAMESPACE\tPROVENANCE")
-    pfam_log = setup_logger('pfam_logger', pfam_log_file)
-    pfam_log.info("EMDB_ID\tEMDB_SAMPLE_ID\tPFAM_ID\tPFAM_NAMESPACE\tPROVENANCE")
-    pdbekb_log = setup_logger('pdbekb_logger', pdbekb_log_file)
-    pdbekb_log.info("EMDB_ID\tEMDB_SAMPLE_ID\tPDBeKB_ID\tPROVENANCE")
-    alphafold_log = setup_logger('alphafold_logger', alphafold_log_file)
-    alphafold_log.info("EMDB_ID\tEMDB_SAMPLE_ID\tALPHAFOLDDB_ID\tPROVENANCE")
-    emicss_log = setup_logger('emicss_logger', emicss_log_file)
+    if uniprot:
+        uniprot_log_file = os.path.join(args.workDir, 'emdb_uniprot.log')
+        uniprot_log = setup_logger('uniprot_logger', uniprot_log_file)
+        uniprot_log.info("EMDB_ID\tSAMPLE_ID\tSAMPLE_NAME\tSAMPLE_COPIES\tNCBI_ID\tUNIPROT_ID\tPROVENANCE\tSAMPLE_COMPLEX_IDS")
+    if cpx:
+        cpx_log_file = os.path.join(args.workDir, 'emdb_cpx.log')
+        cpx_log = setup_logger('cpx_logger', cpx_log_file)
+        cpx_log.info("EMDB_ID\tEMDB_SAMPLE_ID\tSAMPLE_NAME\tSAMPLE_COPIES\tCPX_ID\tCPX_TITLE\tPROVENANCE\tSCORE")
+    if component:
+        chembl_log_file = os.path.join(args.workDir, 'emdb_chembl.log')
+        chebi_log_file = os.path.join(args.workDir, 'emdb_chebi.log')
+        drugbank_log_file = os.path.join(args.workDir, 'emdb_drugbank.log')
+        chembl_log = setup_logger('chembl_logger', chembl_log_file)
+        chembl_log.info("EMDB_ID\tSAMPLE_ID\tHET_CODE\tCOMP_NAME\tCOMP_COPIES\tChEMBL_ID\tPROVENANCE")
+        chebi_log = setup_logger('chebi_logger', chebi_log_file)
+        chebi_log.info("EMDB_ID\tSAMPLE_ID\tHET_CODE\tCOMP_NAME\tCOMP_COPIES\tChEBI_ID\tPROVENANCE")
+        drugbank_log = setup_logger('drugbank_logger', drugbank_log_file)
+        drugbank_log.info("EMDB_ID\tSAMPLE_ID\tHET_CODE\tCOMP_NAME\tCOMP_COPIES\tDRUGBANK_ID\tPROVENANCE")
+    if model:
+        model_log_file = os.path.join(args.workDir, 'emdb_model.log')
+        model_log = setup_logger('model_logger', model_log_file)
+        model_log.info("EMDB_ID\tPDB_ID\tASSEMBLY\tMOLECULAR_WEIGHT")
+    if weight:
+        weight_log_file = os.path.join(args.workDir, 'overall_mw.log')
+        weight_log = setup_logger('weight_logger', weight_log_file)
+        weight_log.info("EMDB_ID\tOVERALL_MW")
+    if empiar:
+        empiar_log_file = os.path.join(args.workDir, 'emdb_empiar.log')
+        empiar_log = setup_logger('empiar_logger', empiar_log_file)
+        empiar_log.info("EMDB_ID\tEMPIAR_ID\tPROVENANCE")
+    if go:
+        go_log_file = os.path.join(args.workDir, 'emdb_go.log')
+        go_log = setup_logger('go_logger', go_log_file)
+        go_log.info("EMDB_ID\tEMDB_SAMPLE_ID\tGO_ID\tGO_NAMESPACE\tGO_TYPE\tPROVENANCE")
+    if interpro:
+        interpro_log_file = os.path.join(args.workDir, 'emdb_interpro.log')
+        interpro_log = setup_logger('interpro_logger', interpro_log_file)
+        interpro_log.info("EMDB_ID\tEMDB_SAMPLE_ID\tINTERPRO_ID\tINTERPRO_NAMESPACE\tPROVENANCE")
+    if pfam:
+        pfam_log_file = os.path.join(args.workDir, 'emdb_pfam.log')
+        pfam_log = setup_logger('pfam_logger', pfam_log_file)
+        pfam_log.info("EMDB_ID\tEMDB_SAMPLE_ID\tPFAM_ID\tPFAM_NAMESPACE\tPROVENANCE")
+    if pdbekb:
+        pdbekb_log_file = os.path.join(args.workDir, 'emdb_pdbekb.log')
+        pdbekb_log = setup_logger('pdbekb_logger', pdbekb_log_file)
+        pdbekb_log.info("EMDB_ID\tEMDB_SAMPLE_ID\tPDBeKB_ID\tPROVENANCE")
+    if alphafold:
+        alphafold_log_file = os.path.join(args.workDir, 'emdb_alphafold.log')
+        alphafold_log = setup_logger('alphafold_logger', alphafold_log_file)
+        alphafold_log.info("EMDB_ID\tEMDB_SAMPLE_ID\tALPHAFOLDDB_ID\tPROVENANCE")
+    if emicss:
+        emicss_log_file = os.path.join(args.workDir, 'emdb_emicss.log')
+        emicss_log = setup_logger('emicss_logger', emicss_log_file)
 
     if args.download_uniprot:
             download_uniprot(uniprot_tab)
