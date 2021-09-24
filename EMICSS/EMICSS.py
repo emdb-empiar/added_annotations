@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Thu Sep 23 15:11:30 2021 by generateDS.py version 2.38.6.
+# Generated Fri Sep 24 15:42:36 2021 by generateDS.py version 2.38.6.
 # Python 3.7.6 (default, Dec 30 2019, 19:38:28)  [Clang 11.0.0 (clang-1100.0.33.16)]
 #
 # Command line options:
@@ -2106,7 +2106,7 @@ class weightType(GeneratedsSuper):
         self.assemblies_nsprefix_ = None
         self.method = _cast(None, method)
         self.method_nsprefix_ = None
-        self.weight = _cast(float, weight)
+        self.weight = _cast(None, weight)
         self.weight_nsprefix_ = None
         self.unit = _cast(None, unit)
         self.unit_nsprefix_ = None
@@ -2205,7 +2205,7 @@ class weightType(GeneratedsSuper):
             outfile.write(' method=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.method), input_name='method')), ))
         if self.weight is not None and 'weight' not in already_processed:
             already_processed.add('weight')
-            outfile.write(' weight="%s"' % self.gds_format_float(self.weight, input_name='weight'))
+            outfile.write(' weight=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.weight), input_name='weight')), ))
         if self.unit is not None and 'unit' not in already_processed:
             already_processed.add('unit')
             outfile.write(' unit=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.unit), input_name='unit')), ))
@@ -2241,7 +2241,6 @@ class weightType(GeneratedsSuper):
         value = find_attr_value_('weight', node)
         if value is not None and 'weight' not in already_processed:
             already_processed.add('weight')
-            value = self.gds_parse_float(value, node, 'weight')
             self.weight = value
         value = find_attr_value_('unit', node)
         if value is not None and 'unit' not in already_processed:

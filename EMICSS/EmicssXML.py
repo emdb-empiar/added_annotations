@@ -365,7 +365,7 @@ class EmicssXML:
         weight = EMICSS.weightType()
         weight.set_pdb_id("%s" % pdb_id)
         weight.set_assemblies(int(assembly))
-        weight.set_weight(mw)
+        weight.set_weight("%s" % mw)
         weight.set_unit("%s" % "Da")
         weight.set_provenance("%s" % "PDBe")
         weights.add_weight(weight)
@@ -380,14 +380,14 @@ class EmicssXML:
         if th_weight:
             weight = EMICSS.weightType()
             weight.set_method("%s" % "theoretical")
-            weight.set_weight(round(th_weight, 3))
+            weight.set_weight("%s" % th_weight)
             weight.set_unit("%s" % th_units)
             weight.set_provenance("%s" % "AUTHOR")
             weights.add_weight(weight)
         if exp_weight:
             weight = EMICSS.weightType()
             weight.set_method("%s" % "experimental")
-            weight.set_weight(round(float(exp_weight), 3))
+            weight.set_weight("%s" % exp_weight)
             weight.set_unit("%s" % exp_units)
             weight.set_provenance("%s" % "AUTHOR")
             weights.add_weight(weight)
@@ -420,8 +420,8 @@ class EmicssXML:
             if "+" in uni_provenance:
                 uni_provenance1 = uni_provenance.split(" + ")[0]
                 uni_provenance2 = uni_provenance.split(" + ")[1]
-                cross_ref_db.set_provenance1("%s" % uni_provenance1)
-                cross_ref_db.set_provenance2("%s" % uni_provenance2)
+                cross_ref_db.set_provenance1("%s" % uni_provenance1.strip())
+                cross_ref_db.set_provenance2("%s" % uni_provenance2.strip())
             cross_ref_db.set_accession_id("%s" % uniprot_id)
             cross_ref_dbs.add_cross_ref_db(cross_ref_db)
 
@@ -638,8 +638,8 @@ class EmicssXML:
                     if "+" in cpx_provenance:
                         cpx_provenance1 = cpx_provenance.split(" + ")[0]
                         cpx_provenance2 = cpx_provenance.split(" + ")[1]
-                        cross_ref_db.set_provenance1("%s" % cpx_provenance1)
-                        cross_ref_db.set_provenance2("%s" % cpx_provenance2)
+                        cross_ref_db.set_provenance1("%s" % cpx_provenance1.strip())
+                        cross_ref_db.set_provenance2("%s" % cpx_provenance2.strip())
                     if not "+" in cpx_provenance:
                         cross_ref_db.set_provenance("%s" % cpx_provenance)
                     cross_ref_db.set_accession_id("%s" % cpx_id)
@@ -652,8 +652,8 @@ class EmicssXML:
                     if "+" in cpx_provenance:
                         cpx_provenance1 = cpx_provenance.split("+")[0]
                         cpx_provenance2 = cpx_provenance.split("+")[1]
-                        cross_ref_db.set_provenance1("%s" % cpx_provenance1)
-                        cross_ref_db.set_provenance2("%s" % cpx_provenance2)
+                        cross_ref_db.set_provenance1("%s" % cpx_provenance1.strip())
+                        cross_ref_db.set_provenance2("%s" % cpx_provenance2.strip())
                     if not "+" in cpx_provenance:
                         cross_ref_db.set_provenance("%s" % cpx_provenance)
                     cross_ref_db.set_accession_id("%s" % cpx_id)

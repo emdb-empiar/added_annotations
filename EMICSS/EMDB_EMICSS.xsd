@@ -57,7 +57,7 @@
                                     <xs:attribute name="pdb_id" type="xs:string"/>
                                     <xs:attribute name="assemblies" type="xs:int"/>
                                     <xs:attribute name="method" type="xs:string"/>
-                                    <xs:attribute name="weight" type="xs:float"/>
+                                    <xs:attribute name="weight" type="xs:string"/>
                                     <xs:attribute name="unit" type="xs:string"/>
                                     <xs:attribute name="provenance" type="provenance_type"/>
                                 </xs:complexType>
