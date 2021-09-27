@@ -234,8 +234,6 @@ class EmicssXML:
             macromolecules = EMICSS.macromoleculesType()
             supramolecules = EMICSS.supramoleculesType()
 
-            headerXML.set_emdb_id(em_id)
-            headerXML.set_schema_version("1.0.0")
             emicss_supramolecules = None
             emicss_macromol = None
             emicss_ligand = None
@@ -261,8 +259,12 @@ class EmicssXML:
                     if re.search(r'%s\_\d+' % "ligand", samp_id):
                         emicss_ligand = self.EMICSS_ligands(val, samp_id, all_db, dbs, macromolecules)
                     if re.search(r'%s\_\d+' % em_id, samp_id):
-                        emicss_supramolecules = self.EMICSS_CPX(val, samp_id, all_db, dbs)
+                        emicss_supramolecules = self.EMICSS_CPX(val, samp_id, all_db, dbs, supramolecules)
 
+            entry_id = em_id.split("-")[1]
+            entry = f"emd_{entry_id}"
+            headerXML.set_emdb_id("%s" % entry)
+            headerXML.set_schema_version("1.0.0")
             if len(all_db) != 0:
                 headerXML.set_dbs(dbs)
             if emicss_empiar or emicss_model or emicss_pmc:
@@ -278,7 +280,6 @@ class EmicssXML:
             if emicss_supramolecules or emicss_macromol or emicss_ligand:
                 headerXML.set_sample(sample)
 
-            entry_id = em_id.split("-")[1]
             output_path = os.path.join(self.workDir, "emicss")
             Path(output_path).mkdir(parents=True, exist_ok=True)
             xmlFile = os.path.join(output_path, "emd-" + entry_id + "_emicss.xml")
@@ -527,6 +528,7 @@ class EmicssXML:
 
                 cross_ref_db = EMICSS.cross_ref_db()
                 cross_ref_db.set_db_source("%s" % "PDBe-KB")
+                cross_ref_db.set_accession_id("%s" % uniprot_id)
                 cross_ref_db.set_link("%s" % KB_link)
                 cross_ref_db.set_provenance("%s" % KB_provenance)
                 cross_ref_dbs.add_cross_ref_db(cross_ref_db)
@@ -545,6 +547,7 @@ class EmicssXML:
 
                 cross_ref_db = EMICSS.cross_ref_db()
                 cross_ref_db.set_db_source("%s" % "ALPHAFOLDDB")
+                cross_ref_db.set_accession_id("%s" % uniprot_id)
                 cross_ref_db.set_link("%s" % AF_link)
                 cross_ref_db.set_provenance("%s" % AF_provenance)
                 cross_ref_dbs.add_cross_ref_db(cross_ref_db)
@@ -616,11 +619,11 @@ class EmicssXML:
         all_db.add("DRUGBANK")
         return macromolecules
 
-    def EMICSS_CPX(self, val, samp_id, all_db, dbs):
+    def EMICSS_CPX(self, val, samp_id, all_db, dbs, supramolecules):
         """
         Adding complex ids to EMICSS
         """
-        supramolecules = EMICSS.supramoleculesType()
+
         cp_id = set()
         cpx_samp_id = samp_id.split("_")[1]
         cpx_sample_copies = val.get(samp_id, {}).get('sample_copies')
