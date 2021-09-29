@@ -179,7 +179,7 @@ class EmicssXML:
                                             ind = ind + 1
                                     emicss_dict[AF.emdb_id][AF.uniprot_id]["ind"] = ind
                     except AttributeError as e:
-                        print("ALPHAFOLD mapping doesn't exist", e)
+                        print("ALPHAFOLD DB mapping doesn't exist", e)
         except AttributeError as e:
             print("UNIPROT mapping doesn't exist", e)
 
@@ -373,7 +373,7 @@ class EmicssXML:
             if "PDBe" not in all_db:
                 db = EMICSS.dbType()
                 db.set_db_source("%s" % "PDBe")
-                db.set_db_version("%s" % "2.0")
+                db.set_db_version("%s" % "38.21")
                 dbs.add_db(db)
             all_db.add("PDBe")
             weight = EMICSS.weightType()
@@ -418,7 +418,7 @@ class EmicssXML:
         name = val.get(samp_id, {}).get('sample_name')
         uniprot_id = val.get(samp_id, {}).get('uniprot_id')
         uni_provenance = val.get(samp_id, {}).get('provenance')
-        macromolecule.set_kind("%s" % "protein")
+        macromolecule.set_type("%s" % "protein")
         macromolecule.set_id(int(sample_id))
         macromolecule.set_copies(int(sample_copies))
         macromolecule.set_name("%s" % name)
@@ -430,6 +430,7 @@ class EmicssXML:
                 dbs.add_db(db)
             all_db.add("UNIPROT")
             cross_ref_db = EMICSS.cross_ref_db()
+            cross_ref_db.set_name("%s" % name.lower())
             cross_ref_db.set_db_source("%s" % "UNIPROT")
             if not "+" in uni_provenance:
                 cross_ref_db.set_provenance("%s" % uni_provenance)
@@ -527,9 +528,10 @@ class EmicssXML:
                 all_db.add("PDBe-KB")
 
                 cross_ref_db = EMICSS.cross_ref_db()
+                cross_ref_db.set_name("%s" % name.lower())
                 cross_ref_db.set_db_source("%s" % "PDBe-KB")
                 cross_ref_db.set_accession_id("%s" % uniprot_id)
-                cross_ref_db.set_link("%s" % KB_link)
+                # cross_ref_db.set_link("%s" % KB_link)
                 cross_ref_db.set_provenance("%s" % KB_provenance)
                 cross_ref_dbs.add_cross_ref_db(cross_ref_db)
 
@@ -538,17 +540,18 @@ class EmicssXML:
             af_provenance = "af_provenance_" + str(x)
             AF_provenance = val.get(samp_id, {}).get(af_provenance)
             if AF_link:
-                if "ALPHAFOLDDB" not in all_db:
+                if "ALPHAFOLD DB" not in all_db:
                     db = EMICSS.dbType()
-                    db.set_db_source("%s" % "ALPHAFOLDDB")
+                    db.set_db_source("%s" % "ALPHAFOLD DB")
                     db.set_db_version("%s" % "2021.02")
                     dbs.add_db(db)
-                all_db.add("ALPHAFOLDDB")
+                all_db.add("ALPHAFOLD DB")
 
                 cross_ref_db = EMICSS.cross_ref_db()
-                cross_ref_db.set_db_source("%s" % "ALPHAFOLDDB")
+                cross_ref_db.set_name("%s" % name.lower())
+                cross_ref_db.set_db_source("%s" % "ALPHAFOLD DB")
                 cross_ref_db.set_accession_id("%s" % uniprot_id)
-                cross_ref_db.set_link("%s" % AF_link)
+                # cross_ref_db.set_link("%s" % AF_link)
                 cross_ref_db.set_provenance("%s" % AF_provenance)
                 cross_ref_dbs.add_cross_ref_db(cross_ref_db)
 
@@ -572,7 +575,7 @@ class EmicssXML:
         provenance_drugbank = val.get(samp_id, {}).get('provenance_drugbank')
 
         macromolecule = EMICSS.macromoleculeType()
-        macromolecule.set_kind("%s" % "ligand")
+        macromolecule.set_type("%s" % "ligand")
         macromolecule.set_id(int(sample_id))
         macromolecule.set_ccd_id("%s" % HET)
         macromolecule.set_copies(int(lig_copies))
@@ -643,7 +646,7 @@ class EmicssXML:
             if cpx_samp_id is not None:
                 if cpx_samp_id not in cp_id:
                     cross_ref_db = EMICSS.cross_ref_db()
-                    supramolecule.set_kind("%s" % "complex")
+                    supramolecule.set_type("%s" % "complex")
                     supramolecule.set_id(int(cpx_samp_id))
                     supramolecule.set_copies(int(cpx_sample_copies))
                     supramolecule.set_name("%s" % cpx_sample_name)
@@ -683,6 +686,5 @@ class EmicssXML:
                 cp_id.add(cpx_samp_id)
                 all_db.add("COMPLEX PORTAL")
         supramolecule.set_cross_ref_dbs(cross_ref_dbs)
-        # print(f'Adding supramolecule {supramolecule}: {supramolecule.__dict__}')
         supramolecules.add_supramolecule(supramolecule)
         return supramolecules

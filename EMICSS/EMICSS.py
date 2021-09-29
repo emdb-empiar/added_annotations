@@ -2,19 +2,18 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Fri Sep 24 15:53:54 2021 by generateDS.py version 2.38.6.
+# Generated Wed Sep 29 13:36:47 2021 by generateDS.py version 2.38.6.
 # Python 3.7.6 (default, Dec 30 2019, 19:38:28)  [Clang 11.0.0 (clang-1100.0.33.16)]
 #
 # Command line options:
 #   ('-o', 'EMICSS.py')
 #   ('-s', 'EMICSSsub.py')
-#   ('--external-encoding', 'utf-8')
 #
 # Command line arguments:
 #   EMDB_EMICSS.xsd
 #
 # Command line:
-#   /usr/local/bin/generateDS.py -o "EMICSS.py" -s "EMICSSsub.py" --external-encoding="utf-8" EMDB_EMICSS.xsd
+#   /usr/local/bin/generateDS.py -o "EMICSS.py" -s "EMICSSsub.py" EMDB_EMICSS.xsd
 #
 # Current working directory (os.getcwd()):
 #   EMICSS
@@ -687,7 +686,7 @@ except ModulenotfoundExp_ as exp:
 # Globals
 #
 
-ExternalEncoding = 'utf-8'
+ExternalEncoding = ''
 # Set this to false in order to deactivate during export, the use of
 # name space prefixes captured from the input document.
 UseCapturedNS_ = True
@@ -975,7 +974,7 @@ class db_source_type(str, Enum):
     COMPLEXPORTAL='COMPLEX PORTAL'
     PD_BE='PDBe'
     PD_BEKB='PDBe-KB'
-    ALPHAFOLDDB='ALPHAFOLDDB'
+    ALPHAFOLDDB='ALPHAFOLD DB'
     CHEMBL='CHEMBL'
     CHEBI='CHEBI'
     DRUGBANK='DRUGBANK'
@@ -996,7 +995,7 @@ class provenance_type(str, Enum):
     UNI_PROT_KB='UniProtKB'
     PD_BE='PDBe'
     PD_BEKB='PDBe-KB'
-    ALPHA_FOLD_DB='AlphaFoldDB'
+    ALPHA_FOLDDB='AlphaFold DB'
     EMPIAR='EMPIAR'
     EUROPE_PMC='EuropePMC'
     CPX='CPX'
@@ -1303,7 +1302,7 @@ class cross_ref_db(GeneratedsSuper):
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
                 return False
             value = value
-            enumerations = ['UNIPROT', 'UNIPROTKB', 'COMPLEX PORTAL', 'PDBe', 'PDBe-KB', 'ALPHAFOLDDB', 'CHEMBL', 'CHEBI', 'DRUGBANK', 'EMPIAR', 'PUBMED', 'PUBMED CENTRAL', 'ISSN', 'GO', 'INTERPRO', 'PFAM']
+            enumerations = ['UNIPROT', 'UNIPROTKB', 'COMPLEX PORTAL', 'PDBe', 'PDBe-KB', 'ALPHAFOLD DB', 'CHEMBL', 'CHEBI', 'DRUGBANK', 'EMPIAR', 'PUBMED', 'PUBMED CENTRAL', 'ISSN', 'GO', 'INTERPRO', 'PFAM']
             if value not in enumerations:
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd enumeration restriction on db_source_type' % {"value" : encode_str_2_3(value), "lineno": lineno} )
@@ -1316,7 +1315,7 @@ class cross_ref_db(GeneratedsSuper):
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
                 return False
             value = value
-            enumerations = ['AUTHOR', 'UNIPROT', 'UniProtKB', 'PDBe', 'PDBe-KB', 'AlphaFoldDB', 'EMPIAR', 'EuropePMC', 'CPX', 'BLASTP', 'COMPLEX PORTAL', 'ChEMBL', 'ChEBI', 'DrugBank', 'CCD', 'PUBMED CENTRAL', 'CALCULATED', 'GO', 'INTERPRO', 'PFAM']
+            enumerations = ['AUTHOR', 'UNIPROT', 'UniProtKB', 'PDBe', 'PDBe-KB', 'AlphaFold DB', 'EMPIAR', 'EuropePMC', 'CPX', 'BLASTP', 'COMPLEX PORTAL', 'ChEMBL', 'ChEBI', 'DrugBank', 'CCD', 'PUBMED CENTRAL', 'CALCULATED', 'GO', 'INTERPRO', 'PFAM']
             if value not in enumerations:
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd enumeration restriction on provenance_type' % {"value" : encode_str_2_3(value), "lineno": lineno} )
@@ -1597,7 +1596,7 @@ class dbType(GeneratedsSuper):
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
                 return False
             value = value
-            enumerations = ['UNIPROT', 'UNIPROTKB', 'COMPLEX PORTAL', 'PDBe', 'PDBe-KB', 'ALPHAFOLDDB', 'CHEMBL', 'CHEBI', 'DRUGBANK', 'EMPIAR', 'PUBMED', 'PUBMED CENTRAL', 'ISSN', 'GO', 'INTERPRO', 'PFAM']
+            enumerations = ['UNIPROT', 'UNIPROTKB', 'COMPLEX PORTAL', 'PDBe', 'PDBe-KB', 'ALPHAFOLD DB', 'CHEMBL', 'CHEBI', 'DRUGBANK', 'EMPIAR', 'PUBMED', 'PUBMED CENTRAL', 'ISSN', 'GO', 'INTERPRO', 'PFAM']
             if value not in enumerations:
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd enumeration restriction on db_source_type' % {"value" : encode_str_2_3(value), "lineno": lineno} )
@@ -1918,7 +1917,7 @@ class citationType(GeneratedsSuper):
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
                 return False
             value = value
-            enumerations = ['AUTHOR', 'UNIPROT', 'UniProtKB', 'PDBe', 'PDBe-KB', 'AlphaFoldDB', 'EMPIAR', 'EuropePMC', 'CPX', 'BLASTP', 'COMPLEX PORTAL', 'ChEMBL', 'ChEBI', 'DrugBank', 'CCD', 'PUBMED CENTRAL', 'CALCULATED', 'GO', 'INTERPRO', 'PFAM']
+            enumerations = ['AUTHOR', 'UNIPROT', 'UniProtKB', 'PDBe', 'PDBe-KB', 'AlphaFold DB', 'EMPIAR', 'EuropePMC', 'CPX', 'BLASTP', 'COMPLEX PORTAL', 'ChEMBL', 'ChEBI', 'DrugBank', 'CCD', 'PUBMED CENTRAL', 'CALCULATED', 'GO', 'INTERPRO', 'PFAM']
             if value not in enumerations:
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd enumeration restriction on provenance_type' % {"value" : encode_str_2_3(value), "lineno": lineno} )
@@ -1990,7 +1989,7 @@ class citationType(GeneratedsSuper):
 
 class weightsType(GeneratedsSuper):
     """Total weight of the assemblies. Calculated from both PDBe and author
-    provided experimental and theoretical values"""
+    provided (experimental and theoretical) values"""
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
@@ -2161,7 +2160,7 @@ class weightType(GeneratedsSuper):
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
                 return False
             value = value
-            enumerations = ['AUTHOR', 'UNIPROT', 'UniProtKB', 'PDBe', 'PDBe-KB', 'AlphaFoldDB', 'EMPIAR', 'EuropePMC', 'CPX', 'BLASTP', 'COMPLEX PORTAL', 'ChEMBL', 'ChEBI', 'DrugBank', 'CCD', 'PUBMED CENTRAL', 'CALCULATED', 'GO', 'INTERPRO', 'PFAM']
+            enumerations = ['AUTHOR', 'UNIPROT', 'UniProtKB', 'PDBe', 'PDBe-KB', 'AlphaFold DB', 'EMPIAR', 'EuropePMC', 'CPX', 'BLASTP', 'COMPLEX PORTAL', 'ChEMBL', 'ChEBI', 'DrugBank', 'CCD', 'PUBMED CENTRAL', 'CALCULATED', 'GO', 'INTERPRO', 'PFAM']
             if value not in enumerations:
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd enumeration restriction on provenance_type' % {"value" : encode_str_2_3(value), "lineno": lineno} )
@@ -2609,14 +2608,14 @@ class supramoleculeType(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, kind=None, id=None, copies=None, name=None, cross_ref_dbs=None, gds_collector_=None, **kwargs_):
+    def __init__(self, type_=None, id=None, copies=None, name=None, cross_ref_dbs=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
         self.parent_object_ = kwargs_.get('parent_object_')
         self.ns_prefix_ = None
-        self.kind = _cast(None, kind)
-        self.kind_nsprefix_ = None
+        self.type_ = _cast(None, type_)
+        self.type__nsprefix_ = None
         self.id = _cast(int, id)
         self.id_nsprefix_ = None
         self.copies = _cast(int, copies)
@@ -2648,10 +2647,10 @@ class supramoleculeType(GeneratedsSuper):
         return self.cross_ref_dbs
     def set_cross_ref_dbs(self, cross_ref_dbs):
         self.cross_ref_dbs = cross_ref_dbs
-    def get_kind(self):
-        return self.kind
-    def set_kind(self, kind):
-        self.kind = kind
+    def get_type(self):
+        return self.type_
+    def set_type(self, type_):
+        self.type_ = type_
     def get_id(self):
         return self.id
     def set_id(self, id):
@@ -2705,9 +2704,9 @@ class supramoleculeType(GeneratedsSuper):
         else:
             outfile.write('/>%s' % (eol_, ))
     def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='supramoleculeType'):
-        if self.kind is not None and 'kind' not in already_processed:
-            already_processed.add('kind')
-            outfile.write(' kind=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.kind), input_name='kind')), ))
+        if self.type_ is not None and 'type_' not in already_processed:
+            already_processed.add('type_')
+            outfile.write(' type=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.type_), input_name='type')), ))
         if self.id is not None and 'id' not in already_processed:
             already_processed.add('id')
             outfile.write(' id="%s"' % self.gds_format_integer(self.id, input_name='id'))
@@ -2738,12 +2737,12 @@ class supramoleculeType(GeneratedsSuper):
             self.buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
         return self
     def buildAttributes(self, node, attrs, already_processed):
-        value = find_attr_value_('kind', node)
-        if value is not None and 'kind' not in already_processed:
-            already_processed.add('kind')
-            self.kind = value
-            self.kind = ' '.join(self.kind.split())
-            self.validate_sample_kind(self.kind)    # validate type sample_kind
+        value = find_attr_value_('type', node)
+        if value is not None and 'type' not in already_processed:
+            already_processed.add('type')
+            self.type_ = value
+            self.type_ = ' '.join(self.type_.split())
+            self.validate_sample_kind(self.type_)    # validate type sample_kind
         value = find_attr_value_('id', node)
         if value is not None and 'id' not in already_processed:
             already_processed.add('id')
@@ -2980,14 +2979,14 @@ class macromoleculeType(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, kind=None, id=None, copies=None, name=None, ccd_id=None, cross_ref_dbs=None, gds_collector_=None, **kwargs_):
+    def __init__(self, type_=None, id=None, copies=None, name=None, ccd_id=None, cross_ref_dbs=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
         self.parent_object_ = kwargs_.get('parent_object_')
         self.ns_prefix_ = None
-        self.kind = _cast(None, kind)
-        self.kind_nsprefix_ = None
+        self.type_ = _cast(None, type_)
+        self.type__nsprefix_ = None
         self.id = _cast(int, id)
         self.id_nsprefix_ = None
         self.copies = _cast(int, copies)
@@ -3025,10 +3024,10 @@ class macromoleculeType(GeneratedsSuper):
         return self.cross_ref_dbs
     def set_cross_ref_dbs(self, cross_ref_dbs):
         self.cross_ref_dbs = cross_ref_dbs
-    def get_kind(self):
-        return self.kind
-    def set_kind(self, kind):
-        self.kind = kind
+    def get_type(self):
+        return self.type_
+    def set_type(self, type_):
+        self.type_ = type_
     def get_id(self):
         return self.id
     def set_id(self, id):
@@ -3083,9 +3082,9 @@ class macromoleculeType(GeneratedsSuper):
         else:
             outfile.write('/>%s' % (eol_, ))
     def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='macromoleculeType'):
-        if self.kind is not None and 'kind' not in already_processed:
-            already_processed.add('kind')
-            outfile.write(' kind=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.kind), input_name='kind')), ))
+        if self.type_ is not None and 'type_' not in already_processed:
+            already_processed.add('type_')
+            outfile.write(' type=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.type_), input_name='type')), ))
         if self.id is not None and 'id' not in already_processed:
             already_processed.add('id')
             outfile.write(' id="%s"' % self.gds_format_integer(self.id, input_name='id'))
@@ -3120,12 +3119,12 @@ class macromoleculeType(GeneratedsSuper):
             self.buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
         return self
     def buildAttributes(self, node, attrs, already_processed):
-        value = find_attr_value_('kind', node)
-        if value is not None and 'kind' not in already_processed:
-            already_processed.add('kind')
-            self.kind = value
-            self.kind = ' '.join(self.kind.split())
-            self.validate_sample_kind(self.kind)    # validate type sample_kind
+        value = find_attr_value_('type', node)
+        if value is not None and 'type' not in already_processed:
+            already_processed.add('type')
+            self.type_ = value
+            self.type_ = ' '.join(self.type_.split())
+            self.validate_sample_kind(self.type_)    # validate type sample_kind
         value = find_attr_value_('id', node)
         if value is not None and 'id' not in already_processed:
             already_processed.add('id')

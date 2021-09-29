@@ -26,5 +26,5 @@ class AlphaFoldMapping:
 
 	def export_tsv(self, logger):
 		for protein in self.proteins:
-			row = f"{protein.emdb_id}\t{protein.sample_id}\t{protein.uniprot_id}\tAlphaFoldDB"
+			row = f"{protein.emdb_id}\t{protein.sample_id}\t{protein.uniprot_id}\tAlphaFold DB"
 			logger.info(row)

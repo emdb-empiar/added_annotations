@@ -1,19 +1,18 @@
 #!/usr/bin/env python
 
 #
-# Generated Fri Sep 24 15:53:55 2021 by generateDS.py version 2.38.6.
+# Generated Wed Sep 29 13:36:47 2021 by generateDS.py version 2.38.6.
 # Python 3.7.6 (default, Dec 30 2019, 19:38:28)  [Clang 11.0.0 (clang-1100.0.33.16)]
 #
 # Command line options:
 #   ('-o', 'EMICSS.py')
 #   ('-s', 'EMICSSsub.py')
-#   ('--external-encoding', 'utf-8')
 #
 # Command line arguments:
 #   EMDB_EMICSS.xsd
 #
 # Command line:
-#   /usr/local/bin/generateDS.py -o "EMICSS.py" -s "EMICSSsub.py" --external-encoding="utf-8" EMDB_EMICSS.xsd
+#   /usr/local/bin/generateDS.py -o "EMICSS.py" -s "EMICSSsub.py" EMDB_EMICSS.xsd
 #
 # Current working directory (os.getcwd()):
 #   EMICSS
@@ -54,7 +53,7 @@ def parsexmlstring_(instring, parser=None, **kwargs):
 # Globals
 #
 
-ExternalEncoding = 'utf-8'
+ExternalEncoding = ''
 SaveElementTreeNode = True
 
 #
@@ -147,8 +146,8 @@ supermod.supramoleculesType.subclass = supramoleculesTypeSub
 
 
 class supramoleculeTypeSub(supermod.supramoleculeType):
-    def __init__(self, kind=None, id=None, copies=None, name=None, cross_ref_dbs=None, **kwargs_):
-        super(supramoleculeTypeSub, self).__init__(kind, id, copies, name, cross_ref_dbs,  **kwargs_)
+    def __init__(self, type_=None, id=None, copies=None, name=None, cross_ref_dbs=None, **kwargs_):
+        super(supramoleculeTypeSub, self).__init__(type_, id, copies, name, cross_ref_dbs,  **kwargs_)
 supermod.supramoleculeType.subclass = supramoleculeTypeSub
 # end class supramoleculeTypeSub
 
@@ -168,8 +167,8 @@ supermod.macromoleculesType.subclass = macromoleculesTypeSub
 
 
 class macromoleculeTypeSub(supermod.macromoleculeType):
-    def __init__(self, kind=None, id=None, copies=None, name=None, ccd_id=None, cross_ref_dbs=None, **kwargs_):
-        super(macromoleculeTypeSub, self).__init__(kind, id, copies, name, ccd_id, cross_ref_dbs,  **kwargs_)
+    def __init__(self, type_=None, id=None, copies=None, name=None, ccd_id=None, cross_ref_dbs=None, **kwargs_):
+        super(macromoleculeTypeSub, self).__init__(type_, id, copies, name, ccd_id, cross_ref_dbs,  **kwargs_)
 supermod.macromoleculeType.subclass = macromoleculeTypeSub
 # end class macromoleculeTypeSub
 

@@ -47,7 +47,7 @@
                 <xs:element minOccurs="0" name="weights">
                     <xs:annotation>
                         <xs:documentation>
-                            Total weight of the assemblies. Calculated from both PDBe and author provided experimental and theoretical values
+                            Total weight of the assemblies. Calculated from both PDBe and author provided (experimental and theoretical) values
                         </xs:documentation>
                     </xs:annotation>
                     <xs:complexType>
@@ -102,7 +102,7 @@
                                                   </xs:complexType>
                                                   </xs:element>
                                                 </xs:sequence>
-                                                <xs:attribute name="kind" type="sample_kind"/>
+                                                <xs:attribute name="type" type="sample_kind"/>
                                                 <xs:attribute name="id" type="xs:nonNegativeInteger"/>
                                                 <xs:attribute name="copies"
                                                   type="xs:nonNegativeInteger"/>
@@ -134,7 +134,7 @@
                                                   </xs:complexType>
                                                   </xs:element>
                                                 </xs:sequence>
-                                                <xs:attribute name="kind" type="sample_kind"/>
+                                                <xs:attribute name="type" type="sample_kind"/>
                                                 <xs:attribute name="id" type="xs:nonNegativeInteger"/>
                                                 <xs:attribute name="copies"
                                                   type="xs:nonNegativeInteger"/>
@@ -163,7 +163,7 @@
             <xs:enumeration value="COMPLEX PORTAL"/>
             <xs:enumeration value="PDBe"/>
             <xs:enumeration value="PDBe-KB"/>
-            <xs:enumeration value="ALPHAFOLDDB"/>
+            <xs:enumeration value="ALPHAFOLD DB"/>
             <xs:enumeration value="CHEMBL"/>
             <xs:enumeration value="CHEBI"/>
             <xs:enumeration value="DRUGBANK"/>
@@ -188,7 +188,7 @@
             <xs:enumeration value="UniProtKB"/>
             <xs:enumeration value="PDBe"/>
             <xs:enumeration value="PDBe-KB"/>
-            <xs:enumeration value="AlphaFoldDB"/>
+            <xs:enumeration value="AlphaFold DB"/>
             <xs:enumeration value="EMPIAR"/>
             <xs:enumeration value="EuropePMC"/>
             <xs:enumeration value="CPX"/>
