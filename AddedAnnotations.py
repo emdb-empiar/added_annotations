@@ -12,6 +12,7 @@ from resources.ProteinTermsMapping import ProteinTermsMapping
 from resources.PdbeKbMapping import PdbeKbMapping
 from resources.AlphaFoldMapping import AlphaFoldMapping
 from EMICSS.EmicssXML import EmicssXML
+from EMICSS.DBVersion import DBVersion
 from XMLParser import XMLParser
 from glob import glob
 import logging
@@ -38,7 +39,7 @@ def start_logger_if_necessary(log_name, log_file):
         logger.addHandler(fh)
     return logger
 
-def run(filename):
+def run(filename, version_list):
     id_num = filename.split('-')[1]
     print(f"Running EMD-{id_num}")
     xml_filepath = os.path.join(filename, f"header/emd-{id_num}-v30.xml")
@@ -106,7 +107,7 @@ def run(filename):
         mapping_list.extend(["ALPHAFOLD", af_entries])
     if emicss:
         # emicss_log = start_logger_if_necessary("emicss_logger", emicss_log_file)
-        write_annotation_xml = EmicssXML(args.workDir, mapping_list)
+        write_annotation_xml = EmicssXML(args.workDir, mapping_list, version_list)
         write_annotation_xml.execute()
 
 """
@@ -155,6 +156,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     mapping_list = []
+    db_list= []
 
     uniprot = args.uniprot
     cpx = args.CPX
@@ -170,20 +172,37 @@ if __name__ == "__main__":
     alphafold = args.alphafold
     emicss = args.emicss
     uniprot_dictionary = {}
-    
+
+    if model:
+        db_list.append("pdbe")
+    if empiar:
+        db_list.append("empiar")
+    if uniprot:
+        db_list.append("uniprot")
+    if component:
+        db_list.append("chembl, chebi, drugbank")
+    if pmc:
+        db_list.append("pubmed, pubmedcentral, issn")
+
     #CPX, GO, Interpro, Pfam mapping requires Uniprot anotation
     if cpx:
         uniprot = True
+        db_list.append("cpx")
     if go:
         uniprot = True
+        db_list.append("go")
     if interpro:
         uniprot = True
+        db_list.append("interpro")
     if pfam:
         uniprot = True
+        db_list.append("pfam")
     if pdbekb:
         uniprot = True
+        db_list.append("pdbekb")
     if alphafold:
         uniprot = True
+        db_list.append("alphafold")
     if args.all:
         uniprot = True
         cpx = True
@@ -198,6 +217,8 @@ if __name__ == "__main__":
         pdbekb = True
         alphafold = True
         emicss = True
+        db_list.extend(["pdbe", "empiar", "uniprot", "chembl", "chebi", "drugbank", "pubmed", "pubmedcentral", "issn",
+                        "cpx", "go", "interpro", "pfam", "pdbekb", "alphafold"])
 
     #Get config variables:
     config = configparser.ConfigParser()
@@ -277,4 +298,7 @@ if __name__ == "__main__":
     if component:
         chembl_map, chebi_map, drugbank_map = parseCCD(components_cif)
 
-    Parallel(n_jobs=args.threads)(delayed(run)(file) for file in glob(os.path.join(args.headerDir, '*')))
+    db_version = DBVersion(db_list)
+    version_list = db_version.execute()
+
+    Parallel(n_jobs=args.threads)(delayed(run)(file, version_list) for file in glob(os.path.join(args.headerDir, '*')))

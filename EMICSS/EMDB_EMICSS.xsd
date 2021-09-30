@@ -1,229 +1,229 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
-    <xs:element name="emicss">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element name="dbs">
-                    <xs:annotation>
-                        <xs:documentation>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <xsd:element name="emicss">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="dbs">
+                    <xsd:annotation>
+                        <xsd:documentation>
                             List of databases annotated for this EMDB entry
-                        </xs:documentation>
-                    </xs:annotation>
-                    <xs:complexType>
-                        <xs:sequence>
-                            <xs:element maxOccurs="unbounded" name="db">
-                                <xs:complexType>
-                                    <xs:attribute name="db_source" type="db_source_type"/>
-                                    <xs:attribute name="db_version" type="xs:token"/>
-                                </xs:complexType>
-                            </xs:element>
-                        </xs:sequence>
-                    </xs:complexType>
-                </xs:element>
-                <xs:element minOccurs="0" name="cross_ref_dbs">
-                    <xs:annotation>
-                        <xs:documentation>
+                        </xsd:documentation>
+                    </xsd:annotation>
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element maxOccurs="unbounded" name="db">
+                                <xsd:complexType>
+                                    <xsd:attribute name="db_source" type="db_source_type"/>
+                                    <xsd:attribute name="db_version" type="xsd:token"/>
+                                </xsd:complexType>
+                            </xsd:element>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+                <xsd:element minOccurs="0" name="cross_ref_dbs">
+                    <xsd:annotation>
+                        <xsd:documentation>
                             Entry based annotations
-                        </xs:documentation>
-                    </xs:annotation>
-                    <xs:complexType>
-                        <xs:sequence>
-                            <xs:element maxOccurs="unbounded" ref="cross_ref_db"/>
-                        </xs:sequence>
-                    </xs:complexType>
-                </xs:element>
-                <xs:element name="citations" minOccurs="0">
-                    <xs:complexType>
-                        <xs:sequence>
-                            <xs:element maxOccurs="unbounded" name="citation">
-                                <xs:complexType>
-                                    <xs:attribute name="doi" type="xs:string"/>
-                                    <xs:attribute name="provenance" type="provenance_type"/>
-                                </xs:complexType>
-                            </xs:element>
-                        </xs:sequence>
-                    </xs:complexType>
-                </xs:element>
-                <xs:element minOccurs="0" name="weights">
-                    <xs:annotation>
-                        <xs:documentation>
+                        </xsd:documentation>
+                    </xsd:annotation>
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element maxOccurs="unbounded" ref="cross_ref_db"/>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+                <xsd:element name="citations" minOccurs="0">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element maxOccurs="unbounded" name="citation">
+                                <xsd:complexType>
+                                    <xsd:attribute name="doi" type="xsd:string"/>
+                                    <xsd:attribute name="provenance" type="provenance_type"/>
+                                </xsd:complexType>
+                            </xsd:element>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+                <xsd:element minOccurs="0" name="weights">
+                    <xsd:annotation>
+                        <xsd:documentation>
                             Total weight of the assemblies. Calculated from both PDBe and author provided (experimental and theoretical) values
-                        </xs:documentation>
-                    </xs:annotation>
-                    <xs:complexType>
-                        <xs:sequence>
-                            <xs:element maxOccurs="unbounded" name="weight">
-                                <xs:complexType>
-                                    <xs:attribute name="pdb_id" type="xs:string"/>
-                                    <xs:attribute name="assemblies" type="xs:int"/>
-                                    <xs:attribute name="method" type="xs:string"/>
-                                    <xs:attribute name="weight" type="xs:string"/>
-                                    <xs:attribute name="unit" type="xs:string"/>
-                                    <xs:attribute name="provenance" type="provenance_type"/>
-                                </xs:complexType>
-                            </xs:element>
-                        </xs:sequence>
-                    </xs:complexType>
-                </xs:element>
-                <xs:element name="sample" minOccurs="0">
-                    <xs:complexType>
-                        <xs:sequence minOccurs="0">
-                            <xs:element name="name" type="xs:string" minOccurs="0"/>
-                            <xs:element minOccurs="0" name="cross_ref_dbs">
-                                <xs:annotation>
-                                    <xs:documentation>
+                        </xsd:documentation>
+                    </xsd:annotation>
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element maxOccurs="unbounded" name="weight">
+                                <xsd:complexType>
+                                    <xsd:attribute name="pdb_id" type="xsd:string"/>
+                                    <xsd:attribute name="assemblies" type="xsd:int"/>
+                                    <xsd:attribute name="method" type="xsd:string"/>
+                                    <xsd:attribute name="weight" type="xsd:string"/>
+                                    <xsd:attribute name="unit" type="xsd:string"/>
+                                    <xsd:attribute name="provenance" type="provenance_type"/>
+                                </xsd:complexType>
+                            </xsd:element>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+                <xsd:element name="sample" minOccurs="0">
+                    <xsd:complexType>
+                        <xsd:sequence minOccurs="0">
+                            <xsd:element name="name" type="xsd:string" minOccurs="0"/>
+                            <xsd:element minOccurs="0" name="cross_ref_dbs">
+                                <xsd:annotation>
+                                    <xsd:documentation>
                                         Sample based annotations
-                                    </xs:documentation>
-                                </xs:annotation>
-                                <xs:complexType>
-                                    <xs:sequence>
-                                        <xs:element maxOccurs="unbounded" ref="cross_ref_db"/>
-                                    </xs:sequence>
-                                </xs:complexType>
-                            </xs:element>
-                            <xs:element name="supramolecules" minOccurs="0">
-                                <xs:annotation>
-                                    <xs:documentation>
+                                    </xsd:documentation>
+                                </xsd:annotation>
+                                <xsd:complexType>
+                                    <xsd:sequence>
+                                        <xsd:element maxOccurs="unbounded" ref="cross_ref_db"/>
+                                    </xsd:sequence>
+                                </xsd:complexType>
+                            </xsd:element>
+                            <xsd:element name="supramolecules" minOccurs="0">
+                                <xsd:annotation>
+                                    <xsd:documentation>
                                         Supramolecule annotations
-                                    </xs:documentation>
-                                </xs:annotation>
-                                <xs:complexType>
-                                    <xs:sequence>
-                                        <xs:element name="supramolecule" maxOccurs="unbounded">
-                                            <xs:complexType>
-                                                <xs:sequence>
-                                                  <xs:element name="name" type="xs:string"/>
-                                                  <xs:element name="cross_ref_dbs">
-                                                  <xs:complexType>
-                                                  <xs:sequence>
-                                                  <xs:element maxOccurs="unbounded"
+                                    </xsd:documentation>
+                                </xsd:annotation>
+                                <xsd:complexType>
+                                    <xsd:sequence>
+                                        <xsd:element name="supramolecule" maxOccurs="unbounded">
+                                            <xsd:complexType>
+                                                <xsd:sequence>
+                                                  <xsd:element name="name" type="xsd:string"/>
+                                                  <xsd:element name="cross_ref_dbs">
+                                                  <xsd:complexType>
+                                                  <xsd:sequence>
+                                                  <xsd:element maxOccurs="unbounded"
                                                   ref="cross_ref_db"/>
-                                                  </xs:sequence>
-                                                  </xs:complexType>
-                                                  </xs:element>
-                                                </xs:sequence>
-                                                <xs:attribute name="type" type="sample_kind"/>
-                                                <xs:attribute name="id" type="xs:nonNegativeInteger"/>
-                                                <xs:attribute name="copies"
-                                                  type="xs:nonNegativeInteger"/>
-                                            </xs:complexType>
-                                        </xs:element>
-                                    </xs:sequence>
-                                </xs:complexType>
-                            </xs:element>
-                            <xs:element name="macromolecules" minOccurs="0">
-                                <xs:annotation>
-                                    <xs:documentation>
+                                                  </xsd:sequence>
+                                                  </xsd:complexType>
+                                                  </xsd:element>
+                                                </xsd:sequence>
+                                                <xsd:attribute name="type" type="sample_kind"/>
+                                                <xsd:attribute name="id" type="xsd:nonNegativeInteger"/>
+                                                <xsd:attribute name="copies"
+                                                  type="xsd:nonNegativeInteger"/>
+                                            </xsd:complexType>
+                                        </xsd:element>
+                                    </xsd:sequence>
+                                </xsd:complexType>
+                            </xsd:element>
+                            <xsd:element name="macromolecules" minOccurs="0">
+                                <xsd:annotation>
+                                    <xsd:documentation>
                                         Macromolecule annotations
-                                    </xs:documentation>
-                                </xs:annotation>
-                                <xs:complexType>
-                                    <xs:sequence>
-                                        <xs:element name="macromolecule" maxOccurs="unbounded">
-                                            <xs:complexType>
-                                                <xs:sequence>
-                                                  <xs:element name="name" type="xs:string"/>
-                                                  <xs:element minOccurs="0" name="ccd_id"
-                                                  type="xs:ID"/>
-                                                  <xs:element name="cross_ref_dbs">
-                                                  <xs:complexType>
-                                                  <xs:sequence>
-                                                  <xs:element maxOccurs="unbounded"
+                                    </xsd:documentation>
+                                </xsd:annotation>
+                                <xsd:complexType>
+                                    <xsd:sequence>
+                                        <xsd:element name="macromolecule" maxOccurs="unbounded">
+                                            <xsd:complexType>
+                                                <xsd:sequence>
+                                                  <xsd:element name="name" type="xsd:string"/>
+                                                  <xsd:element minOccurs="0" name="ccd_id"
+                                                  type="xsd:ID"/>
+                                                  <xsd:element name="cross_ref_dbs">
+                                                  <xsd:complexType>
+                                                  <xsd:sequence>
+                                                  <xsd:element maxOccurs="unbounded"
                                                   ref="cross_ref_db"/>
-                                                  </xs:sequence>
-                                                  </xs:complexType>
-                                                  </xs:element>
-                                                </xs:sequence>
-                                                <xs:attribute name="type" type="sample_kind"/>
-                                                <xs:attribute name="id" type="xs:nonNegativeInteger"/>
-                                                <xs:attribute name="copies"
-                                                  type="xs:nonNegativeInteger"/>
-                                            </xs:complexType>
-                                        </xs:element>
-                                    </xs:sequence>
-                                </xs:complexType>
-                            </xs:element>
-                        </xs:sequence>
-                    </xs:complexType>
-                </xs:element>
-            </xs:sequence>
-            <xs:attribute name="emdb_id" type="emdb_id_type"/>
-            <xs:attribute name="schema_version" type="xs:token"/>
-        </xs:complexType>
-    </xs:element>
-    <xs:simpleType name="emdb_id_type">
-        <xs:restriction base="xs:token">
-            <xs:pattern value="EMD-\d{4,}"/>
-        </xs:restriction>
-    </xs:simpleType>
-    <xs:simpleType name="db_source_type">
-        <xs:restriction base="xs:token">
-            <xs:enumeration value="UNIPROT"/>
-            <xs:enumeration value="UNIPROTKB"/>
-            <xs:enumeration value="COMPLEX PORTAL"/>
-            <xs:enumeration value="PDBe"/>
-            <xs:enumeration value="PDBe-KB"/>
-            <xs:enumeration value="ALPHAFOLD DB"/>
-            <xs:enumeration value="CHEMBL"/>
-            <xs:enumeration value="CHEBI"/>
-            <xs:enumeration value="DRUGBANK"/>
-            <xs:enumeration value="EMPIAR"/>
-            <xs:enumeration value="PUBMED"/>
-            <xs:enumeration value="PUBMED CENTRAL"/>
-            <xs:enumeration value="ISSN"/>
-            <xs:enumeration value="GO"/>
-            <xs:enumeration value="INTERPRO"/>
-            <xs:enumeration value="PFAM"/>
-        </xs:restriction>
-    </xs:simpleType>
-    <xs:simpleType name="provenance_type">
-        <xs:restriction base="xs:token">
-            <xs:annotation>
-                <xs:documentation>
+                                                  </xsd:sequence>
+                                                  </xsd:complexType>
+                                                  </xsd:element>
+                                                </xsd:sequence>
+                                                <xsd:attribute name="type" type="sample_kind"/>
+                                                <xsd:attribute name="id" type="xsd:nonNegativeInteger"/>
+                                                <xsd:attribute name="copies"
+                                                  type="xsd:nonNegativeInteger"/>
+                                            </xsd:complexType>
+                                        </xsd:element>
+                                    </xsd:sequence>
+                                </xsd:complexType>
+                            </xsd:element>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+            </xsd:sequence>
+            <xsd:attribute name="emdb_id" type="emdb_id_type"/>
+            <xsd:attribute name="schema_version" type="xsd:token"/>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:simpleType name="emdb_id_type">
+        <xsd:restriction base="xsd:token">
+            <xsd:pattern value="EMD-\d{4,}"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="db_source_type">
+        <xsd:restriction base="xsd:token">
+            <xsd:enumeration value="UNIPROT"/>
+            <xsd:enumeration value="UNIPROTKB"/>
+            <xsd:enumeration value="COMPLEX PORTAL"/>
+            <xsd:enumeration value="PDBe"/>
+            <xsd:enumeration value="PDBe-KB"/>
+            <xsd:enumeration value="ALPHAFOLD DB"/>
+            <xsd:enumeration value="CHEMBL"/>
+            <xsd:enumeration value="CHEBI"/>
+            <xsd:enumeration value="DRUGBANK"/>
+            <xsd:enumeration value="EMPIAR"/>
+            <xsd:enumeration value="PUBMED"/>
+            <xsd:enumeration value="PUBMED CENTRAL"/>
+            <xsd:enumeration value="ISSN"/>
+            <xsd:enumeration value="GO"/>
+            <xsd:enumeration value="INTERPRO"/>
+            <xsd:enumeration value="PFAM"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="provenance_type">
+        <xsd:restriction base="xsd:token">
+            <xsd:annotation>
+                <xsd:documentation>
                     Annotations done from the respective database. Could be more than one database
-                </xs:documentation>
-            </xs:annotation>
-            <xs:enumeration value="AUTHOR"/>
-            <xs:enumeration value="UNIPROT"/>
-            <xs:enumeration value="UniProtKB"/>
-            <xs:enumeration value="PDBe"/>
-            <xs:enumeration value="PDBe-KB"/>
-            <xs:enumeration value="AlphaFold DB"/>
-            <xs:enumeration value="EMPIAR"/>
-            <xs:enumeration value="EuropePMC"/>
-            <xs:enumeration value="CPX"/>
-            <xs:enumeration value="BLASTP"/>
-            <xs:enumeration value="COMPLEX PORTAL"/>
-            <xs:enumeration value="ChEMBL"/>
-            <xs:enumeration value="ChEBI"/>
-            <xs:enumeration value="DrugBank"/>
-            <xs:enumeration value="CCD"/>
-            <xs:enumeration value="PUBMED CENTRAL"/>
-            <xs:enumeration value="CALCULATED"/>
-            <xs:enumeration value="GO"/>
-            <xs:enumeration value="INTERPRO"/>
-            <xs:enumeration value="PFAM"/>
-        </xs:restriction>
-    </xs:simpleType>
-    <xs:simpleType name="sample_kind">
-        <xs:restriction base="xs:token">
-            <xs:enumeration value="complex"/>
-            <xs:enumeration value="protein"/>
-            <xs:enumeration value="ligand"/>
-        </xs:restriction>
-    </xs:simpleType>
-    <xs:element name="cross_ref_db">
-        <xs:complexType>
-            <xs:attribute name="name" type="xs:string"/>
-            <xs:attribute name="db_source" type="db_source_type"/>
-            <xs:attribute name="accession_id" type="xs:string"/>
-            <xs:attribute name="type" type="xs:string"/>
-            <xs:attribute name="category" type="xs:string"/>
-            <xs:attribute name="link" type="xs:string"/>
-            <xs:attribute name="provenance" type="provenance_type"/>
-            <xs:attribute name="provenance1" type="provenance_type"/>
-            <xs:attribute name="provenance2" type="provenance_type"/>
-            <xs:attribute name="score" type="xs:float"/>
-        </xs:complexType>
-    </xs:element>
-</xs:schema>
+                </xsd:documentation>
+            </xsd:annotation>
+            <xsd:enumeration value="AUTHOR"/>
+            <xsd:enumeration value="UNIPROT"/>
+            <xsd:enumeration value="UniProtKB"/>
+            <xsd:enumeration value="PDBe"/>
+            <xsd:enumeration value="PDBe-KB"/>
+            <xsd:enumeration value="AlphaFold DB"/>
+            <xsd:enumeration value="EMPIAR"/>
+            <xsd:enumeration value="EuropePMC"/>
+            <xsd:enumeration value="CPX"/>
+            <xsd:enumeration value="BLASTP"/>
+            <xsd:enumeration value="COMPLEX PORTAL"/>
+            <xsd:enumeration value="ChEMBL"/>
+            <xsd:enumeration value="ChEBI"/>
+            <xsd:enumeration value="DrugBank"/>
+            <xsd:enumeration value="CCD"/>
+            <xsd:enumeration value="PUBMED CENTRAL"/>
+            <xsd:enumeration value="CALCULATED"/>
+            <xsd:enumeration value="GO"/>
+            <xsd:enumeration value="INTERPRO"/>
+            <xsd:enumeration value="PFAM"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="sample_kind">
+        <xsd:restriction base="xsd:token">
+            <xsd:enumeration value="complex"/>
+            <xsd:enumeration value="protein"/>
+            <xsd:enumeration value="ligand"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:element name="cross_ref_db">
+        <xsd:complexType>
+            <xsd:attribute name="name" type="xsd:string"/>
+            <xsd:attribute name="db_source" type="db_source_type"/>
+            <xsd:attribute name="accession_id" type="xsd:string"/>
+            <xsd:attribute name="type" type="xsd:string"/>
+            <xsd:attribute name="category" type="xsd:string"/>
+            <xsd:attribute name="link" type="xsd:string"/>
+            <xsd:attribute name="provenance" type="provenance_type"/>
+            <xsd:attribute name="provenance1" type="provenance_type"/>
+            <xsd:attribute name="provenance2" type="provenance_type"/>
+            <xsd:attribute name="score" type="xsd:float"/>
+        </xsd:complexType>
+    </xsd:element>
+</xsd:schema>

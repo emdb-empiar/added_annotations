@@ -9,13 +9,14 @@ class EmicssXML:
     """
 
     # def __init__(self, workDir, unip_map, cpx_map, lig_map, mw_map, sw_map, empiar_map, pmc_map, proteins_map):
-    def __init__(self, workDir, mapping_list):
+    def __init__(self, workDir, mapping_list, version_list):
         self.workDir = workDir
         self.mapping_list = mapping_list
+        self.version_list = version_list
 
     def execute(self):
         self.emicss_annotation = self.dict_emicss(self.mapping_list)
-        self.writeXML_emicss()
+        self.writeXML_emicss(self.version_list)
 
     def dict_emicss(self, mapping_list):
         """
@@ -218,13 +219,25 @@ class EmicssXML:
 
         return emicss_dict
 
-    def writeXML_emicss(self):
+    def writeXML_emicss(self, version_list):
         """
         Create and write added annotations to individual EMICSS file for every EMDB entry
         """
         # print(self.emicss_annotation)
         for em_id, val in self.emicss_annotation.items():
             all_db = set()
+            for vers in range(0, len(version_list), 2):
+                if version_list[vers] == "uniprot":
+                    self.unip_vers = version_list[vers + 1]
+                if version_list[vers] == "pdbe":
+                    self.pdbe_vers = version_list[vers + 1]
+                if version_list[vers] == "pdbekb":
+                    self.pdbekb_vers = version_list[vers + 1]
+                if version_list[vers] == "pfam":
+                    self.pfam_vers = version_list[vers + 1]
+                if version_list[vers] == "go":
+                    self.go_vers = version_list[vers + 1]
+
             headerXML = EMICSS.emicss()
             dbs = EMICSS.dbsType()
             cross_ref_dbs = EMICSS.cross_ref_dbsType()
@@ -265,6 +278,7 @@ class EmicssXML:
             entry = f"emd_{entry_id}"
             headerXML.set_emdb_id("%s" % entry)
             headerXML.set_schema_version("1.0.0")
+
             if len(all_db) != 0:
                 headerXML.set_dbs(dbs)
             if emicss_empiar or emicss_model or emicss_pmc:
@@ -298,7 +312,7 @@ class EmicssXML:
             if "EMPIAR" not in all_db:
                 db = EMICSS.dbType()
                 db.set_db_source("%s" % "EMPIAR")
-                db.set_db_version("%s" % "2.0")
+                db.set_db_version("%s" % "0.54")
                 dbs.add_db(db)
         all_db.add("EMPIAR")
         cross_ref_db = EMICSS.cross_ref_db()
@@ -426,7 +440,7 @@ class EmicssXML:
             if "UNIPROT" not in all_db:
                 db = EMICSS.dbType()
                 db.set_db_source("%s" % "UNIPROT")
-                db.set_db_version("%s" % "2021.04")
+                db.set_db_version("%s" % self.unip_vers)
                 dbs.add_db(db)
             all_db.add("UNIPROT")
             cross_ref_db = EMICSS.cross_ref_db()
@@ -456,7 +470,7 @@ class EmicssXML:
                 if "GO" not in all_db:
                     db = EMICSS.dbType()
                     db.set_db_source("%s" % "GO")
-                    db.set_db_version("%s" % "20210616")
+                    db.set_db_version("%s" % self.go_vers)
                     dbs.add_db(db)
                 all_db.add("GO")
 
@@ -504,7 +518,7 @@ class EmicssXML:
                 if "PFAM" not in all_db:
                     db = EMICSS.dbType()
                     db.set_db_source("%s" % "PFAM")
-                    db.set_db_version("%s" % "34.0")
+                    db.set_db_version("%s" % self.pfam_vers)
                     dbs.add_db(db)
                 all_db.add("PFAM")
 
@@ -523,7 +537,7 @@ class EmicssXML:
                 if "PDBe-KB" not in all_db:
                     db = EMICSS.dbType()
                     db.set_db_source("%s" % "PDBe-KB")
-                    db.set_db_version("%s" % "2021.02")
+                    db.set_db_version("%s" % self.pdbekb_vers)
                     dbs.add_db(db)
                 all_db.add("PDBe-KB")
 
@@ -543,7 +557,7 @@ class EmicssXML:
                 if "ALPHAFOLD DB" not in all_db:
                     db = EMICSS.dbType()
                     db.set_db_source("%s" % "ALPHAFOLD DB")
-                    db.set_db_version("%s" % "2021.02")
+                    db.set_db_version("%s" % "2.0")
                     dbs.add_db(db)
                 all_db.add("ALPHAFOLD DB")
 
