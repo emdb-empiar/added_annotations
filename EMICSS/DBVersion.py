@@ -1,4 +1,5 @@
 import os, re
+import json
 from datetime import date
 from datetime import timedelta
 import requests
@@ -34,6 +35,15 @@ class DBVersion:
                 for x in list(root.iter('pfam')):
                     pfam_ver = x.attrib['release']
             db_verison_list.extend(["pfam", pfam_ver])
+        if "interpro" in db_list:
+            url = f"https://www.ebi.ac.uk/interpro/api/"
+            response = requests.get(url)
+            if response.status_code == 200:
+                res_text = response.text
+                data = json.loads(res_text)
+                if 'databases' in data:
+                    ipr_ver = data['databases']['interpro']['version']
+            db_verison_list.extend(["interpro", ipr_ver])
         if "go" in db_list:
             go_ver = re.sub('-', '', str(last_Wednesday))
             db_verison_list.extend(["go", go_ver])
@@ -45,6 +55,7 @@ class DBVersion:
         if "pdbekb" in db_list:
             db_verison_list.extend(["pdbekb", year_month])
         if "empiar" in db_list:
-            db_verison_list.extend(["empiar", "0.54"])
+            empiar_ver = re.sub('-', '', str(today))
+            db_verison_list.extend(["empiar", empiar_ver])
 
         return db_verison_list

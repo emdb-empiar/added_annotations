@@ -11,8 +11,9 @@ from resources.PubmedMapping import PubmedMapping
 from resources.ProteinTermsMapping import ProteinTermsMapping
 from resources.PdbeKbMapping import PdbeKbMapping
 from resources.AlphaFoldMapping import AlphaFoldMapping
-from EMICSS.EmicssXML import EmicssXML
 from EMICSS.DBVersion import DBVersion
+from EMICSS.EmicssInput import EmicssInput
+from EMICSS.EmicssXML import EmicssXML
 from XMLParser import XMLParser
 from glob import glob
 import logging
@@ -107,7 +108,9 @@ def run(filename, version_list):
         mapping_list.extend(["ALPHAFOLD", af_entries])
     if emicss:
         # emicss_log = start_logger_if_necessary("emicss_logger", emicss_log_file)
-        write_annotation_xml = EmicssXML(args.workDir, mapping_list, version_list)
+        emicss_input = EmicssInput(mapping_list)
+        emicss_annotation = emicss_input.execute()
+        write_annotation_xml = EmicssXML(args.workDir, emicss_annotation, version_list)
         write_annotation_xml.execute()
 
 """

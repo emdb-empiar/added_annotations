@@ -1,5 +1,4 @@
 import os, re
-import itertools
 from pathlib import Path
 from EMICSS import EMICSS
 
@@ -8,223 +7,20 @@ class EmicssXML:
     Writing annotations to output xml file according to the EMDB_EMICSS.xsd schema
     """
 
-    # def __init__(self, workDir, unip_map, cpx_map, lig_map, mw_map, sw_map, empiar_map, pmc_map, proteins_map):
-    def __init__(self, workDir, mapping_list, version_list):
+    def __init__(self, workDir, emicss_annotation, version_list):
         self.workDir = workDir
-        self.mapping_list = mapping_list
+        self.emicss_annotation = emicss_annotation
         self.version_list = version_list
 
     def execute(self):
-        self.emicss_annotation = self.dict_emicss(self.mapping_list)
-        self.writeXML_emicss(self.version_list)
+        self.writeXML_emicss(self.emicss_annotation, self.version_list)
 
-    def dict_emicss(self, mapping_list):
-        """
-        Converts dictionary individual annotation to deeply nested dictionary of all the added annotations
-        """
-
-        emicss_dict = {}
-
-        for db in range(0, len(mapping_list), 2):
-            if mapping_list[db] == "UNIPROT":
-                self.unip_map = mapping_list[db+1]
-            if mapping_list[db] == "COMPLEX":
-                self.cpx_map = mapping_list[db + 1]
-            if mapping_list[db] == "LIGANDS":
-                self.lig_map = mapping_list[db+1]
-            if mapping_list[db] == "MODEL":
-                self.mw_map = mapping_list[db+1]
-            if mapping_list[db] == "WEIGHT":
-                self.sw_map = mapping_list[db + 1]
-            if mapping_list[db] == "EMPIAR":
-                self.empiar_map = mapping_list[db+1]
-            if mapping_list[db] == "CITATION":
-                self.pmc_map = mapping_list[db+1]
-            if mapping_list[db] == "PROTEIN-TERMS":
-                self.proteins_map = mapping_list[db+1]
-            if mapping_list[db] == "PDBeKB":
-                self.KB_map = mapping_list[db+1]
-            if mapping_list[db] == "ALPHAFOLD":
-                self.AF_map = mapping_list[db+1]
-
-        try:
-            if self.mw_map:
-                for mw in self.mw_map:
-                    if mw.emdb_id not in emicss_dict:
-                        emicss_dict[mw.emdb_id] = {}
-                    if mw.emdb_id not in emicss_dict[mw.emdb_id]:
-                        emicss_dict[mw.emdb_id][mw.pdb_id] = mw.__dict__
-                    else:
-                        emicss_dict[mw.emdb_id][mw.pdb_id] += mw.__dict__
-        except AttributeError as e:
-            print("MODEL mapping doesn't exist", e)
-
-        try:
-            if self.sw_map:
-                for sw in self.sw_map:
-                    if sw.emdb_id not in emicss_dict:
-                        emicss_dict[sw.emdb_id] = {}
-                    if sw.emdb_id not in emicss_dict[sw.emdb_id]:
-                        emicss_dict[sw.emdb_id][sw.method] = sw.__dict__
-                    else:
-                        emicss_dict[sw.emdb_id][sw.method] += sw.__dict__
-        except AttributeError as e:
-            print("WEIGHT mapping doesn't exist", e)
-
-        try:
-            if self.empiar_map:
-                for empiar in self.empiar_map:
-                    if empiar.emdb_id not in emicss_dict:
-                        emicss_dict[empiar.emdb_id] = {}
-                    if empiar.emdb_id not in emicss_dict[empiar.emdb_id]:
-                        emicss_dict[empiar.emdb_id][empiar.empiar_id] = empiar.__dict__
-                    else:
-                        emicss_dict[empiar.emdb_id][empiar.empiar_id] += empiar.__dict__
-        except AttributeError as e:
-            print("EMPIAR mapping doesn't exist", e)
-
-        try:
-            if self.pmc_map:
-                for pmc in self.pmc_map:
-                    if pmc.emdb_id not in emicss_dict:
-                        emicss_dict[pmc.emdb_id] = {}
-                    if pmc.emdb_id not in emicss_dict[pmc.emdb_id]:
-                        emicss_dict[pmc.emdb_id]["PMC"] = pmc.__dict__
-                    else:
-                        emicss_dict[pmc.emdb_id]["PMC"] += pmc.__dict__
-        except AttributeError as e:
-            print("CITATION mapping doesn't exist", e)
-
-        try:
-            if self.unip_map:
-                for unip in self.unip_map:
-                    if unip.emdb_id not in emicss_dict:
-                        emicss_dict[unip.emdb_id] = {}
-                    if unip.emdb_id not in emicss_dict[unip.emdb_id]:
-                        emicss_dict[unip.emdb_id][unip.uniprot_id] = unip.__dict__
-                    else:
-                        emicss_dict[unip.emdb_id][unip.uniprot_id] += unip.__dict__
-                    try:
-                        if self.unip_map and self.proteins_map:
-                            for GIP in self.proteins_map:
-                                if GIP.uniprot_id == unip.uniprot_id:
-                                    ind = 0
-                                    if GIP.emdb_id not in emicss_dict.keys():
-                                        emicss_dict[GIP.emdb_id] = {}
-                                    if GIP.emdb_id not in emicss_dict[GIP.emdb_id].keys():
-                                        emicss_dict[GIP.emdb_id][GIP.uniprot_id] = {}
-                                    if GIP.sample_id not in emicss_dict[GIP.emdb_id]:
-                                        emicss_dict[GIP.emdb_id][GIP.uniprot_id] = unip.__dict__
-                                    for go2 in GIP.go:
-                                        go = go2.__dict__
-                                        if GIP.uniprot_id == go2.unip_id:
-                                            for k in go.keys():
-                                                new_key = '{}_{}'.format(k, ind)
-                                                emicss_dict[GIP.emdb_id][GIP.uniprot_id][new_key] = go[k]
-                                            ind = ind + 1
-
-                                    for ipr2 in GIP.interpro:
-                                        ipr = ipr2.__dict__
-                                        if GIP.uniprot_id == ipr2.unip_id:
-                                            for k in ipr.keys():
-                                                new_key = '{}_{}_{}'.format("ipr", k, ind)
-                                                emicss_dict[GIP.emdb_id][GIP.uniprot_id][new_key] = ipr[k]
-                                            ind = ind + 1
-
-                                    for pfam2 in GIP.pfam:
-                                        pfam = pfam2.__dict__
-                                        if GIP.uniprot_id == pfam2.unip_id:
-                                            for k in pfam.keys():
-                                                new_key = '{}_{}_{}'.format("pfam", k, ind)
-                                                emicss_dict[GIP.emdb_id][GIP.uniprot_id][new_key] = pfam[k]
-                                            ind = ind + 1
-                                    emicss_dict[GIP.emdb_id][GIP.uniprot_id]["ind"] = ind
-                                    self.ind = ind
-                    except AttributeError as e:
-                        print("PROTEIN-TERMS mapping doesn't exist", e)
-
-                    try:
-                        if self.unip_map and self.KB_map:
-                            for KB in self.KB_map:
-                                if KB.uniprot_id == unip.uniprot_id:
-                                    if self.ind:
-                                        ind = self.ind
-                                    if not self.ind:
-                                        ind = 0
-                                    for pdbekb2 in KB.pdbekb:
-                                        pdbekb = pdbekb2.__dict__
-                                        if KB.uniprot_id == pdbekb2.unip_id:
-                                            for k in pdbekb.keys():
-                                                new_key = '{}_{}_{}'.format("kb", k, ind)
-                                                emicss_dict[unip.emdb_id][KB.uniprot_id][new_key] = pdbekb[k]
-                                            ind = ind + 1
-                                    emicss_dict[unip.emdb_id][KB.uniprot_id]["ind"] = ind
-                                    self.ind = ind
-                    except AttributeError as e:
-                        print("PDBeKB mapping doesn't exist", e)
-
-                    try:
-                        if self.unip_map and self.AF_map:
-                            for AF in self.AF_map:
-                                if AF.uniprot_id == unip.uniprot_id:
-                                    if self.ind:
-                                        ind = self.ind
-                                    if not self.ind:
-                                        ind = 0
-                                    for alphafold2 in AF.alphafold:
-                                        alphafold = alphafold2.__dict__
-                                        if AF.uniprot_id == alphafold2.unip_id:
-                                            for k in alphafold.keys():
-                                                new_key = '{}_{}_{}'.format("af", k, ind)
-                                                emicss_dict[AF.emdb_id][AF.uniprot_id][new_key] = alphafold[k]
-                                            ind = ind + 1
-                                    emicss_dict[AF.emdb_id][AF.uniprot_id]["ind"] = ind
-                    except AttributeError as e:
-                        print("ALPHAFOLD DB mapping doesn't exist", e)
-        except AttributeError as e:
-            print("UNIPROT mapping doesn't exist", e)
-
-        try:
-            if self.cpx_map:
-                for emcpx in self.cpx_map:
-                    if emcpx:
-                        for cpx in emcpx.cpx_list:
-                            if emcpx.emdb_id not in emicss_dict.keys():
-                                emicss_dict[emcpx.emdb_id] = {}
-                            if emcpx.sample_id not in emicss_dict[emcpx.emdb_id].keys():
-                                emicss_dict[emcpx.emdb_id][emcpx.sample_id] = {}
-                                ind = 0
-                            lcpx = ["supra_name", emcpx.supra_name, "sample_copies", emcpx.sample_copies, "cpx_id" + "_" + str(ind),
-                                    cpx.cpx_id, "cpx_name" + "_" + str(ind), cpx.name, "provenance" + "_" + str(ind),
-                                    emcpx.provenance, "score" + "_" + str(ind), emcpx.score]
-                            dcpx = dict(itertools.zip_longest(*[iter(lcpx)] * 2, fillvalue=""))
-                            for k in dcpx.keys():
-                                emicss_dict[emcpx.emdb_id][emcpx.sample_id][k] = dcpx[k]
-                            ind = ind + 1
-                        emicss_dict[emcpx.emdb_id][emcpx.sample_id]["ind"] = ind
-        except AttributeError as e:
-            print("COMPLEX mapping doesn't exist", e)
-
-        try:
-            if self.lig_map:
-                for ligand in self.lig_map:
-                    if ligand.emdb_id not in emicss_dict:
-                        emicss_dict[ligand.emdb_id] = {}
-                    if ligand.emdb_id not in emicss_dict[ligand.emdb_id]:
-                        emicss_dict[ligand.emdb_id]["ligand_"+ligand.sample_id] = ligand.__dict__
-                    else:
-                        emicss_dict[ligand.emdb_id]["ligand_"+ligand.sample_id] += ligand.__dict__
-        except AttributeError as e:
-            print("LIGAND mapping doesn't exist", e)
-
-        return emicss_dict
-
-    def writeXML_emicss(self, version_list):
+    def writeXML_emicss(self, emicss_annotation, version_list):
         """
         Create and write added annotations to individual EMICSS file for every EMDB entry
         """
-        # print(self.emicss_annotation)
-        for em_id, val in self.emicss_annotation.items():
+        # print(emicss_annotation)
+        for em_id, val in emicss_annotation.items():
             all_db = set()
             for vers in range(0, len(version_list), 2):
                 if version_list[vers] == "uniprot":
@@ -237,6 +33,10 @@ class EmicssXML:
                     self.pfam_vers = version_list[vers + 1]
                 if version_list[vers] == "go":
                     self.go_vers = version_list[vers + 1]
+                if version_list[vers] == "interpro":
+                    self.interpro_vers = version_list[vers + 1]
+                if version_list[vers] == "empiar":
+                    self.empiar_vers = version_list[vers + 1]
 
             headerXML = EMICSS.emicss()
             dbs = EMICSS.dbsType()
@@ -312,7 +112,7 @@ class EmicssXML:
             if "EMPIAR" not in all_db:
                 db = EMICSS.dbType()
                 db.set_db_source("%s" % "EMPIAR")
-                db.set_db_version("%s" % "0.54")
+                db.set_db_version("%s" % self.empiar_vers)
                 dbs.add_db(db)
         all_db.add("EMPIAR")
         cross_ref_db = EMICSS.cross_ref_db()
@@ -497,7 +297,7 @@ class EmicssXML:
                 if "INTERPRO" not in all_db:
                     db = EMICSS.dbType()
                     db.set_db_source("%s" % "INTERPRO")
-                    db.set_db_version("%s" % "86.0")
+                    db.set_db_version("%s" % self.interpro_vers)
                     dbs.add_db(db)
                 all_db.add("INTERPRO")
 
