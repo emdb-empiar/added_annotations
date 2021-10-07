@@ -37,6 +37,8 @@ class EmicssXML:
                     self.interpro_vers = version_list[vers + 1]
                 if version_list[vers] == "empiar":
                     self.empiar_vers = version_list[vers + 1]
+                if version_list[vers] == "chembl":
+                    self.chembl_vers = version_list[vers + 1]
 
             headerXML = EMICSS.emicss()
             dbs = EMICSS.dbsType()
@@ -137,7 +139,6 @@ class EmicssXML:
             if "PUBMED" not in all_db:
                 db = EMICSS.dbType()
                 db.set_db_source("%s" % "PUBMED")
-                db.set_db_version("%s" % "2.0")
                 dbs.add_db(db)
             cross_ref_db = EMICSS.cross_ref_db()
             cross_ref_db.set_db_source("%s" % "PUBMED")
@@ -149,7 +150,6 @@ class EmicssXML:
             if "PUBMED CENTRAL" not in all_db:
                 db = EMICSS.dbType()
                 db.set_db_source("%s" % "PUBMED CENTRAL")
-                db.set_db_version("%s" % "2.0")
                 dbs.add_db(db)
             cross_ref_db = EMICSS.cross_ref_db()
             cross_ref_db.set_db_source("%s" % "PUBMED CENTRAL")
@@ -161,7 +161,6 @@ class EmicssXML:
             if "ISSN" not in all_db:
                 db = EMICSS.dbType()
                 db.set_db_source("%s" % "ISSN")
-                db.set_db_version("%s" % "2.0")
                 dbs.add_db(db)
             cross_ref_db = EMICSS.cross_ref_db()
             cross_ref_db.set_db_source("%s" % "ISSN")
@@ -399,7 +398,7 @@ class EmicssXML:
             if "CHEMBL" not in all_db:
                 db = EMICSS.dbType()
                 db.set_db_source("%s" % "CHEMBL")
-                db.set_db_version("%s" % "4.2.0")
+                db.set_db_version("%s" % self.chembl_vers)
                 dbs.add_db(db)
             cross_ref_db = EMICSS.cross_ref_db()
             cross_ref_db.set_name("%s" % lig_name)
@@ -413,7 +412,6 @@ class EmicssXML:
             if "CHEBI" not in all_db:
                 db = EMICSS.dbType()
                 db.set_db_source("%s" % "CHEBI")
-                db.set_db_version("%s" % "15.21")
                 dbs.add_db(db)
             cross_ref_db = EMICSS.cross_ref_db()
             cross_ref_db.set_name("%s" % lig_name)
@@ -427,7 +425,6 @@ class EmicssXML:
             if "DRUGBANK" not in all_db:
                 db = EMICSS.dbType()
                 db.set_db_source("%s" % "DRUGBANK")
-                db.set_db_version("%s" % "2021.03.30")
                 dbs.add_db(db)
             cross_ref_db = EMICSS.cross_ref_db()
             cross_ref_db.set_name("%s" % lig_name)

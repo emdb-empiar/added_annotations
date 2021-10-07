@@ -1,5 +1,6 @@
 import os, re
 import json
+import urllib.request
 from datetime import date
 from datetime import timedelta
 import requests
@@ -44,6 +45,14 @@ class DBVersion:
                 if 'databases' in data:
                     ipr_ver = data['databases']['interpro']['version']
             db_verison_list.extend(["interpro", ipr_ver])
+        if "chembl" in db_list:
+            url = f"https://www.ebi.ac.uk/chembl/api/data/status/"
+            response = requests.get(url)
+            if response.status_code == 200 and response.content:
+                root = ET.fromstring(response.content)
+                for x in list(root.iter('response')):
+                    chembl_ver = x.find('chembl_db_version').text
+            db_verison_list.extend(["chembl", chembl_ver])
         if "go" in db_list:
             go_ver = re.sub('-', '', str(last_Wednesday))
             db_verison_list.extend(["go", go_ver])
