@@ -1,6 +1,7 @@
-import os, re
+import re
 import json
-import urllib.request
+from selenium import webdriver
+from webdriver_manager.chrome import ChromeDriverManager
 from datetime import date
 from datetime import timedelta
 import requests
@@ -53,6 +54,15 @@ class DBVersion:
                 for x in list(root.iter('response')):
                     chembl_ver = x.find('chembl_db_version').text
             db_verison_list.extend(["chembl", chembl_ver])
+        if "chebi" in db_list:
+            db_verison_list.extend(["chebi", year_month])
+        if "drugbank" in db_list:
+            options = webdriver.ChromeOptions()
+            options.headless = True
+            driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
+            driver.get("https://go.drugbank.com/releases/latest")
+            drugbank_ver = driver.find_element_by_xpath("//*[@class='table table-bordered']/tbody//tr//td[3]").text
+            db_verison_list.extend(["drugbank", drugbank_ver])
         if "go" in db_list:
             go_ver = re.sub('-', '', str(last_Wednesday))
             db_verison_list.extend(["go", go_ver])

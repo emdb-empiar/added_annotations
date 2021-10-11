@@ -39,6 +39,10 @@ class EmicssXML:
                     self.empiar_vers = version_list[vers + 1]
                 if version_list[vers] == "chembl":
                     self.chembl_vers = version_list[vers + 1]
+                if version_list[vers] == "chebi":
+                    self.chebi_vers = version_list[vers + 1]
+                if version_list[vers] == "drugbank":
+                    self.drugbank_vers = version_list[vers + 1]
 
             headerXML = EMICSS.emicss()
             dbs = EMICSS.dbsType()
@@ -412,6 +416,7 @@ class EmicssXML:
             if "CHEBI" not in all_db:
                 db = EMICSS.dbType()
                 db.set_db_source("%s" % "CHEBI")
+                db.set_db_version("%s" % self.chebi_vers)
                 dbs.add_db(db)
             cross_ref_db = EMICSS.cross_ref_db()
             cross_ref_db.set_name("%s" % lig_name)
@@ -425,6 +430,7 @@ class EmicssXML:
             if "DRUGBANK" not in all_db:
                 db = EMICSS.dbType()
                 db.set_db_source("%s" % "DRUGBANK")
+                db.set_db_version("%s" % self.drugbank_vers)
                 dbs.add_db(db)
             cross_ref_db = EMICSS.cross_ref_db()
             cross_ref_db.set_name("%s" % lig_name)
