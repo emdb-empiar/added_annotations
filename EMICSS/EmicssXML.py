@@ -43,6 +43,8 @@ class EmicssXML:
                     self.chebi_vers = version_list[vers + 1]
                 if version_list[vers] == "drugbank":
                     self.drugbank_vers = version_list[vers + 1]
+                if version_list[vers] == "cpx":
+                    self.cpx_vers = version_list[vers + 1]
 
             headerXML = EMICSS.emicss()
             dbs = EMICSS.dbsType()
@@ -473,7 +475,7 @@ class EmicssXML:
                     if "COMPLEX PORTAL" not in all_db:
                         db = EMICSS.dbType()
                         db.set_db_source("%s" % "COMPLEX PORTAL")
-                        db.set_db_version("%s" % "1")
+                        db.set_db_version("%s" % self.cpx_vers)
                         dbs.add_db(db)
 
                     cross_ref_db.set_name("%s" % cpx_name)

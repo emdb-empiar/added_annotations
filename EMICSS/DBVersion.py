@@ -29,6 +29,21 @@ class DBVersion:
         week_num = today.isocalendar()[1]
         db_verison_list = []
 
+        if "cpx" or "drugbank" in db_list:
+            options = webdriver.ChromeOptions()
+            options.headless = True
+            driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
+            if "drugbank" in db_list:
+                driver.get("https://go.drugbank.com/releases/latest")
+                drugbank_ver = driver.find_element_by_xpath("//*[@class='table table-bordered']/tbody//tr//td[3]").text
+                db_verison_list.extend(["drugbank", drugbank_ver])
+            if "cpx" in db_list:
+                driver.get("http://ftp.ebi.ac.uk/pub/databases/intact/complex/current/")
+                ftp_ver = driver.find_element_by_xpath("//html/body/pre").text
+                cpxv = ftp_ver.split("complextab/")[1]
+                cpx_ver = cpxv.split()[0]
+                driver.quit()
+                db_verison_list.extend(["cpx", cpx_ver])
         if "pfam" in db_list:
             url = "https://pfam.xfam.org/family/Piwi/acc?output=xml"
             response = requests.get(url)
@@ -56,13 +71,6 @@ class DBVersion:
             db_verison_list.extend(["chembl", chembl_ver])
         if "chebi" in db_list:
             db_verison_list.extend(["chebi", year_month])
-        if "drugbank" in db_list:
-            options = webdriver.ChromeOptions()
-            options.headless = True
-            driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
-            driver.get("https://go.drugbank.com/releases/latest")
-            drugbank_ver = driver.find_element_by_xpath("//*[@class='table table-bordered']/tbody//tr//td[3]").text
-            db_verison_list.extend(["drugbank", drugbank_ver])
         if "go" in db_list:
             go_ver = re.sub('-', '', str(last_Wednesday))
             db_verison_list.extend(["go", go_ver])

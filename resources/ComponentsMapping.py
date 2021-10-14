@@ -1,4 +1,5 @@
 from gemmi import cif
+import lxml.etree as ET
 ### TO DO LIST: ##
 #### Replace (logger.debug(HET, "NOT IN PDB_CCD") with corresponding resource API,
 ##### as of now no entry has HET which is not in CCD ####
