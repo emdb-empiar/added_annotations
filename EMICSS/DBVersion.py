@@ -33,17 +33,19 @@ class DBVersion:
             options = webdriver.ChromeOptions()
             options.headless = True
             driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
-            if "drugbank" in db_list:
-                driver.get("https://go.drugbank.com/releases/latest")
-                drugbank_ver = driver.find_element_by_xpath("//*[@class='table table-bordered']/tbody//tr//td[3]").text
-                db_verison_list.extend(["drugbank", drugbank_ver])
-            if "cpx" in db_list:
-                driver.get("http://ftp.ebi.ac.uk/pub/databases/intact/complex/current/")
-                ftp_ver = driver.find_element_by_xpath("//html/body/pre").text
-                cpxv = ftp_ver.split("complextab/")[1]
-                cpx_ver = cpxv.split()[0]
+            try:
+                if "drugbank" in db_list:
+                    driver.get("https://go.drugbank.com/releases/latest")
+                    drugbank_ver = driver.find_element_by_xpath("//*[@class='table table-bordered']/tbody//tr//td[3]").text
+                    db_verison_list.extend(["drugbank", drugbank_ver])
+                if "cpx" in db_list:
+                    driver.get("http://ftp.ebi.ac.uk/pub/databases/intact/complex/current/")
+                    ftp_ver = driver.find_element_by_xpath("//html/body/pre").text
+                    cpxv = ftp_ver.split("complextab/")[1]
+                    cpx_ver = cpxv.split()[0]
+                    db_verison_list.extend(["cpx", cpx_ver])
+            finally:
                 driver.quit()
-                db_verison_list.extend(["cpx", cpx_ver])
         if "pfam" in db_list:
             url = "https://pfam.xfam.org/family/Piwi/acc?output=xml"
             response = requests.get(url)
