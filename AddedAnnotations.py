@@ -40,7 +40,7 @@ def start_logger_if_necessary(log_name, log_file):
         logger.addHandler(fh)
     return logger
 
-def run(filename, version_list):
+def run(filename):
     id_num = filename.split('-')[1]
     print(f"Running EMD-{id_num}")
     xml_filepath = os.path.join(filename, f"header/emd-{id_num}-v30.xml")
@@ -110,7 +110,7 @@ def run(filename, version_list):
         # emicss_log = start_logger_if_necessary("emicss_logger", emicss_log_file)
         emicss_input = EmicssInput(mapping_list)
         emicss_annotation = emicss_input.execute()
-        write_annotation_xml = EmicssXML(args.workDir, emicss_annotation, version_list)
+        write_annotation_xml = EmicssXML(args.workDir, emicss_annotation, db_version.db_list)
         write_annotation_xml.execute()
 
 """
@@ -186,8 +186,6 @@ if __name__ == "__main__":
         db_list.append("chembl, chebi, drugbank")
     if pmc:
         db_list.append("pubmed, pubmedcentral, issn")
-
-    #CPX, GO, Interpro, Pfam mapping requires Uniprot anotation
     if cpx:
         uniprot = True
         db_list.append("cpx")
@@ -291,6 +289,7 @@ if __name__ == "__main__":
     if emicss:
         emicss_log_file = os.path.join(args.workDir, 'emdb_emicss.log')
         emicss_log = setup_logger('emicss_logger', emicss_log_file)
+        db_version = DBVersion(db_list)
 
     if args.download_uniprot:
             download_uniprot(uniprot_tab)
@@ -301,7 +300,4 @@ if __name__ == "__main__":
     if component:
         chembl_map, chebi_map, drugbank_map = parseCCD(components_cif)
 
-    db_version = DBVersion(db_list)
-    version_list = db_version.execute()
-
-    Parallel(n_jobs=args.threads)(delayed(run)(file, version_list) for file in glob(os.path.join(args.headerDir, '*')))
+    Parallel(n_jobs=args.threads)(delayed(run)(file) for file in glob(os.path.join(args.headerDir, '*')))

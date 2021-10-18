@@ -13,13 +13,6 @@ class DBVersion:
     """
 
     def __init__(self, db_list):
-        self.db_list = db_list
-
-    def execute(self):
-        db_ver_list = self.db_versions(self.db_list)
-        return db_ver_list
-
-    def db_versions(self, db_list):
         today = date.today()
         offset = (today.weekday() - 2) % 7
         last_Wednesday = str(today - timedelta(days=offset))
@@ -86,5 +79,4 @@ class DBVersion:
         if "empiar" in db_list:
             empiar_ver = re.sub('-', '', str(today))
             db_verison_list.extend(["empiar", empiar_ver])
-
-        return db_verison_list
+        self.db_list = db_verison_list

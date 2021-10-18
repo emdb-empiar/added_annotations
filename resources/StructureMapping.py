@@ -17,7 +17,6 @@ class StructureMapping:
 	def worker(self, model):
 		try:
 			assembly_file = os.path.join(self.assembly_ftp, "%s/%s/%s-assembly.xml" % (model.pdb_id[1:3],model.pdb_id,model.pdb_id))
-			print(model.pdb_id)
 			mw, order = self.parse_assembly(assembly_file)
 			if mw:
 				model.molecular_weight = round(mw, 3)
