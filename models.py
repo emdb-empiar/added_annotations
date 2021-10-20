@@ -271,6 +271,8 @@ class Interpro:
         self.namespace = ""
         self.unip_id = ""
         self.provenance = ""
+        self.start = 0
+        self.end = 0
 
     def __str__(self):
         return f"{self.id}\t{self.namespace}\t{self.provenance}"
@@ -303,6 +305,8 @@ class Pfam:
         self.unip_id = ""
         self.sample_id = ""
         self.provenance = ""
+        self.start = 0
+        self.end = 0
 
     def __str__(self):
         return f"{self.id}\t{self.namespace}\t{self.provenance}"

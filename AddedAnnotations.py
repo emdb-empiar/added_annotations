@@ -90,7 +90,7 @@ def run(filename):
         go_log = start_logger_if_necessary("go_logger", go_log_file) if go else None
         interpro_log = start_logger_if_necessary("interpro_logger", interpro_log_file)  if interpro else None
         pfam_log = start_logger_if_necessary("pfam_logger", pfam_log_file)  if pfam else None
-        PT_mapping = ProteinTermsMapping(unp_mapping.proteins, go, interpro, pfam)
+        PT_mapping = ProteinTermsMapping(unp_mapping.proteins, sifts_path, go, interpro, pfam)
         proteins_map = PT_mapping.execute()
         PT_mapping.export_tsv(go_log, interpro_log, pfam_log)
         mapping_list.extend(["PROTEIN-TERMS", proteins_map])
@@ -107,7 +107,6 @@ def run(filename):
         af_mapping.export_tsv(alphafold_log)
         mapping_list.extend(["ALPHAFOLD", af_entries])
     if emicss:
-        # emicss_log = start_logger_if_necessary("emicss_logger", emicss_log_file)
         emicss_input = EmicssInput(mapping_list)
         emicss_annotation = emicss_input.execute()
         write_annotation_xml = EmicssXML(args.workDir, emicss_annotation, db_version.db_list)
@@ -234,6 +233,7 @@ if __name__ == "__main__":
     pmc_api = config.get("api", "pmc")
     uniprot_tab = os.path.join(args.workDir, "uniprot.tsv")
     GO_obo = config.get("file_paths", "GO_obo")
+    sifts_path = config.get("file_paths", "sifts")
 
     #Start loggers
     if uniprot:
@@ -273,11 +273,11 @@ if __name__ == "__main__":
     if interpro:
         interpro_log_file = os.path.join(args.workDir, 'emdb_interpro.log')
         interpro_log = setup_logger('interpro_logger', interpro_log_file)
-        interpro_log.info("EMDB_ID\tEMDB_SAMPLE_ID\tINTERPRO_ID\tINTERPRO_NAMESPACE\tPROVENANCE")
+        interpro_log.info("EMDB_ID\tEMDB_SAMPLE_ID\tINTERPRO_ID\tINTERPRO_NAMESPACE\tSTART\tEND\tPROVENANCE")
     if pfam:
         pfam_log_file = os.path.join(args.workDir, 'emdb_pfam.log')
         pfam_log = setup_logger('pfam_logger', pfam_log_file)
-        pfam_log.info("EMDB_ID\tEMDB_SAMPLE_ID\tPFAM_ID\tPFAM_NAMESPACE\tPROVENANCE")
+        pfam_log.info("EMDB_ID\tEMDB_SAMPLE_ID\tPFAM_ID\tPFAM_NAMESPACE\tSTART\tEND\tPROVENANCE")
     if pdbekb:
         pdbekb_log_file = os.path.join(args.workDir, 'emdb_pdbekb.log')
         pdbekb_log = setup_logger('pdbekb_logger', pdbekb_log_file)
