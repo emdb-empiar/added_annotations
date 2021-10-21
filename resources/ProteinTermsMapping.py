@@ -5,10 +5,9 @@ from Bio import Align
 
 class ProteinTermsMapping:
     """
-    Extract GO, InterPro and Pfam terms from the UniProt ID mapping web API
+    Extract GO, InterPro and Pfam terms from SIFTS
 
     If sequence + model => Fetch from sifts
-    If sequence + Uniprot => Fetch from Pfam
     """
 
     def __init__(self, proteins, sifts_prefix, is_go=True, is_interpro=True, is_pfam=True):
@@ -25,7 +24,9 @@ class ProteinTermsMapping:
                 protein_sequence, go_data, ipr_data, pf_data = self.fetch_uniprot(protein.uniprot_id)
                 aligned_positions, score = self.align(protein_sequence, map_sequence)
                 if score > 0.5*min([len(protein_sequence), len(map_sequence)]):
-                    go_matches, ipr_matches, pfam_matches = self.read_sifts(protein, aligned_positions)
+                    if protein.pdb:
+                        go_matches, ipr_matches, pfam_matches = self.parse_sifts(protein, aligned_positions)
+
                     ipr_matches = self.uniprot_to_map_positions(ipr_matches, aligned_positions)
                     pfam_matches = self.uniprot_to_map_positions(pfam_matches, aligned_positions)
 
@@ -80,7 +81,7 @@ class ProteinTermsMapping:
             new_dataset.add((ref, self.convert_positions(unp_start, positions), self.convert_positions(unp_end, positions)))
         return new_dataset
 
-    def read_sifts(self, protein, positions):
+    def parse_sifts(self, protein, positions):
         models = protein.pdb
         unp_id = protein.uniprot_id
         go_matches = set()
@@ -101,9 +102,6 @@ class ProteinTermsMapping:
                 segments = root.xpath("//x:segment", namespaces=namespaces)
 
                 for segment in segments:
-                    # 1. Iterate over map regions to catch all the GO terms (GO don't have intervals)
-                    # 1.5 If the Unp ID and range does not match, discard
-                    # 2. Iterate over the residues to map InterPro and Pfam positions
                     unp_list = segment.xpath(".//x:mapRegion/x:db[@dbSource='UniProt']", namespaces=namespaces)
                     for unp in unp_list:
                         if unp.get("dbAccessionId") == unp_id:
