@@ -86,13 +86,14 @@ def run(filename):
         pmc_mapping = PubmedMapping(xml.citations, pmc_api)
         pmc_map = pmc_mapping.execute()
         mapping_list.extend(["CITATION", pmc_map])
-    if go or interpro or pfam:
+    if go or interpro or pfam or cath:
         go_log = start_logger_if_necessary("go_logger", go_log_file) if go else None
         interpro_log = start_logger_if_necessary("interpro_logger", interpro_log_file)  if interpro else None
         pfam_log = start_logger_if_necessary("pfam_logger", pfam_log_file)  if pfam else None
-        PT_mapping = ProteinTermsMapping(unp_mapping.proteins, sifts_path, go, interpro, pfam)
+        cath_log = start_logger_if_necessary("cath_logger", cath_log_file)  if cath else None
+        PT_mapping = ProteinTermsMapping(unp_mapping.proteins, sifts_path, go, interpro, pfam, cath)
         proteins_map = PT_mapping.execute()
-        PT_mapping.export_tsv(go_log, interpro_log, pfam_log)
+        PT_mapping.export_tsv(go_log, interpro_log, pfam_log, cath_log)
         mapping_list.extend(["PROTEIN-TERMS", proteins_map])
     if pdbekb:
         pdbekb_log = start_logger_if_necessary("pdbekb_logger", pdbekb_log_file)
@@ -152,6 +153,7 @@ if __name__ == "__main__":
     parser.add_argument("--GO", type=bool, nargs='?', const=True, default=False, help="Mapping GO ids to EMDB entries")
     parser.add_argument("--interpro", type=bool, nargs='?', const=True, default=False, help="Mapping InterPro ids to EMDB entries")
     parser.add_argument("--pfam", type=bool, nargs='?', const=True, default=False, help="Mapping pfam ids to EMDB entries")
+    parser.add_argument("--cath", type=bool, nargs='?', const=True, default=False, help="Mapping Cath domains to EMDB entries")
     parser.add_argument("--pdbekb", type=bool, nargs='?', const=True, default=False, help="Mapping PDBeKB links to EMDB entries")
     parser.add_argument("--alphafold", type=bool, nargs='?', const=True, default=False, help="Mapping Alphafold links to EMDB entries")
     parser.add_argument("--emicss", type=bool, nargs='?', const=True, default=False, help="writting EMICSS XML file for each EMDB entry")
@@ -170,6 +172,7 @@ if __name__ == "__main__":
     go = args.GO
     interpro = args.interpro
     pfam = args.pfam
+    cath = args.cath
     pdbekb = args.pdbekb
     alphafold = args.alphafold
     emicss = args.emicss
@@ -197,6 +200,8 @@ if __name__ == "__main__":
     if pfam:
         uniprot = True
         db_list.append("pfam")
+    if cath:
+        uniprot = True
     if pdbekb:
         uniprot = True
         db_list.append("pdbekb")
@@ -214,6 +219,7 @@ if __name__ == "__main__":
         go = True
         interpro = True
         pfam = True
+        cath = True
         pdbekb = True
         alphafold = True
         emicss = True
@@ -278,6 +284,10 @@ if __name__ == "__main__":
         pfam_log_file = os.path.join(args.workDir, 'emdb_pfam.log')
         pfam_log = setup_logger('pfam_logger', pfam_log_file)
         pfam_log.info("EMDB_ID\tEMDB_SAMPLE_ID\tPFAM_ID\tPFAM_NAMESPACE\tSTART\tEND\tPROVENANCE")
+    if cath:
+        cath_log_file = os.path.join(args.workDir, 'emdb_cath.log')
+        cath_log = setup_logger('cath_logger', cath_log_file)
+        cath_log.info("EMDB_ID\tEMDB_SAMPLE_ID\tCATH_ID\tSTART\tEND\tPROVENANCE")
     if pdbekb:
         pdbekb_log_file = os.path.join(args.workDir, 'emdb_pdbekb.log')
         pdbekb_log = setup_logger('pdbekb_logger', pdbekb_log_file)

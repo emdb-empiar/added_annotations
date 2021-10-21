@@ -20,6 +20,7 @@ class Protein:
         self.go = []
         self.interpro = []
         self.pfam = []
+        self.cath = []
         self.pdbekb = []
         self.alphafold = []
 
@@ -297,7 +298,7 @@ class Interpro:
 
 class Pfam:
     """
-    Define the InterPro terms for the sample in the EMDB entry
+    Define the Pfam domains for the sample in the EMDB entry
     """
     def __init__(self):
         self.id = ""
@@ -326,6 +327,19 @@ class Pfam:
                 if 'description' in data:
                     result = data['description']
                     self.namespace = result['description']
+
+class Cath:
+    """
+    Define the CATH domains for the sample in the EMDB entry
+    """
+    def __init__(self):
+        self.id = ""
+        self.provenance = ""
+        self.start = 0
+        self.end = 0
+
+    def __str__(self):
+        return f"{self.id}\t{self.namespace}\t{self.provenance}"
 
 class Pdbekb:
     """

@@ -1,5 +1,5 @@
 import requests, re, gzip
-from models import GO, Interpro, Pfam
+from models import GO, Interpro, Pfam, Cath
 import lxml.etree as ET
 from Bio import Align
 
@@ -10,11 +10,12 @@ class ProteinTermsMapping:
     If sequence + model => Fetch from sifts
     """
 
-    def __init__(self, proteins, sifts_prefix, is_go=True, is_interpro=True, is_pfam=True):
+    def __init__(self, proteins, sifts_prefix, is_go=True, is_interpro=True, is_pfam=True, is_cath=True):
         self.proteins = proteins
         self.is_interpro = is_interpro
         self.is_go = is_go
         self.is_pfam = is_pfam
+        self.is_cath = is_cath
         self.sifts_prefix = sifts_prefix
 
     def execute(self):
@@ -25,10 +26,10 @@ class ProteinTermsMapping:
                 aligned_positions, score = self.align(protein_sequence, map_sequence)
                 if score > 0.5*min([len(protein_sequence), len(map_sequence)]):
                     if protein.pdb:
-                        go_matches, ipr_matches, pfam_matches = self.parse_sifts(protein, aligned_positions)
-
+                        go_matches, ipr_matches, pfam_matches, cath_matches = self.parse_sifts(protein, aligned_positions)
                     ipr_matches = self.uniprot_to_map_positions(ipr_matches, aligned_positions)
                     pfam_matches = self.uniprot_to_map_positions(pfam_matches, aligned_positions)
+                    cath_matches = self.uniprot_to_map_positions(cath_matches, aligned_positions)
 
                     for go_id in go_matches:
                         if go_id in go_data:
@@ -49,6 +50,13 @@ class ProteinTermsMapping:
                             pfam.start = start
                             pfam.end = end
                             protein.pfam.append(pfam)
+                    for cath_id, start, end in cath_matches:
+                        cath = Cath()
+                        cath.id = cath_id
+                        cath.start = start
+                        cath.end = end
+                        cath.provenance = "PDBe"
+                        protein.cath.append(cath)
 
         return self.proteins
 
@@ -87,6 +95,7 @@ class ProteinTermsMapping:
         go_matches = set()
         ipr_matches = set()
         pfam_matches = set()
+        cath_matches = set()
         unp_positions = positions[0]
         map_positions = positions[1]
         unp_begin = unp_positions[0][0]+1
@@ -123,10 +132,16 @@ class ProteinTermsMapping:
                                         pfam_id = pfam.get("dbAccessionId")
                                         start, end = self.extract_uniprot_position(pfam, segment)
                                         pfam_matches.add((pfam_id, start, end))
+                                if self.is_cath:
+                                    cath_list = segment.xpath(".//x:mapRegion/x:db[@dbSource='CATH']", namespaces=namespaces)
+                                    for cath in cath_list:
+                                        cath_id = cath.get("dbAccessionId")
+                                        start, end = self.extract_uniprot_position(cath, segment)
+                                        cath_matches.add((cath_id, start, end))
             except FileNotFoundError:
                 continue
 
-        return go_matches, ipr_matches, pfam_matches
+        return go_matches, ipr_matches, pfam_matches, cath_matches
 
     def strip_sequence(self, sequence):
         """
@@ -174,7 +189,6 @@ class ProteinTermsMapping:
                         go.type = term_text[0]
                         go.namespace = term_text[2:]
                         go_data[go.id] = go
-
             if self.is_interpro:
                 interpro_elements = root.findall(".//{http://uniprot.org/uniprot}dbReference[@type='InterPro']")
                 for element in interpro_elements:
@@ -186,7 +200,6 @@ class ProteinTermsMapping:
                         interpro.namespace = terms[0].get("value")
                         interpro.provenance = "UNIPROT"
                         interpro_data[interpro.id] = interpro
-
             if self.is_pfam:
                 pfam_elements = root.findall(".//{http://uniprot.org/uniprot}dbReference[@type='Pfam']")
                 for element in pfam_elements:
@@ -200,7 +213,7 @@ class ProteinTermsMapping:
 
         return sequence, go_data, interpro_data, pfam_data
 
-    def export_tsv(self, go_logger, interpro_logger, pfam_logger):
+    def export_tsv(self, go_logger, interpro_logger, pfam_logger, cath_logger):
         for protein in self.proteins:
             if self.is_go and protein.go:
                 for go in protein.go:
@@ -214,3 +227,7 @@ class ProteinTermsMapping:
                 for pfam in protein.pfam:
                     row = f"{protein.emdb_id}\t{protein.sample_id}\t{pfam.id}\t{pfam.namespace}\t{pfam.start}\t{pfam.end}\t{pfam.provenance}"
                     pfam_logger.info(row)
+            if self.is_cath and protein.cath:
+                for cath in protein.cath:
+                    row = f"{protein.emdb_id}\t{protein.sample_id}\t{cath.id}\t{cath.start}\t{cath.end}\t{cath.provenance}"
+                    cath_logger.info(row)
