@@ -11,7 +11,7 @@ from resources.PubmedMapping import PubmedMapping
 from resources.ProteinTermsMapping import ProteinTermsMapping
 from resources.PdbeKbMapping import PdbeKbMapping
 from resources.AlphaFoldMapping import AlphaFoldMapping
-from EMICSS.DBVersion import DBVersion
+#from EMICSS.DBVersion import DBVersion
 from EMICSS.EmicssInput import EmicssInput
 from EMICSS.EmicssXML import EmicssXML
 from XMLParser import XMLParser
@@ -299,7 +299,7 @@ if __name__ == "__main__":
     if emicss:
         emicss_log_file = os.path.join(args.workDir, 'emdb_emicss.log')
         emicss_log = setup_logger('emicss_logger', emicss_log_file)
-        db_version = DBVersion(db_list)
+        #db_version = DBVersion(db_list)
 
     if args.download_uniprot:
             download_uniprot(uniprot_tab)
