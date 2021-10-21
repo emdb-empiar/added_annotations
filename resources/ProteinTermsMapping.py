@@ -27,36 +27,36 @@ class ProteinTermsMapping:
                 if score > 0.5*min([len(protein_sequence), len(map_sequence)]):
                     if protein.pdb:
                         go_matches, ipr_matches, pfam_matches, cath_matches = self.parse_sifts(protein, aligned_positions)
-                    ipr_matches = self.uniprot_to_map_positions(ipr_matches, aligned_positions)
-                    pfam_matches = self.uniprot_to_map_positions(pfam_matches, aligned_positions)
-                    cath_matches = self.uniprot_to_map_positions(cath_matches, aligned_positions)
+                        ipr_matches = self.uniprot_to_map_positions(ipr_matches, aligned_positions)
+                        pfam_matches = self.uniprot_to_map_positions(pfam_matches, aligned_positions)
+                        cath_matches = self.uniprot_to_map_positions(cath_matches, aligned_positions)
 
-                    for go_id in go_matches:
-                        if go_id in go_data:
-                            go = go_data[go_id]
-                            go.provenance = "PDBe"
-                            protein.go.append(go)
-                    for ipr_id, start, end in ipr_matches:
-                        if ipr_id in ipr_data:
-                            ipr = ipr_data[ipr_id]
-                            ipr.provenance = "PDBe"
-                            ipr.start = start
-                            ipr.end = end
-                            protein.interpro.append(ipr)
-                    for pf_id, start, end in pfam_matches:
-                        if pf_id in pf_data:
-                            pfam = pf_data[pf_id]
-                            pfam.provenance = "PDBe"
-                            pfam.start = start
-                            pfam.end = end
-                            protein.pfam.append(pfam)
-                    for cath_id, start, end in cath_matches:
-                        cath = Cath()
-                        cath.id = cath_id
-                        cath.start = start
-                        cath.end = end
-                        cath.provenance = "PDBe"
-                        protein.cath.append(cath)
+                        for go_id in go_matches:
+                            if go_id in go_data:
+                                go = go_data[go_id]
+                                go.provenance = "PDBe"
+                                protein.go.append(go)
+                        for ipr_id, start, end in ipr_matches:
+                            if ipr_id in ipr_data:
+                                ipr = ipr_data[ipr_id]
+                                ipr.provenance = "PDBe"
+                                ipr.start = start
+                                ipr.end = end
+                                protein.interpro.append(ipr)
+                        for pf_id, start, end in pfam_matches:
+                            if pf_id in pf_data:
+                                pfam = pf_data[pf_id]
+                                pfam.provenance = "PDBe"
+                                pfam.start = start
+                                pfam.end = end
+                                protein.pfam.append(pfam)
+                        for cath_id, start, end in cath_matches:
+                            cath = Cath()
+                            cath.id = cath_id
+                            cath.start = start
+                            cath.end = end
+                            cath.provenance = "PDBe"
+                            protein.cath.append(cath)
 
         return self.proteins
 
