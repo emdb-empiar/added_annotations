@@ -11,7 +11,7 @@ from resources.PubmedMapping import PubmedMapping
 from resources.ProteinTermsMapping import ProteinTermsMapping
 from resources.PdbeKbMapping import PdbeKbMapping
 from resources.AlphaFoldMapping import AlphaFoldMapping
-from EMICSS.DBVersion import DBVersion
+#from EMICSS.DBVersion import DBVersion
 from EMICSS.EmicssInput import EmicssInput
 from EMICSS.EmicssXML import EmicssXML
 from XMLParser import XMLParser
@@ -40,7 +40,7 @@ def start_logger_if_necessary(log_name, log_file):
         logger.addHandler(fh)
     return logger
 
-def run(filename, version_list):
+def run(filename):
     id_num = filename.split('-')[1]
     print(f"Running EMD-{id_num}")
     xml_filepath = os.path.join(filename, f"header/emd-{id_num}-v30.xml")
@@ -86,13 +86,14 @@ def run(filename, version_list):
         pmc_mapping = PubmedMapping(xml.citations, pmc_api)
         pmc_map = pmc_mapping.execute()
         mapping_list.extend(["CITATION", pmc_map])
-    if go or interpro or pfam:
+    if go or interpro or pfam or cath:
         go_log = start_logger_if_necessary("go_logger", go_log_file) if go else None
         interpro_log = start_logger_if_necessary("interpro_logger", interpro_log_file)  if interpro else None
         pfam_log = start_logger_if_necessary("pfam_logger", pfam_log_file)  if pfam else None
-        PT_mapping = ProteinTermsMapping(unp_mapping.proteins, go, interpro, pfam)
+        cath_log = start_logger_if_necessary("cath_logger", cath_log_file)  if cath else None
+        PT_mapping = ProteinTermsMapping(unp_mapping.proteins, sifts_path, go, interpro, pfam, cath)
         proteins_map = PT_mapping.execute()
-        PT_mapping.export_tsv(go_log, interpro_log, pfam_log)
+        PT_mapping.export_tsv(go_log, interpro_log, pfam_log, cath_log)
         mapping_list.extend(["PROTEIN-TERMS", proteins_map])
     if pdbekb:
         pdbekb_log = start_logger_if_necessary("pdbekb_logger", pdbekb_log_file)
@@ -106,12 +107,11 @@ def run(filename, version_list):
         af_entries = af_mapping.execute(unp_mapping.proteins)
         af_mapping.export_tsv(alphafold_log)
         mapping_list.extend(["ALPHAFOLD", af_entries])
-    if emicss:
-        # emicss_log = start_logger_if_necessary("emicss_logger", emicss_log_file)
-        emicss_input = EmicssInput(mapping_list)
-        emicss_annotation = emicss_input.execute()
-        write_annotation_xml = EmicssXML(args.workDir, emicss_annotation, version_list)
-        write_annotation_xml.execute()
+    # if emicss:
+    #     emicss_input = EmicssInput(mapping_list)
+    #     emicss_annotation = emicss_input.execute()
+    #     write_annotation_xml = EmicssXML(args.workDir, emicss_annotation, db_version.db_list)
+    #     write_annotation_xml.execute()
 
 """
 List of things to do:
@@ -153,6 +153,7 @@ if __name__ == "__main__":
     parser.add_argument("--GO", type=bool, nargs='?', const=True, default=False, help="Mapping GO ids to EMDB entries")
     parser.add_argument("--interpro", type=bool, nargs='?', const=True, default=False, help="Mapping InterPro ids to EMDB entries")
     parser.add_argument("--pfam", type=bool, nargs='?', const=True, default=False, help="Mapping pfam ids to EMDB entries")
+    parser.add_argument("--cath", type=bool, nargs='?', const=True, default=False, help="Mapping Cath domains to EMDB entries")
     parser.add_argument("--pdbekb", type=bool, nargs='?', const=True, default=False, help="Mapping PDBeKB links to EMDB entries")
     parser.add_argument("--alphafold", type=bool, nargs='?', const=True, default=False, help="Mapping Alphafold links to EMDB entries")
     parser.add_argument("--emicss", type=bool, nargs='?', const=True, default=False, help="writting EMICSS XML file for each EMDB entry")
@@ -171,6 +172,7 @@ if __name__ == "__main__":
     go = args.GO
     interpro = args.interpro
     pfam = args.pfam
+    cath = args.cath
     pdbekb = args.pdbekb
     alphafold = args.alphafold
     emicss = args.emicss
@@ -186,8 +188,6 @@ if __name__ == "__main__":
         db_list.append("chembl, chebi, drugbank")
     if pmc:
         db_list.append("pubmed, pubmedcentral, issn")
-
-    #CPX, GO, Interpro, Pfam mapping requires Uniprot anotation
     if cpx:
         uniprot = True
         db_list.append("cpx")
@@ -200,6 +200,8 @@ if __name__ == "__main__":
     if pfam:
         uniprot = True
         db_list.append("pfam")
+    if cath:
+        uniprot = True
     if pdbekb:
         uniprot = True
         db_list.append("pdbekb")
@@ -217,6 +219,7 @@ if __name__ == "__main__":
         go = True
         interpro = True
         pfam = True
+        cath = True
         pdbekb = True
         alphafold = True
         emicss = True
@@ -236,6 +239,7 @@ if __name__ == "__main__":
     pmc_api = config.get("api", "pmc")
     uniprot_tab = os.path.join(args.workDir, "uniprot.tsv")
     GO_obo = config.get("file_paths", "GO_obo")
+    sifts_path = config.get("file_paths", "sifts")
 
     #Start loggers
     if uniprot:
@@ -275,11 +279,15 @@ if __name__ == "__main__":
     if interpro:
         interpro_log_file = os.path.join(args.workDir, 'emdb_interpro.log')
         interpro_log = setup_logger('interpro_logger', interpro_log_file)
-        interpro_log.info("EMDB_ID\tEMDB_SAMPLE_ID\tINTERPRO_ID\tINTERPRO_NAMESPACE\tPROVENANCE")
+        interpro_log.info("EMDB_ID\tEMDB_SAMPLE_ID\tINTERPRO_ID\tINTERPRO_NAMESPACE\tSTART\tEND\tPROVENANCE")
     if pfam:
         pfam_log_file = os.path.join(args.workDir, 'emdb_pfam.log')
         pfam_log = setup_logger('pfam_logger', pfam_log_file)
-        pfam_log.info("EMDB_ID\tEMDB_SAMPLE_ID\tPFAM_ID\tPFAM_NAMESPACE\tPROVENANCE")
+        pfam_log.info("EMDB_ID\tEMDB_SAMPLE_ID\tPFAM_ID\tPFAM_NAMESPACE\tSTART\tEND\tPROVENANCE")
+    if cath:
+        cath_log_file = os.path.join(args.workDir, 'emdb_cath.log')
+        cath_log = setup_logger('cath_logger', cath_log_file)
+        cath_log.info("EMDB_ID\tEMDB_SAMPLE_ID\tCATH_ID\tSTART\tEND\tPROVENANCE")
     if pdbekb:
         pdbekb_log_file = os.path.join(args.workDir, 'emdb_pdbekb.log')
         pdbekb_log = setup_logger('pdbekb_logger', pdbekb_log_file)
@@ -291,6 +299,7 @@ if __name__ == "__main__":
     if emicss:
         emicss_log_file = os.path.join(args.workDir, 'emdb_emicss.log')
         emicss_log = setup_logger('emicss_logger', emicss_log_file)
+        #db_version = DBVersion(db_list)
 
     if args.download_uniprot:
             download_uniprot(uniprot_tab)
@@ -301,7 +310,4 @@ if __name__ == "__main__":
     if component:
         chembl_map, chebi_map, drugbank_map = parseCCD(components_cif)
 
-    db_version = DBVersion(db_list)
-    version_list = db_version.execute()
-
-    Parallel(n_jobs=args.threads)(delayed(run)(file, version_list) for file in glob(os.path.join(args.headerDir, '*')))
+    Parallel(n_jobs=args.threads)(delayed(run)(file) for file in glob(os.path.join(args.headerDir, '*')))
