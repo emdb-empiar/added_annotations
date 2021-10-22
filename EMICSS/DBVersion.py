@@ -1,7 +1,5 @@
 import re
 import json
-from selenium import webdriver
-from webdriver_manager.chrome import ChromeDriverManager
 from datetime import date
 from datetime import timedelta
 import requests
