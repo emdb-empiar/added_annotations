@@ -23,22 +23,21 @@ class DBVersion:
         db_verison_list = []
 
         if "cpx" or "drugbank" in db_list:
-            options = webdriver.ChromeOptions()
-            options.headless = True
-            driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
-            try:
-                if "drugbank" in db_list:
-                    driver.get("https://go.drugbank.com/releases/latest")
-                    drugbank_ver = driver.find_element_by_xpath("//*[@class='table table-bordered']/tbody//tr//td[3]").text
-                    db_verison_list.extend(["drugbank", drugbank_ver])
-                if "cpx" in db_list:
-                    driver.get("http://ftp.ebi.ac.uk/pub/databases/intact/complex/current/")
-                    ftp_ver = driver.find_element_by_xpath("//html/body/pre").text
-                    cpxv = ftp_ver.split("complextab/")[1]
-                    cpx_ver = cpxv.split()[0]
-                    db_verison_list.extend(["cpx", cpx_ver])
-            finally:
-                driver.quit()
+            if "cpx" in db_list:
+                url = "http://ftp.ebi.ac.uk/pub/databases/intact/complex/current/"
+                response = requests.get(url)
+                if response.status_code == 200 and response.content:
+                    html = response.content.decode('utf-8')
+                    cpx_ver = re.findall("\d*\-\w*\-\d*", html)[0]
+            db_verison_list.extend(["cpx", cpx_ver])
+            if "drugbank" in db_list:
+                url = "https://go.drugbank.com/releases/latest"
+                response = requests.get(url)
+                if response.status_code == 200 and response.content:
+                    html = response.content.decode('utf-8')
+                    vers = re.findall("<td>\d*\.\d*\.\d*", html)[0]
+                    drugbank_ver = vers.split(">")[1]
+            db_verison_list.extend(["drugbank", drugbank_ver])
         if "pfam" in db_list:
             url = "https://pfam.xfam.org/family/Piwi/acc?output=xml"
             response = requests.get(url)
