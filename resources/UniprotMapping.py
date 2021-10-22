@@ -1,7 +1,5 @@
 import os, re, subprocess
 import lxml.etree as ET
-import urllib.parse
-import urllib.request
 import logging
 from fuzzywuzzy import fuzz
 from models import Protein, Model
@@ -91,7 +89,7 @@ class UniprotMapping:
 		fasta_file = os.path.join(directory, protein.emdb_id + ".fasta")
 		with open(fasta_file, "w") as f:
 			f.write(">seq\n%s" % protein.sequence)
-		qout = os.path.join(self.output_dir, "fasta", protein.emdb_id + ".xml")
+		qout = os.path.join(self.output_dir, "fasta", protein.emdb_id + "_" + protein.sample_id + ".xml")
 		blastp_command = [self.blastp_bin, "-query", fasta_file, "-db", self.blast_db, "-out", qout, "-outfmt", "5",
 						 "-evalue", "1e-40"]
 		subprocess.call(blastp_command)
@@ -103,11 +101,11 @@ class UniprotMapping:
 				protein.provenance = "BLASTP"
 		return protein
 
-	def extract_uniprot_from_blast(self, out_file, ncbi_id):
+	def extract_uniprot_from_blast(self, fastafile, ncbi_id):
 		"""
 		Extracting the UNIPROT ID from BLASTP XML output
 		"""
-		with open(out_file, 'r') as outFile:
+		with open(fastafile, 'r') as outFile:
 			tree = ET.parse(outFile)
 			root = tree.getroot()
 			seq_len = root.find('BlastOutput_query-len').text

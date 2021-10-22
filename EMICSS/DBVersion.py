@@ -42,6 +42,7 @@ class DBVersion:
                 ftp_ver = driver.find_element_by_xpath("//html/body/pre").text
                 cpxv = ftp_ver.split("complextab/")[1]
                 cpx_ver = cpxv.split()[0]
+                driver.close()
                 driver.quit()
                 db_verison_list.extend(["cpx", cpx_ver])
         if "pfam" in db_list:
@@ -81,6 +82,8 @@ class DBVersion:
             db_verison_list.extend(["pdbe", pdbe_ver])
         if "pdbekb" in db_list:
             db_verison_list.extend(["pdbekb", year_month])
+        if "alphafold" in db_list:
+            db_verison_list.extend(["alphafold", "1.0"])
         if "empiar" in db_list:
             empiar_ver = re.sub('-', '', str(today))
             db_verison_list.extend(["empiar", empiar_ver])

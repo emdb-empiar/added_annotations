@@ -29,6 +29,8 @@ class EmicssXML:
                     self.pdbe_vers = version_list[vers + 1]
                 if version_list[vers] == "pdbekb":
                     self.pdbekb_vers = version_list[vers + 1]
+                if version_list[vers] == "alphafold":
+                    self.alphafold_vers = version_list[vers + 1]
                 if version_list[vers] == "pfam":
                     self.pfam_vers = version_list[vers + 1]
                 if version_list[vers] == "go":
@@ -362,7 +364,7 @@ class EmicssXML:
                 if "ALPHAFOLD DB" not in all_db:
                     db = EMICSS.dbType()
                     db.set_db_source("%s" % "ALPHAFOLD DB")
-                    db.set_db_version("%s" % "2.0")
+                    db.set_db_version("%s" % self.alphafold_vers)
                     dbs.add_db(db)
                 all_db.add("ALPHAFOLD DB")
 
