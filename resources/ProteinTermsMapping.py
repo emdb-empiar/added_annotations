@@ -161,7 +161,10 @@ class ProteinTermsMapping:
         aligner.mode = 'local'
         aligner.open_gap_score = -2
         alignments = aligner.align(target, query)
-        optimal = next(alignments)
+        try:
+            optimal = next(alignments)
+        except StopIteration:
+            return (None,None), 0
         
         return optimal.aligned, optimal.score
 
