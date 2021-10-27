@@ -37,6 +37,8 @@ class EmicssXML:
                     self.go_vers = version_list[vers + 1]
                 if version_list[vers] == "interpro":
                     self.interpro_vers = version_list[vers + 1]
+                if version_list[vers] == "cath":
+                    self.cath_vers = version_list[vers + 1]
                 if version_list[vers] == "empiar":
                     self.empiar_vers = version_list[vers + 1]
                 if version_list[vers] == "chembl":
@@ -362,7 +364,7 @@ class EmicssXML:
                 if "CATH" not in all_db:
                     db = EMICSS.dbType()
                     db.set_db_source("%s" % "CATH")
-                    db.set_db_version("%s" % self.interpro_vers)
+                    db.set_db_version("%s" % self.cath_vers)
                     dbs.add_db(db)
                 all_db.add("CATH")
 

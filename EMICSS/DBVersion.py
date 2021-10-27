@@ -20,22 +20,21 @@ class DBVersion:
         week_num = today.isocalendar()[1]
         db_verison_list = []
 
-        if "cpx" or "drugbank" in db_list:
-            if "cpx" in db_list:
-                url = "http://ftp.ebi.ac.uk/pub/databases/intact/complex/current/"
-                response = requests.get(url)
-                if response.status_code == 200 and response.content:
-                    html = response.content.decode('utf-8')
-                    cpx_ver = re.findall("\d*\-\w*\-\d*", html)[0]
-                db_verison_list.extend(["cpx", cpx_ver])
-            if "drugbank" in db_list:
-                url = "https://go.drugbank.com/releases/latest"
-                response = requests.get(url)
-                if response.status_code == 200 and response.content:
-                    html = response.content.decode('utf-8')
-                    vers = re.findall("<td>\d*\.\d*\.\d*", html)[0]
-                    drugbank_ver = vers.split(">")[1]
-                db_verison_list.extend(["drugbank", drugbank_ver])
+        if "cpx" in db_list:
+            url = "http://ftp.ebi.ac.uk/pub/databases/intact/complex/current/"
+            response = requests.get(url)
+            if response.status_code == 200 and response.content:
+                html = response.content.decode('utf-8')
+                cpx_ver = re.findall("\d*\-\w*\-\d*", html)[0]
+            db_verison_list.extend(["cpx", cpx_ver])
+        if "drugbank" in db_list:
+            url = "https://go.drugbank.com/releases/latest"
+            response = requests.get(url)
+            if response.status_code == 200 and response.content:
+                html = response.content.decode('utf-8')
+                vers = re.findall("<td>\d*\.\d*\.\d*", html)[0]
+                drugbank_ver = vers.split(">")[1]
+            db_verison_list.extend(["drugbank", drugbank_ver])
         if "pfam" in db_list:
             url = "https://pfam.xfam.org/family/Piwi/acc?output=xml"
             response = requests.get(url)
@@ -53,6 +52,14 @@ class DBVersion:
                 if 'databases' in data:
                     ipr_ver = data['databases']['interpro']['version']
             db_verison_list.extend(["interpro", ipr_ver])
+        if "cath" in db_list:
+            url = "https://www.cathdb.info/"
+            response = requests.get(url)
+            if response.status_code == 200 and response.content:
+                html = response.content.decode('utf-8')
+                vers = re.findall("<h1>CATH / Gene3D <small>\w*\d*\.\d*", html)[0]
+                cath_ver = vers.split("small>")[1]
+            db_verison_list.extend(["cath", cath_ver])
         if "chembl" in db_list:
             url = f"https://www.ebi.ac.uk/chembl/api/data/status/"
             response = requests.get(url)
