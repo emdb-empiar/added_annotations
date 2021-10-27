@@ -60,6 +60,10 @@ class DBVersion:
                 vers = re.findall("<h1>CATH / Gene3D <small>\w*\d*\.\d*", html)[0]
                 cath_ver = vers.split("small>")[1]
             db_verison_list.extend(["cath", cath_ver])
+        if "scop" in db_list:
+            db_verison_list.extend(["scop", "1.75"])
+        if "scop2" in db_list:
+            db_verison_list.extend(["scop2", "2.0"])
         if "chembl" in db_list:
             url = f"https://www.ebi.ac.uk/chembl/api/data/status/"
             response = requests.get(url)

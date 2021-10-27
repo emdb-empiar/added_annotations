@@ -140,7 +140,23 @@ class EmicssInput:
                                                 new_key = '{}_{}_{}'.format("cath", k, ind)
                                                 emicss_dict[ProTerm.emdb_id][ProTerm.uniprot_id][new_key] = cath[k]
                                             ind = ind + 1
-                                            
+
+                                    for scopi in ProTerm.scop:
+                                        scop = scopi.__dict__
+                                        if ProTerm.uniprot_id == scopi.unip_id:
+                                            for k in scop.keys():
+                                                new_key = '{}_{}_{}'.format("scop", k, ind)
+                                                emicss_dict[ProTerm.emdb_id][ProTerm.uniprot_id][new_key] = scop[k]
+                                            ind = ind + 1
+
+                                    for scopj in ProTerm.scop2:
+                                        scop2 = scopj.__dict__
+                                        if ProTerm.uniprot_id == scopj.unip_id:
+                                            for k in scop2.keys():
+                                                new_key = '{}_{}_{}'.format("scop2", k, ind)
+                                                emicss_dict[ProTerm.emdb_id][ProTerm.uniprot_id][new_key] = scop2[k]
+                                            ind = ind + 1
+
                                     emicss_dict[ProTerm.emdb_id][ProTerm.uniprot_id]["ind"] = ind
                                     self.ind = ind
                     except AttributeError as e:

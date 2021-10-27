@@ -39,6 +39,10 @@ class EmicssXML:
                     self.interpro_vers = version_list[vers + 1]
                 if version_list[vers] == "cath":
                     self.cath_vers = version_list[vers + 1]
+                if version_list[vers] == "scop":
+                    self.scop_vers = version_list[vers + 1]
+                if version_list[vers] == "scop2":
+                    self.scop2_vers = version_list[vers + 1]
                 if version_list[vers] == "empiar":
                     self.empiar_vers = version_list[vers + 1]
                 if version_list[vers] == "chembl":
@@ -375,6 +379,56 @@ class EmicssXML:
                     cross_ref_db.set_domain_start(int(CATH_domain_start))
                     cross_ref_db.set_domain_end(int(CATH_domain_end))
                 cross_ref_db.set_provenance("%s" % CATH_provenance)
+                cross_ref_dbs.add_cross_ref_db(cross_ref_db)
+
+            scop_id = "scop_id_" + str(x)
+            SCOP_id = val.get(samp_id, {}).get(scop_id)
+            scop_domain_start = "scop_start_" + str(x)
+            SCOP_domain_start = val.get(samp_id, {}).get(scop_domain_start)
+            scop_domain_end = "scop_end_" + str(x)
+            SCOP_domain_end = val.get(samp_id, {}).get(scop_domain_end)
+            scop_provenance = "scop_provenance_" + str(x)
+            SCOP_provenance = val.get(samp_id, {}).get(scop_provenance)
+            if SCOP_id:
+                if "SCOP" not in all_db:
+                    db = EMICSS.dbType()
+                    db.set_db_source("%s" % "SCOP")
+                    db.set_db_version("%s" % self.scop_vers)
+                    dbs.add_db(db)
+                all_db.add("SCOP")
+
+                cross_ref_db = EMICSS.cross_ref_db()
+                cross_ref_db.set_db_source("%s" % "SCOP")
+                cross_ref_db.set_accession_id("%s" % SCOP_id)
+                if SCOP_domain_start and SCOP_domain_end is not None:
+                    cross_ref_db.set_domain_start(int(SCOP_domain_start))
+                    cross_ref_db.set_domain_end(int(SCOP_domain_end))
+                cross_ref_db.set_provenance("%s" % SCOP_provenance)
+                cross_ref_dbs.add_cross_ref_db(cross_ref_db)
+
+            scop2_id = "scop2_id_" + str(x)
+            SCOP2_id = val.get(samp_id, {}).get(scop2_id)
+            scop2_domain_start = "scop2_start_" + str(x)
+            SCOP2_domain_start = val.get(samp_id, {}).get(scop2_domain_start)
+            scop2_domain_end = "scop2_end_" + str(x)
+            SCOP2_domain_end = val.get(samp_id, {}).get(scop2_domain_end)
+            scop2_provenance = "scop2_provenance_" + str(x)
+            SCOP2_provenance = val.get(samp_id, {}).get(scop2_provenance)
+            if SCOP2_id:
+                if "SCOP2" not in all_db:
+                    db = EMICSS.dbType()
+                    db.set_db_source("%s" % "SCOP2")
+                    db.set_db_version("%s" % self.scop2_vers)
+                    dbs.add_db(db)
+                all_db.add("SCOP2")
+
+                cross_ref_db = EMICSS.cross_ref_db()
+                cross_ref_db.set_db_source("%s" % "SCOP2")
+                cross_ref_db.set_accession_id("%s" % SCOP2_id)
+                if SCOP2_domain_start and SCOP2_domain_end is not None:
+                    cross_ref_db.set_domain_start(int(SCOP2_domain_start))
+                    cross_ref_db.set_domain_end(int(SCOP2_domain_end))
+                cross_ref_db.set_provenance("%s" % SCOP2_provenance)
                 cross_ref_dbs.add_cross_ref_db(cross_ref_db)
 
             kb_link = "kb_link_" + str(x)
