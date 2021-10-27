@@ -1,5 +1,5 @@
 import requests, re, gzip
-from models import GO, Interpro, Pfam, Cath
+from models import GO, Interpro, Pfam, Cath, SCOP
 import lxml.etree as ET
 from Bio import Align
 
@@ -10,12 +10,13 @@ class ProteinTermsMapping:
     If sequence + model => Fetch from sifts
     """
 
-    def __init__(self, proteins, sifts_prefix, is_go=True, is_interpro=True, is_pfam=True, is_cath=True):
+    def __init__(self, proteins, sifts_prefix, is_go=True, is_interpro=True, is_pfam=True, is_cath=True, is_scop=True):
         self.proteins = proteins
         self.is_interpro = is_interpro
         self.is_go = is_go
         self.is_pfam = is_pfam
         self.is_cath = is_cath
+        self.is_scop = is_scop
         self.sifts_prefix = sifts_prefix
 
     def execute(self):
@@ -26,10 +27,11 @@ class ProteinTermsMapping:
                 aligned_positions, score = self.align(protein_sequence, map_sequence)
                 if score > 0.5*min([len(protein_sequence), len(map_sequence)]):
                     if protein.pdb:
-                        go_matches, ipr_matches, pfam_matches, cath_matches = self.parse_sifts(protein, aligned_positions)
+                        go_matches, ipr_matches, pfam_matches, cath_matches, scop_matches = self.parse_sifts(protein, aligned_positions)
                         ipr_matches = self.uniprot_to_map_positions(ipr_matches, aligned_positions)
                         pfam_matches = self.uniprot_to_map_positions(pfam_matches, aligned_positions)
                         cath_matches = self.uniprot_to_map_positions(cath_matches, aligned_positions)
+                        scop_matches = self.uniprot_to_map_positions(scop_matches, aligned_positions)
 
                         for go_id in go_matches:
                             if go_id in go_data:
@@ -58,6 +60,14 @@ class ProteinTermsMapping:
                             cath.unip_id = protein.uniprot_id
                             cath.provenance = "PDBe"
                             protein.cath.append(cath)
+                        for scop_id, start, end in scop_matches:
+                            scop = SCOP()
+                            scop.id = scop_id
+                            scop.start = start
+                            scop.end = end
+                            scop.unip_id = protein.uniprot_id
+                            scop.provenance = "PDBe"
+                            protein.scop.append(scop)
 
         return self.proteins
 
@@ -97,6 +107,7 @@ class ProteinTermsMapping:
         ipr_matches = set()
         pfam_matches = set()
         cath_matches = set()
+        scop_matches = set()
         unp_positions = positions[0]
         map_positions = positions[1]
         unp_begin = unp_positions[0][0]+1
@@ -139,10 +150,16 @@ class ProteinTermsMapping:
                                         cath_id = cath.get("dbAccessionId")
                                         start, end = self.extract_uniprot_position(cath, segment)
                                         cath_matches.add((cath_id, start, end))
+                                if self.is_scop:
+                                    scop_list = segment.xpath(".//x:mapRegion/x:db[@dbSource='SCOP']", namespaces=namespaces)
+                                    for scop in scop_list:
+                                        scop_id = scop.get("dbAccessionId")
+                                        start, end = self.extract_uniprot_position(scop, segment)
+                                        scop_matches.add((scop_id, start, end))
             except FileNotFoundError:
                 continue
 
-        return go_matches, ipr_matches, pfam_matches, cath_matches
+        return go_matches, ipr_matches, pfam_matches, cath_matches, scop_matches
 
     def strip_sequence(self, sequence):
         """
@@ -217,7 +234,7 @@ class ProteinTermsMapping:
 
         return sequence, go_data, interpro_data, pfam_data
 
-    def export_tsv(self, go_logger, interpro_logger, pfam_logger, cath_logger):
+    def export_tsv(self, go_logger, interpro_logger, pfam_logger, cath_logger, scop_logger):
         for protein in self.proteins:
             if self.is_go and protein.go:
                 for go in protein.go:
@@ -235,3 +252,7 @@ class ProteinTermsMapping:
                 for cath in protein.cath:
                     row = f"{protein.emdb_id}\t{protein.sample_id}\t{cath.id}\t{cath.start}\t{cath.end}\t{cath.provenance}"
                     cath_logger.info(row)
+            if self.is_scop and protein.scop:
+                for scop in protein.scop:
+                    row = f"{protein.emdb_id}\t{protein.sample_id}\t{scop.id}\t{scop.start}\t{scop.end}\t{scop.provenance}"
+                    scop_logger.info(row)

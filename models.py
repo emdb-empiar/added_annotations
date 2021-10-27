@@ -21,6 +21,7 @@ class Protein:
         self.interpro = []
         self.pfam = []
         self.cath = []
+        self.scop = []
         self.pdbekb = []
         self.alphafold = []
 
@@ -331,6 +332,20 @@ class Pfam:
 class Cath:
     """
     Define the CATH domains for the sample in the EMDB entry
+    """
+    def __init__(self):
+        self.id = ""
+        self.unip_id = ""
+        self.provenance = ""
+        self.start = 0
+        self.end = 0
+
+    def __str__(self):
+        return f"{self.id}\t{self.namespace}\t{self.provenance}"
+
+class SCOP:
+    """
+    Define the SCOP domains for the sample in the EMDB entry
     """
     def __init__(self):
         self.id = ""

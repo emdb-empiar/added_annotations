@@ -91,9 +91,10 @@ def run(filename):
         interpro_log = start_logger_if_necessary("interpro_logger", interpro_log_file)  if interpro else None
         pfam_log = start_logger_if_necessary("pfam_logger", pfam_log_file)  if pfam else None
         cath_log = start_logger_if_necessary("cath_logger", cath_log_file)  if cath else None
-        PT_mapping = ProteinTermsMapping(unp_mapping.proteins, sifts_path, go, interpro, pfam, cath)
+        scop_log = start_logger_if_necessary("scop_logger", cath_log_file) if scop else None
+        PT_mapping = ProteinTermsMapping(unp_mapping.proteins, sifts_path, go, interpro, pfam, cath, scop)
         proteins_map = PT_mapping.execute()
-        PT_mapping.export_tsv(go_log, interpro_log, pfam_log, cath_log)
+        PT_mapping.export_tsv(go_log, interpro_log, pfam_log, cath_log, scop_log)
         mapping_list.extend(["PROTEIN-TERMS", proteins_map])
     if pdbekb:
         pdbekb_log = start_logger_if_necessary("pdbekb_logger", pdbekb_log_file)
@@ -154,6 +155,7 @@ if __name__ == "__main__":
     parser.add_argument("--interpro", type=bool, nargs='?', const=True, default=False, help="Mapping InterPro ids to EMDB entries")
     parser.add_argument("--pfam", type=bool, nargs='?', const=True, default=False, help="Mapping pfam ids to EMDB entries")
     parser.add_argument("--cath", type=bool, nargs='?', const=True, default=False, help="Mapping Cath domains to EMDB entries")
+    parser.add_argument("--scop", type=bool, nargs='?', const=True, default=False, help="Mapping SCOP domains to EMDB entries")
     parser.add_argument("--pdbekb", type=bool, nargs='?', const=True, default=False, help="Mapping PDBeKB links to EMDB entries")
     parser.add_argument("--alphafold", type=bool, nargs='?', const=True, default=False, help="Mapping Alphafold links to EMDB entries")
     parser.add_argument("--emicss", type=bool, nargs='?', const=True, default=False, help="writting EMICSS XML file for each EMDB entry")
@@ -173,6 +175,7 @@ if __name__ == "__main__":
     interpro = args.interpro
     pfam = args.pfam
     cath = args.cath
+    scop = args.scop
     pdbekb = args.pdbekb
     alphafold = args.alphafold
     emicss = args.emicss
@@ -202,6 +205,10 @@ if __name__ == "__main__":
         db_list.append("pfam")
     if cath:
         uniprot = True
+        db_list.append("cath")
+    if scop:
+        uniprot = True
+        db_list.append("scop")
     if pdbekb:
         uniprot = True
         db_list.append("pdbekb")
@@ -220,11 +227,12 @@ if __name__ == "__main__":
         interpro = True
         pfam = True
         cath = True
+        scop = True
         pdbekb = True
         alphafold = True
         emicss = True
         db_list.extend(["pdbe", "empiar", "uniprot", "chembl", "chebi", "drugbank", "pubmed", "pubmedcentral", "issn",
-                        "cpx", "go", "interpro", "pfam", "pdbekb", "alphafold"])
+                        "cpx", "go", "interpro", "pfam", "cath", "scop", "pdbekb", "alphafold"])
 
     #Get config variables:
     config = configparser.ConfigParser()
@@ -288,6 +296,10 @@ if __name__ == "__main__":
         cath_log_file = os.path.join(args.workDir, 'emdb_cath.log')
         cath_log = setup_logger('cath_logger', cath_log_file)
         cath_log.info("EMDB_ID\tEMDB_SAMPLE_ID\tCATH_ID\tSTART\tEND\tPROVENANCE")
+    if scop:
+        scop_log_file = os.path.join(args.workDir, 'emdb_scop.log')
+        scop_log = setup_logger('scop_logger', scop_log_file)
+        scop_log.info("EMDB_ID\tEMDB_SAMPLE_ID\tSCOP_ID\tSTART\tEND\tPROVENANCE")
     if pdbekb:
         pdbekb_log_file = os.path.join(args.workDir, 'emdb_pdbekb.log')
         pdbekb_log = setup_logger('pdbekb_logger', pdbekb_log_file)
