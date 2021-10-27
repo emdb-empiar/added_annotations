@@ -27,7 +27,7 @@ class DBVersion:
                 if response.status_code == 200 and response.content:
                     html = response.content.decode('utf-8')
                     cpx_ver = re.findall("\d*\-\w*\-\d*", html)[0]
-            db_verison_list.extend(["cpx", cpx_ver])
+                db_verison_list.extend(["cpx", cpx_ver])
             if "drugbank" in db_list:
                 url = "https://go.drugbank.com/releases/latest"
                 response = requests.get(url)
@@ -35,7 +35,7 @@ class DBVersion:
                     html = response.content.decode('utf-8')
                     vers = re.findall("<td>\d*\.\d*\.\d*", html)[0]
                     drugbank_ver = vers.split(">")[1]
-            db_verison_list.extend(["drugbank", drugbank_ver])
+                db_verison_list.extend(["drugbank", drugbank_ver])
         if "pfam" in db_list:
             url = "https://pfam.xfam.org/family/Piwi/acc?output=xml"
             response = requests.get(url)

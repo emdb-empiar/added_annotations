@@ -298,6 +298,10 @@ class EmicssXML:
             IPR_id = val.get(samp_id, {}).get(ipr_id)
             ipr_namespace = "ipr_namespace_" + str(x)
             IPR_namespace = val.get(samp_id, {}).get(ipr_namespace)
+            ipr_domain_start = "ipr_start_" + str(x)
+            IPR_domain_start = val.get(samp_id, {}).get(ipr_domain_start)
+            ipr_domain_end = "ipr_end_" + str(x)
+            IPR_domain_end = val.get(samp_id, {}).get(ipr_domain_end)
             ipr_provenance = "ipr_provenance_" + str(x)
             IPR_provenance = val.get(samp_id, {}).get(ipr_provenance)
             if IPR_id:
@@ -312,6 +316,9 @@ class EmicssXML:
                 cross_ref_db.set_db_source("%s" % "INTERPRO")
                 cross_ref_db.set_accession_id("%s" % IPR_id)
                 cross_ref_db.set_name("%s" % IPR_namespace)
+                if IPR_domain_start and IPR_domain_end is not None:
+                    cross_ref_db.set_domain_start(int(IPR_domain_start))
+                    cross_ref_db.set_domain_end(int(IPR_domain_end))
                 cross_ref_db.set_provenance("%s" % IPR_provenance)
                 cross_ref_dbs.add_cross_ref_db(cross_ref_db)
 
@@ -319,6 +326,10 @@ class EmicssXML:
             PFAM_id = val.get(samp_id, {}).get(pfam_id)
             pfam_namespace = "pfam_namespace_" + str(x)
             PFAM_namespace = val.get(samp_id, {}).get(pfam_namespace)
+            pfam_domain_start = "pfam_start_" + str(x)
+            PFAM_domain_start = val.get(samp_id, {}).get(pfam_domain_start)
+            pfam_domain_end = "pfam_end_" + str(x)
+            PFAM_domain_end = val.get(samp_id, {}).get(pfam_domain_end)
             pfam_provenance = "pfam_provenance_" + str(x)
             PFAM_provenance = val.get(samp_id, {}).get(pfam_provenance)
             if PFAM_id:
@@ -333,6 +344,9 @@ class EmicssXML:
                 cross_ref_db.set_db_source("%s" % "PFAM")
                 cross_ref_db.set_accession_id("%s" % PFAM_id)
                 cross_ref_db.set_name("%s" % PFAM_namespace)
+                if PFAM_domain_start and PFAM_domain_end is not None:
+                    cross_ref_db.set_domain_start(int(PFAM_domain_start))
+                    cross_ref_db.set_domain_end(int(PFAM_domain_end))
                 cross_ref_db.set_provenance("%s" % PFAM_provenance)
                 cross_ref_dbs.add_cross_ref_db(cross_ref_db)
 

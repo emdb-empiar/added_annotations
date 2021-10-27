@@ -103,7 +103,8 @@
                                                   </xsd:element>
                                                 </xsd:sequence>
                                                 <xsd:attribute name="type" type="sample_kind"/>
-                                                <xsd:attribute name="id" type="xsd:nonNegativeInteger"/>
+                                                <xsd:attribute name="id"
+                                                  type="xsd:nonNegativeInteger"/>
                                                 <xsd:attribute name="copies"
                                                   type="xsd:nonNegativeInteger"/>
                                             </xsd:complexType>
@@ -135,7 +136,8 @@
                                                   </xsd:element>
                                                 </xsd:sequence>
                                                 <xsd:attribute name="type" type="sample_kind"/>
-                                                <xsd:attribute name="id" type="xsd:nonNegativeInteger"/>
+                                                <xsd:attribute name="id"
+                                                  type="xsd:nonNegativeInteger"/>
                                                 <xsd:attribute name="copies"
                                                   type="xsd:nonNegativeInteger"/>
                                             </xsd:complexType>
@@ -217,6 +219,8 @@
             <xsd:attribute name="name" type="xsd:string"/>
             <xsd:attribute name="db_source" type="db_source_type"/>
             <xsd:attribute name="accession_id" type="xsd:string"/>
+            <xsd:attribute name="domain_start" type="xsd:positiveInteger"/>
+            <xsd:attribute name="domain_end" type="xsd:positiveInteger"/>
             <xsd:attribute name="type" type="xsd:string"/>
             <xsd:attribute name="category" type="xsd:string"/>
             <xsd:attribute name="link" type="xsd:string"/>
