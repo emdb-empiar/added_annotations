@@ -350,6 +350,31 @@ class EmicssXML:
                 cross_ref_db.set_provenance("%s" % PFAM_provenance)
                 cross_ref_dbs.add_cross_ref_db(cross_ref_db)
 
+            cath_id = "cath_id_" + str(x)
+            CATH_id = val.get(samp_id, {}).get(cath_id)
+            cath_domain_start = "cath_start_" + str(x)
+            CATH_domain_start = val.get(samp_id, {}).get(cath_domain_start)
+            cath_domain_end = "cath_end_" + str(x)
+            CATH_domain_end = val.get(samp_id, {}).get(cath_domain_end)
+            cath_provenance = "cath_provenance_" + str(x)
+            CATH_provenance = val.get(samp_id, {}).get(cath_provenance)
+            if CATH_id:
+                if "CATH" not in all_db:
+                    db = EMICSS.dbType()
+                    db.set_db_source("%s" % "CATH")
+                    db.set_db_version("%s" % self.interpro_vers)
+                    dbs.add_db(db)
+                all_db.add("CATH")
+
+                cross_ref_db = EMICSS.cross_ref_db()
+                cross_ref_db.set_db_source("%s" % "CATH")
+                cross_ref_db.set_accession_id("%s" % CATH_id)
+                if CATH_domain_start and CATH_domain_end is not None:
+                    cross_ref_db.set_domain_start(int(CATH_domain_start))
+                    cross_ref_db.set_domain_end(int(CATH_domain_end))
+                cross_ref_db.set_provenance("%s" % CATH_provenance)
+                cross_ref_dbs.add_cross_ref_db(cross_ref_db)
+
             kb_link = "kb_link_" + str(x)
             KB_link = val.get(samp_id, {}).get(kb_link)
             kb_provenance = "kb_provenance_" + str(x)

@@ -100,39 +100,48 @@ class EmicssInput:
                         emicss_dict[unip.emdb_id][unip.uniprot_id] += unip.__dict__
                     try:
                         if self.unip_map and self.proteins_map:
-                            for GIP in self.proteins_map:
-                                if GIP.uniprot_id == unip.uniprot_id:
+                            for ProTerm in self.proteins_map:
+                                if ProTerm.uniprot_id == unip.uniprot_id:
                                     ind = 0
-                                    if GIP.emdb_id not in emicss_dict.keys():
-                                        emicss_dict[GIP.emdb_id] = {}
-                                    if GIP.emdb_id not in emicss_dict[GIP.emdb_id].keys():
-                                        emicss_dict[GIP.emdb_id][GIP.uniprot_id] = {}
-                                    if GIP.sample_id not in emicss_dict[GIP.emdb_id]:
-                                        emicss_dict[GIP.emdb_id][GIP.uniprot_id] = unip.__dict__
-                                    for go2 in GIP.go:
+                                    if ProTerm.emdb_id not in emicss_dict.keys():
+                                        emicss_dict[ProTerm.emdb_id] = {}
+                                    if ProTerm.emdb_id not in emicss_dict[ProTerm.emdb_id].keys():
+                                        emicss_dict[ProTerm.emdb_id][ProTerm.uniprot_id] = {}
+                                    if ProTerm.sample_id not in emicss_dict[ProTerm.emdb_id]:
+                                        emicss_dict[ProTerm.emdb_id][ProTerm.uniprot_id] = unip.__dict__
+                                    for go2 in ProTerm.go:
                                         go = go2.__dict__
-                                        if GIP.uniprot_id == go2.unip_id:
+                                        if ProTerm.uniprot_id == go2.unip_id:
                                             for k in go.keys():
                                                 new_key = '{}_{}'.format(k, ind)
-                                                emicss_dict[GIP.emdb_id][GIP.uniprot_id][new_key] = go[k]
+                                                emicss_dict[ProTerm.emdb_id][ProTerm.uniprot_id][new_key] = go[k]
                                             ind = ind + 1
 
-                                    for ipr2 in GIP.interpro:
+                                    for ipr2 in ProTerm.interpro:
                                         ipr = ipr2.__dict__
-                                        if GIP.uniprot_id == ipr2.unip_id:
+                                        if ProTerm.uniprot_id == ipr2.unip_id:
                                             for k in ipr.keys():
                                                 new_key = '{}_{}_{}'.format("ipr", k, ind)
-                                                emicss_dict[GIP.emdb_id][GIP.uniprot_id][new_key] = ipr[k]
+                                                emicss_dict[ProTerm.emdb_id][ProTerm.uniprot_id][new_key] = ipr[k]
                                             ind = ind + 1
 
-                                    for pfam2 in GIP.pfam:
+                                    for pfam2 in ProTerm.pfam:
                                         pfam = pfam2.__dict__
-                                        if GIP.uniprot_id == pfam2.unip_id:
+                                        if ProTerm.uniprot_id == pfam2.unip_id:
                                             for k in pfam.keys():
                                                 new_key = '{}_{}_{}'.format("pfam", k, ind)
-                                                emicss_dict[GIP.emdb_id][GIP.uniprot_id][new_key] = pfam[k]
+                                                emicss_dict[ProTerm.emdb_id][ProTerm.uniprot_id][new_key] = pfam[k]
                                             ind = ind + 1
-                                    emicss_dict[GIP.emdb_id][GIP.uniprot_id]["ind"] = ind
+                                            
+                                    for cath2 in ProTerm.cath:
+                                        cath = cath2.__dict__
+                                        if ProTerm.uniprot_id == cath2.unip_id:
+                                            for k in cath.keys():
+                                                new_key = '{}_{}_{}'.format("cath", k, ind)
+                                                emicss_dict[ProTerm.emdb_id][ProTerm.uniprot_id][new_key] = cath[k]
+                                            ind = ind + 1
+                                            
+                                    emicss_dict[ProTerm.emdb_id][ProTerm.uniprot_id]["ind"] = ind
                                     self.ind = ind
                     except AttributeError as e:
                         print("PROTEIN-TERMS mapping doesn't exist", e)

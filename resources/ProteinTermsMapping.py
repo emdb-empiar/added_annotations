@@ -55,6 +55,7 @@ class ProteinTermsMapping:
                             cath.id = cath_id
                             cath.start = start
                             cath.end = end
+                            cath.unip_id = protein.uniprot_id
                             cath.provenance = "PDBe"
                             protein.cath.append(cath)
 

@@ -334,6 +334,7 @@ class Cath:
     """
     def __init__(self):
         self.id = ""
+        self.unip_id = ""
         self.provenance = ""
         self.start = 0
         self.end = 0
