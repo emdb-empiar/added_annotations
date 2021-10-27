@@ -22,6 +22,7 @@ class Protein:
         self.pfam = []
         self.cath = []
         self.scop = []
+        self.scop2 = []
         self.pdbekb = []
         self.alphafold = []
 
@@ -341,7 +342,7 @@ class Cath:
         self.end = 0
 
     def __str__(self):
-        return f"{self.id}\t{self.namespace}\t{self.provenance}"
+        return f"{self.id}\t{self.start}\t{self.end}\t{self.provenance}"
 
 class SCOP:
     """
@@ -355,7 +356,21 @@ class SCOP:
         self.end = 0
 
     def __str__(self):
-        return f"{self.id}\t{self.namespace}\t{self.provenance}"
+        return f"{self.id}\t{self.start}\t{self.end}\t{self.provenance}"
+
+class SCOP2:
+    """
+    Define the SCOP2 domains for the sample in the EMDB entry
+    """
+    def __init__(self):
+        self.id = ""
+        self.unip_id = ""
+        self.provenance = ""
+        self.start = 0
+        self.end = 0
+
+    def __str__(self):
+        return f"{self.id}\t{self.start}\t{self.end}\t{self.provenance}"
 
 class Pdbekb:
     """
