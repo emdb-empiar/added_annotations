@@ -118,13 +118,12 @@ class ProteinTermsMapping:
         new_dataset = set()
         unp_positions, map_positions = positions
         for ref, unp_start, unp_end in dataset:
-            new_dataset.add((ref, self.convert_positions(unp_start, positions), self.convert_positions(unp_end, positions), unp_start, unp_end))
             start = self.convert_positions(unp_start, positions)
             end = self.convert_positions(unp_end, positions)
 
             #Miniumum 15 amino acids coverage to avoid mapping of bad alignment fragments
             if start > 0 and end > 0 and end-start > 15:
-                new_dataset.add((ref, start, end))
+                new_dataset.add((ref, start, end, unp_start, unp_end))
         return new_dataset
 
     def parse_sifts(self, protein, positions):
