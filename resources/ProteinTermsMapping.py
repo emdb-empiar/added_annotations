@@ -12,6 +12,7 @@ class ProteinTermsMapping:
 
     def __init__(self, proteins, sifts_prefix, is_go=True, is_interpro=True, is_pfam=True, is_cath=True, is_scop=True, is_scop2=True):
         self.proteins = proteins
+
         self.is_interpro = is_interpro
         self.is_go = is_go
         self.is_pfam = is_pfam
@@ -40,41 +41,51 @@ class ProteinTermsMapping:
                                 go = go_data[go_id]
                                 go.provenance = "PDBe"
                                 protein.go.append(go)
-                        for ipr_id, start, end in ipr_matches:
+                        for ipr_id, start, end, unp_start, unp_end in ipr_matches:
                             if ipr_id in ipr_data:
                                 ipr = ipr_data[ipr_id]
                                 ipr.provenance = "PDBe"
                                 ipr.start = start
                                 ipr.end = end
+                                ipr.unp_start = unp_start
+                                ipr.unp_end = unp_end
                                 protein.interpro.append(ipr)
-                        for pf_id, start, end in pfam_matches:
+                        for pf_id, start, end, unp_start, unp_end in pfam_matches:
                             if pf_id in pf_data:
                                 pfam = pf_data[pf_id]
                                 pfam.provenance = "PDBe"
                                 pfam.start = start
                                 pfam.end = end
+                                pfam.unp_start = unp_start
+                                pfam.unp_end = unp_end
                                 protein.pfam.append(pfam)
-                        for cath_id, start, end in cath_matches:
+                        for cath_id, start, end, unp_start, unp_end in cath_matches:
                             cath = Cath()
                             cath.id = cath_id
                             cath.start = start
                             cath.end = end
+                            cath.unp_start = unp_start
+                            cath.unp_end = unp_end
                             cath.unip_id = protein.uniprot_id
                             cath.provenance = "PDBe"
                             protein.cath.append(cath)
-                        for scop_id, start, end in scop_matches:
+                        for scop_id, start, end, unp_start, unp_end in scop_matches:
                             scop = SCOP()
                             scop.id = scop_id
                             scop.start = start
                             scop.end = end
+                            scop.unp_start = unp_start
+                            scop.unp_end = unp_end
                             scop.unip_id = protein.uniprot_id
                             scop.provenance = "PDBe"
                             protein.scop.append(scop)
-                        for scop2_id, start, end in scop2_matches:
+                        for scop2_id, start, end, unp_start, unp_end in scop2_matches:
                             scop2 = SCOP2()
                             scop2.id = scop2_id
                             scop2.start = start
                             scop2.end = end
+                            scop2.unp_start = unp_start
+                            scop2.unp_end = unp_end
                             scop2.unip_id = protein.uniprot_id
                             scop2.provenance = "PDBe"
                             protein.scop2.append(scop2)
@@ -107,7 +118,7 @@ class ProteinTermsMapping:
         new_dataset = set()
         unp_positions, map_positions = positions
         for ref, unp_start, unp_end in dataset:
-            new_dataset.add((ref, self.convert_positions(unp_start, positions), self.convert_positions(unp_end, positions)))
+            new_dataset.add((ref, self.convert_positions(unp_start, positions), self.convert_positions(unp_end, positions), unp_start, unp_end))
         return new_dataset
 
     def parse_sifts(self, protein, positions):

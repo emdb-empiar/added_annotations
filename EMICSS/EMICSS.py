@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Wed Oct 27 12:11:48 2021 by generateDS.py version 2.38.6.
+# Generated Fri Oct 29 11:58:18 2021 by generateDS.py version 2.38.6.
 # Python 3.7.6 (default, Dec 30 2019, 19:38:28)  [Clang 11.0.0 (clang-1100.0.33.16)]
 #
 # Command line options:
@@ -1213,7 +1213,7 @@ class cross_ref_db(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, name=None, db_source=None, accession_id=None, domain_start=None, domain_end=None, type_=None, category=None, link=None, provenance=None, provenance1=None, provenance2=None, score=None, gds_collector_=None, **kwargs_):
+    def __init__(self, name=None, db_source=None, accession_id=None, uniprot_start=None, uniprot_end=None, type_=None, category=None, link=None, provenance=None, provenance1=None, provenance2=None, score=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
@@ -1225,10 +1225,10 @@ class cross_ref_db(GeneratedsSuper):
         self.db_source_nsprefix_ = None
         self.accession_id = _cast(None, accession_id)
         self.accession_id_nsprefix_ = None
-        self.domain_start = _cast(int, domain_start)
-        self.domain_start_nsprefix_ = None
-        self.domain_end = _cast(int, domain_end)
-        self.domain_end_nsprefix_ = None
+        self.uniprot_start = _cast(int, uniprot_start)
+        self.uniprot_start_nsprefix_ = None
+        self.uniprot_end = _cast(int, uniprot_end)
+        self.uniprot_end_nsprefix_ = None
         self.type_ = _cast(None, type_)
         self.type__nsprefix_ = None
         self.category = _cast(None, category)
@@ -1270,14 +1270,14 @@ class cross_ref_db(GeneratedsSuper):
         return self.accession_id
     def set_accession_id(self, accession_id):
         self.accession_id = accession_id
-    def get_domain_start(self):
-        return self.domain_start
-    def set_domain_start(self, domain_start):
-        self.domain_start = domain_start
-    def get_domain_end(self):
-        return self.domain_end
-    def set_domain_end(self, domain_end):
-        self.domain_end = domain_end
+    def get_uniprot_start(self):
+        return self.uniprot_start
+    def set_uniprot_start(self, uniprot_start):
+        self.uniprot_start = uniprot_start
+    def get_uniprot_end(self):
+        return self.uniprot_end
+    def set_uniprot_end(self, uniprot_end):
+        self.uniprot_end = uniprot_end
     def get_type(self):
         return self.type_
     def set_type(self, type_):
@@ -1371,12 +1371,12 @@ class cross_ref_db(GeneratedsSuper):
         if self.accession_id is not None and 'accession_id' not in already_processed:
             already_processed.add('accession_id')
             outfile.write(' accession_id=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.accession_id), input_name='accession_id')), ))
-        if self.domain_start is not None and 'domain_start' not in already_processed:
-            already_processed.add('domain_start')
-            outfile.write(' domain_start="%s"' % self.gds_format_integer(self.domain_start, input_name='domain_start'))
-        if self.domain_end is not None and 'domain_end' not in already_processed:
-            already_processed.add('domain_end')
-            outfile.write(' domain_end="%s"' % self.gds_format_integer(self.domain_end, input_name='domain_end'))
+        if self.uniprot_start is not None and 'uniprot_start' not in already_processed:
+            already_processed.add('uniprot_start')
+            outfile.write(' uniprot_start="%s"' % self.gds_format_integer(self.uniprot_start, input_name='uniprot_start'))
+        if self.uniprot_end is not None and 'uniprot_end' not in already_processed:
+            already_processed.add('uniprot_end')
+            outfile.write(' uniprot_end="%s"' % self.gds_format_integer(self.uniprot_end, input_name='uniprot_end'))
         if self.type_ is not None and 'type_' not in already_processed:
             already_processed.add('type_')
             outfile.write(' type=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.type_), input_name='type')), ))
@@ -1426,17 +1426,17 @@ class cross_ref_db(GeneratedsSuper):
         if value is not None and 'accession_id' not in already_processed:
             already_processed.add('accession_id')
             self.accession_id = value
-        value = find_attr_value_('domain_start', node)
-        if value is not None and 'domain_start' not in already_processed:
-            already_processed.add('domain_start')
-            self.domain_start = self.gds_parse_integer(value, node, 'domain_start')
-            if self.domain_start <= 0:
+        value = find_attr_value_('uniprot_start', node)
+        if value is not None and 'uniprot_start' not in already_processed:
+            already_processed.add('uniprot_start')
+            self.uniprot_start = self.gds_parse_integer(value, node, 'uniprot_start')
+            if self.uniprot_start <= 0:
                 raise_parse_error(node, 'Invalid PositiveInteger')
-        value = find_attr_value_('domain_end', node)
-        if value is not None and 'domain_end' not in already_processed:
-            already_processed.add('domain_end')
-            self.domain_end = self.gds_parse_integer(value, node, 'domain_end')
-            if self.domain_end <= 0:
+        value = find_attr_value_('uniprot_end', node)
+        if value is not None and 'uniprot_end' not in already_processed:
+            already_processed.add('uniprot_end')
+            self.uniprot_end = self.gds_parse_integer(value, node, 'uniprot_end')
+            if self.uniprot_end <= 0:
                 raise_parse_error(node, 'Invalid PositiveInteger')
         value = find_attr_value_('type', node)
         if value is not None and 'type' not in already_processed:

@@ -304,10 +304,10 @@ class EmicssXML:
             IPR_id = val.get(samp_id, {}).get(ipr_id)
             ipr_namespace = "ipr_namespace_" + str(x)
             IPR_namespace = val.get(samp_id, {}).get(ipr_namespace)
-            ipr_domain_start = "ipr_start_" + str(x)
-            IPR_domain_start = val.get(samp_id, {}).get(ipr_domain_start)
-            ipr_domain_end = "ipr_end_" + str(x)
-            IPR_domain_end = val.get(samp_id, {}).get(ipr_domain_end)
+            ipr_uniprot_start = "ipr_start_" + str(x)
+            IPR_uniprot_start = val.get(samp_id, {}).get(ipr_uniprot_start)
+            ipr_uniprot_end = "ipr_unp_end_" + str(x)
+            IPR_uniprot_end = val.get(samp_id, {}).get(ipr_uniprot_end)
             ipr_provenance = "ipr_provenance_" + str(x)
             IPR_provenance = val.get(samp_id, {}).get(ipr_provenance)
             if IPR_id:
@@ -322,9 +322,9 @@ class EmicssXML:
                 cross_ref_db.set_db_source("%s" % "INTERPRO")
                 cross_ref_db.set_accession_id("%s" % IPR_id)
                 cross_ref_db.set_name("%s" % IPR_namespace)
-                if IPR_domain_start and IPR_domain_end is not None:
-                    cross_ref_db.set_domain_start(int(IPR_domain_start))
-                    cross_ref_db.set_domain_end(int(IPR_domain_end))
+                if IPR_uniprot_start and IPR_uniprot_end is not None:
+                    cross_ref_db.set_uniprot_start(int(IPR_uniprot_start))
+                    cross_ref_db.set_uniprot_end(int(IPR_uniprot_end))
                 cross_ref_db.set_provenance("%s" % IPR_provenance)
                 cross_ref_dbs.add_cross_ref_db(cross_ref_db)
 
@@ -332,10 +332,10 @@ class EmicssXML:
             PFAM_id = val.get(samp_id, {}).get(pfam_id)
             pfam_namespace = "pfam_namespace_" + str(x)
             PFAM_namespace = val.get(samp_id, {}).get(pfam_namespace)
-            pfam_domain_start = "pfam_start_" + str(x)
-            PFAM_domain_start = val.get(samp_id, {}).get(pfam_domain_start)
-            pfam_domain_end = "pfam_end_" + str(x)
-            PFAM_domain_end = val.get(samp_id, {}).get(pfam_domain_end)
+            pfam_uniprot_start = "pfam_unp_start_" + str(x)
+            PFAM_uniprot_start = val.get(samp_id, {}).get(pfam_uniprot_start)
+            pfam_uniprot_end = "pfam_unp_end_" + str(x)
+            PFAM_uniprot_end = val.get(samp_id, {}).get(pfam_uniprot_end)
             pfam_provenance = "pfam_provenance_" + str(x)
             PFAM_provenance = val.get(samp_id, {}).get(pfam_provenance)
             if PFAM_id:
@@ -350,18 +350,18 @@ class EmicssXML:
                 cross_ref_db.set_db_source("%s" % "PFAM")
                 cross_ref_db.set_accession_id("%s" % PFAM_id)
                 cross_ref_db.set_name("%s" % PFAM_namespace)
-                if PFAM_domain_start and PFAM_domain_end is not None:
-                    cross_ref_db.set_domain_start(int(PFAM_domain_start))
-                    cross_ref_db.set_domain_end(int(PFAM_domain_end))
+                if PFAM_uniprot_start and PFAM_uniprot_end is not None:
+                    cross_ref_db.set_uniprot_start(int(PFAM_uniprot_start))
+                    cross_ref_db.set_uniprot_end(int(PFAM_uniprot_end))
                 cross_ref_db.set_provenance("%s" % PFAM_provenance)
                 cross_ref_dbs.add_cross_ref_db(cross_ref_db)
 
             cath_id = "cath_id_" + str(x)
             CATH_id = val.get(samp_id, {}).get(cath_id)
-            cath_domain_start = "cath_start_" + str(x)
-            CATH_domain_start = val.get(samp_id, {}).get(cath_domain_start)
-            cath_domain_end = "cath_end_" + str(x)
-            CATH_domain_end = val.get(samp_id, {}).get(cath_domain_end)
+            cath_uniprot_start = "cath_unp_start_" + str(x)
+            CATH_uniprot_start = val.get(samp_id, {}).get(cath_uniprot_start)
+            cath_uniprot_end = "cath_unp_end_" + str(x)
+            CATH_uniprot_end = val.get(samp_id, {}).get(cath_uniprot_end)
             cath_provenance = "cath_provenance_" + str(x)
             CATH_provenance = val.get(samp_id, {}).get(cath_provenance)
             if CATH_id:
@@ -375,18 +375,18 @@ class EmicssXML:
                 cross_ref_db = EMICSS.cross_ref_db()
                 cross_ref_db.set_db_source("%s" % "CATH")
                 cross_ref_db.set_accession_id("%s" % CATH_id)
-                if CATH_domain_start and CATH_domain_end is not None:
-                    cross_ref_db.set_domain_start(int(CATH_domain_start))
-                    cross_ref_db.set_domain_end(int(CATH_domain_end))
+                if CATH_uniprot_start and CATH_uniprot_end is not None:
+                    cross_ref_db.set_uniprot_start(int(CATH_uniprot_start))
+                    cross_ref_db.set_uniprot_end(int(CATH_uniprot_end))
                 cross_ref_db.set_provenance("%s" % CATH_provenance)
                 cross_ref_dbs.add_cross_ref_db(cross_ref_db)
 
             scop_id = "scop_id_" + str(x)
             SCOP_id = val.get(samp_id, {}).get(scop_id)
-            scop_domain_start = "scop_start_" + str(x)
-            SCOP_domain_start = val.get(samp_id, {}).get(scop_domain_start)
-            scop_domain_end = "scop_end_" + str(x)
-            SCOP_domain_end = val.get(samp_id, {}).get(scop_domain_end)
+            scop_uniprot_start = "scop_unp_start_" + str(x)
+            SCOP_uniprot_start = val.get(samp_id, {}).get(scop_uniprot_start)
+            scop_uniprot_end = "scop_unp_end_" + str(x)
+            SCOP_uniprot_end = val.get(samp_id, {}).get(scop_uniprot_end)
             scop_provenance = "scop_provenance_" + str(x)
             SCOP_provenance = val.get(samp_id, {}).get(scop_provenance)
             if SCOP_id:
@@ -400,18 +400,18 @@ class EmicssXML:
                 cross_ref_db = EMICSS.cross_ref_db()
                 cross_ref_db.set_db_source("%s" % "SCOP")
                 cross_ref_db.set_accession_id("%s" % SCOP_id)
-                if SCOP_domain_start and SCOP_domain_end is not None:
-                    cross_ref_db.set_domain_start(int(SCOP_domain_start))
-                    cross_ref_db.set_domain_end(int(SCOP_domain_end))
+                if SCOP_uniprot_start and SCOP_uniprot_end is not None:
+                    cross_ref_db.set_uniprot_start(int(SCOP_uniprot_start))
+                    cross_ref_db.set_uniprot_end(int(SCOP_uniprot_end))
                 cross_ref_db.set_provenance("%s" % SCOP_provenance)
                 cross_ref_dbs.add_cross_ref_db(cross_ref_db)
 
             scop2_id = "scop2_id_" + str(x)
             SCOP2_id = val.get(samp_id, {}).get(scop2_id)
-            scop2_domain_start = "scop2_start_" + str(x)
-            SCOP2_domain_start = val.get(samp_id, {}).get(scop2_domain_start)
-            scop2_domain_end = "scop2_end_" + str(x)
-            SCOP2_domain_end = val.get(samp_id, {}).get(scop2_domain_end)
+            scop2_uniprot_start = "scop2_unp_start_" + str(x)
+            SCOP2_uniprot_start = val.get(samp_id, {}).get(scop2_uniprot_start)
+            scop2_uniprot_end = "scop2_unp_end_" + str(x)
+            SCOP2_uniprot_end = val.get(samp_id, {}).get(scop2_uniprot_end)
             scop2_provenance = "scop2_provenance_" + str(x)
             SCOP2_provenance = val.get(samp_id, {}).get(scop2_provenance)
             if SCOP2_id:
@@ -425,9 +425,9 @@ class EmicssXML:
                 cross_ref_db = EMICSS.cross_ref_db()
                 cross_ref_db.set_db_source("%s" % "SCOP2")
                 cross_ref_db.set_accession_id("%s" % SCOP2_id)
-                if SCOP2_domain_start and SCOP2_domain_end is not None:
-                    cross_ref_db.set_domain_start(int(SCOP2_domain_start))
-                    cross_ref_db.set_domain_end(int(SCOP2_domain_end))
+                if SCOP2_uniprot_start and SCOP2_uniprot_end is not None:
+                    cross_ref_db.set_uniprot_start(int(SCOP2_uniprot_start))
+                    cross_ref_db.set_uniprot_end(int(SCOP2_uniprot_end))
                 cross_ref_db.set_provenance("%s" % SCOP2_provenance)
                 cross_ref_dbs.add_cross_ref_db(cross_ref_db)
 

@@ -26,7 +26,7 @@ class DBVersion:
             if response.status_code == 200 and response.content:
                 html = response.content.decode('utf-8')
                 cpx_ver = re.findall("\d*\-\w*\-\d*", html)[0]
-            db_verison_list.extend(["cpx", cpx_ver])
+                db_verison_list.extend(["cpx", cpx_ver])
         if "drugbank" in db_list:
             url = "https://go.drugbank.com/releases/latest"
             response = requests.get(url)

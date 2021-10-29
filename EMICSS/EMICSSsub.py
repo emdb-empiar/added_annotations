@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Wed Oct 27 12:11:49 2021 by generateDS.py version 2.38.6.
+# Generated Fri Oct 29 11:58:19 2021 by generateDS.py version 2.38.6.
 # Python 3.7.6 (default, Dec 30 2019, 19:38:28)  [Clang 11.0.0 (clang-1100.0.33.16)]
 #
 # Command line options:
@@ -69,8 +69,8 @@ supermod.emicss.subclass = emicssSub
 
 
 class cross_ref_dbSub(supermod.cross_ref_db):
-    def __init__(self, name=None, db_source=None, accession_id=None, domain_start=None, domain_end=None, type_=None, category=None, link=None, provenance=None, provenance1=None, provenance2=None, score=None, **kwargs_):
-        super(cross_ref_dbSub, self).__init__(name, db_source, accession_id, domain_start, domain_end, type_, category, link, provenance, provenance1, provenance2, score,  **kwargs_)
+    def __init__(self, name=None, db_source=None, accession_id=None, uniprot_start=None, uniprot_end=None, type_=None, category=None, link=None, provenance=None, provenance1=None, provenance2=None, score=None, **kwargs_):
+        super(cross_ref_dbSub, self).__init__(name, db_source, accession_id, uniprot_start, uniprot_end, type_, category, link, provenance, provenance1, provenance2, score,  **kwargs_)
 supermod.cross_ref_db.subclass = cross_ref_dbSub
 # end class cross_ref_dbSub
 

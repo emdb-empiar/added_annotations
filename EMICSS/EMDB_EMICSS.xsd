@@ -219,8 +219,8 @@
             <xsd:attribute name="name" type="xsd:string"/>
             <xsd:attribute name="db_source" type="db_source_type"/>
             <xsd:attribute name="accession_id" type="xsd:string"/>
-            <xsd:attribute name="domain_start" type="xsd:positiveInteger"/>
-            <xsd:attribute name="domain_end" type="xsd:positiveInteger"/>
+            <xsd:attribute name="uniprot_start" type="xsd:positiveInteger"/>
+            <xsd:attribute name="uniprot_end" type="xsd:positiveInteger"/>
             <xsd:attribute name="type" type="xsd:string"/>
             <xsd:attribute name="category" type="xsd:string"/>
             <xsd:attribute name="link" type="xsd:string"/>

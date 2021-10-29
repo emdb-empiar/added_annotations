@@ -276,6 +276,8 @@ class Interpro:
         self.provenance = ""
         self.start = 0
         self.end = 0
+        self.unp_start = 0
+        self.unp_end = 0
 
     def __str__(self):
         return f"{self.id}\t{self.namespace}\t{self.provenance}"
@@ -310,6 +312,8 @@ class Pfam:
         self.provenance = ""
         self.start = 0
         self.end = 0
+        self.unp_start = 0
+        self.unp_end = 0
 
     def __str__(self):
         return f"{self.id}\t{self.namespace}\t{self.provenance}"
@@ -340,6 +344,8 @@ class Cath:
         self.provenance = ""
         self.start = 0
         self.end = 0
+        self.unp_start = 0
+        self.unp_end = 0
 
     def __str__(self):
         return f"{self.id}\t{self.start}\t{self.end}\t{self.provenance}"
@@ -354,6 +360,8 @@ class SCOP:
         self.provenance = ""
         self.start = 0
         self.end = 0
+        self.unp_start = 0
+        self.unp_end = 0
 
     def __str__(self):
         return f"{self.id}\t{self.start}\t{self.end}\t{self.provenance}"
@@ -368,6 +376,8 @@ class SCOP2:
         self.provenance = ""
         self.start = 0
         self.end = 0
+        self.unp_start = 0
+        self.unp_end = 0
 
     def __str__(self):
         return f"{self.id}\t{self.start}\t{self.end}\t{self.provenance}"
