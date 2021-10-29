@@ -294,23 +294,23 @@ if __name__ == "__main__":
     if interpro:
         interpro_log_file = os.path.join(args.workDir, 'emdb_interpro.log')
         interpro_log = setup_logger('interpro_logger', interpro_log_file)
-        interpro_log.info("EMDB_ID\tEMDB_SAMPLE_ID\tINTERPRO_ID\tINTERPRO_NAMESPACE\tSTART\tEND\tPROVENANCE")
+        interpro_log.info("EMDB_ID\tEMDB_SAMPLE_ID\tINTERPRO_ID\tINTERPRO_NAMESPACE\tSTART\tEND\tUNIPROT_START\tUNIPROT_END\tPROVENANCE")
     if pfam:
         pfam_log_file = os.path.join(args.workDir, 'emdb_pfam.log')
         pfam_log = setup_logger('pfam_logger', pfam_log_file)
-        pfam_log.info("EMDB_ID\tEMDB_SAMPLE_ID\tPFAM_ID\tPFAM_NAMESPACE\tSTART\tEND\tPROVENANCE")
+        pfam_log.info("EMDB_ID\tEMDB_SAMPLE_ID\tPFAM_ID\tPFAM_NAMESPACE\tSTART\tEND\tUNIPROT_START\tUNIPROT_END\tPROVENANCE")
     if cath:
         cath_log_file = os.path.join(args.workDir, 'emdb_cath.log')
         cath_log = setup_logger('cath_logger', cath_log_file)
-        cath_log.info("EMDB_ID\tEMDB_SAMPLE_ID\tCATH_ID\tSTART\tEND\tPROVENANCE")
+        cath_log.info("EMDB_ID\tEMDB_SAMPLE_ID\tCATH_ID\tSTART\tEND\tUNIPROT_START\tUNIPROT_END\tPROVENANCE")
     if scop:
         scop_log_file = os.path.join(args.workDir, 'emdb_scop.log')
         scop_log = setup_logger('scop_logger', scop_log_file)
-        scop_log.info("EMDB_ID\tEMDB_SAMPLE_ID\tSCOP_ID\tSTART\tEND\tPROVENANCE")
+        scop_log.info("EMDB_ID\tEMDB_SAMPLE_ID\tSCOP_ID\tSTART\tEND\tUNIPROT_START\tUNIPROT_END\tPROVENANCE")
     if scop2:
         scop2_log_file = os.path.join(args.workDir, 'emdb_scop2.log')
         scop2_log = setup_logger('scop2_logger', scop2_log_file)
-        scop2_log.info("EMDB_ID\tEMDB_SAMPLE_ID\tSCOP2_ID\tSTART\tEND\tPROVENANCE")
+        scop2_log.info("EMDB_ID\tEMDB_SAMPLE_ID\tSCOP2_ID\tSTART\tEND\tUNIPROT_START\tUNIPROT_END\tPROVENANCE")
     if pdbekb:
         pdbekb_log_file = os.path.join(args.workDir, 'emdb_pdbekb.log')
         pdbekb_log = setup_logger('pdbekb_logger', pdbekb_log_file)

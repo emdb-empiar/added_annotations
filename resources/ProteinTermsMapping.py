@@ -275,21 +275,26 @@ class ProteinTermsMapping:
                     go_logger.info(row)
             if self.is_interpro and protein.interpro:
                 for ipr in protein.interpro:
-                    row = f"{protein.emdb_id}\t{protein.sample_id}\t{ipr.id}\t{ipr.namespace}\t{ipr.start}\t{ipr.end}\t{ipr.provenance}"
+                    row = f"{protein.emdb_id}\t{protein.sample_id}\t{ipr.id}\t{ipr.namespace}\t{ipr.start}\t{ipr.end}" \
+                          f"\t{ipr.unp_start}\t{ipr.unp_end}\t{ipr.provenance}"
                     interpro_logger.info(row)
             if self.is_pfam and protein.pfam:
                 for pfam in protein.pfam:
-                    row = f"{protein.emdb_id}\t{protein.sample_id}\t{pfam.id}\t{pfam.namespace}\t{pfam.start}\t{pfam.end}\t{pfam.provenance}"
+                    row = f"{protein.emdb_id}\t{protein.sample_id}\t{pfam.id}\t{pfam.namespace}\t{pfam.start}\t{pfam.end}" \
+                          f"\t{pfam.unp_start}\t{pfam.unp_end}\t{pfam.provenance}"
                     pfam_logger.info(row)
             if self.is_cath and protein.cath:
                 for cath in protein.cath:
-                    row = f"{protein.emdb_id}\t{protein.sample_id}\t{cath.id}\t{cath.start}\t{cath.end}\t{cath.provenance}"
+                    row = f"{protein.emdb_id}\t{protein.sample_id}\t{cath.id}\t{cath.start}\t{cath.end}\t{cath.unp_start}" \
+                          f"\t{cath.unp_end}\t{cath.provenance}"
                     cath_logger.info(row)
             if self.is_scop and protein.scop:
                 for scop in protein.scop:
-                    row = f"{protein.emdb_id}\t{protein.sample_id}\t{scop.id}\t{scop.start}\t{scop.end}\t{scop.provenance}"
+                    row = f"{protein.emdb_id}\t{protein.sample_id}\t{scop.id}\t{scop.start}\t{scop.end}\t{scop.unp_start}" \
+                          f"\t{scop.unp_end}\t{scop.provenance}"
                     scop_logger.info(row)
             if self.is_scop2 and protein.scop2:
                 for scop2 in protein.scop2:
-                    row = f"{protein.emdb_id}\t{protein.sample_id}\t{scop2.id}\t{scop2.start}\t{scop2.end}\t{scop2.provenance}"
+                    row = f"{protein.emdb_id}\t{protein.sample_id}\t{scop2.id}\t{scop2.start}\t{scop2.end}\t{scop2.unp_start}" \
+                          f"\t{scop2.unp_end}\t{scop2.provenance}"
                     scop2_logger.info(row)
