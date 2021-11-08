@@ -2,6 +2,7 @@ import requests, re, gzip
 from models import GO, Interpro, Pfam, Cath, SCOP, SCOP2
 import lxml.etree as ET
 from Bio import Align
+import copy
 
 class ProteinTermsMapping:
     """
@@ -30,35 +31,36 @@ class ProteinTermsMapping:
                 if score > 0.5*min([len(protein_sequence), len(map_sequence)]):
                     if protein.pdb:
                         go_matches, ipr_matches, pfam_matches, cath_matches, scop_matches, scop2_matches = self.parse_sifts(protein, aligned_positions)
-                        ipr_matches = self.uniprot_to_map_positions(ipr_matches, aligned_positions)
-                        pfam_matches = self.uniprot_to_map_positions(pfam_matches, aligned_positions)
-                        cath_matches = self.uniprot_to_map_positions(cath_matches, aligned_positions)
-                        scop_matches = self.uniprot_to_map_positions(scop_matches, aligned_positions)
-                        scop2_matches = self.uniprot_to_map_positions(scop2_matches, aligned_positions)
+                        
+                        ipr_matches = self.remove_duplications(self.uniprot_to_map_positions(ipr_matches, aligned_positions))
+                        pfam_matches = self.remove_duplications(self.uniprot_to_map_positions(pfam_matches, aligned_positions))
+                        cath_matches = self.remove_duplications(self.uniprot_to_map_positions(cath_matches, aligned_positions))
+                        scop_matches = self.remove_duplications(self.uniprot_to_map_positions(scop_matches, aligned_positions))
+                        scop2_matches = self.remove_duplications(self.uniprot_to_map_positions(scop2_matches, aligned_positions))
 
                         for go_id in go_matches:
                             if go_id in go_data:
-                                go = go_data[go_id]
+                                go = copy.deepcopy(go_data[go_id])
                                 go.provenance = "PDBe"
-                                protein.go.append(go)
+                                protein.go.add(go)
                         for ipr_id, start, end, unp_start, unp_end in ipr_matches:
                             if ipr_id in ipr_data:
-                                ipr = ipr_data[ipr_id]
+                                ipr = copy.deepcopy(ipr_data[ipr_id])
                                 ipr.provenance = "PDBe"
                                 ipr.start = start
                                 ipr.end = end
                                 ipr.unp_start = unp_start
                                 ipr.unp_end = unp_end
-                                protein.interpro.append(ipr)
+                                protein.interpro.add(ipr)
                         for pf_id, start, end, unp_start, unp_end in pfam_matches:
                             if pf_id in pf_data:
-                                pfam = pf_data[pf_id]
+                                pfam = copy.deepcopy(pf_data[pf_id])
                                 pfam.provenance = "PDBe"
                                 pfam.start = start
                                 pfam.end = end
                                 pfam.unp_start = unp_start
                                 pfam.unp_end = unp_end
-                                protein.pfam.append(pfam)
+                                protein.pfam.add(pfam)
                         for cath_id, start, end, unp_start, unp_end in cath_matches:
                             cath = Cath()
                             cath.id = cath_id
@@ -68,7 +70,7 @@ class ProteinTermsMapping:
                             cath.unp_end = unp_end
                             cath.unip_id = protein.uniprot_id
                             cath.provenance = "PDBe"
-                            protein.cath.append(cath)
+                            protein.cath.add(cath)
                         for scop_id, start, end, unp_start, unp_end in scop_matches:
                             scop = SCOP()
                             scop.id = scop_id
@@ -78,7 +80,7 @@ class ProteinTermsMapping:
                             scop.unp_end = unp_end
                             scop.unip_id = protein.uniprot_id
                             scop.provenance = "PDBe"
-                            protein.scop.append(scop)
+                            protein.scop.add(scop)
                         for scop2_id, start, end, unp_start, unp_end in scop2_matches:
                             scop2 = SCOP2()
                             scop2.id = scop2_id
@@ -88,9 +90,25 @@ class ProteinTermsMapping:
                             scop2.unp_end = unp_end
                             scop2.unip_id = protein.uniprot_id
                             scop2.provenance = "PDBe"
-                            protein.scop2.append(scop2)
+                            protein.scop2.add(scop2)
 
         return self.proteins
+
+    def remove_duplications(self, matches):
+        refs = {}
+
+        for ref_id, start, end, unp_start, unp_end in matches:
+            if ref_id in refs:
+                if start < refs[ref_id][1]:
+                    refs[ref_id][1] = start
+                    refs[ref_id][3] = unp_start
+                if end > refs[ref_id][2]:
+                    refs[ref_id][2] = end
+                    refs[ref_id][4] = unp_end
+            else:
+                refs[ref_id] = [ref_id, start, end, unp_start, unp_end]
+
+        return list(refs.values())
 
     def extract_uniprot_position(self, db_tag, segment, namespaces={'x': 'http://www.ebi.ac.uk/pdbe/docs/sifts/eFamily.xsd'}):
         region = db_tag.getparent()
@@ -253,7 +271,6 @@ class ProteinTermsMapping:
                     terms = element.findall("{http://uniprot.org/uniprot}property[@type='entry name']")
                     if terms:
                         interpro.namespace = terms[0].get("value")
-                        interpro.provenance = "UNIPROT"
                         interpro_data[interpro.id] = interpro
             if self.is_pfam:
                 pfam_elements = root.findall(".//{http://uniprot.org/uniprot}dbReference[@type='Pfam']")

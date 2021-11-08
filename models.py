@@ -17,12 +17,12 @@ class Protein:
         self.provenance = None
         self.sequence = ""
         self.sample_copies = ""
-        self.go = []
-        self.interpro = []
-        self.pfam = []
-        self.cath = []
-        self.scop = []
-        self.scop2 = []
+        self.go = set()
+        self.interpro = set()
+        self.pfam = set()
+        self.cath = set()
+        self.scop = set()
+        self.scop2 = set()
         self.pdbekb = []
         self.alphafold = []
 
@@ -235,6 +235,14 @@ class GO:
         self.unip_id = ""
         self.provenance = ""
 
+    def __eq__(self, other):
+        return (isinstance(other, self.__class__) and
+            getattr(other, 'id', None) == self.id)
+
+    def __hash__(self):
+        return hash(self.id + self.namespace + self.unip_id + self.provenance + self.type)
+
+
     def __str__(self):
         return f"{self.id}\t{self.namespace}\t{self.type}\t{self.provenance}"
 
@@ -279,6 +287,17 @@ class Interpro:
         self.unp_start = 0
         self.unp_end = 0
 
+    def __eq__(self, other):
+        return (isinstance(other, self.__class__) and
+            getattr(other, 'id', None) == self.id and
+            getattr(other, 'start', None) == self.start and
+            getattr(other, 'end', None) == self.end and
+            getattr(other, 'unp_start', None) == self.unp_start and
+            getattr(other, 'unp_end', None) == self.unp_end)
+
+    def __hash__(self):
+        return hash(self.id + self.namespace + self.unip_id + self.provenance + str(self.start) + str(self.end) + str(self.unp_start) + str(self.unp_end))
+
     def __str__(self):
         return f"{self.id}\t{self.namespace}\t{self.provenance}"
 
@@ -308,12 +327,23 @@ class Pfam:
         self.id = ""
         self.namespace = ""
         self.unip_id = ""
-        self.sample_id = ""
         self.provenance = ""
         self.start = 0
         self.end = 0
         self.unp_start = 0
         self.unp_end = 0
+
+    def __eq__(self, other):
+        return (isinstance(other, self.__class__) and
+            getattr(other, 'id', None) == self.id and
+            getattr(other, 'start', None) == self.start and
+            getattr(other, 'end', None) == self.end and
+            getattr(other, 'unp_start', None) == self.unp_start and
+            getattr(other, 'unp_end', None) == self.unp_end)
+
+    def __hash__(self):
+        return hash(self.id + self.namespace + self.unip_id + self.provenance + str(self.start) + str(self.end) + str(self.unp_start) + str(self.unp_end))
+
 
     def __str__(self):
         return f"{self.id}\t{self.namespace}\t{self.provenance}"
@@ -347,6 +377,17 @@ class Cath:
         self.unp_start = 0
         self.unp_end = 0
 
+    def __eq__(self, other):
+        return (isinstance(other, self.__class__) and
+            getattr(other, 'id', None) == self.id and
+            getattr(other, 'start', None) == self.start and
+            getattr(other, 'end', None) == self.end and
+            getattr(other, 'unp_start', None) == self.unp_start and
+            getattr(other, 'unp_end', None) == self.unp_end)
+
+    def __hash__(self):
+        return hash(self.id + self.unip_id + self.provenance + str(self.start) + str(self.end) + str(self.unp_start) + str(self.unp_end))
+
     def __str__(self):
         return f"{self.id}\t{self.start}\t{self.end}\t{self.provenance}"
 
@@ -363,6 +404,17 @@ class SCOP:
         self.unp_start = 0
         self.unp_end = 0
 
+    def __eq__(self, other):
+        return (isinstance(other, self.__class__) and
+            getattr(other, 'id', None) == self.id and
+            getattr(other, 'start', None) == self.start and
+            getattr(other, 'end', None) == self.end and
+            getattr(other, 'unp_start', None) == self.unp_start and
+            getattr(other, 'unp_end', None) == self.unp_end)
+
+    def __hash__(self):
+        return hash(self.id + self.unip_id + self.provenance + str(self.start) + str(self.end) + str(self.unp_start) + str(self.unp_end))
+
     def __str__(self):
         return f"{self.id}\t{self.start}\t{self.end}\t{self.provenance}"
 
@@ -378,6 +430,17 @@ class SCOP2:
         self.end = 0
         self.unp_start = 0
         self.unp_end = 0
+
+    def __eq__(self, other):
+        return (isinstance(other, self.__class__) and
+            getattr(other, 'id', None) == self.id and
+            getattr(other, 'start', None) == self.start and
+            getattr(other, 'end', None) == self.end and
+            getattr(other, 'unp_start', None) == self.unp_start and
+            getattr(other, 'unp_end', None) == self.unp_end)
+
+    def __hash__(self):
+        return hash(self.id + self.unip_id + self.provenance + str(self.start) + str(self.end) + str(self.unp_start) + str(self.unp_end))
 
     def __str__(self):
         return f"{self.id}\t{self.start}\t{self.end}\t{self.provenance}"
