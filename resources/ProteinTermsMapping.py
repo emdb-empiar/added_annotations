@@ -123,7 +123,8 @@ class ProteinTermsMapping:
 
             #Miniumum 15 amino acids coverage to avoid mapping of bad alignment fragments
             if start > 0 and end > 0 and end-start > 15:
-                new_dataset.add((ref, start, end, unp_start, unp_end))
+                if start < end:
+                    new_dataset.add((ref, start, end, unp_start, unp_end))
         return new_dataset
 
     def parse_sifts(self, protein, positions):
