@@ -378,6 +378,8 @@ class EmicssXML:
                 if CATH_uniprot_start and CATH_uniprot_end is not None:
                     cross_ref_db.set_uniprot_start(int(CATH_uniprot_start))
                     cross_ref_db.set_uniprot_end(int(CATH_uniprot_end))
+                    if CATH_uniprot_start > CATH_uniprot_end:
+                        print("Something wrong as UniProt start is greater than UniProt end")
                 cross_ref_db.set_provenance("%s" % CATH_provenance)
                 cross_ref_dbs.add_cross_ref_db(cross_ref_db)
 
@@ -403,6 +405,8 @@ class EmicssXML:
                 if SCOP_uniprot_start and SCOP_uniprot_end is not None:
                     cross_ref_db.set_uniprot_start(int(SCOP_uniprot_start))
                     cross_ref_db.set_uniprot_end(int(SCOP_uniprot_end))
+                    if SCOP_uniprot_start > SCOP_uniprot_end:
+                        print("Something wrong as UniProt start is greater than UniProt end")
                 cross_ref_db.set_provenance("%s" % SCOP_provenance)
                 cross_ref_dbs.add_cross_ref_db(cross_ref_db)
 
@@ -428,6 +432,8 @@ class EmicssXML:
                 if SCOP2_uniprot_start and SCOP2_uniprot_end is not None:
                     cross_ref_db.set_uniprot_start(int(SCOP2_uniprot_start))
                     cross_ref_db.set_uniprot_end(int(SCOP2_uniprot_end))
+                    if SCOP2_uniprot_start > SCOP2_uniprot_end:
+                        print("Something wrong as UniProt start is greater than UniProt end")
                 cross_ref_db.set_provenance("%s" % SCOP2_provenance)
                 cross_ref_dbs.add_cross_ref_db(cross_ref_db)
 

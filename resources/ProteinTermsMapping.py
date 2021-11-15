@@ -28,6 +28,7 @@ class ProteinTermsMapping:
                 map_sequence = self.strip_sequence(protein.sequence)
                 protein_sequence, go_data, ipr_data, pf_data = self.fetch_uniprot(protein.uniprot_id)
                 aligned_positions, score = self.align(protein_sequence, map_sequence)
+
                 if score > 0.5*min([len(protein_sequence), len(map_sequence)]):
                     if protein.pdb:
                         go_matches, ipr_matches, pfam_matches, cath_matches, scop_matches, scop2_matches = self.parse_sifts(protein, aligned_positions)
@@ -92,6 +93,19 @@ class ProteinTermsMapping:
                             scop2.provenance = "PDBe"
                             protein.scop2.add(scop2)
 
+                    else:
+                        pfam_map_matches = self.pfam_api(protein)
+                        pfam_map_matches = self.uniprot_to_map_positions(pfam_map_matches, aligned_positions)
+                        for pf_id, start, end, unp_start, unp_end in pfam_map_matches:
+                            if pf_id in pf_data:
+                                pfam = copy.deepcopy(pf_data[pf_id])
+                                pfam.provenance = "PFAM"
+                                pfam.start = start
+                                pfam.end = end
+                                pfam.unp_start = unp_start
+                                pfam.unp_end = unp_end
+                                protein.pfam.add(pfam)
+
         return self.proteins
 
     def remove_duplications(self, matches):
@@ -121,15 +135,15 @@ class ProteinTermsMapping:
     def convert_positions(self, position, positions):
         last_i = len(positions[0])-1
         for i, (x,y) in enumerate(positions[0]):
-            if position < x:
+            if int(position) < int(x):
                 if i == 0:
                     return positions[1][0][0]
                 else:
                     return positions[1][i-1][1]
-            elif position > y and i == last_i:
+            elif int(position) > y and i == last_i:
                 return positions[1][last_i][1]
-            elif position <= y:
-                j = position-x
+            elif int(position) <= y:
+                j = int(position)-x
                 return positions[1][i][0] + j
 
     def uniprot_to_map_positions(self, dataset, positions):
@@ -212,6 +226,41 @@ class ProteinTermsMapping:
                 continue
 
         return go_matches, ipr_matches, pfam_matches, cath_matches, scop_matches, scop2_matches
+
+    def pfam_api(self, protein):
+        """
+        Fetching Pfam ID, start and end position from PFAM API for map only entries
+        """
+        unp_id = protein.uniprot_id
+        pfam_map_matches = set()
+
+        if self.is_pfam:
+            url = f"https://pfam.xfam.org/protein/{unp_id}?output=xml"
+            namespace = {'x': 'http://uniprot.org/uniprot'}
+            response = requests.get(url)
+            if response.status_code == 200 and response.content:
+                # root = ET.fromstring(response.content)
+                # sequence = root.xpath("//x:entry/x:sequence", namespaces=namespace)[0].text
+                # print(sequence)
+                # if list(root.iter('match')):
+                #     for x in list(root.iter('match')):
+                #         pfam_id = x.attrib['accession']
+                #         print("PFAM", pfam_id)
+
+                html = response.content.decode('utf-8')
+                pl = re.findall(r'%s\=\"\w*' % "<match accession",  html)
+                pfam_list = [x.split('"')[1] for x in pl]
+                for pfam in pfam_list:
+                    pfam_id = pfam
+                    id_check = re.search(r'<match accession=\"%s(.*?)\>\n        \<location start=\"\d*\" end\=\"\d*' % pfam, html)
+                    if id_check is not None:
+                        text = id_check.group()
+                        st = text.split('start="')[1]
+                        start = st.split('"')[0]
+                        end = text.split('end="')[1]
+                        pfam_map_matches.add((pfam_id, start, end))
+                        print(pfam_id, start, end)
+        return pfam_map_matches
 
     def strip_sequence(self, sequence):
         """
