@@ -3,6 +3,7 @@ from models import GO, Interpro, Pfam, Cath, SCOP, SCOP2
 import lxml.etree as ET
 from Bio import Align
 import copy
+import xmltodict
 
 class ProteinTermsMapping:
     """
@@ -94,7 +95,7 @@ class ProteinTermsMapping:
                             protein.scop2.add(scop2)
 
                     else:
-                        pfam_map_matches = self.pfam_api(protein)
+                        pfam_map_matches = self.pfam_api_maponly(protein)
                         pfam_map_matches = self.uniprot_to_map_positions(pfam_map_matches, aligned_positions)
                         for pf_id, start, end, unp_start, unp_end in pfam_map_matches:
                             if pf_id in pf_data:
@@ -227,7 +228,7 @@ class ProteinTermsMapping:
 
         return go_matches, ipr_matches, pfam_matches, cath_matches, scop_matches, scop2_matches
 
-    def pfam_api(self, protein):
+    def pfam_api_maponly(self, protein):
         """
         Fetching Pfam ID, start and end position from PFAM API for map only entries
         """
@@ -236,30 +237,20 @@ class ProteinTermsMapping:
 
         if self.is_pfam:
             url = f"https://pfam.xfam.org/protein/{unp_id}?output=xml"
-            namespace = {'x': 'http://uniprot.org/uniprot'}
             response = requests.get(url)
             if response.status_code == 200 and response.content:
-                # root = ET.fromstring(response.content)
-                # sequence = root.xpath("//x:entry/x:sequence", namespaces=namespace)[0].text
-                # print(sequence)
-                # if list(root.iter('match')):
-                #     for x in list(root.iter('match')):
-                #         pfam_id = x.attrib['accession']
-                #         print("PFAM", pfam_id)
-
-                html = response.content.decode('utf-8')
-                pl = re.findall(r'%s\=\"\w*' % "<match accession",  html)
-                pfam_list = [x.split('"')[1] for x in pl]
-                for pfam in pfam_list:
-                    pfam_id = pfam
-                    id_check = re.search(r'<match accession=\"%s(.*?)\>\n        \<location start=\"\d*\" end\=\"\d*' % pfam, html)
-                    if id_check is not None:
-                        text = id_check.group()
-                        st = text.split('start="')[1]
-                        start = st.split('"')[0]
-                        end = text.split('end="')[1]
+                data = xmltodict.parse(response.text)
+                data = data['pfam']['entry']
+                if 'matches' in data:
+                    matches = data['matches']['match']
+                    if '@accession' in matches:
+                        matches = [matches]
+                    for match in matches:
+                        pfam_id = match['@accession']
+                        start = int(match['location']['@start'])
+                        end = int(match['location']['@end'])
                         pfam_map_matches.add((pfam_id, start, end))
-                        print(pfam_id, start, end)
+
         return pfam_map_matches
 
     def strip_sequence(self, sequence):
