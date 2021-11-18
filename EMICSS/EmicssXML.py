@@ -22,6 +22,8 @@ class EmicssXML:
         # print(emicss_annotation)
         for em_id, val in emicss_annotation.items():
             all_db = set()
+            self.uniq_id = set()
+
             for vers in range(0, len(version_list), 2):
                 if version_list[vers] == "uniprot":
                     self.unip_vers = version_list[vers + 1]
@@ -119,6 +121,7 @@ class EmicssXML:
                 #                  namespacedef_='xmlns="http://pdbe.org/empiar" '
                 #                                'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" '
                 #                                'xsi:schemaLocation="https://ftp.ebi.ac.uk/pub/databases/emtest/empiar/schema/empiar.xsd"')
+
 
     def EMICSS_empiar(self, val, samp_id, all_db, dbs, cross_ref_dbs):
         "Adding EMPIAR_ID to EMICSS"
@@ -449,13 +452,15 @@ class EmicssXML:
                     dbs.add_db(db)
                 all_db.add("PDBe-KB")
 
-                cross_ref_db = EMICSS.cross_ref_db()
-                cross_ref_db.set_name("%s" % name.lower())
-                cross_ref_db.set_db_source("%s" % "PDBe-KB")
-                cross_ref_db.set_accession_id("%s" % uniprot_id)
-                # cross_ref_db.set_link("%s" % KB_link)
-                cross_ref_db.set_provenance("%s" % KB_provenance)
-                cross_ref_dbs.add_cross_ref_db(cross_ref_db)
+                if uniprot_id not in self.uniq_id:
+                    cross_ref_db = EMICSS.cross_ref_db()
+                    cross_ref_db.set_name("%s" % name.lower())
+                    cross_ref_db.set_db_source("%s" % "PDBe-KB")
+                    cross_ref_db.set_accession_id("%s" % uniprot_id)
+                    # cross_ref_db.set_link("%s" % KB_link)
+                    cross_ref_db.set_provenance("%s" % KB_provenance)
+                    cross_ref_dbs.add_cross_ref_db(cross_ref_db)
+                self.uniq_id.add(uniprot_id)
 
             af_link = "af_link_" + str(x)
             AF_link = val.get(samp_id, {}).get(af_link)

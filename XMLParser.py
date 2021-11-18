@@ -257,6 +257,10 @@ class XMLParser:
 				for y in list(root.iter('primary_citation')):
 					citation = Citation(self.emdb_id)
 					pub = y.find('journal_citation')
+					# authors = []
+					# author = y.find('author')
+					# authors.append(author)
+					# print(authors)
 					nas = pub.find('title').text
 					title = nas.split('\n\n', 1)[0]
 					citation.title = title
