@@ -33,6 +33,7 @@ class PubmedMapping:
                 if webAPI[2]:
                     citation.doi = webAPI[2]
                     citation.provenance_doi = "EuropePMC"
+            # self.oricid_for_pubmed(citation.pmedid)
         else:
             if citation.doi:
                 webAPI = self.pmc_api_query(("DOI:" + citation.doi))
@@ -74,19 +75,10 @@ class PubmedMapping:
                 doi = result[0]['doi'] if 'doi' in result[0] else ""
         return pm_id, pmc_id, doi
 
-    def oricid_from_pubmed(self, pubmed):
-        url = CP_baseurl + (queryString)
+    def oricid_for_pubmed(self, pubmed_id):
+        # url = f"https://orcid.org/orcid-search/search?searchQuery=31064824"
+        url = f"https://pub.sandbox.orcid.org/v3.0/search/?q=pmid:{pubmed_id}"
+        response = requests.get(url)
+        if response.status_code == 200 and response.content:
+            print(response.content)
 
-        def save_sslcontext(obj):
-            return obj.__class__, (obj.protocol,)
-
-        copyreg.pickle(ssl.SSLContext, save_sslcontext)
-        context = ssl.create_default_context()
-        foo = pickle.dumps(context)
-        gcontext = pickle.loads(foo)
-        # print(gcontext)
-        cpjson = urlopen(url, context=gcontext).read()
-        # print("AFTER")
-        cpjdata = json.loads(cpjson.decode('utf-8'))
-        print(cpjdata)
-        size = cpjdata['size']
