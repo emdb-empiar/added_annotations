@@ -73,3 +73,20 @@ class PubmedMapping:
                 pmc_id = result[0]['pmcid'] if 'pmcid' in result[0] else ""
                 doi = result[0]['doi'] if 'doi' in result[0] else ""
         return pm_id, pmc_id, doi
+
+    def oricid_from_pubmed(self, pubmed):
+        url = CP_baseurl + (queryString)
+
+        def save_sslcontext(obj):
+            return obj.__class__, (obj.protocol,)
+
+        copyreg.pickle(ssl.SSLContext, save_sslcontext)
+        context = ssl.create_default_context()
+        foo = pickle.dumps(context)
+        gcontext = pickle.loads(foo)
+        # print(gcontext)
+        cpjson = urlopen(url, context=gcontext).read()
+        # print("AFTER")
+        cpjdata = json.loads(cpjson.decode('utf-8'))
+        print(cpjdata)
+        size = cpjdata['size']

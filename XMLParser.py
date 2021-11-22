@@ -101,7 +101,8 @@ class XMLParser:
 					supra.supra_id = "supra_" + complex_id
 					supra.kind = "supra"
 					if x.find('name') is not None:
-						supra.supra_name = x.find('name').text
+						sup_name = x.find('name').text
+						supra.supra_name = sup_name + "_" + complex_id
 					self.supras.append(supra)
 
 					for y in list(x.iter('macromolecule_id')):
@@ -257,10 +258,6 @@ class XMLParser:
 				for y in list(root.iter('primary_citation')):
 					citation = Citation(self.emdb_id)
 					pub = y.find('journal_citation')
-					# authors = []
-					# author = y.find('author')
-					# authors.append(author)
-					# print(authors)
 					nas = pub.find('title').text
 					title = nas.split('\n\n', 1)[0]
 					citation.title = title
