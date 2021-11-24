@@ -1,4 +1,6 @@
 import json
+import lxml.etree as ET
+import xmltodict
 import requests
 
 class PubmedMapping:
@@ -33,7 +35,7 @@ class PubmedMapping:
                 if webAPI[2]:
                     citation.doi = webAPI[2]
                     citation.provenance_doi = "EuropePMC"
-            # self.oricid_for_pubmed(citation.pmedid)
+            self.oricid_for_pubmed(citation.pmedid)
         else:
             if citation.doi:
                 webAPI = self.pmc_api_query(("DOI:" + citation.doi))
@@ -76,9 +78,18 @@ class PubmedMapping:
         return pm_id, pmc_id, doi
 
     def oricid_for_pubmed(self, pubmed_id):
-        # url = f"https://orcid.org/orcid-search/search?searchQuery=31064824"
-        url = f"https://pub.sandbox.orcid.org/v3.0/search/?q=pmid:{pubmed_id}"
+        orcid_ids = []
+        url = f"https://pub.orcid.org/v3.0/search/?q=pmid:{pubmed_id}"
         response = requests.get(url)
         if response.status_code == 200 and response.content:
-            print(response.content)
+            data = xmltodict.parse(response.text)
+            datas = data['search:search']
+            num = datas['@num-found']
+            if 'search:result' in datas:
+                for x in range(int(num)):
+                    orcid_id = datas['search:result'][x]['common:orcid-identifier']['common:path']
+                    orcid_ids.append(orcid_id)
+
+        return orcid_ids
+
 
