@@ -34,7 +34,7 @@ class DBVersion:
                 html = response.content.decode('utf-8')
                 vers = re.findall("<td>\d*\.\d*\.\d*", html)[0]
                 drugbank_ver = vers.split(">")[1]
-            db_verison_list.extend(["drugbank", drugbank_ver])
+                db_verison_list.extend(["drugbank", drugbank_ver])
         if "pfam" in db_list:
             url = "https://pfam.xfam.org/family/Piwi/acc?output=xml"
             response = requests.get(url)
@@ -42,7 +42,7 @@ class DBVersion:
                 root = ET.fromstring(response.content)
                 for x in list(root.iter('pfam')):
                     pfam_ver = x.attrib['release']
-            db_verison_list.extend(["pfam", pfam_ver])
+                db_verison_list.extend(["pfam", pfam_ver])
         if "interpro" in db_list:
             url = f"https://www.ebi.ac.uk/interpro/api/"
             response = requests.get(url)
@@ -51,7 +51,7 @@ class DBVersion:
                 data = json.loads(res_text)
                 if 'databases' in data:
                     ipr_ver = data['databases']['interpro']['version']
-            db_verison_list.extend(["interpro", ipr_ver])
+                db_verison_list.extend(["interpro", ipr_ver])
         if "cath" in db_list:
             url = "https://www.cathdb.info/"
             response = requests.get(url)
@@ -59,7 +59,7 @@ class DBVersion:
                 html = response.content.decode('utf-8')
                 vers = re.findall("<h1>CATH / Gene3D <small>\w*\d*\.\d*", html)[0]
                 cath_ver = vers.split("small>")[1]
-            db_verison_list.extend(["cath", cath_ver])
+                db_verison_list.extend(["cath", cath_ver])
         if "scop" in db_list:
             db_verison_list.extend(["scop", "1.75"])
         if "scop2" in db_list:
@@ -71,7 +71,7 @@ class DBVersion:
                 root = ET.fromstring(response.content)
                 for x in list(root.iter('response')):
                     chembl_ver = x.find('chembl_db_version').text
-            db_verison_list.extend(["chembl", chembl_ver])
+                db_verison_list.extend(["chembl", chembl_ver])
         if "chebi" in db_list:
             db_verison_list.extend(["chebi", year_month])
         if "go" in db_list:

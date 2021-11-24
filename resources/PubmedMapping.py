@@ -1,5 +1,4 @@
 import json
-import lxml.etree as ET
 import xmltodict
 import requests
 
@@ -35,7 +34,8 @@ class PubmedMapping:
                 if webAPI[2]:
                     citation.doi = webAPI[2]
                     citation.provenance_doi = "EuropePMC"
-            self.oricid_for_pubmed(citation.pmedid)
+            citation.orcid_id = self.oricid_for_pubmed(citation.pmedid)
+            citation.provenance_orcid = "ORCID"
         else:
             if citation.doi:
                 webAPI = self.pmc_api_query(("DOI:" + citation.doi))
@@ -78,18 +78,42 @@ class PubmedMapping:
         return pm_id, pmc_id, doi
 
     def oricid_for_pubmed(self, pubmed_id):
-        orcid_ids = []
+        orcid_ids = {}
         url = f"https://pub.orcid.org/v3.0/search/?q=pmid:{pubmed_id}"
         response = requests.get(url)
         if response.status_code == 200 and response.content:
             data = xmltodict.parse(response.text)
             datas = data['search:search']
-            num = datas['@num-found']
+            num = int(datas['@num-found'])
             if 'search:result' in datas:
-                for x in range(int(num)):
-                    orcid_id = datas['search:result'][x]['common:orcid-identifier']['common:path']
-                    orcid_ids.append(orcid_id)
-
+                if num == 1:
+                    orcid_id = datas['search:result']['common:orcid-identifier']['common:path']
+                    author_name = self.name_for_orcid_id(orcid_id)
+                    orcid_ids[author_name] = orcid_id
+                else:
+                    for x in range(int(num)):
+                        orcid_id = datas['search:result'][x]['common:orcid-identifier']['common:path']
+                        author_name = self.name_for_orcid_id(orcid_id)
+                        orcid_ids[author_name] = orcid_id
         return orcid_ids
 
+    def name_for_orcid_id(self, orcid_id):
+        url_name = f"https://pub.orcid.org/v3.0/{orcid_id}"
+        response = requests.get(url_name)
+        if response.status_code == 200 and response.content:
+            xmld = xmltodict.parse(response.text)
+            xmld = xmld['record:record']
+            if 'person:person' in xmld:
+                given_name = xmld['person:person']['person:name']['personal-details:given-names']
+                family_name = xmld['person:person']['person:name']['personal-details:family-name']
+                author_name = given_name + " " + family_name
+        return author_name
 
+
+    # def oricid_for_pubmed(self, pubmed_id):
+    #     orcid_ids = []
+    #     url = f"https://orcid.org/orcid-search/search?searchQuery={pubmed_id}"
+    #     print(url)
+    #     response = requests.get(url)
+    #     if response.status_code == 200 and response.content:
+    #         html = response.content.decode('utf-8')

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Fri Oct 29 11:58:18 2021 by generateDS.py version 2.38.6.
+# Generated Wed Nov 24 20:42:12 2021 by generateDS.py version 2.38.6.
 # Python 3.7.6 (default, Dec 30 2019, 19:38:28)  [Clang 11.0.0 (clang-1100.0.33.16)]
 #
 # Command line options:
@@ -1906,7 +1906,7 @@ class citationType(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, doi=None, provenance=None, gds_collector_=None, **kwargs_):
+    def __init__(self, doi=None, author=None, orcid_id=None, provenance=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
@@ -1914,6 +1914,10 @@ class citationType(GeneratedsSuper):
         self.ns_prefix_ = None
         self.doi = _cast(None, doi)
         self.doi_nsprefix_ = None
+        self.author = _cast(None, author)
+        self.author_nsprefix_ = None
+        self.orcid_id = _cast(None, orcid_id)
+        self.orcid_id_nsprefix_ = None
         self.provenance = _cast(None, provenance)
         self.provenance_nsprefix_ = None
     def factory(*args_, **kwargs_):
@@ -1935,6 +1939,14 @@ class citationType(GeneratedsSuper):
         return self.doi
     def set_doi(self, doi):
         self.doi = doi
+    def get_author(self):
+        return self.author
+    def set_author(self, author):
+        self.author = author
+    def get_orcid_id(self):
+        return self.orcid_id
+    def set_orcid_id(self, orcid_id):
+        self.orcid_id = orcid_id
     def get_provenance(self):
         return self.provenance
     def set_provenance(self, provenance):
@@ -1985,6 +1997,12 @@ class citationType(GeneratedsSuper):
         if self.doi is not None and 'doi' not in already_processed:
             already_processed.add('doi')
             outfile.write(' doi=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.doi), input_name='doi')), ))
+        if self.author is not None and 'author' not in already_processed:
+            already_processed.add('author')
+            outfile.write(' author=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.author), input_name='author')), ))
+        if self.orcid_id is not None and 'orcid_id' not in already_processed:
+            already_processed.add('orcid_id')
+            outfile.write(' orcid_id=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.orcid_id), input_name='orcid_id')), ))
         if self.provenance is not None and 'provenance' not in already_processed:
             already_processed.add('provenance')
             outfile.write(' provenance=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.provenance), input_name='provenance')), ))
@@ -2006,6 +2024,14 @@ class citationType(GeneratedsSuper):
         if value is not None and 'doi' not in already_processed:
             already_processed.add('doi')
             self.doi = value
+        value = find_attr_value_('author', node)
+        if value is not None and 'author' not in already_processed:
+            already_processed.add('author')
+            self.author = value
+        value = find_attr_value_('orcid_id', node)
+        if value is not None and 'orcid_id' not in already_processed:
+            already_processed.add('orcid_id')
+            self.orcid_id = value
         value = find_attr_value_('provenance', node)
         if value is not None and 'provenance' not in already_processed:
             already_processed.add('provenance')
