@@ -8,9 +8,10 @@ class PubmedMapping:
     EuropePMC if not provided by author.
     """
 
-    def __init__(self, citations, pmc_api):
+    def __init__(self, citations, pmc_api, is_orcid=True):
         self.citations = citations
         self.api = pmc_api
+        self.is_orcid = is_orcid
 
     def execute(self):
         for citation in self.citations:
@@ -34,8 +35,9 @@ class PubmedMapping:
                 if webAPI[2]:
                     citation.doi = webAPI[2]
                     citation.provenance_doi = "EuropePMC"
-            citation.orcid_id = self.oricid_for_pubmed(citation.pmedid)
-            citation.provenance_orcid = "ORCID"
+            if self.is_orcid:
+                citation.orcid_id = self.oricid_for_pubmed(citation.pmedid)
+                citation.provenance_orcid = "ORCID"
         else:
             if citation.doi:
                 webAPI = self.pmc_api_query(("DOI:" + citation.doi))
@@ -109,11 +111,9 @@ class PubmedMapping:
                 author_name = given_name + " " + family_name
         return author_name
 
-
-    # def oricid_for_pubmed(self, pubmed_id):
-    #     orcid_ids = []
-    #     url = f"https://orcid.org/orcid-search/search?searchQuery={pubmed_id}"
-    #     print(url)
-    #     response = requests.get(url)
-    #     if response.status_code == 200 and response.content:
-    #         html = response.content.decode('utf-8')
+    def export_tsv(self, orcid_logger):
+        if self.is_orcid:
+            for citation in self.citations:
+                for name, id in (citation.orcid_id).items():
+                    row = f"{citation.emdb_id}\t{name}\t{id}\t{citation.provenance_orcid}"
+                    orcid_logger.info(row)

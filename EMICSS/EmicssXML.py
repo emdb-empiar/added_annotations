@@ -194,12 +194,18 @@ class EmicssXML:
             citation.set_provenance("%s" % provenance_doi)
             citations.add_citation(citation)
         if orcid_id:
+            if "ORCID" not in all_db:
+                db = EMICSS.dbType()
+                db.set_db_source("%s" % "ORCID")
+                dbs.add_db(db)
+            all_db.add("ORCID")
             for name, id in orcid_id.items():
                 citation = EMICSS.citationType()
                 citation.set_author("%s" % name)
                 citation.set_orcid_id("%s" % id)
                 citation.set_provenance("%s" % provenance_orcid)
                 citations.add_citation(citation)
+
         return cross_ref_dbs, citations
 
     def EMICSS_Pdbe(self, val, samp_id, all_db, dbs, weights):
