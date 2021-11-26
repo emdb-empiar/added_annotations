@@ -82,7 +82,7 @@ def run(filename):
         empiar_mapping = EMPIARMapping(xml.emdb_id, empiar_dictionary, empiar_logger)
         empiar_map = empiar_mapping.execute()
         mapping_list.extend(["EMPIAR", empiar_map])
-    if pmc:
+    if pmc or orcid:
         orcid_log = start_logger_if_necessary("orcid_logger", orcid_log_file) if orcid else None
         pmc_mapping = PubmedMapping(xml.citations, pmc_api, orcid)
         pmc_map = pmc_mapping.execute()

@@ -35,9 +35,7 @@ class PubmedMapping:
                 if webAPI[2]:
                     citation.doi = webAPI[2]
                     citation.provenance_doi = "EuropePMC"
-            if self.is_orcid:
-                citation.orcid_ids = self.oricid_for_pubmed(citation.pmedid)
-                citation.provenance_orcid = "ORCID"
+
         else:
             if citation.doi:
                 webAPI = self.pmc_api_query(("DOI:" + citation.doi))
@@ -60,6 +58,11 @@ class PubmedMapping:
                 if webAPI[2]:
                     citation.doi = webAPI[2]
                     citation.provenance_doi = "EuropePMC"
+
+        if self.is_orcid:
+            if citation.pmedid:
+                citation.orcid_ids = self.oricid_for_pubmed(citation.pmedid)
+
         return citation
 
     def pmc_api_query(self, queryString):
@@ -94,12 +97,14 @@ class PubmedMapping:
                         if orcid_id not in (citation.orcid_ids).values():
                             author_name = self.name_for_orcid_id(orcid_id)
                             orcid_ids[author_name] = orcid_id
+                            citation.provenance_orcid = "ORCID"
                     else:
                         for x in range(int(num)):
                             orcid_id = datas['search:result'][x]['common:orcid-identifier']['common:path']
                             if orcid_id not in (citation.orcid_ids).values():
                                 author_name = self.name_for_orcid_id(orcid_id)
                                 orcid_ids[author_name] = orcid_id
+                                citation.provenance_orcid = "ORCID"
             return orcid_ids
 
     def name_for_orcid_id(self, orcid_id):
