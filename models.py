@@ -214,8 +214,8 @@ class Citation:
         self.pmcid = None
         self.doi = None
         self.issn = None
-        self.author = []
-        self.orcid_id = {}
+        self.authors = []
+        self.orcid_ids = {}
         self.status = ""
         self.title = ""
         self.provenance_pm = ""

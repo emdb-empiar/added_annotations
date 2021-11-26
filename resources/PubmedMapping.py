@@ -36,7 +36,7 @@ class PubmedMapping:
                     citation.doi = webAPI[2]
                     citation.provenance_doi = "EuropePMC"
             if self.is_orcid:
-                citation.orcid_id = self.oricid_for_pubmed(citation.pmedid)
+                citation.orcid_ids = self.oricid_for_pubmed(citation.pmedid)
                 citation.provenance_orcid = "ORCID"
         else:
             if citation.doi:
@@ -80,24 +80,27 @@ class PubmedMapping:
         return pm_id, pmc_id, doi
 
     def oricid_for_pubmed(self, pubmed_id):
-        orcid_ids = {}
-        url = f"https://pub.orcid.org/v3.0/search/?q=pmid:{pubmed_id}"
-        response = requests.get(url)
-        if response.status_code == 200 and response.content:
-            data = xmltodict.parse(response.text)
-            datas = data['search:search']
-            num = int(datas['@num-found'])
-            if 'search:result' in datas:
-                if num == 1:
-                    orcid_id = datas['search:result']['common:orcid-identifier']['common:path']
-                    author_name = self.name_for_orcid_id(orcid_id)
-                    orcid_ids[author_name] = orcid_id
-                else:
-                    for x in range(int(num)):
-                        orcid_id = datas['search:result'][x]['common:orcid-identifier']['common:path']
-                        author_name = self.name_for_orcid_id(orcid_id)
-                        orcid_ids[author_name] = orcid_id
-        return orcid_ids
+        for citation in self.citations:
+            orcid_ids = {}
+            url = f"https://pub.orcid.org/v3.0/search/?q=pmid:{pubmed_id}"
+            response = requests.get(url)
+            if response.status_code == 200 and response.content:
+                data = xmltodict.parse(response.text)
+                datas = data['search:search']
+                num = int(datas['@num-found'])
+                if 'search:result' in datas:
+                    if num == 1:
+                        orcid_id = datas['search:result']['common:orcid-identifier']['common:path']
+                        if orcid_id not in (citation.orcid_ids).values():
+                            author_name = self.name_for_orcid_id(orcid_id)
+                            orcid_ids[author_name] = orcid_id
+                    else:
+                        for x in range(int(num)):
+                            orcid_id = datas['search:result'][x]['common:orcid-identifier']['common:path']
+                            if orcid_id not in (citation.orcid_ids).values():
+                                author_name = self.name_for_orcid_id(orcid_id)
+                                orcid_ids[author_name] = orcid_id
+            return orcid_ids
 
     def name_for_orcid_id(self, orcid_id):
         url_name = f"https://pub.orcid.org/v3.0/{orcid_id}"
@@ -114,6 +117,6 @@ class PubmedMapping:
     def export_tsv(self, orcid_logger):
         if self.is_orcid:
             for citation in self.citations:
-                for name, id in (citation.orcid_id).items():
+                for name, id in (citation.orcid_ids).items():
                     row = f"{citation.emdb_id}\t{name}\t{id}\t{citation.provenance_orcid}"
                     orcid_logger.info(row)

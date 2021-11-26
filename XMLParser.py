@@ -261,7 +261,11 @@ class XMLParser:
 					for auth in y.iter('author'):
 						author = auth.text
 						author_order = auth.attrib['order']
-						(citation.author).append(author)
+						(citation.authors).append(author)
+						if 'ORCID' in auth.attrib:
+							orcid_id = auth.attrib['ORCID']
+							(citation.orcid_ids)[author] = orcid_id
+							citation.provenance_orcid = "AUTHOR"
 					nas = pub.find('title').text
 					title = nas.split('\n\n', 1)[0]
 					citation.title = title
