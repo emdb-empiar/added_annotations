@@ -96,18 +96,18 @@ class ProteinTermsMapping:
                                     scop2.provenance = "PDBe"
                                     protein.scop2.add(scop2)
 
-                            else:
-                                pfam_map_matches = self.pfam_api_maponly(protein)
-                                pfam_map_matches = self.uniprot_to_map_positions(pfam_map_matches, aligned_positions)
-                                for pf_id, start, end, unp_start, unp_end in pfam_map_matches:
-                                    if pf_id in pf_data:
-                                        pfam = copy.deepcopy(pf_data[pf_id])
-                                        pfam.provenance = "PFAM"
-                                        pfam.start = start
-                                        pfam.end = end
-                                        pfam.unp_start = unp_start
-                                        pfam.unp_end = unp_end
-                                        protein.pfam.add(pfam)
+                            # else:
+                            #     pfam_map_matches = self.pfam_api_maponly(protein)
+                            #     pfam_map_matches = self.uniprot_to_map_positions(pfam_map_matches, aligned_positions)
+                            #     for pf_id, start, end, unp_start, unp_end in pfam_map_matches:
+                            #         if pf_id in pf_data:
+                            #             pfam = copy.deepcopy(pf_data[pf_id])
+                            #             pfam.provenance = "PFAM"
+                            #             pfam.start = start
+                            #             pfam.end = end
+                            #             pfam.unp_start = unp_start
+                            #             pfam.unp_end = unp_end
+                            #             protein.pfam.add(pfam)
 
         return self.proteins
 
