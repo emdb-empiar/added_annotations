@@ -36,7 +36,7 @@ class DBVersion:
                 drugbank_ver = vers.split(">")[1]
             db_verison_list.extend(["drugbank", drugbank_ver])
         if "pfam" in db_list:
-            url = "https://pfam.xfam.org/family/Piwi/acc?output=xml"
+            url = "http://pfam.xfam.org/family/Piwi/acc?output=xml"
             response = requests.get(url)
             if response.status_code == 200 and response.content:
                 root = ET.fromstring(response.content)
