@@ -13,15 +13,18 @@ class AlphaFoldMapping:
 			if protein.uniprot_id and protein.sample_id:
 				uid = protein.uniprot_id
 				url = f"https://alphafold.ebi.ac.uk/api/prediction/{uid}"
-				response = requests.get(url)
-				if response.status_code == 200 and response.content:
-					if json.loads(response.content):
-						alphafold = Alphafold()
-						alphafold.unip_id = uid
-						alphafold.link = f"https://alphafold.ebi.ac.uk/entry/{uid}"
-						alphafold.provenance = "AlphaFoldDB"
-						protein.alphafold.append(alphafold)
-						self.proteins.append(protein)
+				try:
+					response = requests.get(url)
+					if response.status_code == 200 and response.content:
+						if json.loads(response.content):
+							alphafold = Alphafold()
+							alphafold.unip_id = uid
+							alphafold.link = f"https://alphafold.ebi.ac.uk/entry/{uid}"
+							alphafold.provenance = "AlphaFoldDB"
+							protein.alphafold.append(alphafold)
+							self.proteins.append(protein)
+				except:
+					print(f"WARNING: AlphaFold {uid} failed!")
 		return self.proteins
 
 	def export_tsv(self, logger):
