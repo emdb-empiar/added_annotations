@@ -1,0 +1,2226 @@
+external_mapping_from_cif:('EMD-3061', 'PC1', '1,2-DIACYL-SN-GLYCERO-3-PHOSPHOCHOLINE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'MG', 'MAGNESIUM ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'MG', 'MAGNESIUM ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'K', 'POTASSIUM ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'K', 'POTASSIUM ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'ChEBI', 'CCD')
+extracting_IDs:NAG
+extracting_IDs:PC1
+external_mapping_from_cif:('EMD-3061', 'PC1', '1,2-DIACYL-SN-GLYCERO-3-PHOSPHOCHOLINE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEBI', 'CCD')
+extracting_IDs:ZN
+extracting_IDs:I3P
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'ChEBI', 'CCD')
+extracting_IDs:NAG
+extracting_IDs:PC1
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'PC1', '1,2-DIACYL-SN-GLYCERO-3-PHOSPHOCHOLINE', 'ChEBI', 'CCD')
+extracting_IDs:ZN
+extracting_IDs:I3P
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'MG', 'MAGNESIUM ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'MG', 'MAGNESIUM ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'K', 'POTASSIUM ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'K', 'POTASSIUM ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'ChEBI', 'CCD')
+extracting_IDs:NAG
+extracting_IDs:PC1
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'PC1', '1,2-DIACYL-SN-GLYCERO-3-PHOSPHOCHOLINE', 'ChEBI', 'CCD')
+extracting_IDs:ZN
+extracting_IDs:I3P
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'K', 'POTASSIUM ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'K', 'POTASSIUM ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'MG', 'MAGNESIUM ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'MG', 'MAGNESIUM ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'ChEBI', 'CCD')
+extracting_IDs:NAG
+extracting_IDs:PC1
+external_mapping_from_cif:('EMD-3061', 'PC1', '1,2-DIACYL-SN-GLYCERO-3-PHOSPHOCHOLINE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEBI', 'CCD')
+extracting_IDs:ZN
+extracting_IDs:I3P
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'K', 'POTASSIUM ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'K', 'POTASSIUM ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'MG', 'MAGNESIUM ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'MG', 'MAGNESIUM ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'ChEBI', 'CCD')
+extracting_IDs:NAG
+extracting_IDs:PC1
+external_mapping_from_cif:('EMD-3061', 'PC1', '1,2-DIACYL-SN-GLYCERO-3-PHOSPHOCHOLINE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEBI', 'CCD')
+extracting_IDs:ZN
+extracting_IDs:I3P
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'MG', 'MAGNESIUM ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'MG', 'MAGNESIUM ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'K', 'POTASSIUM ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'K', 'POTASSIUM ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'ChEBI', 'CCD')
+extracting_IDs:NAG
+extracting_IDs:PC1
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'PC1', '1,2-DIACYL-SN-GLYCERO-3-PHOSPHOCHOLINE', 'ChEBI', 'CCD')
+extracting_IDs:ZN
+extracting_IDs:I3P
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'K', 'POTASSIUM ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'K', 'POTASSIUM ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'MG', 'MAGNESIUM ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'MG', 'MAGNESIUM ION', 'ChEBI', 'CCD')
+extracting_IDs:NAG
+extracting_IDs:PC1
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'PC1', '1,2-DIACYL-SN-GLYCERO-3-PHOSPHOCHOLINE', 'ChEBI', 'CCD')
+extracting_IDs:ZN
+extracting_IDs:I3P
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'MG', 'MAGNESIUM ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'MG', 'MAGNESIUM ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'K', 'POTASSIUM ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'K', 'POTASSIUM ION', 'ChEBI', 'CCD')
+extracting_IDs:NAG
+extracting_IDs:PC1
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'PC1', '1,2-DIACYL-SN-GLYCERO-3-PHOSPHOCHOLINE', 'ChEBI', 'CCD')
+extracting_IDs:ZN
+extracting_IDs:I3P
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'MG', 'MAGNESIUM ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'MG', 'MAGNESIUM ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'K', 'POTASSIUM ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'K', 'POTASSIUM ION', 'ChEBI', 'CCD')
+extracting_IDs:NAG
+extracting_IDs:PC1
+external_mapping_from_cif:('EMD-3061', 'PC1', '1,2-DIACYL-SN-GLYCERO-3-PHOSPHOCHOLINE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEBI', 'CCD')
+extracting_IDs:ZN
+extracting_IDs:I3P
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'MG', 'MAGNESIUM ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'MG', 'MAGNESIUM ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'K', 'POTASSIUM ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'K', 'POTASSIUM ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'ChEBI', 'CCD')
+extracting_IDs:NAG
+extracting_IDs:PC1
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'PC1', '1,2-DIACYL-SN-GLYCERO-3-PHOSPHOCHOLINE', 'ChEBI', 'CCD')
+extracting_IDs:ZN
+extracting_IDs:I3P
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'K', 'POTASSIUM ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'K', 'POTASSIUM ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'MG', 'MAGNESIUM ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'MG', 'MAGNESIUM ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'ChEBI', 'CCD')
+extracting_IDs:NAG
+extracting_IDs:PC1
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'PC1', '1,2-DIACYL-SN-GLYCERO-3-PHOSPHOCHOLINE', 'ChEBI', 'CCD')
+extracting_IDs:ZN
+extracting_IDs:I3P
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'K', 'POTASSIUM ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'K', 'POTASSIUM ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'MG', 'MAGNESIUM ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'MG', 'MAGNESIUM ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'ChEBI', 'CCD')
+extracting_IDs:NAG
+extracting_IDs:PC1
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'PC1', '1,2-DIACYL-SN-GLYCERO-3-PHOSPHOCHOLINE', 'ChEBI', 'CCD')
+extracting_IDs:ZN
+extracting_IDs:I3P
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'K', 'POTASSIUM ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'K', 'POTASSIUM ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'MG', 'MAGNESIUM ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'MG', 'MAGNESIUM ION', 'ChEBI', 'CCD')
+extracting_IDs:NAG
+extracting_IDs:PC1
+external_mapping_from_cif:('EMD-3061', 'PC1', '1,2-DIACYL-SN-GLYCERO-3-PHOSPHOCHOLINE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEBI', 'CCD')
+extracting_IDs:ZN
+extracting_IDs:I3P
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'MG', 'MAGNESIUM ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'MG', 'MAGNESIUM ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'K', 'POTASSIUM ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'K', 'POTASSIUM ION', 'ChEBI', 'CCD')
+extracting_IDs:NAG
+extracting_IDs:PC1
+external_mapping_from_cif:('EMD-3061', 'PC1', '1,2-DIACYL-SN-GLYCERO-3-PHOSPHOCHOLINE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEBI', 'CCD')
+extracting_IDs:ZN
+extracting_IDs:I3P
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'MG', 'MAGNESIUM ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'MG', 'MAGNESIUM ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'K', 'POTASSIUM ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'K', 'POTASSIUM ION', 'ChEBI', 'CCD')
+extracting_IDs:NAG
+extracting_IDs:PC1
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'PC1', '1,2-DIACYL-SN-GLYCERO-3-PHOSPHOCHOLINE', 'ChEBI', 'CCD')
+extracting_IDs:ZN
+extracting_IDs:I3P
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'ChEBI', 'CCD')
+extracting_IDs:CA
+extracting_IDs:D12
+extracting_IDs:D10
+extracting_IDs:8K6
+extracting_IDs:HEX
+external_mapping_from_cif:('EMD-8959', '8K6', 'Octadecane', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-8959', 'CA', 'CALCIUM ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-8959', 'CA', 'CALCIUM ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-8959', 'HEX', 'HEXANE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-8959', 'HEX', 'HEXANE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-8959', 'D10', 'DECANE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-8959', 'D10', 'DECANE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-8959', 'D12', 'DODECANE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-8959', 'D12', 'DODECANE', 'ChEBI', 'CCD')
+extracting_IDs:ATP
+extracting_IDs:MG
+extracting_IDs:ADP
+external_mapping_from_cif:('EMD-0669', 'ADP', "ADENOSINE-5'-DIPHOSPHATE", 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-0669', 'ADP', "ADENOSINE-5'-DIPHOSPHATE", 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-0669', 'ATP', "ADENOSINE-5'-TRIPHOSPHATE", 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-0669', 'ATP', "ADENOSINE-5'-TRIPHOSPHATE", 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-0669', 'ATP', "ADENOSINE-5'-TRIPHOSPHATE", 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-0669', 'MG', 'MAGNESIUM ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-0669', 'MG', 'MAGNESIUM ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'MG', 'MAGNESIUM ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'MG', 'MAGNESIUM ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'K', 'POTASSIUM ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'K', 'POTASSIUM ION', 'ChEBI', 'CCD')
+extracting_IDs:6PH
+extracting_IDs:HEM
+extracting_IDs:8PE
+extracting_IDs:CN5
+extracting_IDs:UQ6
+extracting_IDs:7PH
+extracting_IDs:FES
+extracting_IDs:PCF
+extracting_IDs:9PE
+extracting_IDs:CN3
+extracting_IDs:CU
+extracting_IDs:HEA
+extracting_IDs:CUA
+external_mapping_from_cif:('EMD-0004', 'FES', 'FE2/S2 (INORGANIC) CLUSTER', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-0004', 'CU', 'COPPER (II) ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-0004', 'CU', 'COPPER (II) ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-0004', 'HEA', 'HEME-A', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-0004', 'PCF', '1,2-DIACYL-SN-GLYCERO-3-PHOSHOCHOLINE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-0004', 'PCF', '1,2-DIACYL-SN-GLYCERO-3-PHOSHOCHOLINE', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-0004', 'PCF', '1,2-DIACYL-SN-GLYCERO-3-PHOSHOCHOLINE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-0004', 'HEM', 'PROTOPORPHYRIN IX CONTAINING FE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-0004', 'HEM', 'PROTOPORPHYRIN IX CONTAINING FE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-6736', 'ATP', "ADENOSINE-5'-TRIPHOSPHATE", 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-6736', 'ATP', "ADENOSINE-5'-TRIPHOSPHATE", 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-6736', 'ATP', "ADENOSINE-5'-TRIPHOSPHATE", 'ChEBI', 'CCD')
+extracting_IDs:NAG
+extracting_IDs:PC1
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'PC1', '1,2-DIACYL-SN-GLYCERO-3-PHOSPHOCHOLINE', 'ChEBI', 'CCD')
+extracting_IDs:ZN
+extracting_IDs:I3P
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'ChEBI', 'CCD')
+extracting_IDs:CA
+extracting_IDs:D12
+extracting_IDs:D10
+extracting_IDs:8K6
+extracting_IDs:HEX
+external_mapping_from_cif:('EMD-8959', '8K6', 'Octadecane', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-8959', 'D10', 'DECANE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-8959', 'D10', 'DECANE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-8959', 'D12', 'DODECANE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-8959', 'D12', 'DODECANE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-8959', 'HEX', 'HEXANE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-8959', 'HEX', 'HEXANE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-8959', 'CA', 'CALCIUM ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-8959', 'CA', 'CALCIUM ION', 'ChEBI', 'CCD')
+extracting_IDs:ATP
+extracting_IDs:MG
+extracting_IDs:ADP
+external_mapping_from_cif:('EMD-0669', 'MG', 'MAGNESIUM ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-0669', 'MG', 'MAGNESIUM ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-0669', 'ADP', "ADENOSINE-5'-DIPHOSPHATE", 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-0669', 'ADP', "ADENOSINE-5'-DIPHOSPHATE", 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-0669', 'ATP', "ADENOSINE-5'-TRIPHOSPHATE", 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-0669', 'ATP', "ADENOSINE-5'-TRIPHOSPHATE", 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-0669', 'ATP', "ADENOSINE-5'-TRIPHOSPHATE", 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'K', 'POTASSIUM ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'K', 'POTASSIUM ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'MG', 'MAGNESIUM ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'MG', 'MAGNESIUM ION', 'ChEBI', 'CCD')
+extracting_IDs:6PH
+extracting_IDs:HEM
+extracting_IDs:8PE
+extracting_IDs:CN5
+extracting_IDs:UQ6
+extracting_IDs:7PH
+extracting_IDs:FES
+extracting_IDs:PCF
+extracting_IDs:9PE
+extracting_IDs:CN3
+extracting_IDs:CU
+extracting_IDs:HEA
+extracting_IDs:CUA
+external_mapping_from_cif:('EMD-0004', 'CU', 'COPPER (II) ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-0004', 'CU', 'COPPER (II) ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-0004', 'HEM', 'PROTOPORPHYRIN IX CONTAINING FE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-0004', 'HEM', 'PROTOPORPHYRIN IX CONTAINING FE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-0004', 'PCF', '1,2-DIACYL-SN-GLYCERO-3-PHOSHOCHOLINE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-0004', 'PCF', '1,2-DIACYL-SN-GLYCERO-3-PHOSHOCHOLINE', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-0004', 'PCF', '1,2-DIACYL-SN-GLYCERO-3-PHOSHOCHOLINE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-0004', 'FES', 'FE2/S2 (INORGANIC) CLUSTER', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-0004', 'HEA', 'HEME-A', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-6736', 'ATP', "ADENOSINE-5'-TRIPHOSPHATE", 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-6736', 'ATP', "ADENOSINE-5'-TRIPHOSPHATE", 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-6736', 'ATP', "ADENOSINE-5'-TRIPHOSPHATE", 'ChEBI', 'CCD')
+extracting_IDs:NAG
+extracting_IDs:PC1
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'PC1', '1,2-DIACYL-SN-GLYCERO-3-PHOSPHOCHOLINE', 'ChEBI', 'CCD')
+extracting_IDs:ZN
+extracting_IDs:I3P
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'ChEBI', 'CCD')
+extracting_IDs:CA
+extracting_IDs:D12
+extracting_IDs:D10
+extracting_IDs:8K6
+extracting_IDs:HEX
+external_mapping_from_cif:('EMD-8959', '8K6', 'Octadecane', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-8959', 'D12', 'DODECANE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-8959', 'D12', 'DODECANE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-8959', 'D10', 'DECANE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-8959', 'D10', 'DECANE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-8959', 'CA', 'CALCIUM ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-8959', 'CA', 'CALCIUM ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-8959', 'HEX', 'HEXANE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-8959', 'HEX', 'HEXANE', 'ChEBI', 'CCD')
+extracting_IDs:ATP
+extracting_IDs:MG
+extracting_IDs:ADP
+external_mapping_from_cif:('EMD-0669', 'MG', 'MAGNESIUM ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-0669', 'MG', 'MAGNESIUM ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-0669', 'ADP', "ADENOSINE-5'-DIPHOSPHATE", 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-0669', 'ADP', "ADENOSINE-5'-DIPHOSPHATE", 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-0669', 'ATP', "ADENOSINE-5'-TRIPHOSPHATE", 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-0669', 'ATP', "ADENOSINE-5'-TRIPHOSPHATE", 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-0669', 'ATP', "ADENOSINE-5'-TRIPHOSPHATE", 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'MG', 'MAGNESIUM ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'MG', 'MAGNESIUM ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'K', 'POTASSIUM ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'K', 'POTASSIUM ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'ChEBI', 'CCD')
+extracting_IDs:6PH
+extracting_IDs:HEM
+extracting_IDs:8PE
+extracting_IDs:CN5
+extracting_IDs:UQ6
+extracting_IDs:7PH
+extracting_IDs:FES
+extracting_IDs:PCF
+extracting_IDs:9PE
+extracting_IDs:CN3
+extracting_IDs:CU
+extracting_IDs:HEA
+extracting_IDs:CUA
+external_mapping_from_cif:('EMD-0004', 'PCF', '1,2-DIACYL-SN-GLYCERO-3-PHOSHOCHOLINE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-0004', 'PCF', '1,2-DIACYL-SN-GLYCERO-3-PHOSHOCHOLINE', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-0004', 'PCF', '1,2-DIACYL-SN-GLYCERO-3-PHOSHOCHOLINE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-0004', 'FES', 'FE2/S2 (INORGANIC) CLUSTER', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-0004', 'HEA', 'HEME-A', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-0004', 'CU', 'COPPER (II) ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-0004', 'CU', 'COPPER (II) ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-0004', 'HEM', 'PROTOPORPHYRIN IX CONTAINING FE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-0004', 'HEM', 'PROTOPORPHYRIN IX CONTAINING FE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-6736', 'ATP', "ADENOSINE-5'-TRIPHOSPHATE", 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-6736', 'ATP', "ADENOSINE-5'-TRIPHOSPHATE", 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-6736', 'ATP', "ADENOSINE-5'-TRIPHOSPHATE", 'ChEBI', 'CCD')
+extracting_IDs:NAG
+extracting_IDs:PC1
+external_mapping_from_cif:('EMD-3061', 'PC1', '1,2-DIACYL-SN-GLYCERO-3-PHOSPHOCHOLINE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEBI', 'CCD')
+extracting_IDs:ZN
+extracting_IDs:I3P
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'ChEBI', 'CCD')
+extracting_IDs:CA
+extracting_IDs:D12
+extracting_IDs:D10
+extracting_IDs:8K6
+extracting_IDs:HEX
+external_mapping_from_cif:('EMD-8959', 'D12', 'DODECANE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-8959', 'D12', 'DODECANE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-8959', '8K6', 'Octadecane', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-8959', 'HEX', 'HEXANE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-8959', 'HEX', 'HEXANE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-8959', 'D10', 'DECANE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-8959', 'D10', 'DECANE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-8959', 'CA', 'CALCIUM ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-8959', 'CA', 'CALCIUM ION', 'ChEBI', 'CCD')
+extracting_IDs:ATP
+extracting_IDs:MG
+extracting_IDs:ADP
+external_mapping_from_cif:('EMD-0669', 'MG', 'MAGNESIUM ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-0669', 'MG', 'MAGNESIUM ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-0669', 'ADP', "ADENOSINE-5'-DIPHOSPHATE", 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-0669', 'ADP', "ADENOSINE-5'-DIPHOSPHATE", 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-0669', 'ATP', "ADENOSINE-5'-TRIPHOSPHATE", 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-0669', 'ATP', "ADENOSINE-5'-TRIPHOSPHATE", 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-0669', 'ATP', "ADENOSINE-5'-TRIPHOSPHATE", 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'MG', 'MAGNESIUM ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'MG', 'MAGNESIUM ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'K', 'POTASSIUM ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'K', 'POTASSIUM ION', 'ChEBI', 'CCD')
+extracting_IDs:6PH
+extracting_IDs:HEM
+extracting_IDs:8PE
+extracting_IDs:CN5
+extracting_IDs:UQ6
+extracting_IDs:7PH
+extracting_IDs:FES
+extracting_IDs:PCF
+extracting_IDs:9PE
+extracting_IDs:CN3
+extracting_IDs:CU
+extracting_IDs:HEA
+extracting_IDs:CUA
+external_mapping_from_cif:('EMD-0004', 'HEM', 'PROTOPORPHYRIN IX CONTAINING FE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-0004', 'HEM', 'PROTOPORPHYRIN IX CONTAINING FE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-0004', 'FES', 'FE2/S2 (INORGANIC) CLUSTER', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-0004', 'PCF', '1,2-DIACYL-SN-GLYCERO-3-PHOSHOCHOLINE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-0004', 'PCF', '1,2-DIACYL-SN-GLYCERO-3-PHOSHOCHOLINE', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-0004', 'PCF', '1,2-DIACYL-SN-GLYCERO-3-PHOSHOCHOLINE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-0004', 'HEA', 'HEME-A', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-0004', 'CU', 'COPPER (II) ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-0004', 'CU', 'COPPER (II) ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-6736', 'ATP', "ADENOSINE-5'-TRIPHOSPHATE", 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-6736', 'ATP', "ADENOSINE-5'-TRIPHOSPHATE", 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-6736', 'ATP', "ADENOSINE-5'-TRIPHOSPHATE", 'ChEBI', 'CCD')
+extracting_IDs:NAG
+extracting_IDs:PC1
+external_mapping_from_cif:('EMD-3061', 'PC1', '1,2-DIACYL-SN-GLYCERO-3-PHOSPHOCHOLINE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEBI', 'CCD')
+extracting_IDs:NAG
+extracting_IDs:PC1
+external_mapping_from_cif:('EMD-3061', 'PC1', '1,2-DIACYL-SN-GLYCERO-3-PHOSPHOCHOLINE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEBI', 'CCD')
+extracting_IDs:ZN
+extracting_IDs:I3P
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'ChEBI', 'CCD')
+extracting_IDs:CA
+extracting_IDs:D12
+extracting_IDs:D10
+extracting_IDs:8K6
+extracting_IDs:HEX
+external_mapping_from_cif:('EMD-8959', 'D12', 'DODECANE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-8959', 'D12', 'DODECANE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-8959', 'D10', 'DECANE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-8959', 'D10', 'DECANE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-8959', '8K6', 'Octadecane', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-8959', 'HEX', 'HEXANE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-8959', 'HEX', 'HEXANE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-8959', 'CA', 'CALCIUM ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-8959', 'CA', 'CALCIUM ION', 'ChEBI', 'CCD')
+extracting_IDs:ATP
+extracting_IDs:MG
+extracting_IDs:ADP
+external_mapping_from_cif:('EMD-0669', 'ADP', "ADENOSINE-5'-DIPHOSPHATE", 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-0669', 'ADP', "ADENOSINE-5'-DIPHOSPHATE", 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-0669', 'MG', 'MAGNESIUM ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-0669', 'MG', 'MAGNESIUM ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-0669', 'ATP', "ADENOSINE-5'-TRIPHOSPHATE", 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-0669', 'ATP', "ADENOSINE-5'-TRIPHOSPHATE", 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-0669', 'ATP', "ADENOSINE-5'-TRIPHOSPHATE", 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'MG', 'MAGNESIUM ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'MG', 'MAGNESIUM ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'K', 'POTASSIUM ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'K', 'POTASSIUM ION', 'ChEBI', 'CCD')
+extracting_IDs:6PH
+extracting_IDs:HEM
+extracting_IDs:8PE
+extracting_IDs:CN5
+extracting_IDs:UQ6
+extracting_IDs:7PH
+extracting_IDs:FES
+extracting_IDs:PCF
+extracting_IDs:9PE
+extracting_IDs:CN3
+extracting_IDs:CU
+extracting_IDs:HEA
+extracting_IDs:CUA
+external_mapping_from_cif:('EMD-0004', 'CU', 'COPPER (II) ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-0004', 'CU', 'COPPER (II) ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-0004', 'HEM', 'PROTOPORPHYRIN IX CONTAINING FE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-0004', 'HEM', 'PROTOPORPHYRIN IX CONTAINING FE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-0004', 'PCF', '1,2-DIACYL-SN-GLYCERO-3-PHOSHOCHOLINE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-0004', 'PCF', '1,2-DIACYL-SN-GLYCERO-3-PHOSHOCHOLINE', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-0004', 'PCF', '1,2-DIACYL-SN-GLYCERO-3-PHOSHOCHOLINE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-0004', 'FES', 'FE2/S2 (INORGANIC) CLUSTER', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-0004', 'HEA', 'HEME-A', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-6736', 'ATP', "ADENOSINE-5'-TRIPHOSPHATE", 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-6736', 'ATP', "ADENOSINE-5'-TRIPHOSPHATE", 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-6736', 'ATP', "ADENOSINE-5'-TRIPHOSPHATE", 'ChEBI', 'CCD')
+extracting_IDs:NAG
+extracting_IDs:PC1
+external_mapping_from_cif:('EMD-3061', 'PC1', '1,2-DIACYL-SN-GLYCERO-3-PHOSPHOCHOLINE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEBI', 'CCD')
+extracting_IDs:ZN
+extracting_IDs:I3P
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'ChEBI', 'CCD')
+extracting_IDs:CA
+extracting_IDs:D12
+extracting_IDs:D10
+extracting_IDs:8K6
+extracting_IDs:HEX
+external_mapping_from_cif:('EMD-8959', 'D10', 'DECANE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-8959', 'D10', 'DECANE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-8959', '8K6', 'Octadecane', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-8959', 'D12', 'DODECANE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-8959', 'D12', 'DODECANE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-8959', 'HEX', 'HEXANE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-8959', 'HEX', 'HEXANE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-8959', 'CA', 'CALCIUM ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-8959', 'CA', 'CALCIUM ION', 'ChEBI', 'CCD')
+extracting_IDs:ATP
+extracting_IDs:MG
+extracting_IDs:ADP
+external_mapping_from_cif:('EMD-0669', 'ADP', "ADENOSINE-5'-DIPHOSPHATE", 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-0669', 'ADP', "ADENOSINE-5'-DIPHOSPHATE", 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-0669', 'MG', 'MAGNESIUM ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-0669', 'MG', 'MAGNESIUM ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-0669', 'ATP', "ADENOSINE-5'-TRIPHOSPHATE", 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-0669', 'ATP', "ADENOSINE-5'-TRIPHOSPHATE", 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-0669', 'ATP', "ADENOSINE-5'-TRIPHOSPHATE", 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'MG', 'MAGNESIUM ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'MG', 'MAGNESIUM ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'K', 'POTASSIUM ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'K', 'POTASSIUM ION', 'ChEBI', 'CCD')
+extracting_IDs:6PH
+extracting_IDs:HEM
+extracting_IDs:8PE
+extracting_IDs:CN5
+extracting_IDs:UQ6
+extracting_IDs:7PH
+extracting_IDs:FES
+extracting_IDs:PCF
+extracting_IDs:9PE
+extracting_IDs:CN3
+extracting_IDs:CU
+extracting_IDs:HEA
+extracting_IDs:CUA
+external_mapping_from_cif:('EMD-0004', 'CU', 'COPPER (II) ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-0004', 'CU', 'COPPER (II) ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-0004', 'HEA', 'HEME-A', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-0004', 'FES', 'FE2/S2 (INORGANIC) CLUSTER', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-0004', 'PCF', '1,2-DIACYL-SN-GLYCERO-3-PHOSHOCHOLINE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-0004', 'PCF', '1,2-DIACYL-SN-GLYCERO-3-PHOSHOCHOLINE', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-0004', 'PCF', '1,2-DIACYL-SN-GLYCERO-3-PHOSHOCHOLINE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-0004', 'HEM', 'PROTOPORPHYRIN IX CONTAINING FE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-0004', 'HEM', 'PROTOPORPHYRIN IX CONTAINING FE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-6736', 'ATP', "ADENOSINE-5'-TRIPHOSPHATE", 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-6736', 'ATP', "ADENOSINE-5'-TRIPHOSPHATE", 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-6736', 'ATP', "ADENOSINE-5'-TRIPHOSPHATE", 'ChEBI', 'CCD')
+extracting_IDs:NAG
+extracting_IDs:PC1
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEBI', 'CCD')
+extracting_IDs:NAG
+extracting_IDs:PC1
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEBI', 'CCD')
+extracting_IDs:NAG
+extracting_IDs:PC1
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'PC1', '1,2-DIACYL-SN-GLYCERO-3-PHOSPHOCHOLINE', 'ChEBI', 'CCD')
+extracting_IDs:ZN
+extracting_IDs:I3P
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'MG', 'MAGNESIUM ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'MG', 'MAGNESIUM ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'K', 'POTASSIUM ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'K', 'POTASSIUM ION', 'ChEBI', 'CCD')
+extracting_IDs:NAG
+extracting_IDs:PC1
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'PC1', '1,2-DIACYL-SN-GLYCERO-3-PHOSPHOCHOLINE', 'ChEBI', 'CCD')
+extracting_IDs:ZN
+extracting_IDs:I3P
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'K', 'POTASSIUM ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'K', 'POTASSIUM ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'MG', 'MAGNESIUM ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'MG', 'MAGNESIUM ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'ChEBI', 'CCD')
+extracting_IDs:NAG
+extracting_IDs:PC1
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'PC1', '1,2-DIACYL-SN-GLYCERO-3-PHOSPHOCHOLINE', 'ChEBI', 'CCD')
+extracting_IDs:ZN
+extracting_IDs:I3P
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'K', 'POTASSIUM ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'K', 'POTASSIUM ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'MG', 'MAGNESIUM ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'MG', 'MAGNESIUM ION', 'ChEBI', 'CCD')
+extracting_IDs:NAG
+extracting_IDs:PC1
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEBI', 'CCD')
+extracting_IDs:NAG
+extracting_IDs:PC1
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEBI', 'CCD')
+extracting_IDs:NAG
+extracting_IDs:PC1
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEBI', 'CCD')
+extracting_IDs:NAG
+extracting_IDs:PC1
+external_mapping_from_cif:('EMD-3061', 'PC1', '1,2-DIACYL-SN-GLYCERO-3-PHOSPHOCHOLINE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEBI', 'CCD')
+extracting_IDs:ZN
+extracting_IDs:I3P
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'MG', 'MAGNESIUM ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'MG', 'MAGNESIUM ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'K', 'POTASSIUM ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'K', 'POTASSIUM ION', 'ChEBI', 'CCD')
+extracting_IDs:NAG
+extracting_IDs:PC1
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEBI', 'CCD')
+extracting_IDs:NAG
+extracting_IDs:PC1
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'PC1', '1,2-DIACYL-SN-GLYCERO-3-PHOSPHOCHOLINE', 'ChEBI', 'CCD')
+extracting_IDs:ZN
+extracting_IDs:I3P
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'MG', 'MAGNESIUM ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'MG', 'MAGNESIUM ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'K', 'POTASSIUM ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'K', 'POTASSIUM ION', 'ChEBI', 'CCD')
+extracting_IDs:NAG
+extracting_IDs:PC1
+external_mapping_from_cif:('EMD-3061', 'PC1', '1,2-DIACYL-SN-GLYCERO-3-PHOSPHOCHOLINE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEBI', 'CCD')
+extracting_IDs:NAG
+extracting_IDs:PC1
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'PC1', '1,2-DIACYL-SN-GLYCERO-3-PHOSPHOCHOLINE', 'ChEBI', 'CCD')
+extracting_IDs:ZN
+extracting_IDs:I3P
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'K', 'POTASSIUM ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'K', 'POTASSIUM ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'MG', 'MAGNESIUM ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'MG', 'MAGNESIUM ION', 'ChEBI', 'CCD')
+extracting_IDs:NAG
+extracting_IDs:PC1
+external_mapping_from_cif:('EMD-3061', 'PC1', '1,2-DIACYL-SN-GLYCERO-3-PHOSPHOCHOLINE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEBI', 'CCD')
+extracting_IDs:NAG
+extracting_IDs:PC1
+external_mapping_from_cif:('EMD-3061', 'PC1', '1,2-DIACYL-SN-GLYCERO-3-PHOSPHOCHOLINE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEBI', 'CCD')
+extracting_IDs:NAG
+extracting_IDs:PC1
+external_mapping_from_cif:('EMD-3061', 'PC1', '1,2-DIACYL-SN-GLYCERO-3-PHOSPHOCHOLINE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEBI', 'CCD')
+extracting_IDs:NAG
+extracting_IDs:PC1
+external_mapping_from_cif:('EMD-3061', 'PC1', '1,2-DIACYL-SN-GLYCERO-3-PHOSPHOCHOLINE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEBI', 'CCD')
+extracting_IDs:NAG
+extracting_IDs:PC1
+external_mapping_from_cif:('EMD-3061', 'PC1', '1,2-DIACYL-SN-GLYCERO-3-PHOSPHOCHOLINE', 'ChEBI', 'CCD')
+extracting_IDs:NAG
+extracting_IDs:PC1
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEBI', 'CCD')
+extracting_IDs:NAG
+extracting_IDs:PC1
+external_mapping_from_cif:('EMD-3061', 'PC1', '1,2-DIACYL-SN-GLYCERO-3-PHOSPHOCHOLINE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEBI', 'CCD')
+extracting_IDs:NAG
+extracting_IDs:PC1
+external_mapping_from_cif:('EMD-3061', 'PC1', '1,2-DIACYL-SN-GLYCERO-3-PHOSPHOCHOLINE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEBI', 'CCD')
+extracting_IDs:ZN
+extracting_IDs:I3P
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'K', 'POTASSIUM ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'K', 'POTASSIUM ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'MG', 'MAGNESIUM ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'MG', 'MAGNESIUM ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'ChEBI', 'CCD')
+extracting_IDs:NAG
+extracting_IDs:PC1
+external_mapping_from_cif:('EMD-3061', 'PC1', '1,2-DIACYL-SN-GLYCERO-3-PHOSPHOCHOLINE', 'ChEBI', 'CCD')
+extracting_IDs:NAG
+extracting_IDs:PC1
+external_mapping_from_cif:('EMD-3061', 'PC1', '1,2-DIACYL-SN-GLYCERO-3-PHOSPHOCHOLINE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEBI', 'CCD')
+extracting_IDs:ZN
+extracting_IDs:I3P
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'K', 'POTASSIUM ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'K', 'POTASSIUM ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'MG', 'MAGNESIUM ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'MG', 'MAGNESIUM ION', 'ChEBI', 'CCD')
+extracting_IDs:NAG
+extracting_IDs:PC1
+external_mapping_from_cif:('EMD-3061', 'PC1', '1,2-DIACYL-SN-GLYCERO-3-PHOSPHOCHOLINE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEBI', 'CCD')
+extracting_IDs:ZN
+extracting_IDs:I3P
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'K', 'POTASSIUM ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'K', 'POTASSIUM ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'MG', 'MAGNESIUM ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'MG', 'MAGNESIUM ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'ChEBI', 'CCD')
+extracting_IDs:NAG
+extracting_IDs:PC1
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'PC1', '1,2-DIACYL-SN-GLYCERO-3-PHOSPHOCHOLINE', 'ChEBI', 'CCD')
+extracting_IDs:ZN
+extracting_IDs:I3P
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'MG', 'MAGNESIUM ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'MG', 'MAGNESIUM ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'K', 'POTASSIUM ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'K', 'POTASSIUM ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'ChEBI', 'CCD')
+extracting_IDs:NAG
+extracting_IDs:PC1
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'PC1', '1,2-DIACYL-SN-GLYCERO-3-PHOSPHOCHOLINE', 'ChEBI', 'CCD')
+extracting_IDs:ZN
+extracting_IDs:I3P
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'MG', 'MAGNESIUM ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'MG', 'MAGNESIUM ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'K', 'POTASSIUM ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'K', 'POTASSIUM ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'ChEBI', 'CCD')
+extracting_IDs:NAG
+extracting_IDs:PC1
+external_mapping_from_cif:('EMD-3061', 'PC1', '1,2-DIACYL-SN-GLYCERO-3-PHOSPHOCHOLINE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEBI', 'CCD')
+extracting_IDs:ZN
+extracting_IDs:I3P
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'K', 'POTASSIUM ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'K', 'POTASSIUM ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'MG', 'MAGNESIUM ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'MG', 'MAGNESIUM ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'ChEBI', 'CCD')
+extracting_IDs:NAG
+extracting_IDs:PC1
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'PC1', '1,2-DIACYL-SN-GLYCERO-3-PHOSPHOCHOLINE', 'ChEBI', 'CCD')
+extracting_IDs:ZN
+extracting_IDs:I3P
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'K', 'POTASSIUM ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'K', 'POTASSIUM ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'MG', 'MAGNESIUM ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'MG', 'MAGNESIUM ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'ChEBI', 'CCD')
+extracting_IDs:NAG
+extracting_IDs:PC1
+external_mapping_from_cif:('EMD-3061', 'PC1', '1,2-DIACYL-SN-GLYCERO-3-PHOSPHOCHOLINE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEBI', 'CCD')
+extracting_IDs:ZN
+extracting_IDs:I3P
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'MG', 'MAGNESIUM ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'MG', 'MAGNESIUM ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'K', 'POTASSIUM ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'K', 'POTASSIUM ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'ChEBI', 'CCD')
+extracting_IDs:NAG
+extracting_IDs:PC1
+external_mapping_from_cif:('EMD-3061', 'PC1', '1,2-DIACYL-SN-GLYCERO-3-PHOSPHOCHOLINE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEBI', 'CCD')
+extracting_IDs:ZN
+extracting_IDs:I3P
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', 'ZINC ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', 'ZINC ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', "GUANOSINE-5'-TRIPHOSPHATE", 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', 'INOSITOL HEXAKISPHOSPHATE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'K', 'POTASSIUM ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'K', 'POTASSIUM ION', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'MG', 'MAGNESIUM ION', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'MG', 'MAGNESIUM ION', 'ChEBI', 'CCD')
+extracting_IDs:NAG
+extracting_IDs:PC1
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'PC1', '1,2-DIACYL-SN-GLYCERO-3-PHOSPHOCHOLINE', 'ChEBI', 'CCD')
+extracting_IDs:ZN
+extracting_IDs:I3P
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', '"ZINC ION"', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', '"ZINC ION"', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', '"ZINC ION"', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'K', '"POTASSIUM ION"', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'K', '"POTASSIUM ION"', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'MG', '"MAGNESIUM ION"', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'MG', '"MAGNESIUM ION"', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', '"ZINC ION"', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', '"ZINC ION"', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', '"ZINC ION"', 'ChEMBL', 'CCD')
+extracting_IDs:NAG
+extracting_IDs:PC1
+external_mapping_from_cif:('EMD-3061', 'PC1', '1,2-DIACYL-SN-GLYCERO-3-PHOSPHOCHOLINE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEMBL', 'CCD')
+extracting_IDs:ZN
+extracting_IDs:I3P
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', '"ZINC ION"', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', '"ZINC ION"', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', '"ZINC ION"', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'K', '"POTASSIUM ION"', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'K', '"POTASSIUM ION"', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'MG', '"MAGNESIUM ION"', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'MG', '"MAGNESIUM ION"', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', '"ZINC ION"', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', '"ZINC ION"', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', '"ZINC ION"', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', 'ChEBI', 'CCD')
+extracting_IDs:unable to open() file /Users/amudha/project/mmCIF/6spf_updated.cif for reading errno 2
+extracting_IDs:NAG
+extracting_IDs:PC1
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'PC1', '1,2-DIACYL-SN-GLYCERO-3-PHOSPHOCHOLINE', 'ChEBI', 'CCD')
+extracting_IDs:ZN
+extracting_IDs:I3P
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', '"ZINC ION"', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', '"ZINC ION"', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', '"ZINC ION"', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'MG', '"MAGNESIUM ION"', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'MG', '"MAGNESIUM ION"', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'K', '"POTASSIUM ION"', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'K', '"POTASSIUM ION"', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', '"ZINC ION"', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', '"ZINC ION"', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', '"ZINC ION"', 'ChEMBL', 'CCD')
+extracting_IDs:unable to open() file /Users/amudha/project/mmCIF/6spf_updated.cif for reading errno 2
+extracting_IDs:NAG
+extracting_IDs:PC1
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'PC1', '1,2-DIACYL-SN-GLYCERO-3-PHOSPHOCHOLINE', 'ChEBI', 'CCD')
+extracting_IDs:ZN
+extracting_IDs:I3P
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', '"ZINC ION"', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', '"ZINC ION"', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', '"ZINC ION"', 'ChEMBL', 'CCD')
+extracting_IDs:unable to open() file /Users/amudha/project/mmCIF/5mz6_updated.cif for reading errno 2
+external_mapping_from_cif:('EMD-3542', 'MG', '"MAGNESIUM ION"', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'MG', '"MAGNESIUM ION"', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'K', '"POTASSIUM ION"', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'K', '"POTASSIUM ION"', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', '"ZINC ION"', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', '"ZINC ION"', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', '"ZINC ION"', 'ChEMBL', 'CCD')
+extracting_IDs:unable to open() file /Users/amudha/project/mmCIF/6spf_updated.cif for reading errno 2
+extracting_IDs:NAG
+extracting_IDs:PC1
+external_mapping_from_cif:('EMD-3061', 'PC1', '1,2-DIACYL-SN-GLYCERO-3-PHOSPHOCHOLINE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEBI', 'CCD')
+extracting_IDs:ZN
+extracting_IDs:I3P
+external_mapping_from_cif:('EMD-7981', 'ZN', '"ZINC ION"', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', '"ZINC ION"', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', '"ZINC ION"', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'ChEMBL', 'CCD')
+extracting_IDs:unable to open() file /Users/amudha/project/mmCIF/5mz6_updated.cif for reading errno 2
+external_mapping_from_cif:('EMD-3542', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'K', '"POTASSIUM ION"', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'K', '"POTASSIUM ION"', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'MG', '"MAGNESIUM ION"', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'MG', '"MAGNESIUM ION"', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', '"ZINC ION"', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', '"ZINC ION"', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', '"ZINC ION"', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', 'ChEMBL', 'CCD')
+extracting_IDs:unable to open() file /Users/amudha/project/mmCIF/6spf_updated.cif for reading errno 2
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'NAG', '2-acetamido-2-deoxy-beta-D-glucopyranose', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3061', 'PC1', '1,2-DIACYL-SN-GLYCERO-3-PHOSPHOCHOLINE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', '"ZINC ION"', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', '"ZINC ION"', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', '"ZINC ION"', 'ChEMBL', 'CCD')
+extracting_IDs:unable to open() file /Users/amudha/project/mmCIF/5mz6_updated.cif for reading errno 2
+external_mapping_from_cif:('EMD-3542', 'ZN', '"ZINC ION"', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', '"ZINC ION"', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', '"ZINC ION"', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'MG', '"MAGNESIUM ION"', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'MG', '"MAGNESIUM ION"', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'K', '"POTASSIUM ION"', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'K', '"POTASSIUM ION"', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', 'ChEMBL', 'CCD')
+extracting_IDs:unable to open() file /Users/amudha/project/mmCIF/6spf_updated.cif for reading errno 2
+external_mapping_from_cif:('EMD-7981', 'ZN', '"ZINC ION"', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', '"ZINC ION"', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', '"ZINC ION"', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'MG', '"MAGNESIUM ION"', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'MG', '"MAGNESIUM ION"', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'K', '"POTASSIUM ION"', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'K', '"POTASSIUM ION"', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', '"ZINC ION"', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', '"ZINC ION"', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', '"ZINC ION"', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', '"ZINC ION"', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', '"ZINC ION"', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', '"ZINC ION"', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'MG', '"MAGNESIUM ION"', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'MG', '"MAGNESIUM ION"', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'K', '"POTASSIUM ION"', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'K', '"POTASSIUM ION"', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', '"ZINC ION"', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', '"ZINC ION"', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', '"ZINC ION"', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', '"ZINC ION"', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', '"ZINC ION"', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', '"ZINC ION"', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'MG', '"MAGNESIUM ION"', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'MG', '"MAGNESIUM ION"', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'K', '"POTASSIUM ION"', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'K', '"POTASSIUM ION"', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', '"ZINC ION"', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', '"ZINC ION"', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', '"ZINC ION"', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', '"ZINC ION"', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', '"ZINC ION"', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', '"ZINC ION"', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'MG', '"MAGNESIUM ION"', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'MG', '"MAGNESIUM ION"', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'K', '"POTASSIUM ION"', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'K', '"POTASSIUM ION"', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', '"ZINC ION"', 'DrugBank', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', '"ZINC ION"', 'ChEBI', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', '"ZINC ION"', 'ChEMBL', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', '"ZINC ION"', '29105', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', '"ZINC ION"', 'CHEMBL1236970', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'ZN', '"ZINC ION"', 'DB14532', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'DB03401', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', '16595', 'CCD')
+external_mapping_from_cif:('EMD-7981', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'CHEMBL279107', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'MG', '"MAGNESIUM ION"', '18420', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'MG', '"MAGNESIUM ION"', 'DB01378', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'K', '"POTASSIUM ION"', '29103', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'K', '"POTASSIUM ION"', 'DB01345', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', 'DB14981', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', 'CHEMBL1233511', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', '17401', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', 'DB04137', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', 'CHEMBL1233147', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', '15996', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', '"ZINC ION"', '29105', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', '"ZINC ION"', 'CHEMBL1236970', 'CCD')
+external_mapping_from_cif:('EMD-3542', 'ZN', '"ZINC ION"', 'DB14532', 'CCD')
+external_mapping_from_cif:('EMD-7981', '2', 'ZN', '"ZINC ION"', 'DB14532', 'CCD')
+external_mapping_from_cif:('EMD-7981', '2', 'ZN', '"ZINC ION"', '29105', 'CCD')
+external_mapping_from_cif:('EMD-7981', '2', 'ZN', '"ZINC ION"', 'CHEMBL1236970', 'CCD')
+external_mapping_from_cif:('EMD-7981', '3', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'CHEMBL279107', 'CCD')
+external_mapping_from_cif:('EMD-7981', '3', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', '16595', 'CCD')
+external_mapping_from_cif:('EMD-7981', '3', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'DB03401', 'CCD')
+external_mapping_from_cif:('EMD-3542', '35', 'MG', '"MAGNESIUM ION"', '18420', 'CCD')
+external_mapping_from_cif:('EMD-3542', '35', 'MG', '"MAGNESIUM ION"', 'DB01378', 'CCD')
+external_mapping_from_cif:('EMD-3542', '36', 'K', '"POTASSIUM ION"', 'DB01345', 'CCD')
+external_mapping_from_cif:('EMD-3542', '36', 'K', '"POTASSIUM ION"', '29103', 'CCD')
+external_mapping_from_cif:('EMD-3542', '37', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', 'CHEMBL1233511', 'CCD')
+external_mapping_from_cif:('EMD-3542', '37', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', '17401', 'CCD')
+external_mapping_from_cif:('EMD-3542', '37', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', 'DB14981', 'CCD')
+external_mapping_from_cif:('EMD-3542', '38', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', 'DB04137', 'CCD')
+external_mapping_from_cif:('EMD-3542', '38', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', '15996', 'CCD')
+external_mapping_from_cif:('EMD-3542', '38', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', 'CHEMBL1233147', 'CCD')
+external_mapping_from_cif:('EMD-3542', '39', 'ZN', '"ZINC ION"', 'DB14532', 'CCD')
+external_mapping_from_cif:('EMD-3542', '39', 'ZN', '"ZINC ION"', '29105', 'CCD')
+external_mapping_from_cif:('EMD-3542', '39', 'ZN', '"ZINC ION"', 'CHEMBL1236970', 'CCD')
+external_mapping_from_cif:('EMD-7981', '2', 'ZN', '"ZINC ION"', 'DB14532', 'CCD')
+external_mapping_from_cif:('EMD-7981', '2', 'ZN', '"ZINC ION"', '29105', 'CCD')
+external_mapping_from_cif:('EMD-7981', '2', 'ZN', '"ZINC ION"', 'CHEMBL1236970', 'CCD')
+external_mapping_from_cif:('EMD-7981', '3', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', '16595', 'CCD')
+external_mapping_from_cif:('EMD-7981', '3', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'DB03401', 'CCD')
+external_mapping_from_cif:('EMD-7981', '3', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'CHEMBL279107', 'CCD')
+external_mapping_from_cif:('EMD-3542', '35', 'MG', '"MAGNESIUM ION"', '18420', 'CCD')
+external_mapping_from_cif:('EMD-3542', '35', 'MG', '"MAGNESIUM ION"', 'DB01378', 'CCD')
+external_mapping_from_cif:('EMD-3542', '36', 'K', '"POTASSIUM ION"', '29103', 'CCD')
+external_mapping_from_cif:('EMD-3542', '36', 'K', '"POTASSIUM ION"', 'DB01345', 'CCD')
+external_mapping_from_cif:('EMD-3542', '37', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', 'CHEMBL1233511', 'CCD')
+external_mapping_from_cif:('EMD-3542', '37', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', '17401', 'CCD')
+external_mapping_from_cif:('EMD-3542', '37', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', 'DB14981', 'CCD')
+external_mapping_from_cif:('EMD-3542', '38', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', 'DB04137', 'CCD')
+external_mapping_from_cif:('EMD-3542', '38', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', '15996', 'CCD')
+external_mapping_from_cif:('EMD-3542', '38', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', 'CHEMBL1233147', 'CCD')
+external_mapping_from_cif:('EMD-3542', '39', 'ZN', '"ZINC ION"', 'DB14532', 'CCD')
+external_mapping_from_cif:('EMD-3542', '39', 'ZN', '"ZINC ION"', '29105', 'CCD')
+external_mapping_from_cif:('EMD-3542', '39', 'ZN', '"ZINC ION"', 'CHEMBL1236970', 'CCD')
+external_mapping_from_cif:('EMD-7981', '2', 'ZN', '"ZINC ION"', 'CHEMBL1236970', 'CCD')
+external_mapping_from_cif:('EMD-7981', '2', 'ZN', '"ZINC ION"', 'DB14532', 'CCD')
+external_mapping_from_cif:('EMD-7981', '2', 'ZN', '"ZINC ION"', '29105', 'CCD')
+external_mapping_from_cif:('EMD-7981', '3', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'DB03401', 'CCD')
+external_mapping_from_cif:('EMD-7981', '3', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', '16595', 'CCD')
+external_mapping_from_cif:('EMD-7981', '3', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'CHEMBL279107', 'CCD')
+external_mapping_from_cif:('EMD-3542', '35', 'MG', '"MAGNESIUM ION"', 'DB01378', 'CCD')
+external_mapping_from_cif:('EMD-3542', '35', 'MG', '"MAGNESIUM ION"', '18420', 'CCD')
+external_mapping_from_cif:('EMD-3542', '36', 'K', '"POTASSIUM ION"', 'DB01345', 'CCD')
+external_mapping_from_cif:('EMD-3542', '36', 'K', '"POTASSIUM ION"', '29103', 'CCD')
+external_mapping_from_cif:('EMD-3542', '37', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', 'CHEMBL1233511', 'CCD')
+external_mapping_from_cif:('EMD-3542', '37', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', 'DB14981', 'CCD')
+external_mapping_from_cif:('EMD-3542', '37', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', '17401', 'CCD')
+external_mapping_from_cif:('EMD-3542', '38', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', 'DB04137', 'CCD')
+external_mapping_from_cif:('EMD-3542', '38', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', '15996', 'CCD')
+external_mapping_from_cif:('EMD-3542', '38', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', 'CHEMBL1233147', 'CCD')
+external_mapping_from_cif:('EMD-3542', '39', 'ZN', '"ZINC ION"', 'CHEMBL1236970', 'CCD')
+external_mapping_from_cif:('EMD-3542', '39', 'ZN', '"ZINC ION"', 'DB14532', 'CCD')
+external_mapping_from_cif:('EMD-3542', '39', 'ZN', '"ZINC ION"', '29105', 'CCD')
+external_mapping_from_cif:('EMD-7981', '2', 'ZN', '"ZINC ION"', '29105', 'CCD')
+external_mapping_from_cif:('EMD-7981', '2', 'ZN', '"ZINC ION"', 'CHEMBL1236970', 'CCD')
+external_mapping_from_cif:('EMD-7981', '2', 'ZN', '"ZINC ION"', 'DB14532', 'CCD')
+external_mapping_from_cif:('EMD-7981', '3', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'CHEMBL279107', 'CCD')
+external_mapping_from_cif:('EMD-7981', '3', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'DB03401', 'CCD')
+external_mapping_from_cif:('EMD-7981', '3', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', '16595', 'CCD')
+external_mapping_from_cif:('EMD-3542', '35', 'MG', '"MAGNESIUM ION"', '18420', 'CCD')
+external_mapping_from_cif:('EMD-3542', '35', 'MG', '"MAGNESIUM ION"', 'DB01378', 'CCD')
+external_mapping_from_cif:('EMD-3542', '36', 'K', '"POTASSIUM ION"', '29103', 'CCD')
+external_mapping_from_cif:('EMD-3542', '36', 'K', '"POTASSIUM ION"', 'DB01345', 'CCD')
+external_mapping_from_cif:('EMD-3542', '37', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', 'CHEMBL1233511', 'CCD')
+external_mapping_from_cif:('EMD-3542', '37', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', 'DB14981', 'CCD')
+external_mapping_from_cif:('EMD-3542', '37', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', '17401', 'CCD')
+external_mapping_from_cif:('EMD-3542', '38', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', 'DB04137', 'CCD')
+external_mapping_from_cif:('EMD-3542', '38', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', '15996', 'CCD')
+external_mapping_from_cif:('EMD-3542', '38', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', 'CHEMBL1233147', 'CCD')
+external_mapping_from_cif:('EMD-3542', '39', 'ZN', '"ZINC ION"', '29105', 'CCD')
+external_mapping_from_cif:('EMD-3542', '39', 'ZN', '"ZINC ION"', 'CHEMBL1236970', 'CCD')
+external_mapping_from_cif:('EMD-3542', '39', 'ZN', '"ZINC ION"', 'DB14532', 'CCD')
+external_mapping_from_cif:('EMD-7981', '2', 'ZN', '"ZINC ION"', '29105', 'CCD')
+external_mapping_from_cif:('EMD-7981', '2', 'ZN', '"ZINC ION"', 'DB14532', 'CCD')
+external_mapping_from_cif:('EMD-7981', '2', 'ZN', '"ZINC ION"', 'CHEMBL1236970', 'CCD')
+external_mapping_from_cif:('EMD-7981', '3', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'CHEMBL279107', 'CCD')
+external_mapping_from_cif:('EMD-7981', '3', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', '16595', 'CCD')
+external_mapping_from_cif:('EMD-7981', '3', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'DB03401', 'CCD')
+external_mapping_from_cif:('EMD-3542', '35', 'MG', '"MAGNESIUM ION"', 'DB01378', 'CCD')
+external_mapping_from_cif:('EMD-3542', '35', 'MG', '"MAGNESIUM ION"', '18420', 'CCD')
+external_mapping_from_cif:('EMD-3542', '36', 'K', '"POTASSIUM ION"', '29103', 'CCD')
+external_mapping_from_cif:('EMD-3542', '36', 'K', '"POTASSIUM ION"', 'DB01345', 'CCD')
+external_mapping_from_cif:('EMD-3542', '37', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', '17401', 'CCD')
+external_mapping_from_cif:('EMD-3542', '37', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', 'CHEMBL1233511', 'CCD')
+external_mapping_from_cif:('EMD-3542', '37', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', 'DB14981', 'CCD')
+external_mapping_from_cif:('EMD-3542', '38', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', 'DB04137', 'CCD')
+external_mapping_from_cif:('EMD-3542', '38', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', '15996', 'CCD')
+external_mapping_from_cif:('EMD-3542', '38', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', 'CHEMBL1233147', 'CCD')
+external_mapping_from_cif:('EMD-3542', '39', 'ZN', '"ZINC ION"', '29105', 'CCD')
+external_mapping_from_cif:('EMD-3542', '39', 'ZN', '"ZINC ION"', 'DB14532', 'CCD')
+external_mapping_from_cif:('EMD-3542', '39', 'ZN', '"ZINC ION"', 'CHEMBL1236970', 'CCD')
+external_mapping_from_cif:('EMD-7981', '2', 'ZN', '"ZINC ION"', '29105', 'CCD')
+external_mapping_from_cif:('EMD-7981', '2', 'ZN', '"ZINC ION"', 'CHEMBL1236970', 'CCD')
+external_mapping_from_cif:('EMD-7981', '2', 'ZN', '"ZINC ION"', 'DB14532', 'CCD')
+external_mapping_from_cif:('EMD-7981', '3', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'DB03401', 'CCD')
+external_mapping_from_cif:('EMD-7981', '3', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'CHEMBL279107', 'CCD')
+external_mapping_from_cif:('EMD-7981', '3', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', '16595', 'CCD')
+external_mapping_from_cif:('EMD-3542', '35', 'MG', '"MAGNESIUM ION"', '18420', 'CCD')
+external_mapping_from_cif:('EMD-3542', '35', 'MG', '"MAGNESIUM ION"', 'DB01378', 'CCD')
+external_mapping_from_cif:('EMD-3542', '36', 'K', '"POTASSIUM ION"', '29103', 'CCD')
+external_mapping_from_cif:('EMD-3542', '36', 'K', '"POTASSIUM ION"', 'DB01345', 'CCD')
+external_mapping_from_cif:('EMD-3542', '37', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', '17401', 'CCD')
+external_mapping_from_cif:('EMD-3542', '37', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', 'CHEMBL1233511', 'CCD')
+external_mapping_from_cif:('EMD-3542', '37', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', 'DB14981', 'CCD')
+external_mapping_from_cif:('EMD-3542', '38', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', '15996', 'CCD')
+external_mapping_from_cif:('EMD-3542', '38', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', 'DB04137', 'CCD')
+external_mapping_from_cif:('EMD-3542', '38', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', 'CHEMBL1233147', 'CCD')
+external_mapping_from_cif:('EMD-3542', '39', 'ZN', '"ZINC ION"', '29105', 'CCD')
+external_mapping_from_cif:('EMD-3542', '39', 'ZN', '"ZINC ION"', 'CHEMBL1236970', 'CCD')
+external_mapping_from_cif:('EMD-3542', '39', 'ZN', '"ZINC ION"', 'DB14532', 'CCD')
+external_mapping_from_cif:('EMD-7981', '2', 'ZN', '"ZINC ION"', '29105', 'CCD')
+external_mapping_from_cif:('EMD-7981', '2', 'ZN', '"ZINC ION"', 'CHEMBL1236970', 'CCD')
+external_mapping_from_cif:('EMD-7981', '2', 'ZN', '"ZINC ION"', 'DB14532', 'CCD')
+external_mapping_from_cif:('EMD-7981', '3', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'CHEMBL279107', 'CCD')
+external_mapping_from_cif:('EMD-7981', '3', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', '16595', 'CCD')
+external_mapping_from_cif:('EMD-7981', '3', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'DB03401', 'CCD')
+external_mapping_from_cif:('EMD-3542', '35', 'MG', '"MAGNESIUM ION"', 'DB01378', 'CCD')
+external_mapping_from_cif:('EMD-3542', '35', 'MG', '"MAGNESIUM ION"', '18420', 'CCD')
+external_mapping_from_cif:('EMD-3542', '36', 'K', '"POTASSIUM ION"', 'DB01345', 'CCD')
+external_mapping_from_cif:('EMD-3542', '36', 'K', '"POTASSIUM ION"', '29103', 'CCD')
+external_mapping_from_cif:('EMD-3542', '37', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', '17401', 'CCD')
+external_mapping_from_cif:('EMD-3542', '37', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', 'CHEMBL1233511', 'CCD')
+external_mapping_from_cif:('EMD-3542', '37', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', 'DB14981', 'CCD')
+external_mapping_from_cif:('EMD-3542', '38', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', 'DB04137', 'CCD')
+external_mapping_from_cif:('EMD-3542', '38', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', 'CHEMBL1233147', 'CCD')
+external_mapping_from_cif:('EMD-3542', '38', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', '15996', 'CCD')
+external_mapping_from_cif:('EMD-3542', '39', 'ZN', '"ZINC ION"', '29105', 'CCD')
+external_mapping_from_cif:('EMD-3542', '39', 'ZN', '"ZINC ION"', 'CHEMBL1236970', 'CCD')
+external_mapping_from_cif:('EMD-3542', '39', 'ZN', '"ZINC ION"', 'DB14532', 'CCD')
+external_mapping_from_cif:('EMD-7981', '2', 'ZN', '"ZINC ION"', '29105', 'CCD')
+external_mapping_from_cif:('EMD-7981', '2', 'ZN', '"ZINC ION"', 'CHEMBL1236970', 'CCD')
+external_mapping_from_cif:('EMD-7981', '2', 'ZN', '"ZINC ION"', 'DB14532', 'CCD')
+external_mapping_from_cif:('EMD-7981', '3', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', '16595', 'CCD')
+external_mapping_from_cif:('EMD-7981', '3', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'DB03401', 'CCD')
+external_mapping_from_cif:('EMD-7981', '3', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'CHEMBL279107', 'CCD')
+external_mapping_from_cif:('EMD-3542', '35', 'MG', '"MAGNESIUM ION"', '18420', 'CCD')
+external_mapping_from_cif:('EMD-3542', '35', 'MG', '"MAGNESIUM ION"', 'DB01378', 'CCD')
+external_mapping_from_cif:('EMD-3542', '36', 'K', '"POTASSIUM ION"', '29103', 'CCD')
+external_mapping_from_cif:('EMD-3542', '36', 'K', '"POTASSIUM ION"', 'DB01345', 'CCD')
+external_mapping_from_cif:('EMD-3542', '37', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', 'DB14981', 'CCD')
+external_mapping_from_cif:('EMD-3542', '37', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', 'CHEMBL1233511', 'CCD')
+external_mapping_from_cif:('EMD-3542', '37', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', '17401', 'CCD')
+external_mapping_from_cif:('EMD-3542', '38', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', 'CHEMBL1233147', 'CCD')
+external_mapping_from_cif:('EMD-3542', '38', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', 'DB04137', 'CCD')
+external_mapping_from_cif:('EMD-3542', '38', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', '15996', 'CCD')
+external_mapping_from_cif:('EMD-3542', '39', 'ZN', '"ZINC ION"', '29105', 'CCD')
+external_mapping_from_cif:('EMD-3542', '39', 'ZN', '"ZINC ION"', 'CHEMBL1236970', 'CCD')
+external_mapping_from_cif:('EMD-3542', '39', 'ZN', '"ZINC ION"', 'DB14532', 'CCD')
+external_mapping_from_cif:('EMD-7981', '2', 'ZN', '"ZINC ION"', 'DB14532', 'CCD')
+external_mapping_from_cif:('EMD-7981', '2', 'ZN', '"ZINC ION"', 'CHEMBL1236970', 'CCD')
+external_mapping_from_cif:('EMD-7981', '2', 'ZN', '"ZINC ION"', '29105', 'CCD')
+external_mapping_from_cif:('EMD-7981', '3', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'DB03401', 'CCD')
+external_mapping_from_cif:('EMD-7981', '3', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'CHEMBL279107', 'CCD')
+external_mapping_from_cif:('EMD-7981', '3', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', '16595', 'CCD')
+external_mapping_from_cif:('EMD-3542', '35', 'MG', '"MAGNESIUM ION"', '18420', 'CCD')
+external_mapping_from_cif:('EMD-3542', '35', 'MG', '"MAGNESIUM ION"', 'DB01378', 'CCD')
+external_mapping_from_cif:('EMD-3542', '36', 'K', '"POTASSIUM ION"', '29103', 'CCD')
+external_mapping_from_cif:('EMD-3542', '36', 'K', '"POTASSIUM ION"', 'DB01345', 'CCD')
+external_mapping_from_cif:('EMD-3542', '37', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', 'DB14981', 'CCD')
+external_mapping_from_cif:('EMD-3542', '37', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', '17401', 'CCD')
+external_mapping_from_cif:('EMD-3542', '37', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', 'CHEMBL1233511', 'CCD')
+external_mapping_from_cif:('EMD-3542', '38', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', 'CHEMBL1233147', 'CCD')
+external_mapping_from_cif:('EMD-3542', '38', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', 'DB04137', 'CCD')
+external_mapping_from_cif:('EMD-3542', '38', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', '15996', 'CCD')
+external_mapping_from_cif:('EMD-3542', '39', 'ZN', '"ZINC ION"', 'DB14532', 'CCD')
+external_mapping_from_cif:('EMD-3542', '39', 'ZN', '"ZINC ION"', 'CHEMBL1236970', 'CCD')
+external_mapping_from_cif:('EMD-3542', '39', 'ZN', '"ZINC ION"', '29105', 'CCD')
+external_mapping_from_cif:('EMD-7981', '2', 'ZN', '"ZINC ION"', 'CHEMBL1236970', 'CCD')
+external_mapping_from_cif:('EMD-7981', '2', 'ZN', '"ZINC ION"', '29105', 'CCD')
+external_mapping_from_cif:('EMD-7981', '2', 'ZN', '"ZINC ION"', 'DB14532', 'CCD')
+external_mapping_from_cif:('EMD-7981', '3', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', '16595', 'CCD')
+external_mapping_from_cif:('EMD-7981', '3', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'DB03401', 'CCD')
+external_mapping_from_cif:('EMD-7981', '3', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'CHEMBL279107', 'CCD')
+external_mapping_from_cif:('EMD-3542', '35', 'MG', '"MAGNESIUM ION"', '18420', 'CCD')
+external_mapping_from_cif:('EMD-3542', '35', 'MG', '"MAGNESIUM ION"', 'DB01378', 'CCD')
+external_mapping_from_cif:('EMD-3542', '36', 'K', '"POTASSIUM ION"', 'DB01345', 'CCD')
+external_mapping_from_cif:('EMD-3542', '36', 'K', '"POTASSIUM ION"', '29103', 'CCD')
+external_mapping_from_cif:('EMD-3542', '37', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', 'CHEMBL1233511', 'CCD')
+external_mapping_from_cif:('EMD-3542', '37', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', '17401', 'CCD')
+external_mapping_from_cif:('EMD-3542', '37', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', 'DB14981', 'CCD')
+external_mapping_from_cif:('EMD-3542', '38', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', 'CHEMBL1233147', 'CCD')
+external_mapping_from_cif:('EMD-3542', '38', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', 'DB04137', 'CCD')
+external_mapping_from_cif:('EMD-3542', '38', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', '15996', 'CCD')
+external_mapping_from_cif:('EMD-3542', '39', 'ZN', '"ZINC ION"', 'CHEMBL1236970', 'CCD')
+external_mapping_from_cif:('EMD-3542', '39', 'ZN', '"ZINC ION"', '29105', 'CCD')
+external_mapping_from_cif:('EMD-3542', '39', 'ZN', '"ZINC ION"', 'DB14532', 'CCD')
+external_mapping_from_cif:('EMD-7981', '2', 'ZN', '"ZINC ION"', '29105', 'CCD')
+external_mapping_from_cif:('EMD-7981', '2', 'ZN', '"ZINC ION"', 'DB14532', 'CCD')
+external_mapping_from_cif:('EMD-7981', '2', 'ZN', '"ZINC ION"', 'CHEMBL1236970', 'CCD')
+external_mapping_from_cif:('EMD-7981', '3', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', '16595', 'CCD')
+external_mapping_from_cif:('EMD-7981', '3', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'CHEMBL279107', 'CCD')
+external_mapping_from_cif:('EMD-7981', '3', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'DB03401', 'CCD')
+external_mapping_from_cif:('EMD-3542', '35', 'MG', '"MAGNESIUM ION"', '18420', 'CCD')
+external_mapping_from_cif:('EMD-3542', '35', 'MG', '"MAGNESIUM ION"', 'DB01378', 'CCD')
+external_mapping_from_cif:('EMD-3542', '36', 'K', '"POTASSIUM ION"', '29103', 'CCD')
+external_mapping_from_cif:('EMD-3542', '36', 'K', '"POTASSIUM ION"', 'DB01345', 'CCD')
+external_mapping_from_cif:('EMD-3542', '37', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', 'CHEMBL1233511', 'CCD')
+external_mapping_from_cif:('EMD-3542', '37', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', '17401', 'CCD')
+external_mapping_from_cif:('EMD-3542', '37', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', 'DB14981', 'CCD')
+external_mapping_from_cif:('EMD-3542', '38', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', '15996', 'CCD')
+external_mapping_from_cif:('EMD-3542', '38', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', 'DB04137', 'CCD')
+external_mapping_from_cif:('EMD-3542', '38', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', 'CHEMBL1233147', 'CCD')
+external_mapping_from_cif:('EMD-3542', '39', 'ZN', '"ZINC ION"', '29105', 'CCD')
+external_mapping_from_cif:('EMD-3542', '39', 'ZN', '"ZINC ION"', 'DB14532', 'CCD')
+external_mapping_from_cif:('EMD-3542', '39', 'ZN', '"ZINC ION"', 'CHEMBL1236970', 'CCD')
+external_mapping_from_cif:('EMD-7981', '2', 'ZN', '"ZINC ION"', '29105', 'CCD')
+external_mapping_from_cif:('EMD-7981', '2', 'ZN', '"ZINC ION"', 'DB14532', 'CCD')
+external_mapping_from_cif:('EMD-7981', '2', 'ZN', '"ZINC ION"', 'CHEMBL1236970', 'CCD')
+external_mapping_from_cif:('EMD-7981', '3', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', '16595', 'CCD')
+external_mapping_from_cif:('EMD-7981', '3', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'CHEMBL279107', 'CCD')
+external_mapping_from_cif:('EMD-7981', '3', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'DB03401', 'CCD')
+external_mapping_from_cif:('EMD-3542', '35', 'MG', '"MAGNESIUM ION"', '18420', 'CCD')
+external_mapping_from_cif:('EMD-3542', '35', 'MG', '"MAGNESIUM ION"', 'DB01378', 'CCD')
+external_mapping_from_cif:('EMD-3542', '36', 'K', '"POTASSIUM ION"', 'DB01345', 'CCD')
+external_mapping_from_cif:('EMD-3542', '36', 'K', '"POTASSIUM ION"', '29103', 'CCD')
+external_mapping_from_cif:('EMD-3542', '37', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', 'CHEMBL1233511', 'CCD')
+external_mapping_from_cif:('EMD-3542', '37', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', '17401', 'CCD')
+external_mapping_from_cif:('EMD-3542', '37', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', 'DB14981', 'CCD')
+external_mapping_from_cif:('EMD-3542', '38', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', 'DB04137', 'CCD')
+external_mapping_from_cif:('EMD-3542', '38', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', 'CHEMBL1233147', 'CCD')
+external_mapping_from_cif:('EMD-3542', '38', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', '15996', 'CCD')
+external_mapping_from_cif:('EMD-3542', '39', 'ZN', '"ZINC ION"', '29105', 'CCD')
+external_mapping_from_cif:('EMD-3542', '39', 'ZN', '"ZINC ION"', 'DB14532', 'CCD')
+external_mapping_from_cif:('EMD-3542', '39', 'ZN', '"ZINC ION"', 'CHEMBL1236970', 'CCD')
+external_mapping_from_cif:('EMD-7981', '2', 'ZN', '"ZINC ION"', 'CHEMBL1236970', 'CCD')
+external_mapping_from_cif:('EMD-7981', '2', 'ZN', '"ZINC ION"', '29105', 'CCD')
+external_mapping_from_cif:('EMD-7981', '2', 'ZN', '"ZINC ION"', 'DB14532', 'CCD')
+external_mapping_from_cif:('EMD-7981', '3', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', '16595', 'CCD')
+external_mapping_from_cif:('EMD-7981', '3', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'DB03401', 'CCD')
+external_mapping_from_cif:('EMD-7981', '3', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'CHEMBL279107', 'CCD')
+external_mapping_from_cif:('EMD-3542', '35', 'MG', '"MAGNESIUM ION"', 'DB01378', 'CCD')
+external_mapping_from_cif:('EMD-3542', '35', 'MG', '"MAGNESIUM ION"', '18420', 'CCD')
+external_mapping_from_cif:('EMD-3542', '36', 'K', '"POTASSIUM ION"', '29103', 'CCD')
+external_mapping_from_cif:('EMD-3542', '36', 'K', '"POTASSIUM ION"', 'DB01345', 'CCD')
+external_mapping_from_cif:('EMD-3542', '37', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', 'DB14981', 'CCD')
+external_mapping_from_cif:('EMD-3542', '37', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', '17401', 'CCD')
+external_mapping_from_cif:('EMD-3542', '37', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', 'CHEMBL1233511', 'CCD')
+external_mapping_from_cif:('EMD-3542', '38', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', 'DB04137', 'CCD')
+external_mapping_from_cif:('EMD-3542', '38', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', 'CHEMBL1233147', 'CCD')
+external_mapping_from_cif:('EMD-3542', '38', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', '15996', 'CCD')
+external_mapping_from_cif:('EMD-3542', '39', 'ZN', '"ZINC ION"', 'CHEMBL1236970', 'CCD')
+external_mapping_from_cif:('EMD-3542', '39', 'ZN', '"ZINC ION"', '29105', 'CCD')
+external_mapping_from_cif:('EMD-3542', '39', 'ZN', '"ZINC ION"', 'DB14532', 'CCD')
+external_mapping_from_cif:('EMD-7981', '2', 'ZN', '"ZINC ION"', 'DB14532', 'CCD')
+external_mapping_from_cif:('EMD-7981', '2', 'ZN', '"ZINC ION"', 'CHEMBL1236970', 'CCD')
+external_mapping_from_cif:('EMD-7981', '2', 'ZN', '"ZINC ION"', '29105', 'CCD')
+external_mapping_from_cif:('EMD-7981', '3', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'DB03401', 'CCD')
+external_mapping_from_cif:('EMD-7981', '3', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', '16595', 'CCD')
+external_mapping_from_cif:('EMD-7981', '3', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'CHEMBL279107', 'CCD')
+external_mapping_from_cif:('EMD-3542', '35', 'MG', '"MAGNESIUM ION"', '18420', 'CCD')
+external_mapping_from_cif:('EMD-3542', '35', 'MG', '"MAGNESIUM ION"', 'DB01378', 'CCD')
+external_mapping_from_cif:('EMD-3542', '36', 'K', '"POTASSIUM ION"', 'DB01345', 'CCD')
+external_mapping_from_cif:('EMD-3542', '36', 'K', '"POTASSIUM ION"', '29103', 'CCD')
+external_mapping_from_cif:('EMD-3542', '37', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', 'CHEMBL1233511', 'CCD')
+external_mapping_from_cif:('EMD-3542', '37', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', 'DB14981', 'CCD')
+external_mapping_from_cif:('EMD-3542', '37', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', '17401', 'CCD')
+external_mapping_from_cif:('EMD-3542', '38', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', 'DB04137', 'CCD')
+external_mapping_from_cif:('EMD-3542', '38', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', '15996', 'CCD')
+external_mapping_from_cif:('EMD-3542', '38', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', 'CHEMBL1233147', 'CCD')
+external_mapping_from_cif:('EMD-3542', '39', 'ZN', '"ZINC ION"', 'DB14532', 'CCD')
+external_mapping_from_cif:('EMD-3542', '39', 'ZN', '"ZINC ION"', 'CHEMBL1236970', 'CCD')
+external_mapping_from_cif:('EMD-3542', '39', 'ZN', '"ZINC ION"', '29105', 'CCD')
+external_mapping_from_cif:('EMD-7981', '2', 'ZN', '"ZINC ION"', 'DB14532', 'CCD')
+external_mapping_from_cif:('EMD-7981', '2', 'ZN', '"ZINC ION"', 'CHEMBL1236970', 'CCD')
+external_mapping_from_cif:('EMD-7981', '2', 'ZN', '"ZINC ION"', '29105', 'CCD')
+external_mapping_from_cif:('EMD-7981', '3', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'CHEMBL279107', 'CCD')
+external_mapping_from_cif:('EMD-7981', '3', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'DB03401', 'CCD')
+external_mapping_from_cif:('EMD-7981', '3', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', '16595', 'CCD')
+external_mapping_from_cif:('EMD-3542', '35', 'MG', '"MAGNESIUM ION"', '18420', 'CCD')
+external_mapping_from_cif:('EMD-3542', '35', 'MG', '"MAGNESIUM ION"', 'DB01378', 'CCD')
+external_mapping_from_cif:('EMD-3542', '36', 'K', '"POTASSIUM ION"', 'DB01345', 'CCD')
+external_mapping_from_cif:('EMD-3542', '36', 'K', '"POTASSIUM ION"', '29103', 'CCD')
+external_mapping_from_cif:('EMD-3542', '37', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', 'DB14981', 'CCD')
+external_mapping_from_cif:('EMD-3542', '37', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', '17401', 'CCD')
+external_mapping_from_cif:('EMD-3542', '37', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', 'CHEMBL1233511', 'CCD')
+external_mapping_from_cif:('EMD-3542', '38', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', 'CHEMBL1233147', 'CCD')
+external_mapping_from_cif:('EMD-3542', '38', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', '15996', 'CCD')
+external_mapping_from_cif:('EMD-3542', '38', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', 'DB04137', 'CCD')
+external_mapping_from_cif:('EMD-3542', '39', 'ZN', '"ZINC ION"', 'DB14532', 'CCD')
+external_mapping_from_cif:('EMD-3542', '39', 'ZN', '"ZINC ION"', 'CHEMBL1236970', 'CCD')
+external_mapping_from_cif:('EMD-3542', '39', 'ZN', '"ZINC ION"', '29105', 'CCD')
+external_mapping_from_cif:('EMD-7981', '2', 'ZN', '"ZINC ION"', 'CHEMBL1236970', 'CCD')
+external_mapping_from_cif:('EMD-7981', '2', 'ZN', '"ZINC ION"', 'DB14532', 'CCD')
+external_mapping_from_cif:('EMD-7981', '2', 'ZN', '"ZINC ION"', '29105', 'CCD')
+external_mapping_from_cif:('EMD-7981', '3', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', '16595', 'CCD')
+external_mapping_from_cif:('EMD-7981', '3', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'DB03401', 'CCD')
+external_mapping_from_cif:('EMD-7981', '3', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'CHEMBL279107', 'CCD')
+external_mapping_from_cif:('EMD-3542', '35', 'MG', '"MAGNESIUM ION"', '18420', 'CCD')
+external_mapping_from_cif:('EMD-3542', '35', 'MG', '"MAGNESIUM ION"', 'DB01378', 'CCD')
+external_mapping_from_cif:('EMD-3542', '36', 'K', '"POTASSIUM ION"', '29103', 'CCD')
+external_mapping_from_cif:('EMD-3542', '36', 'K', '"POTASSIUM ION"', 'DB01345', 'CCD')
+external_mapping_from_cif:('EMD-3542', '37', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', 'CHEMBL1233511', 'CCD')
+external_mapping_from_cif:('EMD-3542', '37', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', 'DB14981', 'CCD')
+external_mapping_from_cif:('EMD-3542', '37', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', '17401', 'CCD')
+external_mapping_from_cif:('EMD-3542', '38', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', '15996', 'CCD')
+external_mapping_from_cif:('EMD-3542', '38', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', 'DB04137', 'CCD')
+external_mapping_from_cif:('EMD-3542', '38', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', 'CHEMBL1233147', 'CCD')
+external_mapping_from_cif:('EMD-3542', '39', 'ZN', '"ZINC ION"', 'CHEMBL1236970', 'CCD')
+external_mapping_from_cif:('EMD-3542', '39', 'ZN', '"ZINC ION"', 'DB14532', 'CCD')
+external_mapping_from_cif:('EMD-3542', '39', 'ZN', '"ZINC ION"', '29105', 'CCD')
+external_mapping_from_cif:('EMD-7981', '2', 'ZN', '"ZINC ION"', 'DB14532', 'CCD')
+external_mapping_from_cif:('EMD-7981', '2', 'ZN', '"ZINC ION"', '29105', 'CCD')
+external_mapping_from_cif:('EMD-7981', '2', 'ZN', '"ZINC ION"', 'CHEMBL1236970', 'CCD')
+external_mapping_from_cif:('EMD-7981', '3', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', '16595', 'CCD')
+external_mapping_from_cif:('EMD-7981', '3', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'CHEMBL279107', 'CCD')
+external_mapping_from_cif:('EMD-7981', '3', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'DB03401', 'CCD')
+external_mapping_from_cif:('EMD-3542', '35', 'MG', '"MAGNESIUM ION"', '18420', 'CCD')
+external_mapping_from_cif:('EMD-3542', '35', 'MG', '"MAGNESIUM ION"', 'DB01378', 'CCD')
+external_mapping_from_cif:('EMD-3542', '36', 'K', '"POTASSIUM ION"', 'DB01345', 'CCD')
+external_mapping_from_cif:('EMD-3542', '36', 'K', '"POTASSIUM ION"', '29103', 'CCD')
+external_mapping_from_cif:('EMD-3542', '37', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', 'CHEMBL1233511', 'CCD')
+external_mapping_from_cif:('EMD-3542', '37', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', 'DB14981', 'CCD')
+external_mapping_from_cif:('EMD-3542', '37', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', '17401', 'CCD')
+external_mapping_from_cif:('EMD-3542', '38', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', 'DB04137', 'CCD')
+external_mapping_from_cif:('EMD-3542', '38', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', '15996', 'CCD')
+external_mapping_from_cif:('EMD-3542', '38', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', 'CHEMBL1233147', 'CCD')
+external_mapping_from_cif:('EMD-3542', '39', 'ZN', '"ZINC ION"', 'DB14532', 'CCD')
+external_mapping_from_cif:('EMD-3542', '39', 'ZN', '"ZINC ION"', '29105', 'CCD')
+external_mapping_from_cif:('EMD-3542', '39', 'ZN', '"ZINC ION"', 'CHEMBL1236970', 'CCD')
+external_mapping_from_cif:('EMD-7981', '2', 'ZN', '"ZINC ION"', 'CHEMBL1236970', 'CCD')
+external_mapping_from_cif:('EMD-7981', '2', 'ZN', '"ZINC ION"', 'DB14532', 'CCD')
+external_mapping_from_cif:('EMD-7981', '2', 'ZN', '"ZINC ION"', '29105', 'CCD')
+external_mapping_from_cif:('EMD-7981', '3', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', '16595', 'CCD')
+external_mapping_from_cif:('EMD-7981', '3', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'DB03401', 'CCD')
+external_mapping_from_cif:('EMD-7981', '3', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'CHEMBL279107', 'CCD')
+external_mapping_from_cif:('EMD-3542', '35', 'MG', '"MAGNESIUM ION"', '18420', 'CCD')
+external_mapping_from_cif:('EMD-3542', '35', 'MG', '"MAGNESIUM ION"', 'DB01378', 'CCD')
+external_mapping_from_cif:('EMD-3542', '36', 'K', '"POTASSIUM ION"', '29103', 'CCD')
+external_mapping_from_cif:('EMD-3542', '36', 'K', '"POTASSIUM ION"', 'DB01345', 'CCD')
+external_mapping_from_cif:('EMD-3542', '37', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', '17401', 'CCD')
+external_mapping_from_cif:('EMD-3542', '37', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', 'CHEMBL1233511', 'CCD')
+external_mapping_from_cif:('EMD-3542', '37', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', 'DB14981', 'CCD')
+external_mapping_from_cif:('EMD-3542', '38', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', 'CHEMBL1233147', 'CCD')
+external_mapping_from_cif:('EMD-3542', '38', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', 'DB04137', 'CCD')
+external_mapping_from_cif:('EMD-3542', '38', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', '15996', 'CCD')
+external_mapping_from_cif:('EMD-3542', '39', 'ZN', '"ZINC ION"', 'CHEMBL1236970', 'CCD')
+external_mapping_from_cif:('EMD-3542', '39', 'ZN', '"ZINC ION"', 'DB14532', 'CCD')
+external_mapping_from_cif:('EMD-3542', '39', 'ZN', '"ZINC ION"', '29105', 'CCD')
+external_mapping_from_cif:('EMD-7981', '2', 'ZN', '"ZINC ION"', 'CHEMBL1236970', 'CCD')
+external_mapping_from_cif:('EMD-7981', '2', 'ZN', '"ZINC ION"', '29105', 'CCD')
+external_mapping_from_cif:('EMD-7981', '2', 'ZN', '"ZINC ION"', 'DB14532', 'CCD')
+external_mapping_from_cif:('EMD-7981', '3', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'DB03401', 'CCD')
+external_mapping_from_cif:('EMD-7981', '3', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', '16595', 'CCD')
+external_mapping_from_cif:('EMD-7981', '3', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'CHEMBL279107', 'CCD')
+external_mapping_from_cif:('EMD-3542', '35', 'MG', '"MAGNESIUM ION"', '18420', 'CCD')
+external_mapping_from_cif:('EMD-3542', '35', 'MG', '"MAGNESIUM ION"', 'DB01378', 'CCD')
+external_mapping_from_cif:('EMD-3542', '36', 'K', '"POTASSIUM ION"', '29103', 'CCD')
+external_mapping_from_cif:('EMD-3542', '36', 'K', '"POTASSIUM ION"', 'DB01345', 'CCD')
+external_mapping_from_cif:('EMD-3542', '37', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', '17401', 'CCD')
+external_mapping_from_cif:('EMD-3542', '37', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', 'CHEMBL1233511', 'CCD')
+external_mapping_from_cif:('EMD-3542', '37', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', 'DB14981', 'CCD')
+external_mapping_from_cif:('EMD-3542', '38', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', 'CHEMBL1233147', 'CCD')
+external_mapping_from_cif:('EMD-3542', '38', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', '15996', 'CCD')
+external_mapping_from_cif:('EMD-3542', '38', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', 'DB04137', 'CCD')
+external_mapping_from_cif:('EMD-3542', '39', 'ZN', '"ZINC ION"', 'CHEMBL1236970', 'CCD')
+external_mapping_from_cif:('EMD-3542', '39', 'ZN', '"ZINC ION"', '29105', 'CCD')
+external_mapping_from_cif:('EMD-3542', '39', 'ZN', '"ZINC ION"', 'DB14532', 'CCD')
+external_mapping_from_cif:('EMD-7981', '2', 'ZN', '"ZINC ION"', '29105', 'CCD')
+external_mapping_from_cif:('EMD-7981', '2', 'ZN', '"ZINC ION"', 'CHEMBL1236970', 'CCD')
+external_mapping_from_cif:('EMD-7981', '2', 'ZN', '"ZINC ION"', 'DB14532', 'CCD')
+external_mapping_from_cif:('EMD-7981', '3', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'DB03401', 'CCD')
+external_mapping_from_cif:('EMD-7981', '3', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', '16595', 'CCD')
+external_mapping_from_cif:('EMD-7981', '3', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'CHEMBL279107', 'CCD')
+external_mapping_from_cif:('EMD-3542', '35', 'MG', '"MAGNESIUM ION"', 'DB01378', 'CCD')
+external_mapping_from_cif:('EMD-3542', '35', 'MG', '"MAGNESIUM ION"', '18420', 'CCD')
+external_mapping_from_cif:('EMD-3542', '36', 'K', '"POTASSIUM ION"', 'DB01345', 'CCD')
+external_mapping_from_cif:('EMD-3542', '36', 'K', '"POTASSIUM ION"', '29103', 'CCD')
+external_mapping_from_cif:('EMD-3542', '37', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', 'DB14981', 'CCD')
+external_mapping_from_cif:('EMD-3542', '37', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', 'CHEMBL1233511', 'CCD')
+external_mapping_from_cif:('EMD-3542', '37', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', '17401', 'CCD')
+external_mapping_from_cif:('EMD-3542', '38', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', '15996', 'CCD')
+external_mapping_from_cif:('EMD-3542', '38', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', 'CHEMBL1233147', 'CCD')
+external_mapping_from_cif:('EMD-3542', '38', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', 'DB04137', 'CCD')
+external_mapping_from_cif:('EMD-3542', '39', 'ZN', '"ZINC ION"', '29105', 'CCD')
+external_mapping_from_cif:('EMD-3542', '39', 'ZN', '"ZINC ION"', 'CHEMBL1236970', 'CCD')
+external_mapping_from_cif:('EMD-3542', '39', 'ZN', '"ZINC ION"', 'DB14532', 'CCD')
+external_mapping_from_cif:('EMD-7981', '2', 'ZN', '"ZINC ION"', 'CHEMBL1236970', 'CCD')
+external_mapping_from_cif:('EMD-7981', '2', 'ZN', '"ZINC ION"', 'DB14532', 'CCD')
+external_mapping_from_cif:('EMD-7981', '2', 'ZN', '"ZINC ION"', '29105', 'CCD')
+external_mapping_from_cif:('EMD-7981', '3', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'CHEMBL279107', 'CCD')
+external_mapping_from_cif:('EMD-7981', '3', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', '16595', 'CCD')
+external_mapping_from_cif:('EMD-7981', '3', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'DB03401', 'CCD')
+external_mapping_from_cif:('EMD-3542', '35', 'MG', '"MAGNESIUM ION"', 'DB01378', 'CCD')
+external_mapping_from_cif:('EMD-3542', '35', 'MG', '"MAGNESIUM ION"', '18420', 'CCD')
+external_mapping_from_cif:('EMD-3542', '36', 'K', '"POTASSIUM ION"', '29103', 'CCD')
+external_mapping_from_cif:('EMD-3542', '36', 'K', '"POTASSIUM ION"', 'DB01345', 'CCD')
+external_mapping_from_cif:('EMD-3542', '37', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', 'CHEMBL1233511', 'CCD')
+external_mapping_from_cif:('EMD-3542', '37', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', '17401', 'CCD')
+external_mapping_from_cif:('EMD-3542', '37', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', 'DB14981', 'CCD')
+external_mapping_from_cif:('EMD-3542', '38', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', 'CHEMBL1233147', 'CCD')
+external_mapping_from_cif:('EMD-3542', '38', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', '15996', 'CCD')
+external_mapping_from_cif:('EMD-3542', '38', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', 'DB04137', 'CCD')
+external_mapping_from_cif:('EMD-3542', '39', 'ZN', '"ZINC ION"', 'CHEMBL1236970', 'CCD')
+external_mapping_from_cif:('EMD-3542', '39', 'ZN', '"ZINC ION"', 'DB14532', 'CCD')
+external_mapping_from_cif:('EMD-3542', '39', 'ZN', '"ZINC ION"', '29105', 'CCD')
+external_mapping_from_cif:('EMD-7981', '2', 'Z', '1-(2-DEOXY-5-O-PHOSPHONO-BETA-D-ERYTHRO-PENTOFURANOSYL)PYRIMIDIN-2(1H)-ONE', '46563', 'CCD')
+external_mapping_from_cif:('EMD-3542', '35', 'G', '"GUANOSINE-5\'-MONOPHOSPHATE"', '17345', 'CCD')
+external_mapping_from_cif:('EMD-3542', '35', 'G', '"GUANOSINE-5\'-MONOPHOSPHATE"', 'CHEMBL283807', 'CCD')
+external_mapping_from_cif:('EMD-3542', '35', 'G', '"GUANOSINE-5\'-MONOPHOSPHATE"', 'DB01972', 'CCD')
+external_mapping_from_cif:('EMD-3542', '36', 'K', '"POTASSIUM ION"', 'DB01345', 'CCD')
+external_mapping_from_cif:('EMD-3542', '36', 'K', '"POTASSIUM ION"', '29103', 'CCD')
+external_mapping_from_cif:('EMD-3542', '38', 'G', '"GUANOSINE-5\'-MONOPHOSPHATE"', '17345', 'CCD')
+external_mapping_from_cif:('EMD-3542', '38', 'G', '"GUANOSINE-5\'-MONOPHOSPHATE"', 'CHEMBL283807', 'CCD')
+external_mapping_from_cif:('EMD-3542', '38', 'G', '"GUANOSINE-5\'-MONOPHOSPHATE"', 'DB01972', 'CCD')
+external_mapping_from_cif:('EMD-3542', '39', 'Z', '1-(2-DEOXY-5-O-PHOSPHONO-BETA-D-ERYTHRO-PENTOFURANOSYL)PYRIMIDIN-2(1H)-ONE', '46563', 'CCD')
+external_mapping_from_cif:('EMD-7981', '2', 'Z', '1-(2-DEOXY-5-O-PHOSPHONO-BETA-D-ERYTHRO-PENTOFURANOSYL)PYRIMIDIN-2(1H)-ONE', '46563', 'CCD')
+external_mapping_from_cif:('EMD-3542', '35', 'G', '"GUANOSINE-5\'-MONOPHOSPHATE"', '17345', 'CCD')
+external_mapping_from_cif:('EMD-3542', '35', 'G', '"GUANOSINE-5\'-MONOPHOSPHATE"', 'DB01972', 'CCD')
+external_mapping_from_cif:('EMD-3542', '35', 'G', '"GUANOSINE-5\'-MONOPHOSPHATE"', 'CHEMBL283807', 'CCD')
+external_mapping_from_cif:('EMD-3542', '36', 'K', '"POTASSIUM ION"', '29103', 'CCD')
+external_mapping_from_cif:('EMD-3542', '36', 'K', '"POTASSIUM ION"', 'DB01345', 'CCD')
+external_mapping_from_cif:('EMD-3542', '38', 'G', '"GUANOSINE-5\'-MONOPHOSPHATE"', '17345', 'CCD')
+external_mapping_from_cif:('EMD-3542', '38', 'G', '"GUANOSINE-5\'-MONOPHOSPHATE"', 'DB01972', 'CCD')
+external_mapping_from_cif:('EMD-3542', '38', 'G', '"GUANOSINE-5\'-MONOPHOSPHATE"', 'CHEMBL283807', 'CCD')
+external_mapping_from_cif:('EMD-3542', '39', 'Z', '1-(2-DEOXY-5-O-PHOSPHONO-BETA-D-ERYTHRO-PENTOFURANOSYL)PYRIMIDIN-2(1H)-ONE', '46563', 'CCD')
+external_mapping_from_cif:('EMD-7981', '2', 'Z', '1-(2-DEOXY-5-O-PHOSPHONO-BETA-D-ERYTHRO-PENTOFURANOSYL)PYRIMIDIN-2(1H)-ONE', '46563', 'CCD')
+external_mapping_from_cif:('EMD-3542', '35', 'G', '"GUANOSINE-5\'-MONOPHOSPHATE"', 'CHEMBL283807', 'CCD')
+external_mapping_from_cif:('EMD-3542', '35', 'G', '"GUANOSINE-5\'-MONOPHOSPHATE"', '17345', 'CCD')
+external_mapping_from_cif:('EMD-3542', '35', 'G', '"GUANOSINE-5\'-MONOPHOSPHATE"', 'DB01972', 'CCD')
+external_mapping_from_cif:('EMD-3542', '36', 'K', '"POTASSIUM ION"', 'DB01345', 'CCD')
+external_mapping_from_cif:('EMD-3542', '36', 'K', '"POTASSIUM ION"', '29103', 'CCD')
+external_mapping_from_cif:('EMD-3542', '38', 'G', '"GUANOSINE-5\'-MONOPHOSPHATE"', 'CHEMBL283807', 'CCD')
+external_mapping_from_cif:('EMD-3542', '38', 'G', '"GUANOSINE-5\'-MONOPHOSPHATE"', '17345', 'CCD')
+external_mapping_from_cif:('EMD-3542', '38', 'G', '"GUANOSINE-5\'-MONOPHOSPHATE"', 'DB01972', 'CCD')
+external_mapping_from_cif:('EMD-3542', '39', 'Z', '1-(2-DEOXY-5-O-PHOSPHONO-BETA-D-ERYTHRO-PENTOFURANOSYL)PYRIMIDIN-2(1H)-ONE', '46563', 'CCD')
+external_mapping_from_cif:('EMD-7981', '2', 'ZN', '"ZINC ION"', 'CHEMBL1236970', 'CCD')
+external_mapping_from_cif:('EMD-7981', '2', 'ZN', '"ZINC ION"', 'DB14532', 'CCD')
+external_mapping_from_cif:('EMD-7981', '2', 'ZN', '"ZINC ION"', '29105', 'CCD')
+external_mapping_from_cif:('EMD-7981', '3', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', '16595', 'CCD')
+external_mapping_from_cif:('EMD-7981', '3', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'CHEMBL279107', 'CCD')
+external_mapping_from_cif:('EMD-7981', '3', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'DB03401', 'CCD')
+external_mapping_from_cif:('EMD-3542', '35', 'MG', '"MAGNESIUM ION"', 'DB01378', 'CCD')
+external_mapping_from_cif:('EMD-3542', '35', 'MG', '"MAGNESIUM ION"', '18420', 'CCD')
+external_mapping_from_cif:('EMD-3542', '36', 'K', '"POTASSIUM ION"', '29103', 'CCD')
+external_mapping_from_cif:('EMD-3542', '36', 'K', '"POTASSIUM ION"', 'DB01345', 'CCD')
+external_mapping_from_cif:('EMD-3542', '37', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', '17401', 'CCD')
+external_mapping_from_cif:('EMD-3542', '37', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', 'CHEMBL1233511', 'CCD')
+external_mapping_from_cif:('EMD-3542', '37', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', 'DB14981', 'CCD')
+external_mapping_from_cif:('EMD-3542', '38', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', 'DB04137', 'CCD')
+external_mapping_from_cif:('EMD-3542', '38', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', '15996', 'CCD')
+external_mapping_from_cif:('EMD-3542', '38', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', 'CHEMBL1233147', 'CCD')
+external_mapping_from_cif:('EMD-3542', '39', 'ZN', '"ZINC ION"', 'CHEMBL1236970', 'CCD')
+external_mapping_from_cif:('EMD-3542', '39', 'ZN', '"ZINC ION"', 'DB14532', 'CCD')
+external_mapping_from_cif:('EMD-3542', '39', 'ZN', '"ZINC ION"', '29105', 'CCD')
+external_mapping_from_cif:('EMD-7981', '2', 'ZN', '"ZINC ION"', 'CHEMBL1236970', 'CCD')
+external_mapping_from_cif:('EMD-7981', '2', 'ZN', '"ZINC ION"', '29105', 'CCD')
+external_mapping_from_cif:('EMD-7981', '2', 'ZN', '"ZINC ION"', 'DB14532', 'CCD')
+external_mapping_from_cif:('EMD-7981', '3', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', '16595', 'CCD')
+external_mapping_from_cif:('EMD-7981', '3', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'DB03401', 'CCD')
+external_mapping_from_cif:('EMD-7981', '3', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'CHEMBL279107', 'CCD')
+external_mapping_from_cif:('EMD-3542', '35', 'MG', '"MAGNESIUM ION"', '18420', 'CCD')
+external_mapping_from_cif:('EMD-3542', '35', 'MG', '"MAGNESIUM ION"', 'DB01378', 'CCD')
+external_mapping_from_cif:('EMD-3542', '36', 'K', '"POTASSIUM ION"', '29103', 'CCD')
+external_mapping_from_cif:('EMD-3542', '36', 'K', '"POTASSIUM ION"', 'DB01345', 'CCD')
+external_mapping_from_cif:('EMD-3542', '37', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', 'CHEMBL1233511', 'CCD')
+external_mapping_from_cif:('EMD-3542', '37', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', 'DB14981', 'CCD')
+external_mapping_from_cif:('EMD-3542', '37', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', '17401', 'CCD')
+external_mapping_from_cif:('EMD-3542', '38', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', 'DB04137', 'CCD')
+external_mapping_from_cif:('EMD-3542', '38', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', '15996', 'CCD')
+external_mapping_from_cif:('EMD-3542', '38', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', 'CHEMBL1233147', 'CCD')
+external_mapping_from_cif:('EMD-3542', '39', 'ZN', '"ZINC ION"', 'CHEMBL1236970', 'CCD')
+external_mapping_from_cif:('EMD-3542', '39', 'ZN', '"ZINC ION"', '29105', 'CCD')
+external_mapping_from_cif:('EMD-3542', '39', 'ZN', '"ZINC ION"', 'DB14532', 'CCD')
+external_mapping_from_cif:('EMD-7981', '2', 'ZN', '"ZINC ION"', '29105', 'CCD')
+external_mapping_from_cif:('EMD-7981', '2', 'ZN', '"ZINC ION"', 'CHEMBL1236970', 'CCD')
+external_mapping_from_cif:('EMD-7981', '2', 'ZN', '"ZINC ION"', 'DB14532', 'CCD')
+external_mapping_from_cif:('EMD-7981', '3', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', '16595', 'CCD')
+external_mapping_from_cif:('EMD-7981', '3', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'DB03401', 'CCD')
+external_mapping_from_cif:('EMD-7981', '3', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'CHEMBL279107', 'CCD')
+external_mapping_from_cif:('EMD-3542', '35', 'MG', '"MAGNESIUM ION"', 'DB01378', 'CCD')
+external_mapping_from_cif:('EMD-3542', '35', 'MG', '"MAGNESIUM ION"', '18420', 'CCD')
+external_mapping_from_cif:('EMD-3542', '36', 'K', '"POTASSIUM ION"', '29103', 'CCD')
+external_mapping_from_cif:('EMD-3542', '36', 'K', '"POTASSIUM ION"', 'DB01345', 'CCD')
+external_mapping_from_cif:('EMD-3542', '37', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', 'DB14981', 'CCD')
+external_mapping_from_cif:('EMD-3542', '37', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', '17401', 'CCD')
+external_mapping_from_cif:('EMD-3542', '37', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', 'CHEMBL1233511', 'CCD')
+external_mapping_from_cif:('EMD-3542', '38', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', 'CHEMBL1233147', 'CCD')
+external_mapping_from_cif:('EMD-3542', '38', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', 'DB04137', 'CCD')
+external_mapping_from_cif:('EMD-3542', '38', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', '15996', 'CCD')
+external_mapping_from_cif:('EMD-3542', '39', 'ZN', '"ZINC ION"', '29105', 'CCD')
+external_mapping_from_cif:('EMD-3542', '39', 'ZN', '"ZINC ION"', 'CHEMBL1236970', 'CCD')
+external_mapping_from_cif:('EMD-3542', '39', 'ZN', '"ZINC ION"', 'DB14532', 'CCD')
+external_mapping_from_cif:('EMD-7981', '2', 'ZN', '"ZINC ION"', 'DB14532', 'CCD')
+external_mapping_from_cif:('EMD-7981', '2', 'ZN', '"ZINC ION"', '29105', 'CCD')
+external_mapping_from_cif:('EMD-7981', '2', 'ZN', '"ZINC ION"', 'CHEMBL1236970', 'CCD')
+external_mapping_from_cif:('EMD-7981', '3', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'DB03401', 'CCD')
+external_mapping_from_cif:('EMD-7981', '3', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'CHEMBL279107', 'CCD')
+external_mapping_from_cif:('EMD-7981', '3', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', '16595', 'CCD')
+external_mapping_from_cif:('EMD-3542', '35', 'MG', '"MAGNESIUM ION"', '18420', 'CCD')
+external_mapping_from_cif:('EMD-3542', '35', 'MG', '"MAGNESIUM ION"', 'DB01378', 'CCD')
+external_mapping_from_cif:('EMD-3542', '36', 'K', '"POTASSIUM ION"', 'DB01345', 'CCD')
+external_mapping_from_cif:('EMD-3542', '36', 'K', '"POTASSIUM ION"', '29103', 'CCD')
+external_mapping_from_cif:('EMD-3542', '37', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', 'DB14981', 'CCD')
+external_mapping_from_cif:('EMD-3542', '37', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', '17401', 'CCD')
+external_mapping_from_cif:('EMD-3542', '37', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', 'CHEMBL1233511', 'CCD')
+external_mapping_from_cif:('EMD-3542', '38', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', '15996', 'CCD')
+external_mapping_from_cif:('EMD-3542', '38', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', 'DB04137', 'CCD')
+external_mapping_from_cif:('EMD-3542', '38', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', 'CHEMBL1233147', 'CCD')
+external_mapping_from_cif:('EMD-3542', '39', 'ZN', '"ZINC ION"', 'DB14532', 'CCD')
+external_mapping_from_cif:('EMD-3542', '39', 'ZN', '"ZINC ION"', '29105', 'CCD')
+external_mapping_from_cif:('EMD-3542', '39', 'ZN', '"ZINC ION"', 'CHEMBL1236970', 'CCD')
+external_mapping_from_cif:('EMD-7981', '2', 'ZN', '"ZINC ION"', 'CHEMBL1236970', 'CCD')
+external_mapping_from_cif:('EMD-7981', '2', 'ZN', '"ZINC ION"', '29105', 'CCD')
+external_mapping_from_cif:('EMD-7981', '2', 'ZN', '"ZINC ION"', 'DB14532', 'CCD')
+external_mapping_from_cif:('EMD-7981', '3', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', '16595', 'CCD')
+external_mapping_from_cif:('EMD-7981', '3', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'DB03401', 'CCD')
+external_mapping_from_cif:('EMD-7981', '3', 'I3P', 'D-MYO-INOSITOL-1,4,5-TRIPHOSPHATE', 'CHEMBL279107', 'CCD')
+external_mapping_from_cif:('EMD-3542', '35', 'MG', '"MAGNESIUM ION"', 'DB01378', 'CCD')
+external_mapping_from_cif:('EMD-3542', '35', 'MG', '"MAGNESIUM ION"', '18420', 'CCD')
+external_mapping_from_cif:('EMD-3542', '36', 'K', '"POTASSIUM ION"', '29103', 'CCD')
+external_mapping_from_cif:('EMD-3542', '36', 'K', '"POTASSIUM ION"', 'DB01345', 'CCD')
+external_mapping_from_cif:('EMD-3542', '37', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', '17401', 'CCD')
+external_mapping_from_cif:('EMD-3542', '37', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', 'DB14981', 'CCD')
+external_mapping_from_cif:('EMD-3542', '37', 'IHP', '"INOSITOL HEXAKISPHOSPHATE"', 'CHEMBL1233511', 'CCD')
+external_mapping_from_cif:('EMD-3542', '38', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', 'DB04137', 'CCD')
+external_mapping_from_cif:('EMD-3542', '38', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', '15996', 'CCD')
+external_mapping_from_cif:('EMD-3542', '38', 'GTP', '"GUANOSINE-5\'-TRIPHOSPHATE"', 'CHEMBL1233147', 'CCD')
+external_mapping_from_cif:('EMD-3542', '39', 'ZN', '"ZINC ION"', 'CHEMBL1236970', 'CCD')
+external_mapping_from_cif:('EMD-3542', '39', 'ZN', '"ZINC ION"', '29105', 'CCD')
+external_mapping_from_cif:('EMD-3542', '39', 'ZN', '"ZINC ION"', 'DB14532', 'CCD')
+worker:NOT IN CCD D12
+worker:NOT IN CCD D10
+worker:NOT IN CCD 8K6
+worker:NOT IN CCD HEX
+worker:NOT IN CCD 6PH
+worker:NOT IN CCD HEM
+worker:NOT IN CCD 8PE
+worker:NOT IN CCD CN5
+worker:NOT IN CCD UQ6
+worker:NOT IN CCD 7PH
+worker:NOT IN CCD FES
+worker:NOT IN CCD 9PE
+worker:NOT IN CCD CN3
+worker:NOT IN CCD HEA
+worker:NOT IN CCD CUA
+worker:NOT IN CCD D12
+worker:NOT IN CCD D10
+worker:NOT IN CCD 8K6
+worker:NOT IN CCD HEX
+worker:NOT IN CCD 6PH
+worker:NOT IN CCD HEM
+worker:NOT IN CCD 8PE
+worker:NOT IN CCD CN5
+worker:NOT IN CCD UQ6
+worker:NOT IN CCD 7PH
+worker:NOT IN CCD FES
+worker:NOT IN CCD 9PE
+worker:NOT IN CCD CN3
+worker:NOT IN CCD HEA
+worker:NOT IN CCD CUA
+worker:NOT IN CCD D12
+worker:NOT IN CCD D10
+worker:NOT IN CCD 8K6
+worker:NOT IN CCD HEX
+worker:NOT IN CCD 6PH
+worker:NOT IN CCD HEM
+worker:NOT IN CCD 8PE
+worker:NOT IN CCD CN5
+worker:NOT IN CCD UQ6
+worker:NOT IN CCD 7PH
+worker:NOT IN CCD FES
+worker:NOT IN CCD 9PE
+worker:NOT IN CCD CN3
+worker:NOT IN CCD HEA
+worker:NOT IN CCD CUA
+worker:NOT IN CCD D12
+worker:NOT IN CCD D10
+worker:NOT IN CCD 8K6
+worker:NOT IN CCD HEX
+worker:NOT IN CCD 6PH
+worker:NOT IN CCD HEM
+worker:NOT IN CCD 8PE
+worker:NOT IN CCD CN5
+worker:NOT IN CCD UQ6
+worker:NOT IN CCD 7PH
+worker:NOT IN CCD FES
+worker:NOT IN CCD 9PE
+worker:NOT IN CCD CN3
+worker:NOT IN CCD HEA
+worker:NOT IN CCD CUA
+worker:NOT IN CCD D12
+worker:NOT IN CCD D10
+worker:NOT IN CCD 8K6
+worker:NOT IN CCD HEX
+worker:NOT IN CCD 6PH
+worker:NOT IN CCD HEM
+worker:NOT IN CCD 8PE
+worker:NOT IN CCD CN5
+worker:NOT IN CCD UQ6
+worker:NOT IN CCD 7PH
+worker:NOT IN CCD FES
+worker:NOT IN CCD 9PE
+worker:NOT IN CCD CN3
+worker:NOT IN CCD HEA
+worker:NOT IN CCD CUA
+worker:NOT IN CCD D12
+worker:NOT IN CCD D10
+worker:NOT IN CCD 8K6
+worker:NOT IN CCD HEX
+worker:NOT IN CCD 6PH
+worker:NOT IN CCD HEM
+worker:NOT IN CCD 8PE
+worker:NOT IN CCD CN5
+worker:NOT IN CCD UQ6
+worker:NOT IN CCD 7PH
+worker:NOT IN CCD FES
+worker:NOT IN CCD 9PE
+worker:NOT IN CCD CN3
+worker:NOT IN CCD HEA
+worker:NOT IN CCD CUA
+worker:NOT IN CCD D12
+worker:NOT IN CCD D10
+worker:NOT IN CCD 8K6
+worker:NOT IN CCD HEX
+worker:NOT IN CCD 6PH
+worker:NOT IN CCD HEM
+worker:NOT IN CCD 8PE
+worker:NOT IN CCD CN5
+worker:NOT IN CCD UQ6
+worker:NOT IN CCD 7PH
+worker:NOT IN CCD FES
+worker:NOT IN CCD 9PE
+worker:NOT IN CCD CN3
+worker:NOT IN CCD HEA
+worker:NOT IN CCD CUA
+worker:NOT IN CCD D12
+worker:NOT IN CCD D10
+worker:NOT IN CCD 8K6
+worker:NOT IN CCD HEX
+worker:NOT IN CCD 6PH
+worker:NOT IN CCD HEM
+worker:NOT IN CCD 8PE
+worker:NOT IN CCD CN5
+worker:NOT IN CCD UQ6
+worker:NOT IN CCD 7PH
+worker:NOT IN CCD FES
+worker:NOT IN CCD 9PE
+worker:NOT IN CCD CN3
+worker:NOT IN CCD HEA
+worker:NOT IN CCD CUA
+worker:NOT IN CCD D12
+worker:NOT IN CCD D10
+worker:NOT IN CCD 8K6
+worker:NOT IN CCD HEX
+worker:NOT IN CCD 6PH
+worker:NOT IN CCD HEM
+worker:NOT IN CCD 8PE
+worker:NOT IN CCD CN5
+worker:NOT IN CCD UQ6
+worker:NOT IN CCD 7PH
+worker:NOT IN CCD FES
+worker:NOT IN CCD 9PE
+worker:NOT IN CCD CN3
+worker:NOT IN CCD HEA
+worker:NOT IN CCD CUA
+worker:NOT IN CCD D12
+worker:NOT IN CCD D10
+worker:NOT IN CCD 8K6
+worker:NOT IN CCD HEX
+worker:NOT IN CCD 6PH
+worker:NOT IN CCD HEM
+worker:NOT IN CCD 8PE
+worker:NOT IN CCD CN5
+worker:NOT IN CCD UQ6
+worker:NOT IN CCD 7PH
+worker:NOT IN CCD FES
+worker:NOT IN CCD 9PE
+worker:NOT IN CCD CN3
+worker:NOT IN CCD HEA
+worker:NOT IN CCD CUA
+worker:NOT IN CCD D12
+worker:NOT IN CCD D10
+worker:NOT IN CCD 8K6
+worker:NOT IN CCD HEX
+worker:NOT IN CCD 6PH
+worker:NOT IN CCD HEM
+worker:NOT IN CCD 8PE
+worker:NOT IN CCD CN5
+worker:NOT IN CCD UQ6
+worker:NOT IN CCD 7PH
+worker:NOT IN CCD FES
+worker:NOT IN CCD 9PE
+worker:NOT IN CCD CN3
+worker:NOT IN CCD HEA
+worker:NOT IN CCD CUA
