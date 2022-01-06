@@ -1,13 +1,20 @@
-import requests, json
 from models import Alphafold
+
+def generate_af_ids(alphafold_ftp):
+	alphafold_ids = set()
+	with open(alphafold_ftp) as f:
+		for line in f:
+			id = line.split(',')[0]
+			alphafold_ids.add(id)
+	return alphafold_ids
 
 class AlphaFoldMapping:
 	"""
 	Collect AlphaFoldDB entries according to the UniProtKb ID
 	"""
-	def __init__(self, alphafold_ftp):
+	def __init__(self, alphafold_ids):
 		self.proteins = []
-		self.alphafold_ftp = alphafold_ftp
+		self.alphafold_ids = alphafold_ids
 
 	def execute(self, proteins):
 		for protein in proteins:
@@ -28,14 +35,14 @@ class AlphaFoldMapping:
 				# except:
 				# 	print(f"WARNING: AlphaFold {uid} failed!")
 				#########################
-				with open(self.alphafold_ftp) as f:
-					if uid in f.read():
-						alphafold = Alphafold()
-						alphafold.unip_id = uid
-						alphafold.link = f"https://alphafold.ebi.ac.uk/entry/{uid}"
-						alphafold.provenance = "AlphaFoldDB"
-						protein.alphafold.append(alphafold)
-						self.proteins.append(protein)
+
+				if uid in self.alphafold_ids:
+					alphafold = Alphafold()
+					alphafold.unip_id = uid
+					alphafold.link = f"https://alphafold.ebi.ac.uk/entry/{uid}"
+					alphafold.provenance = "AlphaFoldDB"
+					protein.alphafold.append(alphafold)
+					self.proteins.append(protein)
 		return self.proteins
 
 	def export_tsv(self, logger):
