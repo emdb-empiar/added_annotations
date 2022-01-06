@@ -105,7 +105,7 @@ def run(filename):
         mapping_list.extend(["PDBeKB", pdbekb_entries])
     if alphafold:
         alphafold_log = start_logger_if_necessary("alphafold_logger", alphafold_log_file)
-        af_mapping = AlphaFoldMapping()
+        af_mapping = AlphaFoldMapping(alphafold_ftp)
         af_entries = af_mapping.execute(unp_mapping.proteins)
         af_mapping.export_tsv(alphafold_log)
         mapping_list.extend(["ALPHAFOLD", af_entries])
@@ -255,6 +255,7 @@ if __name__ == "__main__":
     uniprot_tab = os.path.join(args.workDir, "uniprot.tsv")
     GO_obo = config.get("file_paths", "GO_obo")
     sifts_path = config.get("file_paths", "sifts")
+    alphafold_ftp = config.get("file_paths", "alphafold_ftp")
 
     #Start loggers
     if uniprot:
