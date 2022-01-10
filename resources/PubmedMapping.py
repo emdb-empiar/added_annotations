@@ -7,10 +7,11 @@ class PubmedMapping:
     EuropePMC if not provided by author.
     """
 
-    def __init__(self, citations, pmc_api, is_orcid=True):
+    def __init__(self, citations, pmc_api, emdb_orcid, is_orcid=True):
         self.citations = citations
         self.api = pmc_api
         self.is_orcid = is_orcid
+        self.emdb_orcid = emdb_orcid
 
     def execute(self):
         for citation in self.citations:
@@ -60,7 +61,7 @@ class PubmedMapping:
 
         if self.is_orcid:
             orcid_dict = {}
-            with open('/Users/amudha/project/emdb_orcid.log', 'r') as f:
+            with open(self.emdb_orcid, 'r') as f:
                 for line in f.readlines():
                     if citation.emdb_id in line:
                         name = line.split('\t')[1]

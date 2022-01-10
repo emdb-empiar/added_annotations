@@ -84,7 +84,7 @@ def run(filename):
         mapping_list.extend(["EMPIAR", empiar_map])
     if pmc:
         pubmed_log = start_logger_if_necessary("pubmed_logger", pubmed_log_file) if pmc else None
-        pmc_mapping = PubmedMapping(xml.citations, pmc_api, orcid)
+        pmc_mapping = PubmedMapping(xml.citations, pmc_api, emdb_orcid, orcid)
         pmc_map = pmc_mapping.execute()
         pmc_mapping.export_tsv(pubmed_log)
         mapping_list.extend(["CITATION", pmc_map])
@@ -257,6 +257,7 @@ if __name__ == "__main__":
     assembly_ftp = config.get("file_paths", "assembly_ftp")
     emdb_empiar_list = config.get("file_paths", "emdb_empiar_list")
     pmc_api = config.get("api", "pmc")
+    emdb_orcid = config.get("file_paths", "emdb_orcid")
     uniprot_tab = os.path.join(args.workDir, "uniprot.tsv")
     GO_obo = config.get("file_paths", "GO_obo")
     sifts_path = config.get("file_paths", "sifts")
