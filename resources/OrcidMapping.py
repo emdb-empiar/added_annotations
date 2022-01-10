@@ -66,13 +66,13 @@ class OrcidMapping:
                                             for id in y.iter('authorId'):
                                                 if id.attrib['type'] == 'ORCID':
                                                     if orcid_id == id.text:
-                                                        if y.find('firstName').text is not None:
+                                                        if y.find('firstName') is not None:
                                                             firstname = y.find('firstName').text
-                                                        if y.find('lastName').text is not None:
-                                                            lastname = y.find('lastName').text
-                                                        author_name = firstname + " " + lastname
-                                                        orcid_ids[author_name] = orcid_id
-                                                        citation.provenance_orcid = "EuropePMC"
+                                                            if y.find('lastName') is not None:
+                                                                lastname = y.find('lastName').text
+                                                                author_name = firstname + " " + lastname
+                                                                orcid_ids[author_name] = orcid_id
+                                                                citation.provenance_orcid = "EuropePMC"
                                     else:
                                         author_name = self.name_for_orcid_id(orcid_id)
                                         orcid_ids[author_name] = orcid_id
