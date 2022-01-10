@@ -1,4 +1,4 @@
-import json
+import json, csv
 import requests
 
 class PubmedMapping:
@@ -7,9 +7,10 @@ class PubmedMapping:
     EuropePMC if not provided by author.
     """
 
-    def __init__(self, citations, pmc_api):
+    def __init__(self, citations, pmc_api, is_orcid=True):
         self.citations = citations
         self.api = pmc_api
+        self.is_orcid = is_orcid
 
     def execute(self):
         for citation in self.citations:
@@ -33,6 +34,7 @@ class PubmedMapping:
                 if webAPI[2]:
                     citation.doi = webAPI[2]
                     citation.provenance_doi = "EuropePMC"
+
         else:
             if citation.doi:
                 webAPI = self.pmc_api_query(("DOI:" + citation.doi))
@@ -55,6 +57,18 @@ class PubmedMapping:
                 if webAPI[2]:
                     citation.doi = webAPI[2]
                     citation.provenance_doi = "EuropePMC"
+
+        if self.is_orcid:
+            orcid_dict = {}
+            with open('/Users/amudha/project/emdb_orcid.log', 'r') as f:
+                for line in f.readlines():
+                    if citation.emdb_id in line:
+                        name = line.split('\t')[1]
+                        id = line.split('\t')[2]
+                        pvn = line.split('\t')[3]
+                        orcid_dict[id] = name
+                        citation.orcid_ids = orcid_dict
+                        citation.provenance_orcid = pvn.strip()
         return citation
 
     def pmc_api_query(self, queryString):
@@ -73,3 +87,9 @@ class PubmedMapping:
                 pmc_id = result[0]['pmcid'] if 'pmcid' in result[0] else ""
                 doi = result[0]['doi'] if 'doi' in result[0] else ""
         return pm_id, pmc_id, doi
+
+    def export_tsv(self, pubmed_logger):
+        for citation in self.citations:
+            row = f"{citation.emdb_id}\t{citation.pmedid}\t{citation.pmcid}\t{citation.doi}"
+            pubmed_logger.info(row)
+

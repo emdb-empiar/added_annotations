@@ -83,8 +83,10 @@ def run(filename):
         empiar_map = empiar_mapping.execute()
         mapping_list.extend(["EMPIAR", empiar_map])
     if pmc:
-        pmc_mapping = PubmedMapping(xml.citations, pmc_api)
+        pubmed_log = start_logger_if_necessary("pubmed_logger", pubmed_log_file) if pmc else None
+        pmc_mapping = PubmedMapping(xml.citations, pmc_api, orcid)
         pmc_map = pmc_mapping.execute()
+        pmc_mapping.export_tsv(pubmed_log)
         mapping_list.extend(["CITATION", pmc_map])
     if go or interpro or pfam or cath:
         go_log = start_logger_if_necessary("go_logger", go_log_file) if go else None
@@ -152,6 +154,8 @@ if __name__ == "__main__":
     parser.add_argument("--weight", type=bool, nargs='?', const=True, default=False, help="Collect sample weight from header file.")
     parser.add_argument("--empiar", type=bool, nargs='?', const=True, default=False, help="Mapping EMPIAR ID to EMDB entries")
     parser.add_argument("--pmc", type=bool, nargs='?', const=True, default=False, help="Mapping publication ID to EMDB entries")
+    parser.add_argument("--orcid", type=bool, nargs='?', const=True, default=False,
+                        help="Mapping ORCID ID to Publications in entries ")
     parser.add_argument("--GO", type=bool, nargs='?', const=True, default=False, help="Mapping GO ids to EMDB entries")
     parser.add_argument("--interpro", type=bool, nargs='?', const=True, default=False, help="Mapping InterPro ids to EMDB entries")
     parser.add_argument("--pfam", type=bool, nargs='?', const=True, default=False, help="Mapping pfam ids to EMDB entries")
@@ -173,6 +177,7 @@ if __name__ == "__main__":
     weight = args.weight
     empiar = args.empiar
     pmc = args.pmc
+    orcid = args.orcid
     go = args.GO
     interpro = args.interpro
     pfam = args.pfam
@@ -193,7 +198,7 @@ if __name__ == "__main__":
     if component:
         db_list.append("chembl, chebi, drugbank")
     if pmc:
-        db_list.append("pubmed, pubmedcentral, issn")
+        db_list.append("pubmed, pubmedcentral, issn, ORCID")
     if cpx:
         uniprot = True
         db_list.append("cpx")
@@ -288,6 +293,10 @@ if __name__ == "__main__":
         empiar_log_file = os.path.join(args.workDir, 'emdb_empiar.log')
         empiar_log = setup_logger('empiar_logger', empiar_log_file)
         empiar_log.info("EMDB_ID\tEMPIAR_ID\tPROVENANCE")
+    if pmc:
+        pubmed_log_file = os.path.join(args.workDir, 'emdb_pubmed.log')
+        pubmed_log = setup_logger('pubmed_logger', pubmed_log_file)
+        pubmed_log.info("EMDB_ID\tPUBMED_ID\tPUBMEDCENTRAL_ID\tDOI")
     if go:
         go_log_file = os.path.join(args.workDir, 'emdb_go.log')
         go_log = setup_logger('go_logger', go_log_file)
