@@ -149,9 +149,12 @@ class EmicssXML:
         pmcid = val.get(samp_id, {}).get('pmcid')
         doi = val.get(samp_id, {}).get('doi')
         issn = val.get(samp_id, {}).get('issn')
+        authors = val.get(samp_id, {}).get('authors')
+        orcid_ids = val.get(samp_id, {}).get('orcid_ids')
         provenance_pm = val.get(samp_id, {}).get('provenance_pm')
         provenance_pmc = val.get(samp_id, {}).get('provenance_pmc')
         provenance_doi = val.get(samp_id, {}).get('provenance_doi')
+        provenance_orcid = val.get(samp_id, {}).get('provenance_orcid')
         if pmedid:
             if "PUBMED" not in all_db:
                 db = EMICSS.dbType()
@@ -190,6 +193,19 @@ class EmicssXML:
             citation.set_doi("%s" % doi)
             citation.set_provenance("%s" % provenance_doi)
             citations.add_citation(citation)
+        if orcid_ids:
+            if "ORCID" not in all_db:
+                db = EMICSS.dbType()
+                db.set_db_source("%s" % "ORCID")
+                dbs.add_db(db)
+            all_db.add("ORCID")
+            for id, name in orcid_ids.items():
+                citation = EMICSS.citationType()
+                citation.set_author("%s" % name)
+                citation.set_orcid_id("%s" % id)
+                citation.set_provenance("%s" % provenance_orcid)
+                citations.add_citation(citation)
+
         return cross_ref_dbs, citations
 
     def EMICSS_Pdbe(self, val, samp_id, all_db, dbs, weights):

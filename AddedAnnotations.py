@@ -10,7 +10,7 @@ from resources.EMPIARMapping import EMPIARMapping, generate_emp_dictionary
 from resources.PubmedMapping import PubmedMapping
 from resources.ProteinTermsMapping import ProteinTermsMapping
 from resources.PdbeKbMapping import PdbeKbMapping
-from resources.AlphaFoldMapping import AlphaFoldMapping, generate_af_ids
+from resources.AlphaFoldMapping import AlphaFoldMapping
 from EMICSS.DBVersion import DBVersion
 from EMICSS.EmicssInput import EmicssInput
 from EMICSS.EmicssXML import EmicssXML
@@ -107,7 +107,7 @@ def run(filename):
         mapping_list.extend(["PDBeKB", pdbekb_entries])
     if alphafold:
         alphafold_log = start_logger_if_necessary("alphafold_logger", alphafold_log_file)
-        af_mapping = AlphaFoldMapping(alphafold_ids)
+        af_mapping = AlphaFoldMapping(alphafold_ftp)
         af_entries = af_mapping.execute(unp_mapping.proteins)
         af_mapping.export_tsv(alphafold_log)
         mapping_list.extend(["ALPHAFOLD", af_entries])
@@ -154,8 +154,7 @@ if __name__ == "__main__":
     parser.add_argument("--weight", type=bool, nargs='?', const=True, default=False, help="Collect sample weight from header file.")
     parser.add_argument("--empiar", type=bool, nargs='?', const=True, default=False, help="Mapping EMPIAR ID to EMDB entries")
     parser.add_argument("--pmc", type=bool, nargs='?', const=True, default=False, help="Mapping publication ID to EMDB entries")
-    parser.add_argument("--orcid", type=bool, nargs='?', const=True, default=False,
-                        help="Mapping ORCID ID to Publications in entries ")
+    parser.add_argument("--orcid", type=bool, nargs='?', const=True, default=False, help="Mapping ORCID ID to Publications in entries ")
     parser.add_argument("--GO", type=bool, nargs='?', const=True, default=False, help="Mapping GO ids to EMDB entries")
     parser.add_argument("--interpro", type=bool, nargs='?', const=True, default=False, help="Mapping InterPro ids to EMDB entries")
     parser.add_argument("--pfam", type=bool, nargs='?', const=True, default=False, help="Mapping pfam ids to EMDB entries")
@@ -234,6 +233,7 @@ if __name__ == "__main__":
         weight = True
         empiar = True
         pmc = True
+        orcid = True
         go = True
         interpro = True
         pfam = True
@@ -244,7 +244,7 @@ if __name__ == "__main__":
         alphafold = True
         emicss = True
         db_list.extend(["pdbe", "empiar", "uniprot", "chembl", "chebi", "drugbank", "pubmed", "pubmedcentral", "issn",
-                        "cpx", "go", "interpro", "pfam", "cath", "scop", "scop2", "pdbekb", "alphafold"])
+                        "orcid", "cpx", "go", "interpro", "pfam", "cath", "scop", "scop2", "pdbekb", "alphafold"])
 
     #Get config variables:
     config = configparser.ConfigParser()
@@ -342,7 +342,5 @@ if __name__ == "__main__":
         empiar_dictionary = generate_emp_dictionary(emdb_empiar_list)
     if component:
         chembl_map, chebi_map, drugbank_map = parseCCD(components_cif)
-    if alphafold:
-        alphafold_ids = generate_af_ids(alphafold_ftp)
 
     Parallel(n_jobs=args.threads)(delayed(run)(file) for file in glob(os.path.join(args.headerDir, '*')))
