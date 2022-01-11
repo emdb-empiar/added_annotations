@@ -10,7 +10,7 @@ from resources.EMPIARMapping import EMPIARMapping, generate_emp_dictionary
 from resources.PubmedMapping import PubmedMapping
 from resources.ProteinTermsMapping import ProteinTermsMapping
 from resources.PdbeKbMapping import PdbeKbMapping
-from resources.AlphaFoldMapping import AlphaFoldMapping
+from resources.AlphaFoldMapping import AlphaFoldMapping, generate_af_ids
 from EMICSS.DBVersion import DBVersion
 from EMICSS.EmicssInput import EmicssInput
 from EMICSS.EmicssXML import EmicssXML
@@ -107,7 +107,7 @@ def run(filename):
         mapping_list.extend(["PDBeKB", pdbekb_entries])
     if alphafold:
         alphafold_log = start_logger_if_necessary("alphafold_logger", alphafold_log_file)
-        af_mapping = AlphaFoldMapping(alphafold_ftp)
+        af_mapping = AlphaFoldMapping(alphafold_ids)
         af_entries = af_mapping.execute(unp_mapping.proteins)
         af_mapping.export_tsv(alphafold_log)
         mapping_list.extend(["ALPHAFOLD", af_entries])
@@ -343,5 +343,7 @@ if __name__ == "__main__":
         empiar_dictionary = generate_emp_dictionary(emdb_empiar_list)
     if component:
         chembl_map, chebi_map, drugbank_map = parseCCD(components_cif)
+    if alphafold:
+        alphafold_ids = generate_af_ids(alphafold_ftp)
 
     Parallel(n_jobs=args.threads)(delayed(run)(file) for file in glob(os.path.join(args.headerDir, '*')))
