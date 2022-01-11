@@ -7,7 +7,7 @@ from resources.UniprotMapping import UniprotMapping, generate_unp_dictionary, do
 from resources.StructureMapping import StructureMapping
 from resources.SampleWeight import SampleWeight
 from resources.EMPIARMapping import EMPIARMapping, generate_emp_dictionary
-from resources.PubmedMapping import PubmedMapping
+from resources.PubmedMapping import PubmedMapping, generate_orcid_dictionary
 from resources.ProteinTermsMapping import ProteinTermsMapping
 from resources.PdbeKbMapping import PdbeKbMapping
 from resources.AlphaFoldMapping import AlphaFoldMapping, generate_af_ids
@@ -82,9 +82,9 @@ def run(filename):
         empiar_mapping = EMPIARMapping(xml.emdb_id, empiar_dictionary, empiar_logger)
         empiar_map = empiar_mapping.execute()
         mapping_list.extend(["EMPIAR", empiar_map])
-    if pmc:
+    if pmc or orcid:
         pubmed_log = start_logger_if_necessary("pubmed_logger", pubmed_log_file) if pmc else None
-        pmc_mapping = PubmedMapping(xml.citations, pmc_api, args.workDir, orcid)
+        pmc_mapping = PubmedMapping(xml.citations, pmc_api, orcid_dict, orcid)
         pmc_map = pmc_mapping.execute()
         pmc_mapping.export_tsv(pubmed_log)
         mapping_list.extend(["CITATION", pmc_map])
@@ -257,7 +257,6 @@ if __name__ == "__main__":
     assembly_ftp = config.get("file_paths", "assembly_ftp")
     emdb_empiar_list = config.get("file_paths", "emdb_empiar_list")
     pmc_api = config.get("api", "pmc")
-    emdb_orcid = config.get("file_paths", "emdb_orcid")
     uniprot_tab = os.path.join(args.workDir, "uniprot.tsv")
     GO_obo = config.get("file_paths", "GO_obo")
     sifts_path = config.get("file_paths", "sifts")
@@ -345,5 +344,7 @@ if __name__ == "__main__":
         chembl_map, chebi_map, drugbank_map = parseCCD(components_cif)
     if alphafold:
         alphafold_ids = generate_af_ids(alphafold_ftp)
+    if orcid:
+        orcid_dict = generate_orcid_dictionary(args.workDir)
 
     Parallel(n_jobs=args.threads)(delayed(run)(file) for file in glob(os.path.join(args.headerDir, '*')))

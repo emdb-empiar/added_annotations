@@ -1,5 +1,24 @@
 import json, os
 import requests
+import itertools
+
+def generate_orcid_dictionary(workDir):
+    orcid_dict = {}
+    emdb_orcid = os.path.join(workDir, "emdb_orcid.log")
+    with open(emdb_orcid, 'r') as f:
+        for line in f.readlines()[1:]:
+            line = line.strip('\n')
+            emdb_id = line.split('\t')[0]
+            name = line.split('\t')[1]
+            id = line.split('\t')[2]
+            pvn = line.split('\t')[3]
+            if emdb_id not in orcid_dict:
+                orcid_dict[emdb_id] = {}
+            orc_list = ["name", name, "id", id, "provenance", pvn]
+            list_dict = dict(itertools.zip_longest(*[iter(orc_list)] * 2, fillvalue=""))
+            for k in list_dict.keys():
+                orcid_dict[emdb_id][k] = list_dict[k]
+    return orcid_dict
 
 class PubmedMapping:
     """
@@ -7,11 +26,11 @@ class PubmedMapping:
     EuropePMC if not provided by author.
     """
 
-    def __init__(self, citations, pmc_api, workDir, is_orcid=True):
+    def __init__(self, citations, pmc_api, orcid_dict, is_orcid=True):
         self.citations = citations
         self.api = pmc_api
         self.is_orcid = is_orcid
-        self.workDir = workDir
+        self.orcid_dict = orcid_dict
 
     def execute(self):
         for citation in self.citations:
@@ -60,17 +79,15 @@ class PubmedMapping:
                     citation.provenance_doi = "EuropePMC"
 
         if self.is_orcid:
-            orcid_dict = {}
-            emdb_orcid = os.path.join(self.workDir, "emdb_orcid.log")
-            with open(emdb_orcid, 'r') as f:
-                for line in f.readlines():
-                    if citation.emdb_id in line:
-                        name = line.split('\t')[1]
-                        id = line.split('\t')[2]
-                        pvn = line.split('\t')[3]
-                        orcid_dict[id] = name
-                        citation.orcid_ids = orcid_dict
-                        citation.provenance_orcid = pvn.strip()
+            orcid_id = {}
+            orc = self.orcid_dict.get(citation.emdb_id)
+            if orc:
+                name = orc.get('name')
+                id = orc.get('id')
+                orcid_id[id] = name
+                citation.orcid_ids = orcid_id
+                citation.provenance_orcid = orc.get('provenance')
+
         return citation
 
     def pmc_api_query(self, queryString):
