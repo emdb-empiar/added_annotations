@@ -35,7 +35,7 @@ def run(filename):
     xml = XMLParser(xml_filepath)
     if orcid:
         orcid_log = start_logger_if_necessary("orcid_logger", orcid_log_file) if orcid else None
-        orcid_mapping = OrcidMapping(xml.citations, pmc_api, emdb_pubmed)
+        orcid_mapping = OrcidMapping(xml.citations, pmc_api, args.workDir)
         orcid_map = orcid_mapping.execute()
         orcid_mapping.export_tsv(orcid_log)
 
@@ -68,8 +68,6 @@ if __name__ == "__main__":
     env_file = os.path.join(Path(__file__).parent.absolute(), "config.ini")
     config.read(env_file)
     pmc_api = config.get("api", "pmc")
-    emdb_pubmed = config.get("file_paths", "emdb_pubmed")
-    emdb_orcid = config.get("file_paths", "emdb_orcid")
 
     #Start loggers
     if orcid:

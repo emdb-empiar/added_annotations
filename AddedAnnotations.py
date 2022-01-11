@@ -84,7 +84,7 @@ def run(filename):
         mapping_list.extend(["EMPIAR", empiar_map])
     if pmc:
         pubmed_log = start_logger_if_necessary("pubmed_logger", pubmed_log_file) if pmc else None
-        pmc_mapping = PubmedMapping(xml.citations, pmc_api, emdb_orcid, orcid)
+        pmc_mapping = PubmedMapping(xml.citations, pmc_api, args.workDir, orcid)
         pmc_map = pmc_mapping.execute()
         pmc_mapping.export_tsv(pubmed_log)
         mapping_list.extend(["CITATION", pmc_map])

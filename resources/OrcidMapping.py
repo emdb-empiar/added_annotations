@@ -1,4 +1,4 @@
-import json, re
+import json, os
 import lxml.etree as ET
 import xmltodict
 import requests
@@ -9,10 +9,10 @@ class OrcidMapping:
     Orcid annotations both from author and API.
     """
 
-    def __init__(self, citations, pmc_api, emdb_pubmed):
+    def __init__(self, citations, pmc_api, workDir):
         self.citations = citations
         self.api = pmc_api
-        self.emdb_pubmed = emdb_pubmed
+        self.workDir = workDir
 
     def execute(self):
         for citation in self.citations:
@@ -21,7 +21,8 @@ class OrcidMapping:
 
     def worker(self, citation):
         ############# TEST ORCID API ACCESS #######################
-        pubmed_file = open(self.emdb_pubmed)
+        emdb_pubmed = os.path.join(self.workDir, "emdb_pubmed.log")
+        pubmed_file = open(emdb_pubmed)
         for line in pubmed_file.readlines():
             if citation.emdb_id in line:
                 pubmedid = line.split('\t')[1]

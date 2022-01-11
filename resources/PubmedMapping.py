@@ -1,4 +1,4 @@
-import json, csv
+import json, os
 import requests
 
 class PubmedMapping:
@@ -7,11 +7,11 @@ class PubmedMapping:
     EuropePMC if not provided by author.
     """
 
-    def __init__(self, citations, pmc_api, emdb_orcid, is_orcid=True):
+    def __init__(self, citations, pmc_api, workDir, is_orcid=True):
         self.citations = citations
         self.api = pmc_api
         self.is_orcid = is_orcid
-        self.emdb_orcid = emdb_orcid
+        self.workDir = workDir
 
     def execute(self):
         for citation in self.citations:
@@ -61,7 +61,8 @@ class PubmedMapping:
 
         if self.is_orcid:
             orcid_dict = {}
-            with open(self.emdb_orcid, 'r') as f:
+            emdb_orcid = os.path.join(self.workDir, "emdb_orcid.log")
+            with open(emdb_orcid, 'r') as f:
                 for line in f.readlines():
                     if citation.emdb_id in line:
                         name = line.split('\t')[1]
