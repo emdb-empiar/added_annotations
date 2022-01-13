@@ -225,7 +225,7 @@ class ProteinTermsMapping:
                                         scop2_id = scop2.get("dbAccessionId")
                                         start, end = self.extract_uniprot_position(scop2, segment)
                                         scop2_matches.add((scop2_id, start, end))
-            except FileNotFoundError:
+            except (FileNotFoundError, ET.XMLSyntaxError):
                 continue
 
         return go_matches, ipr_matches, pfam_matches, cath_matches, scop_matches, scop2_matches

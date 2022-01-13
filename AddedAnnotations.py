@@ -7,10 +7,10 @@ from resources.UniprotMapping import UniprotMapping, generate_unp_dictionary, do
 from resources.StructureMapping import StructureMapping
 from resources.SampleWeight import SampleWeight
 from resources.EMPIARMapping import EMPIARMapping, generate_emp_dictionary
-from resources.PubmedMapping import PubmedMapping
+from resources.PubmedMapping import PubmedMapping, generate_orcid_dictionary
 from resources.ProteinTermsMapping import ProteinTermsMapping
 from resources.PdbeKbMapping import PdbeKbMapping
-from resources.AlphaFoldMapping import AlphaFoldMapping
+from resources.AlphaFoldMapping import AlphaFoldMapping, generate_af_ids
 from EMICSS.DBVersion import DBVersion
 from EMICSS.EmicssInput import EmicssInput
 from EMICSS.EmicssXML import EmicssXML
@@ -82,9 +82,11 @@ def run(filename):
         empiar_mapping = EMPIARMapping(xml.emdb_id, empiar_dictionary, empiar_logger)
         empiar_map = empiar_mapping.execute()
         mapping_list.extend(["EMPIAR", empiar_map])
-    if pmc:
-        pmc_mapping = PubmedMapping(xml.citations, pmc_api)
+    if pmc or orcid:
+        pubmed_log = start_logger_if_necessary("pubmed_logger", pubmed_log_file) if pmc else None
+        pmc_mapping = PubmedMapping(xml.citations, pmc_api, orcid_dict, orcid)
         pmc_map = pmc_mapping.execute()
+        pmc_mapping.export_tsv(pubmed_log)
         mapping_list.extend(["CITATION", pmc_map])
     if go or interpro or pfam or cath:
         go_log = start_logger_if_necessary("go_logger", go_log_file) if go else None
@@ -105,7 +107,7 @@ def run(filename):
         mapping_list.extend(["PDBeKB", pdbekb_entries])
     if alphafold:
         alphafold_log = start_logger_if_necessary("alphafold_logger", alphafold_log_file)
-        af_mapping = AlphaFoldMapping()
+        af_mapping = AlphaFoldMapping(alphafold_ids)
         af_entries = af_mapping.execute(unp_mapping.proteins)
         af_mapping.export_tsv(alphafold_log)
         mapping_list.extend(["ALPHAFOLD", af_entries])
@@ -152,6 +154,7 @@ if __name__ == "__main__":
     parser.add_argument("--weight", type=bool, nargs='?', const=True, default=False, help="Collect sample weight from header file.")
     parser.add_argument("--empiar", type=bool, nargs='?', const=True, default=False, help="Mapping EMPIAR ID to EMDB entries")
     parser.add_argument("--pmc", type=bool, nargs='?', const=True, default=False, help="Mapping publication ID to EMDB entries")
+    parser.add_argument("--orcid", type=bool, nargs='?', const=True, default=False, help="Mapping ORCID ID to Publications in entries ")
     parser.add_argument("--GO", type=bool, nargs='?', const=True, default=False, help="Mapping GO ids to EMDB entries")
     parser.add_argument("--interpro", type=bool, nargs='?', const=True, default=False, help="Mapping InterPro ids to EMDB entries")
     parser.add_argument("--pfam", type=bool, nargs='?', const=True, default=False, help="Mapping pfam ids to EMDB entries")
@@ -173,6 +176,7 @@ if __name__ == "__main__":
     weight = args.weight
     empiar = args.empiar
     pmc = args.pmc
+    orcid = args.orcid
     go = args.GO
     interpro = args.interpro
     pfam = args.pfam
@@ -193,7 +197,7 @@ if __name__ == "__main__":
     if component:
         db_list.append("chembl, chebi, drugbank")
     if pmc:
-        db_list.append("pubmed, pubmedcentral, issn")
+        db_list.append("pubmed, pubmedcentral, issn, ORCID")
     if cpx:
         uniprot = True
         db_list.append("cpx")
@@ -229,6 +233,7 @@ if __name__ == "__main__":
         weight = True
         empiar = True
         pmc = True
+        orcid = True
         go = True
         interpro = True
         pfam = True
@@ -239,7 +244,7 @@ if __name__ == "__main__":
         alphafold = True
         emicss = True
         db_list.extend(["pdbe", "empiar", "uniprot", "chembl", "chebi", "drugbank", "pubmed", "pubmedcentral", "issn",
-                        "cpx", "go", "interpro", "pfam", "cath", "scop", "scop2", "pdbekb", "alphafold"])
+                        "orcid", "cpx", "go", "interpro", "pfam", "cath", "scop", "scop2", "pdbekb", "alphafold"])
 
     #Get config variables:
     config = configparser.ConfigParser()
@@ -255,6 +260,7 @@ if __name__ == "__main__":
     uniprot_tab = os.path.join(args.workDir, "uniprot.tsv")
     GO_obo = config.get("file_paths", "GO_obo")
     sifts_path = config.get("file_paths", "sifts")
+    alphafold_ftp = config.get("file_paths", "alphafold_ftp")
 
     #Start loggers
     if uniprot:
@@ -287,6 +293,10 @@ if __name__ == "__main__":
         empiar_log_file = os.path.join(args.workDir, 'emdb_empiar.log')
         empiar_log = setup_logger('empiar_logger', empiar_log_file)
         empiar_log.info("EMDB_ID\tEMPIAR_ID\tPROVENANCE")
+    if pmc:
+        pubmed_log_file = os.path.join(args.workDir, 'emdb_pubmed.log')
+        pubmed_log = setup_logger('pubmed_logger', pubmed_log_file)
+        pubmed_log.info("EMDB_ID\tPUBMED_ID\tPUBMEDCENTRAL_ID\tDOI")
     if go:
         go_log_file = os.path.join(args.workDir, 'emdb_go.log')
         go_log = setup_logger('go_logger', go_log_file)
@@ -332,5 +342,9 @@ if __name__ == "__main__":
         empiar_dictionary = generate_emp_dictionary(emdb_empiar_list)
     if component:
         chembl_map, chebi_map, drugbank_map = parseCCD(components_cif)
+    if alphafold:
+        alphafold_ids = generate_af_ids(alphafold_ftp)
+    if orcid:
+        orcid_dict = generate_orcid_dictionary(args.workDir)
 
     Parallel(n_jobs=args.threads)(delayed(run)(file) for file in glob(os.path.join(args.headerDir, '*')))

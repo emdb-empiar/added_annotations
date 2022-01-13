@@ -38,6 +38,8 @@
                             <xsd:element maxOccurs="unbounded" name="citation">
                                 <xsd:complexType>
                                     <xsd:attribute name="doi" type="xsd:string"/>
+                                    <xsd:attribute name="author" type="xsd:string"/>
+                                    <xsd:attribute name="orcid_id" type="xsd:string"/>
                                     <xsd:attribute name="provenance" type="provenance_type"/>
                                 </xsd:complexType>
                             </xsd:element>

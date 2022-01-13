@@ -214,11 +214,14 @@ class Citation:
         self.pmcid = None
         self.doi = None
         self.issn = None
+        self.authors = []
+        self.orcid_ids = {}
         self.status = ""
         self.title = ""
         self.provenance_pm = ""
         self.provenance_pmc = ""
         self.provenance_doi = ""
+        self.provenance_orcid = ""
         self.url = ""
 
     def __str__(self):
