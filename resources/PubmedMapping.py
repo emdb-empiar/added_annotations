@@ -97,7 +97,6 @@ class PubmedMapping:
                 'resultType': 'lite'}
         response = requests.post(self.api, data=data)
         res_text = response.text
-        print(f"{queryString} - {res_text}")
         pmcjdata = json.loads(res_text)
         result = pmcjdata['resultList']['result']
         if result:
