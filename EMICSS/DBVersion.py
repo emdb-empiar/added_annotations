@@ -78,7 +78,7 @@ class DBVersion:
             go_ver = re.sub('-', '', str(last_Wednesday))
             db_verison_list.extend(["go", go_ver])
         if "uniprot" in db_list:
-            db_verison_list.extend(["uniprot", year_month])
+            db_verison_list.extend(["uniprot", f'{year}_{month}'])
         if "pdbe" in db_list:
             pdbe_ver = f'{week_num}.{str(year)[-2:]}'
             db_verison_list.extend(["pdbe", pdbe_ver])

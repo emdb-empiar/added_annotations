@@ -93,7 +93,7 @@ class EmicssXML:
                         emicss_supramolecules = self.EMICSS_CPX(val, samp_id, all_db, dbs, supramolecules)
 
             entry_id = em_id.split("-")[1]
-            entry = f"emd_{entry_id}"
+            entry = f"EMD_{entry_id}"
             headerXML.set_emdb_id("%s" % entry)
             headerXML.set_schema_version("1.0.0")
 
@@ -114,7 +114,7 @@ class EmicssXML:
 
             output_path = os.path.join(self.workDir, "emicss")
             Path(output_path).mkdir(parents=True, exist_ok=True)
-            xmlFile = os.path.join(output_path, "emd-" + entry_id + "_emicss.xml")
+            xmlFile = os.path.join(output_path, "emd_" + entry_id + "_emicss.xml")
             with open(xmlFile, 'w') as f:
                 headerXML.export(f, 0, name_='emicss')
                 # headerXML.export(f, 0, name_='emicss',
