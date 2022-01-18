@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Tue Jan 18 12:30:44 2022 by generateDS.py version 2.38.6.
+# Generated Tue Jan 18 17:46:32 2022 by generateDS.py version 2.38.6.
 # Python 3.7.6 (default, Dec 30 2019, 19:38:28)  [Clang 11.0.0 (clang-1100.0.33.16)]
 #
 # Command line options:
@@ -62,8 +62,8 @@ SaveElementTreeNode = True
 
 
 class emicssSub(supermod.emicss):
-    def __init__(self, emdb_id=None, schema_version=None, dbs=None, ref_entry_dbs=None, citations=None, authors=None, weights=None, sample=None, **kwargs_):
-        super(emicssSub, self).__init__(emdb_id, schema_version, dbs, ref_entry_dbs, citations, authors, weights, sample,  **kwargs_)
+    def __init__(self, emdb_id=None, schema_version=None, dbs=None, ref_entry_dbs=None, primary_citation=None, weights=None, sample=None, **kwargs_):
+        super(emicssSub, self).__init__(emdb_id, schema_version, dbs, ref_entry_dbs, primary_citation, weights, sample,  **kwargs_)
 supermod.emicss.subclass = emicssSub
 # end class emicssSub
 
@@ -103,18 +103,18 @@ supermod.ref_entry_dbType.subclass = ref_entry_dbTypeSub
 # end class ref_entry_dbTypeSub
 
 
-class citationsTypeSub(supermod.citationsType):
-    def __init__(self, doi=None, provenance=None, citation=None, **kwargs_):
-        super(citationsTypeSub, self).__init__(doi, provenance, citation,  **kwargs_)
-supermod.citationsType.subclass = citationsTypeSub
-# end class citationsTypeSub
+class primary_citationTypeSub(supermod.primary_citationType):
+    def __init__(self, doi=None, provenance=None, ref_citation=None, authors=None, **kwargs_):
+        super(primary_citationTypeSub, self).__init__(doi, provenance, ref_citation, authors,  **kwargs_)
+supermod.primary_citationType.subclass = primary_citationTypeSub
+# end class primary_citationTypeSub
 
 
-class citationTypeSub(supermod.citationType):
+class ref_citationTypeSub(supermod.ref_citationType):
     def __init__(self, db_source=None, accession_id=None, provenance=None, **kwargs_):
-        super(citationTypeSub, self).__init__(db_source, accession_id, provenance,  **kwargs_)
-supermod.citationType.subclass = citationTypeSub
-# end class citationTypeSub
+        super(ref_citationTypeSub, self).__init__(db_source, accession_id, provenance,  **kwargs_)
+supermod.ref_citationType.subclass = ref_citationTypeSub
+# end class ref_citationTypeSub
 
 
 class authorsTypeSub(supermod.authorsType):
@@ -125,8 +125,8 @@ supermod.authorsType.subclass = authorsTypeSub
 
 
 class authorTypeSub(supermod.authorType):
-    def __init__(self, author_name=None, orcid_id=None, provenance=None, **kwargs_):
-        super(authorTypeSub, self).__init__(author_name, orcid_id, provenance,  **kwargs_)
+    def __init__(self, author_name=None, orcid_id=None, author_order=None, provenance=None, **kwargs_):
+        super(authorTypeSub, self).__init__(author_name, orcid_id, author_order, provenance,  **kwargs_)
 supermod.authorType.subclass = authorTypeSub
 # end class authorTypeSub
 

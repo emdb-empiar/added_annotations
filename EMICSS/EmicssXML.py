@@ -59,8 +59,7 @@ class EmicssXML:
             headerXML = EMICSS.emicss()
             dbs = EMICSS.dbsType()
             ref_entry_dbs = EMICSS.ref_entry_dbsType()
-            citations = EMICSS.citationsType()
-            authors = EMICSS.authorsType()
+            primary_citation = EMICSS.primary_citationType()
             weights = EMICSS.weightsType()
             sample = EMICSS.sampleType()
             macromolecules = EMICSS.macromoleculesType()
@@ -72,7 +71,8 @@ class EmicssXML:
             emicss_empiar = None
             emicss_model = None
             emicss_weight = None
-            emicss_pmc = None
+            emicss_authors = None
+            emicss_primary_citation = None
 
             for samp_id in val.keys():
                 if samp_id is not None:
@@ -81,7 +81,7 @@ class EmicssXML:
                     if samp_id == "theoretical" or samp_id == "experimental":
                         emicss_weight = self.EMICSS_weight(val, samp_id, weights)
                     if samp_id == "PMC":
-                        emicss_pmc, emicss_authors = self.EMICSS_PMC(val, samp_id, all_db, dbs, citations, authors)
+                        emicss_primary_citation = self.EMICSS_PMC(val, samp_id, all_db, dbs, primary_citation)
                     if (samp_id.isalnum() and not samp_id.isalpha() and not samp_id.isnumeric()):
                         if len(samp_id) == 4:
                             emicss_model = self.EMICSS_Pdbe(val, samp_id, all_db, dbs, weights)
@@ -101,10 +101,8 @@ class EmicssXML:
                 headerXML.set_dbs(dbs)
             if emicss_empiar:
                 headerXML.set_ref_entry_dbs(ref_entry_dbs)
-            if emicss_pmc:
-                headerXML.set_citations(citations)
-            if emicss_authors:
-                headerXML.set_authors(authors)
+            if emicss_primary_citation:
+                headerXML.set_primary_citation(primary_citation)
             if emicss_model or emicss_weight:
                 headerXML.set_weights(weights)
             if emicss_supramolecules:
@@ -116,7 +114,7 @@ class EmicssXML:
 
             output_path = os.path.join(self.workDir, "emicss")
             Path(output_path).mkdir(parents=True, exist_ok=True)
-            xmlFile = os.path.join(output_path, "emd_" + entry_id + "_emicss.xml")
+            xmlFile = os.path.join(output_path, "emd-" + entry_id + "_emicss.xml")
             with open(xmlFile, 'w') as f:
                 headerXML.export(f, 0, name_='emicss')
                 # headerXML.export(f, 0, name_='emicss',
@@ -143,15 +141,16 @@ class EmicssXML:
         ref_entry_dbs.add_ref_entry_db(ref_entry_db)
         return ref_entry_dbs
 
-    def EMICSS_PMC(self, val, samp_id, all_db, dbs, citations, authors):
+    def EMICSS_PMC(self, val, samp_id, all_db, dbs, primary_citation):
         """
         Adding PUBMED_ID, DOI and ISSN to EMICSS
         """
+        authors = EMICSS.authorsType()
         pmedid = val.get(samp_id, {}).get('pmedid')
         pmcid = val.get(samp_id, {}).get('pmcid')
         pub_doi = val.get(samp_id, {}).get('doi')
         issn = val.get(samp_id, {}).get('issn')
-        author_list = val.get(samp_id, {}).get('authors')
+        author_names = val.get(samp_id, {}).get('authors')
         orcid_ids = val.get(samp_id, {}).get('orcid_ids')
         provenance_pm = val.get(samp_id, {}).get('provenance_pm')
         provenance_pmc = val.get(samp_id, {}).get('provenance_pmc')
@@ -162,37 +161,37 @@ class EmicssXML:
                 db = EMICSS.dbType()
                 db.set_db_source("%s" % "PUBMED")
                 dbs.add_db(db)
-            citation = EMICSS.citationType()
-            citation.set_db_source("%s" % "PUBMED")
-            citation.set_accession_id("%s" % pmedid)
-            citation.set_provenance("%s" % provenance_pm)
-            citations.add_citation(citation)
+            ref_citation = EMICSS.ref_citationType()
+            ref_citation.set_db_source("%s" % "PUBMED")
+            ref_citation.set_accession_id("%s" % pmedid)
+            ref_citation.set_provenance("%s" % provenance_pm)
+            primary_citation.add_ref_citation(ref_citation)
             all_db.add("PUBMED")
         if pmcid:
             if "PUBMED CENTRAL" not in all_db:
                 db = EMICSS.dbType()
                 db.set_db_source("%s" % "PUBMED CENTRAL")
                 dbs.add_db(db)
-            citation = EMICSS.citationType()
-            citation.set_db_source("%s" % "PUBMED CENTRAL")
-            citation.set_accession_id("%s" % pmcid)
-            citation.set_provenance("%s" % provenance_pmc)
-            citations.add_citation(citation)
+            ref_citation = EMICSS.ref_citationType()
+            ref_citation.set_db_source("%s" % "PUBMED CENTRAL")
+            ref_citation.set_accession_id("%s" % pmcid)
+            ref_citation.set_provenance("%s" % provenance_pmc)
+            primary_citation.add_ref_citation(ref_citation)
             all_db.add("PUBMED CENTRAL")
         if issn:
             if "ISSN" not in all_db:
                 db = EMICSS.dbType()
                 db.set_db_source("%s" % "ISSN")
                 dbs.add_db(db)
-            citation = EMICSS.citationType()
-            citation.set_db_source("%s" % "ISSN")
-            citation.set_accession_id("%s" % issn)
-            citation.set_provenance("%s" % "AUTHOR")
-            citations.add_citation(citation)
+            ref_citation = EMICSS.ref_citationType()
+            ref_citation.set_db_source("%s" % "ISSN")
+            ref_citation.set_accession_id("%s" % issn)
+            ref_citation.set_provenance("%s" % "AUTHOR")
+            primary_citation.add_ref_citation(ref_citation)
             all_db.add("ISSN")
         if pub_doi:
-            citations.set_doi("%s" % pub_doi)
-            citations.set_provenance("%s" % provenance_doi)
+            primary_citation.set_doi("%s" % pub_doi)
+            primary_citation.set_provenance("%s" % provenance_doi)
         if orcid_ids:
             if "ORCID" not in all_db:
                 db = EMICSS.dbType()
@@ -205,8 +204,9 @@ class EmicssXML:
                 author.set_orcid_id("%s" % id)
                 author.set_provenance("%s" % provenance_orcid)
                 authors.add_author(author)
+        primary_citation.set_authors(authors)
 
-        return citations, authors
+        return primary_citation
 
     def EMICSS_Pdbe(self, val, samp_id, all_db, dbs, weights):
         """

@@ -87,7 +87,7 @@ class PubmedMapping:
                 orcid_id[id] = name
                 citation.orcid_ids = orcid_id
                 citation.provenance_orcid = orc.get('provenance')
-        print(citation)
+
         return citation
 
     def pmc_api_query(self, queryString):
@@ -116,4 +116,3 @@ class PubmedMapping:
         for citation in self.citations:
             row = f"{citation.emdb_id}\t{citation.pmedid}\t{citation.pmcid}\t{citation.doi}"
             pubmed_logger.info(row)
-

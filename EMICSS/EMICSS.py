@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Tue Jan 18 12:30:44 2022 by generateDS.py version 2.38.6.
+# Generated Tue Jan 18 17:46:31 2022 by generateDS.py version 2.38.6.
 # Python 3.7.6 (default, Dec 30 2019, 19:38:28)  [Clang 11.0.0 (clang-1100.0.33.16)]
 #
 # Command line options:
@@ -1022,7 +1022,7 @@ class emicss(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, emdb_id=None, schema_version=None, dbs=None, ref_entry_dbs=None, citations=None, authors=None, weights=None, sample=None, gds_collector_=None, **kwargs_):
+    def __init__(self, emdb_id=None, schema_version=None, dbs=None, ref_entry_dbs=None, primary_citation=None, weights=None, sample=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
@@ -1036,10 +1036,8 @@ class emicss(GeneratedsSuper):
         self.dbs_nsprefix_ = None
         self.ref_entry_dbs = ref_entry_dbs
         self.ref_entry_dbs_nsprefix_ = None
-        self.citations = citations
-        self.citations_nsprefix_ = None
-        self.authors = authors
-        self.authors_nsprefix_ = None
+        self.primary_citation = primary_citation
+        self.primary_citation_nsprefix_ = None
         self.weights = weights
         self.weights_nsprefix_ = None
         self.sample = sample
@@ -1067,14 +1065,10 @@ class emicss(GeneratedsSuper):
         return self.ref_entry_dbs
     def set_ref_entry_dbs(self, ref_entry_dbs):
         self.ref_entry_dbs = ref_entry_dbs
-    def get_citations(self):
-        return self.citations
-    def set_citations(self, citations):
-        self.citations = citations
-    def get_authors(self):
-        return self.authors
-    def set_authors(self, authors):
-        self.authors = authors
+    def get_primary_citation(self):
+        return self.primary_citation
+    def set_primary_citation(self, primary_citation):
+        self.primary_citation = primary_citation
     def get_weights(self):
         return self.weights
     def set_weights(self, weights):
@@ -1106,8 +1100,7 @@ class emicss(GeneratedsSuper):
         if (
             self.dbs is not None or
             self.ref_entry_dbs is not None or
-            self.citations is not None or
-            self.authors is not None or
+            self.primary_citation is not None or
             self.weights is not None or
             self.sample is not None
         ):
@@ -1155,12 +1148,9 @@ class emicss(GeneratedsSuper):
         if self.ref_entry_dbs is not None:
             namespaceprefix_ = self.ref_entry_dbs_nsprefix_ + ':' if (UseCapturedNS_ and self.ref_entry_dbs_nsprefix_) else ''
             self.ref_entry_dbs.export(outfile, level, namespaceprefix_, namespacedef_='', name_='ref_entry_dbs', pretty_print=pretty_print)
-        if self.citations is not None:
-            namespaceprefix_ = self.citations_nsprefix_ + ':' if (UseCapturedNS_ and self.citations_nsprefix_) else ''
-            self.citations.export(outfile, level, namespaceprefix_, namespacedef_='', name_='citations', pretty_print=pretty_print)
-        if self.authors is not None:
-            namespaceprefix_ = self.authors_nsprefix_ + ':' if (UseCapturedNS_ and self.authors_nsprefix_) else ''
-            self.authors.export(outfile, level, namespaceprefix_, namespacedef_='', name_='authors', pretty_print=pretty_print)
+        if self.primary_citation is not None:
+            namespaceprefix_ = self.primary_citation_nsprefix_ + ':' if (UseCapturedNS_ and self.primary_citation_nsprefix_) else ''
+            self.primary_citation.export(outfile, level, namespaceprefix_, namespacedef_='', name_='primary_citation', pretty_print=pretty_print)
         if self.weights is not None:
             namespaceprefix_ = self.weights_nsprefix_ + ':' if (UseCapturedNS_ and self.weights_nsprefix_) else ''
             self.weights.export(outfile, level, namespaceprefix_, namespacedef_='', name_='weights', pretty_print=pretty_print)
@@ -1201,16 +1191,11 @@ class emicss(GeneratedsSuper):
             obj_.build(child_, gds_collector_=gds_collector_)
             self.ref_entry_dbs = obj_
             obj_.original_tagname_ = 'ref_entry_dbs'
-        elif nodeName_ == 'citations':
-            obj_ = citationsType.factory(parent_object_=self)
+        elif nodeName_ == 'primary_citation':
+            obj_ = primary_citationType.factory(parent_object_=self)
             obj_.build(child_, gds_collector_=gds_collector_)
-            self.citations = obj_
-            obj_.original_tagname_ = 'citations'
-        elif nodeName_ == 'authors':
-            obj_ = authorsType.factory(parent_object_=self)
-            obj_.build(child_, gds_collector_=gds_collector_)
-            self.authors = obj_
-            obj_.original_tagname_ = 'authors'
+            self.primary_citation = obj_
+            obj_.original_tagname_ = 'primary_citation'
         elif nodeName_ == 'weights':
             obj_ = weightsType.factory(parent_object_=self)
             obj_.build(child_, gds_collector_=gds_collector_)
@@ -1713,6 +1698,7 @@ class dbType(GeneratedsSuper):
 
 
 class ref_entry_dbsType(GeneratedsSuper):
+    """Annotations on EMDB entry level"""
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
@@ -1942,12 +1928,12 @@ class ref_entry_dbType(GeneratedsSuper):
 # end class ref_entry_dbType
 
 
-class citationsType(GeneratedsSuper):
-    """Entry based annotations"""
+class primary_citationType(GeneratedsSuper):
+    """Entry based citation annotations"""
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, doi=None, provenance=None, citation=None, gds_collector_=None, **kwargs_):
+    def __init__(self, doi=None, provenance=None, ref_citation=None, authors=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
@@ -1957,36 +1943,42 @@ class citationsType(GeneratedsSuper):
         self.doi_nsprefix_ = None
         self.provenance = _cast(None, provenance)
         self.provenance_nsprefix_ = None
-        if citation is None:
-            self.citation = []
+        if ref_citation is None:
+            self.ref_citation = []
         else:
-            self.citation = citation
-        self.citation_nsprefix_ = None
+            self.ref_citation = ref_citation
+        self.ref_citation_nsprefix_ = None
+        self.authors = authors
+        self.authors_nsprefix_ = None
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
-                CurrentSubclassModule_, citationsType)
+                CurrentSubclassModule_, primary_citationType)
             if subclass is not None:
                 return subclass(*args_, **kwargs_)
-        if citationsType.subclass:
-            return citationsType.subclass(*args_, **kwargs_)
+        if primary_citationType.subclass:
+            return primary_citationType.subclass(*args_, **kwargs_)
         else:
-            return citationsType(*args_, **kwargs_)
+            return primary_citationType(*args_, **kwargs_)
     factory = staticmethod(factory)
     def get_ns_prefix_(self):
         return self.ns_prefix_
     def set_ns_prefix_(self, ns_prefix):
         self.ns_prefix_ = ns_prefix
-    def get_citation(self):
-        return self.citation
-    def set_citation(self, citation):
-        self.citation = citation
-    def add_citation(self, value):
-        self.citation.append(value)
-    def insert_citation_at(self, index, value):
-        self.citation.insert(index, value)
-    def replace_citation_at(self, index, value):
-        self.citation[index] = value
+    def get_ref_citation(self):
+        return self.ref_citation
+    def set_ref_citation(self, ref_citation):
+        self.ref_citation = ref_citation
+    def add_ref_citation(self, value):
+        self.ref_citation.append(value)
+    def insert_ref_citation_at(self, index, value):
+        self.ref_citation.insert(index, value)
+    def replace_ref_citation_at(self, index, value):
+        self.ref_citation[index] = value
+    def get_authors(self):
+        return self.authors
+    def set_authors(self, authors):
+        self.authors = authors
     def get_doi(self):
         return self.doi
     def set_doi(self, doi):
@@ -2010,49 +2002,53 @@ class citationsType(GeneratedsSuper):
                 result = False
     def hasContent_(self):
         if (
-            self.citation
+            self.ref_citation or
+            self.authors is not None
         ):
             return True
         else:
             return False
-    def export(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='citationsType', pretty_print=True):
-        imported_ns_def_ = GenerateDSNamespaceDefs_.get('citationsType')
+    def export(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='primary_citationType', pretty_print=True):
+        imported_ns_def_ = GenerateDSNamespaceDefs_.get('primary_citationType')
         if imported_ns_def_ is not None:
             namespacedef_ = imported_ns_def_
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        if self.original_tagname_ is not None and name_ == 'citationsType':
+        if self.original_tagname_ is not None and name_ == 'primary_citationType':
             name_ = self.original_tagname_
         if UseCapturedNS_ and self.ns_prefix_:
             namespaceprefix_ = self.ns_prefix_ + ':'
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='citationsType')
+        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='primary_citationType')
         if self.hasContent_():
             outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='citationsType', pretty_print=pretty_print)
+            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='primary_citationType', pretty_print=pretty_print)
             showIndent(outfile, level, pretty_print)
             outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='citationsType'):
+    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='primary_citationType'):
         if self.doi is not None and 'doi' not in already_processed:
             already_processed.add('doi')
             outfile.write(' doi=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.doi), input_name='doi')), ))
         if self.provenance is not None and 'provenance' not in already_processed:
             already_processed.add('provenance')
             outfile.write(' provenance=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.provenance), input_name='provenance')), ))
-    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='citationsType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='primary_citationType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        for citation_ in self.citation:
-            namespaceprefix_ = self.citation_nsprefix_ + ':' if (UseCapturedNS_ and self.citation_nsprefix_) else ''
-            citation_.export(outfile, level, namespaceprefix_, namespacedef_='', name_='citation', pretty_print=pretty_print)
+        for ref_citation_ in self.ref_citation:
+            namespaceprefix_ = self.ref_citation_nsprefix_ + ':' if (UseCapturedNS_ and self.ref_citation_nsprefix_) else ''
+            ref_citation_.export(outfile, level, namespaceprefix_, namespacedef_='', name_='ref_citation', pretty_print=pretty_print)
+        if self.authors is not None:
+            namespaceprefix_ = self.authors_nsprefix_ + ':' if (UseCapturedNS_ and self.authors_nsprefix_) else ''
+            self.authors.export(outfile, level, namespaceprefix_, namespacedef_='', name_='authors', pretty_print=pretty_print)
     def build(self, node, gds_collector_=None):
         self.gds_collector_ = gds_collector_
         if SaveElementTreeNode:
@@ -2076,15 +2072,20 @@ class citationsType(GeneratedsSuper):
             self.provenance = ' '.join(self.provenance.split())
             self.validate_provenance_type(self.provenance)    # validate type provenance_type
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
-        if nodeName_ == 'citation':
-            obj_ = citationType.factory(parent_object_=self)
+        if nodeName_ == 'ref_citation':
+            obj_ = ref_citationType.factory(parent_object_=self)
             obj_.build(child_, gds_collector_=gds_collector_)
-            self.citation.append(obj_)
-            obj_.original_tagname_ = 'citation'
-# end class citationsType
+            self.ref_citation.append(obj_)
+            obj_.original_tagname_ = 'ref_citation'
+        elif nodeName_ == 'authors':
+            obj_ = authorsType.factory(parent_object_=self)
+            obj_.build(child_, gds_collector_=gds_collector_)
+            self.authors = obj_
+            obj_.original_tagname_ = 'authors'
+# end class primary_citationType
 
 
-class citationType(GeneratedsSuper):
+class ref_citationType(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
@@ -2103,13 +2104,13 @@ class citationType(GeneratedsSuper):
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
-                CurrentSubclassModule_, citationType)
+                CurrentSubclassModule_, ref_citationType)
             if subclass is not None:
                 return subclass(*args_, **kwargs_)
-        if citationType.subclass:
-            return citationType.subclass(*args_, **kwargs_)
+        if ref_citationType.subclass:
+            return ref_citationType.subclass(*args_, **kwargs_)
         else:
-            return citationType(*args_, **kwargs_)
+            return ref_citationType(*args_, **kwargs_)
     factory = staticmethod(factory)
     def get_ns_prefix_(self):
         return self.ns_prefix_
@@ -2147,29 +2148,29 @@ class citationType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='citationType', pretty_print=True):
-        imported_ns_def_ = GenerateDSNamespaceDefs_.get('citationType')
+    def export(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='ref_citationType', pretty_print=True):
+        imported_ns_def_ = GenerateDSNamespaceDefs_.get('ref_citationType')
         if imported_ns_def_ is not None:
             namespacedef_ = imported_ns_def_
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        if self.original_tagname_ is not None and name_ == 'citationType':
+        if self.original_tagname_ is not None and name_ == 'ref_citationType':
             name_ = self.original_tagname_
         if UseCapturedNS_ and self.ns_prefix_:
             namespaceprefix_ = self.ns_prefix_ + ':'
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='citationType')
+        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='ref_citationType')
         if self.hasContent_():
             outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='citationType', pretty_print=pretty_print)
+            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='ref_citationType', pretty_print=pretty_print)
             outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='citationType'):
+    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='ref_citationType'):
         if self.db_source is not None and 'db_source' not in already_processed:
             already_processed.add('db_source')
             outfile.write(' db_source=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.db_source), input_name='db_source')), ))
@@ -2179,7 +2180,7 @@ class citationType(GeneratedsSuper):
         if self.provenance is not None and 'provenance' not in already_processed:
             already_processed.add('provenance')
             outfile.write(' provenance=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.provenance), input_name='provenance')), ))
-    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='citationType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='ref_citationType', fromsubclass_=False, pretty_print=True):
         pass
     def build(self, node, gds_collector_=None):
         self.gds_collector_ = gds_collector_
@@ -2209,10 +2210,11 @@ class citationType(GeneratedsSuper):
             self.validate_provenance_type(self.provenance)    # validate type provenance_type
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         pass
-# end class citationType
+# end class ref_citationType
 
 
 class authorsType(GeneratedsSuper):
+    """Primary publication authors list"""
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
@@ -2318,7 +2320,7 @@ class authorType(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, author_name=None, orcid_id=None, provenance=None, gds_collector_=None, **kwargs_):
+    def __init__(self, author_name=None, orcid_id=None, author_order=None, provenance=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
@@ -2328,6 +2330,8 @@ class authorType(GeneratedsSuper):
         self.author_name_nsprefix_ = None
         self.orcid_id = _cast(None, orcid_id)
         self.orcid_id_nsprefix_ = None
+        self.author_order = _cast(int, author_order)
+        self.author_order_nsprefix_ = None
         self.provenance = _cast(None, provenance)
         self.provenance_nsprefix_ = None
     def factory(*args_, **kwargs_):
@@ -2353,6 +2357,10 @@ class authorType(GeneratedsSuper):
         return self.orcid_id
     def set_orcid_id(self, orcid_id):
         self.orcid_id = orcid_id
+    def get_author_order(self):
+        return self.author_order
+    def set_author_order(self, author_order):
+        self.author_order = author_order
     def get_provenance(self):
         return self.provenance
     def set_provenance(self, provenance):
@@ -2406,6 +2414,9 @@ class authorType(GeneratedsSuper):
         if self.orcid_id is not None and 'orcid_id' not in already_processed:
             already_processed.add('orcid_id')
             outfile.write(' orcid_id=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.orcid_id), input_name='orcid_id')), ))
+        if self.author_order is not None and 'author_order' not in already_processed:
+            already_processed.add('author_order')
+            outfile.write(' author_order="%s"' % self.gds_format_integer(self.author_order, input_name='author_order'))
         if self.provenance is not None and 'provenance' not in already_processed:
             already_processed.add('provenance')
             outfile.write(' provenance=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.provenance), input_name='provenance')), ))
@@ -2431,6 +2442,10 @@ class authorType(GeneratedsSuper):
         if value is not None and 'orcid_id' not in already_processed:
             already_processed.add('orcid_id')
             self.orcid_id = value
+        value = find_attr_value_('author_order', node)
+        if value is not None and 'author_order' not in already_processed:
+            already_processed.add('author_order')
+            self.author_order = self.gds_parse_integer(value, node, 'author_order')
         value = find_attr_value_('provenance', node)
         if value is not None and 'provenance' not in already_processed:
             already_processed.add('provenance')
@@ -2714,6 +2729,7 @@ class weight_infoType(GeneratedsSuper):
 
 
 class sampleType(GeneratedsSuper):
+    """Sample level annotations"""
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
@@ -2854,7 +2870,7 @@ class sampleType(GeneratedsSuper):
 
 
 class cross_ref_dbsType(GeneratedsSuper):
-    """Sample based annotations"""
+    """Annotations based on sample level"""
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
@@ -3913,8 +3929,6 @@ NamespaceToDefMappings_ = {}
 __all__ = [
     "authorType",
     "authorsType",
-    "citationType",
-    "citationsType",
     "cross_ref_db",
     "cross_ref_dbsType",
     "cross_ref_dbsType1",
@@ -3924,6 +3938,8 @@ __all__ = [
     "emicss",
     "macromoleculeType",
     "macromoleculesType",
+    "primary_citationType",
+    "ref_citationType",
     "ref_entry_dbType",
     "ref_entry_dbsType",
     "sampleType",
