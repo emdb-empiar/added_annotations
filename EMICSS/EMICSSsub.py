@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Thu Jan 13 13:01:56 2022 by generateDS.py version 2.38.6.
+# Generated Tue Jan 18 12:30:44 2022 by generateDS.py version 2.38.6.
 # Python 3.7.6 (default, Dec 30 2019, 19:38:28)  [Clang 11.0.0 (clang-1100.0.33.16)]
 #
 # Command line options:
@@ -62,8 +62,8 @@ SaveElementTreeNode = True
 
 
 class emicssSub(supermod.emicss):
-    def __init__(self, emdb_id=None, schema_version=None, dbs=None, citations=None, doi=None, weights=None, sample=None, **kwargs_):
-        super(emicssSub, self).__init__(emdb_id, schema_version, dbs, citations, doi, weights, sample,  **kwargs_)
+    def __init__(self, emdb_id=None, schema_version=None, dbs=None, ref_entry_dbs=None, citations=None, authors=None, weights=None, sample=None, **kwargs_):
+        super(emicssSub, self).__init__(emdb_id, schema_version, dbs, ref_entry_dbs, citations, authors, weights, sample,  **kwargs_)
 supermod.emicss.subclass = emicssSub
 # end class emicssSub
 
@@ -89,9 +89,23 @@ supermod.dbType.subclass = dbTypeSub
 # end class dbTypeSub
 
 
+class ref_entry_dbsTypeSub(supermod.ref_entry_dbsType):
+    def __init__(self, ref_entry_db=None, **kwargs_):
+        super(ref_entry_dbsTypeSub, self).__init__(ref_entry_db,  **kwargs_)
+supermod.ref_entry_dbsType.subclass = ref_entry_dbsTypeSub
+# end class ref_entry_dbsTypeSub
+
+
+class ref_entry_dbTypeSub(supermod.ref_entry_dbType):
+    def __init__(self, db_source=None, accession_id=None, provenance=None, **kwargs_):
+        super(ref_entry_dbTypeSub, self).__init__(db_source, accession_id, provenance,  **kwargs_)
+supermod.ref_entry_dbType.subclass = ref_entry_dbTypeSub
+# end class ref_entry_dbTypeSub
+
+
 class citationsTypeSub(supermod.citationsType):
-    def __init__(self, citation=None, **kwargs_):
-        super(citationsTypeSub, self).__init__(citation,  **kwargs_)
+    def __init__(self, doi=None, provenance=None, citation=None, **kwargs_):
+        super(citationsTypeSub, self).__init__(doi, provenance, citation,  **kwargs_)
 supermod.citationsType.subclass = citationsTypeSub
 # end class citationsTypeSub
 
@@ -103,18 +117,18 @@ supermod.citationType.subclass = citationTypeSub
 # end class citationTypeSub
 
 
-class doiTypeSub(supermod.doiType):
-    def __init__(self, doi_info=None, **kwargs_):
-        super(doiTypeSub, self).__init__(doi_info,  **kwargs_)
-supermod.doiType.subclass = doiTypeSub
-# end class doiTypeSub
+class authorsTypeSub(supermod.authorsType):
+    def __init__(self, author=None, **kwargs_):
+        super(authorsTypeSub, self).__init__(author,  **kwargs_)
+supermod.authorsType.subclass = authorsTypeSub
+# end class authorsTypeSub
 
 
-class doi_infoTypeSub(supermod.doi_infoType):
-    def __init__(self, doi=None, author=None, orcid_id=None, provenance=None, **kwargs_):
-        super(doi_infoTypeSub, self).__init__(doi, author, orcid_id, provenance,  **kwargs_)
-supermod.doi_infoType.subclass = doi_infoTypeSub
-# end class doi_infoTypeSub
+class authorTypeSub(supermod.authorType):
+    def __init__(self, author_name=None, orcid_id=None, provenance=None, **kwargs_):
+        super(authorTypeSub, self).__init__(author_name, orcid_id, provenance,  **kwargs_)
+supermod.authorType.subclass = authorTypeSub
+# end class authorTypeSub
 
 
 class weightsTypeSub(supermod.weightsType):

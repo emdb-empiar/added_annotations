@@ -20,15 +20,10 @@
                         </xsd:sequence>
                     </xsd:complexType>
                 </xsd:element>
-                <xsd:element minOccurs="0" name="citations">
-                    <xsd:annotation>
-                        <xsd:documentation>
-                            Entry based annotations
-                        </xsd:documentation>
-                    </xsd:annotation>
+                <xsd:element name="ref_entry_dbs" minOccurs="0">
                     <xsd:complexType>
                         <xsd:sequence>
-                            <xsd:element maxOccurs="unbounded" name="citation">
+                            <xsd:element maxOccurs="unbounded" minOccurs="0" name="ref_entry_db">
                                 <xsd:complexType>
                                     <xsd:attribute name="db_source" type="xsd:string"/>
                                     <xsd:attribute name="accession_id" type="xsd:string"/>
@@ -38,13 +33,32 @@
                         </xsd:sequence>
                     </xsd:complexType>
                 </xsd:element>
-                <xsd:element name="doi" minOccurs="0">
+                <xsd:element minOccurs="0" name="citations">
+                    <xsd:annotation>
+                        <xsd:documentation>
+                            Entry based annotations
+                        </xsd:documentation>
+                    </xsd:annotation>
                     <xsd:complexType>
                         <xsd:sequence>
-                            <xsd:element maxOccurs="unbounded" name="doi_info">
+                            <xsd:element maxOccurs="unbounded" minOccurs="0" name="citation">
                                 <xsd:complexType>
-                                    <xsd:attribute name="doi" type="xsd:string"/>
-                                    <xsd:attribute name="author" type="xsd:string"/>
+                                    <xsd:attribute name="db_source" type="xsd:string"/>
+                                    <xsd:attribute name="accession_id" type="xsd:string"/>
+                                    <xsd:attribute name="provenance" type="provenance_type"/>
+                                </xsd:complexType>
+                            </xsd:element>
+                        </xsd:sequence>
+                        <xsd:attribute name="doi" type="xsd:string"/>
+                        <xsd:attribute name="provenance" type="provenance_type"/>
+                    </xsd:complexType>
+                </xsd:element>
+                <xsd:element minOccurs="0" name="authors">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element maxOccurs="unbounded" name="author" minOccurs="0">
+                                <xsd:complexType>
+                                    <xsd:attribute name="author_name" type="xsd:string"/>
                                     <xsd:attribute name="orcid_id" type="xsd:string"/>
                                     <xsd:attribute name="provenance" type="provenance_type"/>
                                 </xsd:complexType>
@@ -60,7 +74,7 @@
                     </xsd:annotation>
                     <xsd:complexType>
                         <xsd:sequence>
-                            <xsd:element maxOccurs="unbounded" name="weight_info">
+                            <xsd:element maxOccurs="unbounded" name="weight_info" minOccurs="0">
                                 <xsd:complexType>
                                     <xsd:attribute name="pdb_id" type="xsd:string"/>
                                     <xsd:attribute name="assemblies" type="xsd:int"/>

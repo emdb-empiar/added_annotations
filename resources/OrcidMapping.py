@@ -29,6 +29,7 @@ class OrcidMapping:
                 if pubmedid != "None":
                     time.sleep(0.5)
                     citation.orcid_ids = self.orcid_from_Epmc(pubmedid)
+
         return citation
 
     def pmc_api_query(self, queryString):
