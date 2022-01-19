@@ -215,6 +215,7 @@ class Citation:
         self.doi = None
         self.issn = None
         self.authors = []
+        self.author_order = {}
         self.orcid_ids = {}
         self.status = ""
         self.title = ""
@@ -225,7 +226,7 @@ class Citation:
         self.url = ""
 
     def __str__(self):
-        return "%s\t%s\t%s\t%s\t%s\n" % (self.emdb_id, self.pmedid, self.pmcid, self.doi, self.issn)
+        return "%s\t%s\t%s\t%s\t%s\t%s\n" % (self.emdb_id, self.pmedid, self.pmcid, self.doi, self.issn, self.orcid_ids)
 
 class GO:
     """

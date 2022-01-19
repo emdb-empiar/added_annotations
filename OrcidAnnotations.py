@@ -74,7 +74,7 @@ if __name__ == "__main__":
         orcid_log_file = os.path.join(args.workDir, 'emdb_orcid.log')
         orcid_log_file_backup = os.path.join(args.workDir, 'emdb_orcid_backup.log')
         orcid_log = setup_logger('orcid_logger', orcid_log_file)
-        orcid_log.info("EMDB_ID\tAUTHOR_NAME\tORCID_ID\tPROVENANCE")
+        orcid_log.info("EMDB_ID\tAUTHOR_NAME\tORCID_ID\tAUTHOR_ORDER\tPROVENANCE")
 
     Parallel(n_jobs=args.threads)(delayed(run)(file) for file in glob(os.path.join(args.headerDir, '*')))
 

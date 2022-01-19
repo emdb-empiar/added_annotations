@@ -57,30 +57,45 @@ class OrcidMapping:
             response = requests.get(url)
             if response.status_code == 200 and response.content:
                 root = ET.fromstring(response.content)
-                if list(root.iter('authorIdList')):
-                    for x in list(root.iter('authorIdList')):
-                        for auth in x.iter('authorId'):
-                            if auth.attrib['type'] == 'ORCID':
-                                orcid_id = auth.text
-                                if orcid_id not in ids:
-                                    if list(root.iter('authorList')):
-                                        for y in list(root.iter('author')):
-                                            for id in y.iter('authorId'):
-                                                if id.attrib['type'] == 'ORCID':
-                                                    if orcid_id == id.text:
-                                                        if y.find('firstName') is not None:
-                                                            firstname = y.find('firstName').text
-                                                            if y.find('lastName') is not None:
-                                                                lastname = y.find('lastName').text
-                                                                author_name = firstname + " " + lastname
-                                                                orcid_ids[author_name] = orcid_id
-                                                                citation.provenance_orcid = "EuropePMC"
-                                    else:
-                                        author_name = self.name_for_orcid_id(orcid_id)
-                                        orcid_ids[author_name] = orcid_id
-                                        citation.provenance_orcid = "ORCID"
-                                ids.add(orcid_id)
-                                citation.orcid_ids = ids
+                if list(root.iter('result')):
+                    for a in list(root.iter('result')):
+                        for pmid in a.iter('pmid'):
+                            if pmid.text == pubmed_id:
+                                if list(a.iter('authorIdList')):
+                                    for x in list(a.iter('authorIdList')):
+                                        for auth in x.iter('authorId'):
+                                            if auth.attrib['type'] == 'ORCID':
+                                                orcid_id = auth.text
+                                                if orcid_id not in ids:
+                                                    if list(root.iter('authorList')):
+                                                        for y in list(root.iter('author')):
+                                                            for id in y.iter('authorId'):
+                                                                if id.attrib['type'] == 'ORCID':
+                                                                    if orcid_id == id.text:
+                                                                        if y.find('firstName') is not None:
+                                                                            firstname = y.find('firstName').text
+                                                                            if y.find('lastName') is not None:
+                                                                                lastname = y.find('lastName').text
+                                                                                author_name = firstname + " " + lastname
+                                                                                if lastname in citation.author_order:
+                                                                                    order = citation.author_order[lastname]
+                                                                                    name_order = f'{author_name} [{order}]'
+                                                                                    orcid_ids[name_order] = orcid_id
+                                                                                else:
+                                                                                    orcid_ids[author_name] = orcid_id
+                                                                                citation.provenance_orcid = "EuropePMC"
+                                                    else:
+                                                        author_name, lastname = self.name_for_orcid_id(orcid_id)
+                                                        if lastname in citation.author_order:
+                                                            order = citation.author_order[lastname]
+                                                            name_order = f'{author_name} [{order}]'
+                                                            orcid_ids[name_order] = orcid_id
+                                                        else:
+                                                            orcid_ids[author_name] = orcid_id
+                                                        citation.provenance_orcid = "ORCID"
+                                                ids.add(orcid_id)
+                                                citation.orcid_ids = ids
+
             return orcid_ids
 
     def name_for_orcid_id(self, orcid_id):
@@ -95,10 +110,15 @@ class OrcidMapping:
                     given_name = xmld['person:person']['person:name']['personal-details:given-names']
                     family_name = xmld['person:person']['person:name']['personal-details:family-name']
                     author_name = given_name + " " + family_name
-        return author_name
+        return author_name, family_name
 
     def export_tsv(self, orcid_logger):
         for citation in self.citations:
-            for name, id in (citation.orcid_ids).items():
-                row = f"{citation.emdb_id}\t{name}\t{id}\t{citation.provenance_orcid}"
+            for auth_order, id in (citation.orcid_ids).items():
+                name = auth_order.split('[')[0]
+                if '[' in auth_order:
+                    order = auth_order.split('[', 1)[1].split(']')[0]
+                else:
+                    order = None
+                row = f"{citation.emdb_id}\t{name}\t{id}\t{order}\t{citation.provenance_orcid}"
                 orcid_logger.info(row)

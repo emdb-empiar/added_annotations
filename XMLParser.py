@@ -260,11 +260,19 @@ class XMLParser:
 					pub = y.find('journal_citation')
 					for auth in y.iter('author'):
 						author = auth.text
-						author_order = auth.attrib['order']
+						author_lastname = author.split(" ")[0]
 						(citation.authors).append(author)
+						if 'order' in auth.attrib:
+							auth_order = auth.attrib['order']
+							citation.author_order[author_lastname] = auth_order
 						if 'ORCID' in auth.attrib:
 							orcid_id = auth.attrib['ORCID']
-							(citation.orcid_ids)[author] = orcid_id
+							if author_lastname in citation.author_order:
+								order = citation.author_order[author_lastname]
+								name_order = f'{author} [{order}]'
+								citation.orcid_ids[name_order] = orcid_id
+							else:
+								citation.orcid_ids[author] = orcid_id
 							citation.provenance_orcid = "AUTHOR"
 					nas = pub.find('title').text
 					title = nas.split('\n\n', 1)[0]

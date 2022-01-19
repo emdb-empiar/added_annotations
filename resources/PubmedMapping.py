@@ -11,13 +11,15 @@ def generate_orcid_dictionary(workDir):
             emdb_id = line.split('\t')[0]
             name = line.split('\t')[1]
             id = line.split('\t')[2]
-            pvn = line.split('\t')[3]
+            ord = line.split('\t')[3]
+            pvn = line.split('\t')[4]
             if emdb_id not in orcid_dict:
                 orcid_dict[emdb_id] = {}
-            orc_list = ["name", name, "id", id, "provenance", pvn]
+            orc_list = ["name", name, "id", id, "order", ord, "provenance", pvn]
             list_dict = dict(itertools.zip_longest(*[iter(orc_list)] * 2, fillvalue=""))
             for k in list_dict.keys():
                 orcid_dict[emdb_id][k] = list_dict[k]
+    print(orcid_dict)
     return orcid_dict
 
 class PubmedMapping:
