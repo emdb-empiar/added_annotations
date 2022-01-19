@@ -1,4 +1,5 @@
 import argparse, configparser, os
+import csv
 from pathlib import Path
 from resources.OrcidMapping import OrcidMapping
 from XMLParser import XMLParser

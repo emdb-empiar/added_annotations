@@ -12,6 +12,7 @@ class DBVersion:
 
     def __init__(self, db_list):
         today = date.today()
+        today_num = re.sub('-', '', str(today))
         offset = (today.weekday() - 2) % 7
         last_Wednesday = str(today - timedelta(days=offset))
         year = today.year
@@ -83,10 +84,9 @@ class DBVersion:
             pdbe_ver = f'{week_num}.{str(year)[-2:]}'
             db_verison_list.extend(["pdbe", pdbe_ver])
         if "pdbekb" in db_list:
-            db_verison_list.extend(["pdbekb", year_month])
+            db_verison_list.extend(["pdbekb", today_num])
         if "alphafold" in db_list:
-            db_verison_list.extend(["alphafold", "1.0"])
+            db_verison_list.extend(["alphafold", "2.0"])
         if "empiar" in db_list:
-            empiar_ver = re.sub('-', '', str(today))
-            db_verison_list.extend(["empiar", empiar_ver])
+            db_verison_list.extend(["empiar", today_num])
         self.db_list = db_verison_list

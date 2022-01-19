@@ -3,6 +3,7 @@ import lxml.etree as ET
 import xmltodict
 import requests
 import time
+import collections
 
 class OrcidMapping:
     """
@@ -79,19 +80,21 @@ class OrcidMapping:
                                                                                 author_name = firstname + " " + lastname
                                                                                 if lastname in citation.author_order:
                                                                                     order = citation.author_order[lastname]
-                                                                                    name_order = f'{author_name} [{order}]'
+                                                                                    name_order = f'{order} [{author_name}]'
                                                                                     orcid_ids[name_order] = orcid_id
                                                                                 else:
-                                                                                    orcid_ids[author_name] = orcid_id
+                                                                                    name_order = f'0 [{author_name}]'
+                                                                                    orcid_ids[name_order] = orcid_id
                                                                                 citation.provenance_orcid = "EuropePMC"
                                                     else:
                                                         author_name, lastname = self.name_for_orcid_id(orcid_id)
                                                         if lastname in citation.author_order:
                                                             order = citation.author_order[lastname]
-                                                            name_order = f'{author_name} [{order}]'
+                                                            name_order = f'{order} [{author_name}]'
                                                             orcid_ids[name_order] = orcid_id
                                                         else:
-                                                            orcid_ids[author_name] = orcid_id
+                                                            name_order = f'0 [{author_name}]'
+                                                            orcid_ids[name_order] = orcid_id
                                                         citation.provenance_orcid = "ORCID"
                                                 ids.add(orcid_id)
                                                 citation.orcid_ids = ids
@@ -114,11 +117,11 @@ class OrcidMapping:
 
     def export_tsv(self, orcid_logger):
         for citation in self.citations:
-            for auth_order, id in (citation.orcid_ids).items():
-                name = auth_order.split('[')[0]
+            sort_orcid_ids = collections.OrderedDict(sorted((citation.orcid_ids).items(), key=lambda item: int(item[0].split("[")[0])))
+            for auth_order, id in (sort_orcid_ids).items():
+                order = auth_order.split('[')[0]
                 if '[' in auth_order:
-                    order = auth_order.split('[', 1)[1].split(']')[0]
-                else:
-                    order = None
+                    name = auth_order.split('[', 1)[1].split(']')[0]
+
                 row = f"{citation.emdb_id}\t{name}\t{id}\t{order}\t{citation.provenance_orcid}"
                 orcid_logger.info(row)

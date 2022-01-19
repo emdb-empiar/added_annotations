@@ -269,7 +269,7 @@ class XMLParser:
 							orcid_id = auth.attrib['ORCID']
 							if author_lastname in citation.author_order:
 								order = citation.author_order[author_lastname]
-								name_order = f'{author} [{order}]'
+								name_order = f'{order} [{author}]'
 								citation.orcid_ids[name_order] = orcid_id
 							else:
 								citation.orcid_ids[author] = orcid_id

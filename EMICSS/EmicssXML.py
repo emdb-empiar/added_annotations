@@ -58,7 +58,7 @@ class EmicssXML:
 
             headerXML = EMICSS.emicss()
             dbs = EMICSS.dbsType()
-            ref_entry_dbs = EMICSS.ref_entry_dbsType()
+            entry_ref_dbs = EMICSS.entry_ref_dbsType()
             primary_citation = EMICSS.primary_citationType()
             weights = EMICSS.weightsType()
             sample = EMICSS.sampleType()
@@ -77,7 +77,7 @@ class EmicssXML:
             for samp_id in val.keys():
                 if samp_id is not None:
                     if re.search(r'%s\-\d+' % "EMPIAR", samp_id):
-                        emicss_empiar = self.EMICSS_empiar(val, samp_id, all_db, dbs, ref_entry_dbs)
+                        emicss_empiar = self.EMICSS_empiar(val, samp_id, all_db, dbs, entry_ref_dbs)
                     if samp_id == "theoretical" or samp_id == "experimental":
                         emicss_weight = self.EMICSS_weight(val, samp_id, weights)
                     if samp_id == "PMC":
@@ -95,12 +95,12 @@ class EmicssXML:
             entry_id = em_id.split("-")[1]
             entry = f"EMD_{entry_id}"
             headerXML.set_emdb_id("%s" % entry)
-            headerXML.set_schema_version("1.0.0")
+            headerXML.set_schema_version("0.9.0")
 
             if len(all_db) != 0:
                 headerXML.set_dbs(dbs)
             if emicss_empiar:
-                headerXML.set_ref_entry_dbs(ref_entry_dbs)
+                headerXML.set_entry_ref_dbs(entry_ref_dbs)
             if emicss_primary_citation:
                 headerXML.set_primary_citation(primary_citation)
             if emicss_model or emicss_weight:
@@ -116,14 +116,15 @@ class EmicssXML:
             Path(output_path).mkdir(parents=True, exist_ok=True)
             xmlFile = os.path.join(output_path, "emd-" + entry_id + "_emicss.xml")
             with open(xmlFile, 'w') as f:
-                headerXML.export(f, 0, name_='emicss')
+                f.write('<?xml version="1.0" encoding="UTF-8"?>\n')
+                headerXML.export(f, 0, name_='emicss',  namespacedef_= 'xsi:schemaLocation=""')
                 # headerXML.export(f, 0, name_='emicss',
                 #                  namespacedef_='xmlns="http://pdbe.org/empiar" '
                 #                                'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" '
                 #                                'xsi:schemaLocation="https://ftp.ebi.ac.uk/pub/databases/emtest/empiar/schema/empiar.xsd"')
 
 
-    def EMICSS_empiar(self, val, samp_id, all_db, dbs, ref_entry_dbs):
+    def EMICSS_empiar(self, val, samp_id, all_db, dbs, entry_ref_dbs):
         "Adding EMPIAR_ID to EMICSS"
 
         empiar_id = val.get(samp_id, {}).get('empiar_id')
@@ -134,12 +135,12 @@ class EmicssXML:
                 db.set_db_version("%s" % self.empiar_vers)
                 dbs.add_db(db)
         all_db.add("EMPIAR")
-        ref_entry_db = EMICSS.ref_entry_dbType()
-        ref_entry_db.set_db_source("%s" % "EMPIAR")
-        ref_entry_db.set_accession_id("%s" % empiar_id)
-        ref_entry_db.set_provenance("%s" % "AUTHOR")
-        ref_entry_dbs.add_ref_entry_db(ref_entry_db)
-        return ref_entry_dbs
+        entry_ref_db = EMICSS.entry_ref_dbType()
+        entry_ref_db.set_db_source("%s" % "EMPIAR")
+        entry_ref_db.set_accession_id("%s" % empiar_id)
+        entry_ref_db.set_provenance("%s" % "AUTHOR")
+        entry_ref_dbs.add_entry_ref_db(entry_ref_db)
+        return entry_ref_dbs
 
     def EMICSS_PMC(self, val, samp_id, all_db, dbs, primary_citation):
         """
@@ -150,12 +151,10 @@ class EmicssXML:
         pmcid = val.get(samp_id, {}).get('pmcid')
         pub_doi = val.get(samp_id, {}).get('doi')
         issn = val.get(samp_id, {}).get('issn')
-        author_names = val.get(samp_id, {}).get('authors')
         orcid_ids = val.get(samp_id, {}).get('orcid_ids')
         provenance_pm = val.get(samp_id, {}).get('provenance_pm')
         provenance_pmc = val.get(samp_id, {}).get('provenance_pmc')
         provenance_doi = val.get(samp_id, {}).get('provenance_doi')
-        provenance_orcid = val.get(samp_id, {}).get('provenance_orcid')
         if pmedid:
             if "PUBMED" not in all_db:
                 db = EMICSS.dbType()
@@ -193,18 +192,29 @@ class EmicssXML:
             primary_citation.set_doi("%s" % pub_doi)
             primary_citation.set_provenance("%s" % provenance_doi)
         if orcid_ids:
+            ind = orcid_ids.get('ind')
             if "ORCID" not in all_db:
                 db = EMICSS.dbType()
                 db.set_db_source("%s" % "ORCID")
                 dbs.add_db(db)
             all_db.add("ORCID")
-            for id, name in orcid_ids.items():
+            for x in range(int(ind)):
+                auth_name = "name_" + str(x)
+                name = orcid_ids.get(auth_name)
+                auth_id = "id_" + str(x)
+                id = orcid_ids.get(auth_id)
+                auth_ord = "order_" + str(x)
+                order = orcid_ids.get(auth_ord)
+                prov = "provenance_orcid_" + str(x)
+                provenance_orcid = orcid_ids.get(prov)
                 author = EMICSS.authorType()
                 author.set_author_name("%s" % name)
                 author.set_orcid_id("%s" % id)
+                if int(order) != 0:
+                    author.set_author_order(int(order))
                 author.set_provenance("%s" % provenance_orcid)
                 authors.add_author(author)
-        primary_citation.set_authors(authors)
+            primary_citation.set_authors(authors)
 
         return primary_citation
 
@@ -265,7 +275,7 @@ class EmicssXML:
         uniprot_id = val.get(samp_id, {}).get('uniprot_id')
         uni_provenance = val.get(samp_id, {}).get('provenance')
         macromolecule.set_type("%s" % "protein")
-        macromolecule.set_id(int(sample_id))
+        macromolecule.set_emdb_macromolecule_id(int(sample_id))
         macromolecule.set_copies(int(sample_copies))
         macromolecule.set_name("%s" % name)
         if uniprot_id:
@@ -519,7 +529,7 @@ class EmicssXML:
 
         macromolecule = EMICSS.macromoleculeType()
         macromolecule.set_type("%s" % "ligand")
-        macromolecule.set_id(int(sample_id))
+        macromolecule.set_emdb_macromolecule_id(int(sample_id))
         macromolecule.set_ccd_id("%s" % HET)
         macromolecule.set_copies(int(lig_copies))
         macromolecule.set_name("%s" % lig_name)
@@ -593,7 +603,7 @@ class EmicssXML:
                 if cpx_samp_id not in cp_id:
                     cross_ref_db = EMICSS.cross_ref_db()
                     supramolecule.set_type("%s" % "complex")
-                    supramolecule.set_id(int(cpx_samp_id))
+                    supramolecule.set_emdb_supramolecule_id(int(cpx_samp_id))
                     supramolecule.set_copies(int(cpx_sample_copies))
                     supramolecule.set_name("%s" % cpx_sample_name)
                     if "COMPLEX PORTAL" not in all_db:

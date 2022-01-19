@@ -15,11 +15,15 @@ def generate_orcid_dictionary(workDir):
             pvn = line.split('\t')[4]
             if emdb_id not in orcid_dict:
                 orcid_dict[emdb_id] = {}
-            orc_list = ["name", name, "id", id, "order", ord, "provenance", pvn]
+                ind = 0
+            orc_list = ["name" + "_" + str(ind), name, "id" + "_" + str(ind), id , "order" + "_" + str(ind), ord,
+                        "provenance_orcid" + "_" + str(ind), pvn]
             list_dict = dict(itertools.zip_longest(*[iter(orc_list)] * 2, fillvalue=""))
             for k in list_dict.keys():
                 orcid_dict[emdb_id][k] = list_dict[k]
-    print(orcid_dict)
+            ind = ind + 1
+            orcid_dict[emdb_id]["ind"] = ind
+
     return orcid_dict
 
 class PubmedMapping:
@@ -81,14 +85,9 @@ class PubmedMapping:
                     citation.provenance_doi = "EuropePMC"
 
         if self.is_orcid:
-            orcid_id = {}
             orc = self.orcid_dict.get(citation.emdb_id)
             if orc:
-                name = orc.get('name')
-                id = orc.get('id')
-                orcid_id[id] = name
-                citation.orcid_ids = orcid_id
-                citation.provenance_orcid = orc.get('provenance')
+                citation.orcid_ids = orc
 
         return citation
 

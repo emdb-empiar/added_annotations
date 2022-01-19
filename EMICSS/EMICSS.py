@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Tue Jan 18 17:46:31 2022 by generateDS.py version 2.38.6.
+# Generated Wed Jan 19 16:52:34 2022 by generateDS.py version 2.38.6.
 # Python 3.7.6 (default, Dec 30 2019, 19:38:28)  [Clang 11.0.0 (clang-1100.0.33.16)]
 #
 # Command line options:
@@ -1022,7 +1022,7 @@ class emicss(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, emdb_id=None, schema_version=None, dbs=None, ref_entry_dbs=None, primary_citation=None, weights=None, sample=None, gds_collector_=None, **kwargs_):
+    def __init__(self, emdb_id=None, schema_version=None, dbs=None, entry_ref_dbs=None, primary_citation=None, weights=None, sample=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
@@ -1034,8 +1034,8 @@ class emicss(GeneratedsSuper):
         self.schema_version_nsprefix_ = None
         self.dbs = dbs
         self.dbs_nsprefix_ = None
-        self.ref_entry_dbs = ref_entry_dbs
-        self.ref_entry_dbs_nsprefix_ = None
+        self.entry_ref_dbs = entry_ref_dbs
+        self.entry_ref_dbs_nsprefix_ = None
         self.primary_citation = primary_citation
         self.primary_citation_nsprefix_ = None
         self.weights = weights
@@ -1061,10 +1061,10 @@ class emicss(GeneratedsSuper):
         return self.dbs
     def set_dbs(self, dbs):
         self.dbs = dbs
-    def get_ref_entry_dbs(self):
-        return self.ref_entry_dbs
-    def set_ref_entry_dbs(self, ref_entry_dbs):
-        self.ref_entry_dbs = ref_entry_dbs
+    def get_entry_ref_dbs(self):
+        return self.entry_ref_dbs
+    def set_entry_ref_dbs(self, entry_ref_dbs):
+        self.entry_ref_dbs = entry_ref_dbs
     def get_primary_citation(self):
         return self.primary_citation
     def set_primary_citation(self, primary_citation):
@@ -1099,7 +1099,7 @@ class emicss(GeneratedsSuper):
     def hasContent_(self):
         if (
             self.dbs is not None or
-            self.ref_entry_dbs is not None or
+            self.entry_ref_dbs is not None or
             self.primary_citation is not None or
             self.weights is not None or
             self.sample is not None
@@ -1145,9 +1145,9 @@ class emicss(GeneratedsSuper):
         if self.dbs is not None:
             namespaceprefix_ = self.dbs_nsprefix_ + ':' if (UseCapturedNS_ and self.dbs_nsprefix_) else ''
             self.dbs.export(outfile, level, namespaceprefix_, namespacedef_='', name_='dbs', pretty_print=pretty_print)
-        if self.ref_entry_dbs is not None:
-            namespaceprefix_ = self.ref_entry_dbs_nsprefix_ + ':' if (UseCapturedNS_ and self.ref_entry_dbs_nsprefix_) else ''
-            self.ref_entry_dbs.export(outfile, level, namespaceprefix_, namespacedef_='', name_='ref_entry_dbs', pretty_print=pretty_print)
+        if self.entry_ref_dbs is not None:
+            namespaceprefix_ = self.entry_ref_dbs_nsprefix_ + ':' if (UseCapturedNS_ and self.entry_ref_dbs_nsprefix_) else ''
+            self.entry_ref_dbs.export(outfile, level, namespaceprefix_, namespacedef_='', name_='entry_ref_dbs', pretty_print=pretty_print)
         if self.primary_citation is not None:
             namespaceprefix_ = self.primary_citation_nsprefix_ + ':' if (UseCapturedNS_ and self.primary_citation_nsprefix_) else ''
             self.primary_citation.export(outfile, level, namespaceprefix_, namespacedef_='', name_='primary_citation', pretty_print=pretty_print)
@@ -1186,11 +1186,11 @@ class emicss(GeneratedsSuper):
             obj_.build(child_, gds_collector_=gds_collector_)
             self.dbs = obj_
             obj_.original_tagname_ = 'dbs'
-        elif nodeName_ == 'ref_entry_dbs':
-            obj_ = ref_entry_dbsType.factory(parent_object_=self)
+        elif nodeName_ == 'entry_ref_dbs':
+            obj_ = entry_ref_dbsType.factory(parent_object_=self)
             obj_.build(child_, gds_collector_=gds_collector_)
-            self.ref_entry_dbs = obj_
-            obj_.original_tagname_ = 'ref_entry_dbs'
+            self.entry_ref_dbs = obj_
+            obj_.original_tagname_ = 'entry_ref_dbs'
         elif nodeName_ == 'primary_citation':
             obj_ = primary_citationType.factory(parent_object_=self)
             obj_.build(child_, gds_collector_=gds_collector_)
@@ -1697,87 +1697,87 @@ class dbType(GeneratedsSuper):
 # end class dbType
 
 
-class ref_entry_dbsType(GeneratedsSuper):
+class entry_ref_dbsType(GeneratedsSuper):
     """Annotations on EMDB entry level"""
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, ref_entry_db=None, gds_collector_=None, **kwargs_):
+    def __init__(self, entry_ref_db=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
         self.parent_object_ = kwargs_.get('parent_object_')
         self.ns_prefix_ = None
-        if ref_entry_db is None:
-            self.ref_entry_db = []
+        if entry_ref_db is None:
+            self.entry_ref_db = []
         else:
-            self.ref_entry_db = ref_entry_db
-        self.ref_entry_db_nsprefix_ = None
+            self.entry_ref_db = entry_ref_db
+        self.entry_ref_db_nsprefix_ = None
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
-                CurrentSubclassModule_, ref_entry_dbsType)
+                CurrentSubclassModule_, entry_ref_dbsType)
             if subclass is not None:
                 return subclass(*args_, **kwargs_)
-        if ref_entry_dbsType.subclass:
-            return ref_entry_dbsType.subclass(*args_, **kwargs_)
+        if entry_ref_dbsType.subclass:
+            return entry_ref_dbsType.subclass(*args_, **kwargs_)
         else:
-            return ref_entry_dbsType(*args_, **kwargs_)
+            return entry_ref_dbsType(*args_, **kwargs_)
     factory = staticmethod(factory)
     def get_ns_prefix_(self):
         return self.ns_prefix_
     def set_ns_prefix_(self, ns_prefix):
         self.ns_prefix_ = ns_prefix
-    def get_ref_entry_db(self):
-        return self.ref_entry_db
-    def set_ref_entry_db(self, ref_entry_db):
-        self.ref_entry_db = ref_entry_db
-    def add_ref_entry_db(self, value):
-        self.ref_entry_db.append(value)
-    def insert_ref_entry_db_at(self, index, value):
-        self.ref_entry_db.insert(index, value)
-    def replace_ref_entry_db_at(self, index, value):
-        self.ref_entry_db[index] = value
+    def get_entry_ref_db(self):
+        return self.entry_ref_db
+    def set_entry_ref_db(self, entry_ref_db):
+        self.entry_ref_db = entry_ref_db
+    def add_entry_ref_db(self, value):
+        self.entry_ref_db.append(value)
+    def insert_entry_ref_db_at(self, index, value):
+        self.entry_ref_db.insert(index, value)
+    def replace_entry_ref_db_at(self, index, value):
+        self.entry_ref_db[index] = value
     def hasContent_(self):
         if (
-            self.ref_entry_db
+            self.entry_ref_db
         ):
             return True
         else:
             return False
-    def export(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='ref_entry_dbsType', pretty_print=True):
-        imported_ns_def_ = GenerateDSNamespaceDefs_.get('ref_entry_dbsType')
+    def export(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='entry_ref_dbsType', pretty_print=True):
+        imported_ns_def_ = GenerateDSNamespaceDefs_.get('entry_ref_dbsType')
         if imported_ns_def_ is not None:
             namespacedef_ = imported_ns_def_
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        if self.original_tagname_ is not None and name_ == 'ref_entry_dbsType':
+        if self.original_tagname_ is not None and name_ == 'entry_ref_dbsType':
             name_ = self.original_tagname_
         if UseCapturedNS_ and self.ns_prefix_:
             namespaceprefix_ = self.ns_prefix_ + ':'
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='ref_entry_dbsType')
+        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='entry_ref_dbsType')
         if self.hasContent_():
             outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='ref_entry_dbsType', pretty_print=pretty_print)
+            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='entry_ref_dbsType', pretty_print=pretty_print)
             showIndent(outfile, level, pretty_print)
             outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='ref_entry_dbsType'):
+    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='entry_ref_dbsType'):
         pass
-    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='ref_entry_dbsType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='entry_ref_dbsType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        for ref_entry_db_ in self.ref_entry_db:
-            namespaceprefix_ = self.ref_entry_db_nsprefix_ + ':' if (UseCapturedNS_ and self.ref_entry_db_nsprefix_) else ''
-            ref_entry_db_.export(outfile, level, namespaceprefix_, namespacedef_='', name_='ref_entry_db', pretty_print=pretty_print)
+        for entry_ref_db_ in self.entry_ref_db:
+            namespaceprefix_ = self.entry_ref_db_nsprefix_ + ':' if (UseCapturedNS_ and self.entry_ref_db_nsprefix_) else ''
+            entry_ref_db_.export(outfile, level, namespaceprefix_, namespacedef_='', name_='entry_ref_db', pretty_print=pretty_print)
     def build(self, node, gds_collector_=None):
         self.gds_collector_ = gds_collector_
         if SaveElementTreeNode:
@@ -1792,15 +1792,15 @@ class ref_entry_dbsType(GeneratedsSuper):
     def buildAttributes(self, node, attrs, already_processed):
         pass
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
-        if nodeName_ == 'ref_entry_db':
-            obj_ = ref_entry_dbType.factory(parent_object_=self)
+        if nodeName_ == 'entry_ref_db':
+            obj_ = entry_ref_dbType.factory(parent_object_=self)
             obj_.build(child_, gds_collector_=gds_collector_)
-            self.ref_entry_db.append(obj_)
-            obj_.original_tagname_ = 'ref_entry_db'
-# end class ref_entry_dbsType
+            self.entry_ref_db.append(obj_)
+            obj_.original_tagname_ = 'entry_ref_db'
+# end class entry_ref_dbsType
 
 
-class ref_entry_dbType(GeneratedsSuper):
+class entry_ref_dbType(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
@@ -1819,13 +1819,13 @@ class ref_entry_dbType(GeneratedsSuper):
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
-                CurrentSubclassModule_, ref_entry_dbType)
+                CurrentSubclassModule_, entry_ref_dbType)
             if subclass is not None:
                 return subclass(*args_, **kwargs_)
-        if ref_entry_dbType.subclass:
-            return ref_entry_dbType.subclass(*args_, **kwargs_)
+        if entry_ref_dbType.subclass:
+            return entry_ref_dbType.subclass(*args_, **kwargs_)
         else:
-            return ref_entry_dbType(*args_, **kwargs_)
+            return entry_ref_dbType(*args_, **kwargs_)
     factory = staticmethod(factory)
     def get_ns_prefix_(self):
         return self.ns_prefix_
@@ -1863,29 +1863,29 @@ class ref_entry_dbType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='ref_entry_dbType', pretty_print=True):
-        imported_ns_def_ = GenerateDSNamespaceDefs_.get('ref_entry_dbType')
+    def export(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='entry_ref_dbType', pretty_print=True):
+        imported_ns_def_ = GenerateDSNamespaceDefs_.get('entry_ref_dbType')
         if imported_ns_def_ is not None:
             namespacedef_ = imported_ns_def_
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        if self.original_tagname_ is not None and name_ == 'ref_entry_dbType':
+        if self.original_tagname_ is not None and name_ == 'entry_ref_dbType':
             name_ = self.original_tagname_
         if UseCapturedNS_ and self.ns_prefix_:
             namespaceprefix_ = self.ns_prefix_ + ':'
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='ref_entry_dbType')
+        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='entry_ref_dbType')
         if self.hasContent_():
             outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='ref_entry_dbType', pretty_print=pretty_print)
+            self.exportChildren(outfile, level + 1, namespaceprefix_, namespacedef_, name_='entry_ref_dbType', pretty_print=pretty_print)
             outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='ref_entry_dbType'):
+    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='entry_ref_dbType'):
         if self.db_source is not None and 'db_source' not in already_processed:
             already_processed.add('db_source')
             outfile.write(' db_source=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.db_source), input_name='db_source')), ))
@@ -1895,7 +1895,7 @@ class ref_entry_dbType(GeneratedsSuper):
         if self.provenance is not None and 'provenance' not in already_processed:
             already_processed.add('provenance')
             outfile.write(' provenance=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.provenance), input_name='provenance')), ))
-    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='ref_entry_dbType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='entry_ref_dbType', fromsubclass_=False, pretty_print=True):
         pass
     def build(self, node, gds_collector_=None):
         self.gds_collector_ = gds_collector_
@@ -1925,7 +1925,7 @@ class ref_entry_dbType(GeneratedsSuper):
             self.validate_provenance_type(self.provenance)    # validate type provenance_type
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         pass
-# end class ref_entry_dbType
+# end class entry_ref_dbType
 
 
 class primary_citationType(GeneratedsSuper):
@@ -3079,7 +3079,7 @@ class supramoleculeType(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, type_=None, id=None, copies=None, name=None, cross_ref_dbs=None, gds_collector_=None, **kwargs_):
+    def __init__(self, type_=None, emdb_supramolecule_id=None, copies=None, name=None, cross_ref_dbs=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
@@ -3087,8 +3087,8 @@ class supramoleculeType(GeneratedsSuper):
         self.ns_prefix_ = None
         self.type_ = _cast(None, type_)
         self.type__nsprefix_ = None
-        self.id = _cast(int, id)
-        self.id_nsprefix_ = None
+        self.emdb_supramolecule_id = _cast(int, emdb_supramolecule_id)
+        self.emdb_supramolecule_id_nsprefix_ = None
         self.copies = _cast(int, copies)
         self.copies_nsprefix_ = None
         self.name = name
@@ -3122,10 +3122,10 @@ class supramoleculeType(GeneratedsSuper):
         return self.type_
     def set_type(self, type_):
         self.type_ = type_
-    def get_id(self):
-        return self.id
-    def set_id(self, id):
-        self.id = id
+    def get_emdb_supramolecule_id(self):
+        return self.emdb_supramolecule_id
+    def set_emdb_supramolecule_id(self, emdb_supramolecule_id):
+        self.emdb_supramolecule_id = emdb_supramolecule_id
     def get_copies(self):
         return self.copies
     def set_copies(self, copies):
@@ -3178,9 +3178,9 @@ class supramoleculeType(GeneratedsSuper):
         if self.type_ is not None and 'type_' not in already_processed:
             already_processed.add('type_')
             outfile.write(' type=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.type_), input_name='type')), ))
-        if self.id is not None and 'id' not in already_processed:
-            already_processed.add('id')
-            outfile.write(' id="%s"' % self.gds_format_integer(self.id, input_name='id'))
+        if self.emdb_supramolecule_id is not None and 'emdb_supramolecule_id' not in already_processed:
+            already_processed.add('emdb_supramolecule_id')
+            outfile.write(' emdb_supramolecule_id="%s"' % self.gds_format_integer(self.emdb_supramolecule_id, input_name='emdb_supramolecule_id'))
         if self.copies is not None and 'copies' not in already_processed:
             already_processed.add('copies')
             outfile.write(' copies="%s"' % self.gds_format_integer(self.copies, input_name='copies'))
@@ -3214,11 +3214,11 @@ class supramoleculeType(GeneratedsSuper):
             self.type_ = value
             self.type_ = ' '.join(self.type_.split())
             self.validate_sample_kind(self.type_)    # validate type sample_kind
-        value = find_attr_value_('id', node)
-        if value is not None and 'id' not in already_processed:
-            already_processed.add('id')
-            self.id = self.gds_parse_integer(value, node, 'id')
-            if self.id < 0:
+        value = find_attr_value_('emdb_supramolecule_id', node)
+        if value is not None and 'emdb_supramolecule_id' not in already_processed:
+            already_processed.add('emdb_supramolecule_id')
+            self.emdb_supramolecule_id = self.gds_parse_integer(value, node, 'emdb_supramolecule_id')
+            if self.emdb_supramolecule_id < 0:
                 raise_parse_error(node, 'Invalid NonNegativeInteger')
         value = find_attr_value_('copies', node)
         if value is not None and 'copies' not in already_processed:
@@ -3450,7 +3450,7 @@ class macromoleculeType(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, type_=None, id=None, copies=None, name=None, ccd_id=None, cross_ref_dbs=None, gds_collector_=None, **kwargs_):
+    def __init__(self, type_=None, emdb_macromolecule_id=None, copies=None, name=None, ccd_id=None, cross_ref_dbs=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
@@ -3458,8 +3458,8 @@ class macromoleculeType(GeneratedsSuper):
         self.ns_prefix_ = None
         self.type_ = _cast(None, type_)
         self.type__nsprefix_ = None
-        self.id = _cast(int, id)
-        self.id_nsprefix_ = None
+        self.emdb_macromolecule_id = _cast(int, emdb_macromolecule_id)
+        self.emdb_macromolecule_id_nsprefix_ = None
         self.copies = _cast(int, copies)
         self.copies_nsprefix_ = None
         self.name = name
@@ -3499,10 +3499,10 @@ class macromoleculeType(GeneratedsSuper):
         return self.type_
     def set_type(self, type_):
         self.type_ = type_
-    def get_id(self):
-        return self.id
-    def set_id(self, id):
-        self.id = id
+    def get_emdb_macromolecule_id(self):
+        return self.emdb_macromolecule_id
+    def set_emdb_macromolecule_id(self, emdb_macromolecule_id):
+        self.emdb_macromolecule_id = emdb_macromolecule_id
     def get_copies(self):
         return self.copies
     def set_copies(self, copies):
@@ -3556,9 +3556,9 @@ class macromoleculeType(GeneratedsSuper):
         if self.type_ is not None and 'type_' not in already_processed:
             already_processed.add('type_')
             outfile.write(' type=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.type_), input_name='type')), ))
-        if self.id is not None and 'id' not in already_processed:
-            already_processed.add('id')
-            outfile.write(' id="%s"' % self.gds_format_integer(self.id, input_name='id'))
+        if self.emdb_macromolecule_id is not None and 'emdb_macromolecule_id' not in already_processed:
+            already_processed.add('emdb_macromolecule_id')
+            outfile.write(' emdb_macromolecule_id="%s"' % self.gds_format_integer(self.emdb_macromolecule_id, input_name='emdb_macromolecule_id'))
         if self.copies is not None and 'copies' not in already_processed:
             already_processed.add('copies')
             outfile.write(' copies="%s"' % self.gds_format_integer(self.copies, input_name='copies'))
@@ -3596,11 +3596,11 @@ class macromoleculeType(GeneratedsSuper):
             self.type_ = value
             self.type_ = ' '.join(self.type_.split())
             self.validate_sample_kind(self.type_)    # validate type sample_kind
-        value = find_attr_value_('id', node)
-        if value is not None and 'id' not in already_processed:
-            already_processed.add('id')
-            self.id = self.gds_parse_integer(value, node, 'id')
-            if self.id < 0:
+        value = find_attr_value_('emdb_macromolecule_id', node)
+        if value is not None and 'emdb_macromolecule_id' not in already_processed:
+            already_processed.add('emdb_macromolecule_id')
+            self.emdb_macromolecule_id = self.gds_parse_integer(value, node, 'emdb_macromolecule_id')
+            if self.emdb_macromolecule_id < 0:
                 raise_parse_error(node, 'Invalid NonNegativeInteger')
         value = find_attr_value_('copies', node)
         if value is not None and 'copies' not in already_processed:
@@ -3936,12 +3936,12 @@ __all__ = [
     "dbType",
     "dbsType",
     "emicss",
+    "entry_ref_dbType",
+    "entry_ref_dbsType",
     "macromoleculeType",
     "macromoleculesType",
     "primary_citationType",
     "ref_citationType",
-    "ref_entry_dbType",
-    "ref_entry_dbsType",
     "sampleType",
     "supramoleculeType",
     "supramoleculesType",

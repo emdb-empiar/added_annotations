@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Tue Jan 18 17:46:32 2022 by generateDS.py version 2.38.6.
+# Generated Wed Jan 19 16:52:35 2022 by generateDS.py version 2.38.6.
 # Python 3.7.6 (default, Dec 30 2019, 19:38:28)  [Clang 11.0.0 (clang-1100.0.33.16)]
 #
 # Command line options:
@@ -62,8 +62,8 @@ SaveElementTreeNode = True
 
 
 class emicssSub(supermod.emicss):
-    def __init__(self, emdb_id=None, schema_version=None, dbs=None, ref_entry_dbs=None, primary_citation=None, weights=None, sample=None, **kwargs_):
-        super(emicssSub, self).__init__(emdb_id, schema_version, dbs, ref_entry_dbs, primary_citation, weights, sample,  **kwargs_)
+    def __init__(self, emdb_id=None, schema_version=None, dbs=None, entry_ref_dbs=None, primary_citation=None, weights=None, sample=None, **kwargs_):
+        super(emicssSub, self).__init__(emdb_id, schema_version, dbs, entry_ref_dbs, primary_citation, weights, sample,  **kwargs_)
 supermod.emicss.subclass = emicssSub
 # end class emicssSub
 
@@ -89,18 +89,18 @@ supermod.dbType.subclass = dbTypeSub
 # end class dbTypeSub
 
 
-class ref_entry_dbsTypeSub(supermod.ref_entry_dbsType):
-    def __init__(self, ref_entry_db=None, **kwargs_):
-        super(ref_entry_dbsTypeSub, self).__init__(ref_entry_db,  **kwargs_)
-supermod.ref_entry_dbsType.subclass = ref_entry_dbsTypeSub
-# end class ref_entry_dbsTypeSub
+class entry_ref_dbsTypeSub(supermod.entry_ref_dbsType):
+    def __init__(self, entry_ref_db=None, **kwargs_):
+        super(entry_ref_dbsTypeSub, self).__init__(entry_ref_db,  **kwargs_)
+supermod.entry_ref_dbsType.subclass = entry_ref_dbsTypeSub
+# end class entry_ref_dbsTypeSub
 
 
-class ref_entry_dbTypeSub(supermod.ref_entry_dbType):
+class entry_ref_dbTypeSub(supermod.entry_ref_dbType):
     def __init__(self, db_source=None, accession_id=None, provenance=None, **kwargs_):
-        super(ref_entry_dbTypeSub, self).__init__(db_source, accession_id, provenance,  **kwargs_)
-supermod.ref_entry_dbType.subclass = ref_entry_dbTypeSub
-# end class ref_entry_dbTypeSub
+        super(entry_ref_dbTypeSub, self).__init__(db_source, accession_id, provenance,  **kwargs_)
+supermod.entry_ref_dbType.subclass = entry_ref_dbTypeSub
+# end class entry_ref_dbTypeSub
 
 
 class primary_citationTypeSub(supermod.primary_citationType):
@@ -167,8 +167,8 @@ supermod.supramoleculesType.subclass = supramoleculesTypeSub
 
 
 class supramoleculeTypeSub(supermod.supramoleculeType):
-    def __init__(self, type_=None, id=None, copies=None, name=None, cross_ref_dbs=None, **kwargs_):
-        super(supramoleculeTypeSub, self).__init__(type_, id, copies, name, cross_ref_dbs,  **kwargs_)
+    def __init__(self, type_=None, emdb_supramolecule_id=None, copies=None, name=None, cross_ref_dbs=None, **kwargs_):
+        super(supramoleculeTypeSub, self).__init__(type_, emdb_supramolecule_id, copies, name, cross_ref_dbs,  **kwargs_)
 supermod.supramoleculeType.subclass = supramoleculeTypeSub
 # end class supramoleculeTypeSub
 
@@ -188,8 +188,8 @@ supermod.macromoleculesType.subclass = macromoleculesTypeSub
 
 
 class macromoleculeTypeSub(supermod.macromoleculeType):
-    def __init__(self, type_=None, id=None, copies=None, name=None, ccd_id=None, cross_ref_dbs=None, **kwargs_):
-        super(macromoleculeTypeSub, self).__init__(type_, id, copies, name, ccd_id, cross_ref_dbs,  **kwargs_)
+    def __init__(self, type_=None, emdb_macromolecule_id=None, copies=None, name=None, ccd_id=None, cross_ref_dbs=None, **kwargs_):
+        super(macromoleculeTypeSub, self).__init__(type_, emdb_macromolecule_id, copies, name, ccd_id, cross_ref_dbs,  **kwargs_)
 supermod.macromoleculeType.subclass = macromoleculeTypeSub
 # end class macromoleculeTypeSub
 
