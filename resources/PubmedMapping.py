@@ -52,37 +52,44 @@ class PubmedMapping:
 
         if citation.pmedid:
             citation.provenance_pm = "AUTHOR"
-            if citation.doi is None or citation.pmcid is None:
+            if not citation.doi or not citation.pmcid:
                 webAPI = self.pmc_api_query(("ext_id:" + citation.pmedid))
-                if webAPI[1]:
-                    citation.pmcid = webAPI[1]
-                    citation.provenance_pmc = "EuropePMC"
-                if webAPI[2]:
-                    citation.doi = webAPI[2]
-                    citation.provenance_doi = "EuropePMC"
+                if not citation.pmcid:
+                    if webAPI[1]:
+                        citation.pmcid = webAPI[1]
+                        citation.provenance_pmc = "EuropePMC"
+                if not citation.doi:
+                    if webAPI[2]:
+                        citation.doi = webAPI[2]
+                        citation.provenance_doi = "EuropePMC"
 
         else:
             if citation.doi:
                 webAPI = self.pmc_api_query(("DOI:" + citation.doi))
-                if webAPI[0]:
-                    citation.pmedid = webAPI[0]
-                    citation.provenance_pm = "EuropePMC"
-                if webAPI[1]:
-                    citation.pmcid = webAPI[1]
-                    citation.provenance_pmc = "EuropePMC"
+                if not citation.pmedid:
+                    if webAPI[0]:
+                        citation.pmedid = webAPI[0]
+                        citation.provenance_pm = "EuropePMC"
+                if not citation.pmcid:
+                    if webAPI[1]:
+                        citation.pmcid = webAPI[1]
+                        citation.provenance_pmc = "EuropePMC"
 
         if not citation.pmedid and not citation.doi:
             if citation.title:
                 webAPI = self.pmc_api_query((f'TITLE:"{citation.title}"'))
-                if webAPI[0]:
-                    citation.pmedid = webAPI[0]
-                    citation.provenance_pm = "EuropePMC"
-                if webAPI[1]:
-                    citation.pmcid = webAPI[1]
-                    citation.provenance_pmc = "EuropePMC"
-                if webAPI[2]:
-                    citation.doi = webAPI[2]
-                    citation.provenance_doi = "EuropePMC"
+                if not citation.pmedid:
+                    if webAPI[0]:
+                        citation.pmedid = webAPI[0]
+                        citation.provenance_pm = "EuropePMC"
+                if not citation.pmcid:
+                    if webAPI[1]:
+                        citation.pmcid = webAPI[1]
+                        citation.provenance_pmc = "EuropePMC"
+                if not citation.doi:
+                    if webAPI[2]:
+                        citation.doi = webAPI[2]
+                        citation.provenance_doi = "EuropePMC"
 
         if self.is_orcid:
             orc = self.orcid_dict.get(citation.emdb_id)
