@@ -131,8 +131,11 @@ class ProteinTermsMapping:
         region = db_tag.getparent()
         pdb_start = region.get("start")
         pdb_end = region.get("end")
-        start = int(segment.xpath(f".//x:residue[@dbResNum='{pdb_start}']/x:crossRefDb[@dbSource='UniProt']/@dbResNum", namespaces=namespaces)[0])
-        end = int(segment.xpath(f".//x:residue[@dbResNum='{pdb_end}']/x:crossRefDb[@dbSource='UniProt']/@dbResNum", namespaces=namespaces)[0])
+        start_tag = segment.xpath(f".//x:residue[@dbResNum='{pdb_start}']/x:crossRefDb[@dbSource='UniProt']/@dbResNum", namespaces=namespaces)
+        end_tag = segment.xpath(f".//x:residue[@dbResNum='{pdb_end}']/x:crossRefDb[@dbSource='UniProt']/@dbResNum", namespaces=namespaces)
+
+        start = int(start_tag[0]) if len(start_tag) > 0 else None
+        end = int(end_tag[0]) if len(end_tag) > 0 else None
         return start,end
 
     def convert_positions(self, position, positions):
@@ -200,31 +203,36 @@ class ProteinTermsMapping:
                                     for ipr in interpro_list:
                                         ipr_id = ipr.get("dbAccessionId")
                                         start, end = self.extract_uniprot_position(ipr, segment)
-                                        ipr_matches.add((ipr_id, start, end))
+                                        if start and end:
+                                            ipr_matches.add((ipr_id, start, end))
                                 if self.is_pfam:
                                     pfam_list = segment.xpath(".//x:mapRegion/x:db[@dbSource='Pfam']", namespaces=namespaces)
                                     for pfam in pfam_list:
                                         pfam_id = pfam.get("dbAccessionId")
                                         start, end = self.extract_uniprot_position(pfam, segment)
-                                        pfam_matches.add((pfam_id, start, end))
+                                        if start and end:
+                                            pfam_matches.add((pfam_id, start, end))
                                 if self.is_cath:
                                     cath_list = segment.xpath(".//x:mapRegion/x:db[@dbSource='CATH']", namespaces=namespaces)
                                     for cath in cath_list:
                                         cath_id = cath.get("dbAccessionId")
                                         start, end = self.extract_uniprot_position(cath, segment)
-                                        cath_matches.add((cath_id, start, end))
+                                        if start and end:
+                                            cath_matches.add((cath_id, start, end))
                                 if self.is_scop:
                                     scop_list = segment.xpath(".//x:mapRegion/x:db[@dbSource='SCOP']", namespaces=namespaces)
                                     for scop in scop_list:
                                         scop_id = scop.get("dbAccessionId")
                                         start, end = self.extract_uniprot_position(scop, segment)
-                                        scop_matches.add((scop_id, start, end))
+                                        if start and end:
+                                            scop_matches.add((scop_id, start, end))
                                 if self.is_scop2:
                                     scop2_list = segment.xpath(".//x:mapRegion/x:db[@dbSource='SCOP2']", namespaces=namespaces)
                                     for scop2 in scop2_list:
                                         scop2_id = scop2.get("dbAccessionId")
                                         start, end = self.extract_uniprot_position(scop2, segment)
-                                        scop2_matches.add((scop2_id, start, end))
+                                        if start and end:
+                                            scop2_matches.add((scop2_id, start, end))
             except (FileNotFoundError, ET.XMLSyntaxError):
                 continue
 
