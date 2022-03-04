@@ -97,7 +97,10 @@ class PubmedMapping:
                 'resultType': 'lite'}
         response = requests.post(self.api, data=data)
         res_text = response.text
-        pmcjdata = json.loads(res_text)
+        try:
+            pmcjdata = json.loads(res_text)
+        except json.JSONDecodeError:
+            return "", "", ""
         result = pmcjdata['resultList']['result']
         if result:
             source = result[0]['source']
