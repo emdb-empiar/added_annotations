@@ -288,13 +288,14 @@ class EmicssXML:
             cross_ref_db = EMICSS.cross_ref_db()
             cross_ref_db.set_name("%s" % name.lower())
             cross_ref_db.set_db_source("%s" % "UNIPROT")
-            if not "+" in uni_provenance:
-                cross_ref_db.set_provenance("%s" % uni_provenance)
-            if "+" in uni_provenance:
-                uni_provenance1 = uni_provenance.split(" + ")[0]
-                uni_provenance2 = uni_provenance.split(" + ")[1]
-                cross_ref_db.set_provenance1("%s" % uni_provenance1.strip())
-                cross_ref_db.set_provenance2("%s" % uni_provenance2.strip())
+            cross_ref_db.set_provenance("%s" % uni_provenance)
+            # if not "+" in uni_provenance:
+            #     cross_ref_db.set_provenance("%s" % uni_provenance)
+            # if "+" in uni_provenance:
+            #     uni_provenance1 = uni_provenance.split(" + ")[0]
+            #     uni_provenance2 = uni_provenance.split(" + ")[1]
+            #     cross_ref_db.set_provenance1("%s" % uni_provenance1.strip())
+            #     cross_ref_db.set_provenance2("%s" % uni_provenance2.strip())
             cross_ref_db.set_accession_id("%s" % uniprot_id)
             cross_ref_dbs.add_cross_ref_db(cross_ref_db)
 
@@ -614,13 +615,14 @@ class EmicssXML:
 
                     cross_ref_db.set_name("%s" % cpx_name)
                     cross_ref_db.set_db_source("%s" % "COMPLEX PORTAL")
-                    if "+" in cpx_provenance:
-                        cpx_provenance1 = cpx_provenance.split(" + ")[0]
-                        cpx_provenance2 = cpx_provenance.split(" + ")[1]
-                        cross_ref_db.set_provenance1("%s" % cpx_provenance1.strip())
-                        cross_ref_db.set_provenance2("%s" % cpx_provenance2.strip())
-                    if not "+" in cpx_provenance:
-                        cross_ref_db.set_provenance("%s" % cpx_provenance)
+                    cross_ref_db.set_provenance("%s" % cpx_provenance)
+                    # if "+" in cpx_provenance:
+                    #     cpx_provenance1 = cpx_provenance.split(" + ")[0]
+                    #     cpx_provenance2 = cpx_provenance.split(" + ")[1]
+                    #     cross_ref_db.set_provenance1("%s" % cpx_provenance1.strip())
+                    #     cross_ref_db.set_provenance2("%s" % cpx_provenance2.strip())
+                    # if not "+" in cpx_provenance:
+                    #     cross_ref_db.set_provenance("%s" % cpx_provenance)
                     cross_ref_db.set_accession_id("%s" % cpx_id)
                     cross_ref_db.set_score(float(cpx_score))
                     cross_ref_dbs.add_cross_ref_db(cross_ref_db)
@@ -628,13 +630,14 @@ class EmicssXML:
                     cross_ref_db = EMICSS.cross_ref_db()
                     cross_ref_db.set_name("%s" % cpx_name)
                     cross_ref_db.set_db_source("%s" % "COMPLEX PORTAL")
-                    if "+" in cpx_provenance:
-                        cpx_provenance1 = cpx_provenance.split("+")[0]
-                        cpx_provenance2 = cpx_provenance.split("+")[1]
-                        cross_ref_db.set_provenance1("%s" % cpx_provenance1.strip())
-                        cross_ref_db.set_provenance2("%s" % cpx_provenance2.strip())
-                    if not "+" in cpx_provenance:
-                        cross_ref_db.set_provenance("%s" % cpx_provenance)
+                    cross_ref_db.set_provenance("%s" % cpx_provenance)
+                    # if "+" in cpx_provenance:
+                    #     cpx_provenance1 = cpx_provenance.split("+")[0]
+                    #     cpx_provenance2 = cpx_provenance.split("+")[1]
+                    #     cross_ref_db.set_provenance1("%s" % cpx_provenance1.strip())
+                    #     cross_ref_db.set_provenance2("%s" % cpx_provenance2.strip())
+                    # if not "+" in cpx_provenance:
+                    #     cross_ref_db.set_provenance("%s" % cpx_provenance)
                     cross_ref_db.set_accession_id("%s" % cpx_id)
                     cross_ref_db.set_score(float(cpx_score))
                     cross_ref_dbs.add_cross_ref_db(cross_ref_db)

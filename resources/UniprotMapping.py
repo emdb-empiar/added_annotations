@@ -146,7 +146,7 @@ class UniprotMapping:
 		
 		if best_match and best_score > 80:
 			protein.uniprot_id = best_match
-			protein.provenance = "PDBe + UNIPROT"
+			protein.provenance = "UNIPROT"
 			return True
 		return False
 
