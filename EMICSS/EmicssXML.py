@@ -209,10 +209,10 @@ class EmicssXML:
                 prov = "provenance_orcid_" + str(x)
                 provenance_orcid = orcid_ids.get(prov)
                 author = EMICSS.authorType()
-                author.set_author_name("%s" % name)
+                author.set_name("%s" % name)
                 author.set_orcid_id("%s" % id)
                 if int(order) != 0:
-                    author.set_author_order(int(order))
+                    author.set_order(int(order))
                 author.set_provenance("%s" % provenance_orcid)
                 authors.add_author(author)
             primary_citation.set_authors(authors)
@@ -225,11 +225,10 @@ class EmicssXML:
                     auth_order = "order_" + str(x)
                     order = name_order.get(auth_order)
                     author = EMICSS.authorType()
-                    author.set_author_name("%s" % name)
-                    author.set_author_order("%s" % order)
+                    author.set_name("%s" % name)
                     author.set_provenance("%s" % "AUTHOR")
                     if int(order) != 0:
-                        author.set_author_order(int(order))
+                        author.set_order(int(order))
                     authors.add_author(author)
                 primary_citation.set_authors(authors)
 

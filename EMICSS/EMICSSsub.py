@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Wed Jan 19 16:52:35 2022 by generateDS.py version 2.38.6.
+# Generated Tue Mar 29 14:19:39 2022 by generateDS.py version 2.38.6.
 # Python 3.7.6 (default, Dec 30 2019, 19:38:28)  [Clang 11.0.0 (clang-1100.0.33.16)]
 #
 # Command line options:
@@ -125,8 +125,8 @@ supermod.authorsType.subclass = authorsTypeSub
 
 
 class authorTypeSub(supermod.authorType):
-    def __init__(self, author_name=None, orcid_id=None, author_order=None, provenance=None, **kwargs_):
-        super(authorTypeSub, self).__init__(author_name, orcid_id, author_order, provenance,  **kwargs_)
+    def __init__(self, name=None, orcid_id=None, order=None, provenance=None, **kwargs_):
+        super(authorTypeSub, self).__init__(name, orcid_id, order, provenance,  **kwargs_)
 supermod.authorType.subclass = authorTypeSub
 # end class authorTypeSub
 

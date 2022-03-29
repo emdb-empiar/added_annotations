@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Wed Jan 19 16:52:34 2022 by generateDS.py version 2.38.6.
+# Generated Tue Mar 29 14:19:38 2022 by generateDS.py version 2.38.6.
 # Python 3.7.6 (default, Dec 30 2019, 19:38:28)  [Clang 11.0.0 (clang-1100.0.33.16)]
 #
 # Command line options:
@@ -2320,18 +2320,18 @@ class authorType(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, author_name=None, orcid_id=None, author_order=None, provenance=None, gds_collector_=None, **kwargs_):
+    def __init__(self, name=None, orcid_id=None, order=None, provenance=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
         self.parent_object_ = kwargs_.get('parent_object_')
         self.ns_prefix_ = None
-        self.author_name = _cast(None, author_name)
-        self.author_name_nsprefix_ = None
+        self.name = _cast(None, name)
+        self.name_nsprefix_ = None
         self.orcid_id = _cast(None, orcid_id)
         self.orcid_id_nsprefix_ = None
-        self.author_order = _cast(int, author_order)
-        self.author_order_nsprefix_ = None
+        self.order = _cast(int, order)
+        self.order_nsprefix_ = None
         self.provenance = _cast(None, provenance)
         self.provenance_nsprefix_ = None
     def factory(*args_, **kwargs_):
@@ -2349,18 +2349,18 @@ class authorType(GeneratedsSuper):
         return self.ns_prefix_
     def set_ns_prefix_(self, ns_prefix):
         self.ns_prefix_ = ns_prefix
-    def get_author_name(self):
-        return self.author_name
-    def set_author_name(self, author_name):
-        self.author_name = author_name
+    def get_name(self):
+        return self.name
+    def set_name(self, name):
+        self.name = name
     def get_orcid_id(self):
         return self.orcid_id
     def set_orcid_id(self, orcid_id):
         self.orcid_id = orcid_id
-    def get_author_order(self):
-        return self.author_order
-    def set_author_order(self, author_order):
-        self.author_order = author_order
+    def get_order(self):
+        return self.order
+    def set_order(self, order):
+        self.order = order
     def get_provenance(self):
         return self.provenance
     def set_provenance(self, provenance):
@@ -2408,15 +2408,15 @@ class authorType(GeneratedsSuper):
         else:
             outfile.write('/>%s' % (eol_, ))
     def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='authorType'):
-        if self.author_name is not None and 'author_name' not in already_processed:
-            already_processed.add('author_name')
-            outfile.write(' author_name=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.author_name), input_name='author_name')), ))
+        if self.name is not None and 'name' not in already_processed:
+            already_processed.add('name')
+            outfile.write(' name=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.name), input_name='name')), ))
         if self.orcid_id is not None and 'orcid_id' not in already_processed:
             already_processed.add('orcid_id')
             outfile.write(' orcid_id=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.orcid_id), input_name='orcid_id')), ))
-        if self.author_order is not None and 'author_order' not in already_processed:
-            already_processed.add('author_order')
-            outfile.write(' author_order="%s"' % self.gds_format_integer(self.author_order, input_name='author_order'))
+        if self.order is not None and 'order' not in already_processed:
+            already_processed.add('order')
+            outfile.write(' order="%s"' % self.gds_format_integer(self.order, input_name='order'))
         if self.provenance is not None and 'provenance' not in already_processed:
             already_processed.add('provenance')
             outfile.write(' provenance=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.provenance), input_name='provenance')), ))
@@ -2434,18 +2434,18 @@ class authorType(GeneratedsSuper):
             self.buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
         return self
     def buildAttributes(self, node, attrs, already_processed):
-        value = find_attr_value_('author_name', node)
-        if value is not None and 'author_name' not in already_processed:
-            already_processed.add('author_name')
-            self.author_name = value
+        value = find_attr_value_('name', node)
+        if value is not None and 'name' not in already_processed:
+            already_processed.add('name')
+            self.name = value
         value = find_attr_value_('orcid_id', node)
         if value is not None and 'orcid_id' not in already_processed:
             already_processed.add('orcid_id')
             self.orcid_id = value
-        value = find_attr_value_('author_order', node)
-        if value is not None and 'author_order' not in already_processed:
-            already_processed.add('author_order')
-            self.author_order = self.gds_parse_integer(value, node, 'author_order')
+        value = find_attr_value_('order', node)
+        if value is not None and 'order' not in already_processed:
+            already_processed.add('order')
+            self.order = self.gds_parse_integer(value, node, 'order')
         value = find_attr_value_('provenance', node)
         if value is not None and 'provenance' not in already_processed:
             already_processed.add('provenance')
