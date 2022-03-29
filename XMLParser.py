@@ -258,13 +258,16 @@ class XMLParser:
 				for y in list(root.iter('primary_citation')):
 					citation = Citation(self.emdb_id)
 					pub = y.find('journal_citation')
+					ind = 0
 					for auth in y.iter('author'):
 						author = auth.text
 						author_lastname = author.split(" ")[0]
-						(citation.authors).append(author)
+						# (citation.authors).append(author)
+						citation.name_order["name_"+str(ind)] = author
 						if 'order' in auth.attrib:
 							auth_order = auth.attrib['order']
 							citation.author_order[author_lastname] = auth_order
+							citation.name_order["order_"+str(ind)] = auth_order
 						if 'ORCID' in auth.attrib:
 							orcid_id = auth.attrib['ORCID']
 							if author_lastname in citation.author_order:
@@ -274,6 +277,8 @@ class XMLParser:
 							else:
 								citation.orcid_ids[author] = orcid_id
 							citation.provenance_orcid = "AUTHOR"
+						ind = ind + 1
+					citation.name_order["ind"] = ind
 					nas = pub.find('title').text
 					title = nas.split('\n\n', 1)[0]
 					citation.title = title

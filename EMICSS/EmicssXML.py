@@ -152,6 +152,7 @@ class EmicssXML:
         pub_doi = val.get(samp_id, {}).get('doi')
         issn = val.get(samp_id, {}).get('issn')
         orcid_ids = val.get(samp_id, {}).get('orcid_ids')
+        name_order = val.get(samp_id, {}).get('name_order')
         provenance_pm = val.get(samp_id, {}).get('provenance_pm')
         provenance_pmc = val.get(samp_id, {}).get('provenance_pmc')
         provenance_doi = val.get(samp_id, {}).get('provenance_doi')
@@ -215,6 +216,22 @@ class EmicssXML:
                 author.set_provenance("%s" % provenance_orcid)
                 authors.add_author(author)
             primary_citation.set_authors(authors)
+        if not orcid_ids:
+            if name_order:
+                ind = name_order.get('ind')
+                for x in range(int(ind)):
+                    auth_name = "name_" + str(x)
+                    name = name_order.get(auth_name)
+                    auth_order = "order_" + str(x)
+                    order = name_order.get(auth_order)
+                    author = EMICSS.authorType()
+                    author.set_author_name("%s" % name)
+                    author.set_author_order("%s" % order)
+                    author.set_provenance("%s" % "AUTHOR")
+                    if int(order) != 0:
+                        author.set_author_order(int(order))
+                    authors.add_author(author)
+                primary_citation.set_authors(authors)
 
         return primary_citation
 
