@@ -101,6 +101,8 @@ class PubmedMapping:
             pmcjdata = json.loads(res_text)
         except json.JSONDecodeError:
             return "", "", ""
+        if 'resultList' not in pmcjdata:
+            return "", "", ""
         result = pmcjdata['resultList']['result']
         if result:
             source = result[0]['source']
