@@ -1,6 +1,5 @@
 import json, os
 import lxml.etree as ET
-import xmltodict
 import requests
 import time
 import collections
@@ -62,58 +61,25 @@ class OrcidMapping:
                     for a in list(root.iter('result')):
                         for pmid in a.iter('pmid'):
                             if pmid.text == pubmed_id:
-                                if list(a.iter('authorIdList')):
-                                    for x in list(a.iter('authorIdList')):
-                                        for auth in x.iter('authorId'):
-                                            if auth.attrib['type'] == 'ORCID':
-                                                orcid_id = auth.text
-                                                if orcid_id not in ids:
-                                                    if list(root.iter('authorList')):
-                                                        for y in list(root.iter('author')):
-                                                            for id in y.iter('authorId'):
-                                                                if id.attrib['type'] == 'ORCID':
-                                                                    if orcid_id == id.text:
-                                                                        if y.find('firstName') is not None:
-                                                                            firstname = y.find('firstName').text
-                                                                            if y.find('lastName') is not None:
-                                                                                lastname = y.find('lastName').text
-                                                                                author_name = firstname + " " + lastname
-                                                                                if lastname in citation.author_order:
-                                                                                    order = citation.author_order[lastname]
-                                                                                    name_order = f'{order} [{author_name}]'
-                                                                                    orcid_ids[name_order] = orcid_id
-                                                                                else:
-                                                                                    name_order = f'0 [{author_name}]'
-                                                                                    orcid_ids[name_order] = orcid_id
-                                                                                citation.provenance_orcid = "EuropePMC"
-                                                    else:
-                                                        author_name, lastname = self.name_for_orcid_id(orcid_id)
-                                                        if lastname in citation.author_order:
-                                                            order = citation.author_order[lastname]
-                                                            name_order = f'{order} [{author_name}]'
-                                                            orcid_ids[name_order] = orcid_id
-                                                        else:
-                                                            name_order = f'0 [{author_name}]'
-                                                            orcid_ids[name_order] = orcid_id
-                                                        citation.provenance_orcid = "ORCID"
-                                                ids.add(orcid_id)
-                                                citation.orcid_ids = ids
-
+                                order = 1
+                                for y in list(root.iter('author')):
+                                    if y.find('firstName') is not None:
+                                        firstname = y.find('firstName').text
+                                        if y.find('lastName') is not None:
+                                            lastname = y.find('lastName').text
+                                            author_name = firstname + " " + lastname
+                                        if y.find('authorId') is not None:
+                                            if y.find('authorId').attrib['type'] == 'ORCID':
+                                                orcid_id = y.find('authorId').text
+                                                name_order = f'{order} [{author_name}]'
+                                                orcid_ids[name_order] = orcid_id
+                                        else:
+                                            name_order = f'{order} [{author_name}]'
+                                            orcid_ids[name_order] = "N/A"
+                                    order= order + 1
+                        citation.provenance_orcid = "EuropePMC"
+                        citation.orcid_ids = ids
             return orcid_ids
-
-    def name_for_orcid_id(self, orcid_id):
-        author_name = ""
-        url_name = f"https://pub.orcid.org/v3.0/{orcid_id}"
-        response = requests.get(url_name)
-        if response.status_code == 200 and response.content:
-            xmld = xmltodict.parse(response.text)
-            xmld = xmld['record:record']
-            if 'person:person' in xmld:
-                if 'person:name' in xmld['person:person']:
-                    given_name = xmld['person:person']['person:name']['personal-details:given-names']
-                    family_name = xmld['person:person']['person:name']['personal-details:family-name']
-                    author_name = given_name + " " + family_name
-        return author_name, family_name
 
     def export_tsv(self, orcid_logger):
         for citation in self.citations:
