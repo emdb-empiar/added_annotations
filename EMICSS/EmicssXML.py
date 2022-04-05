@@ -220,7 +220,8 @@ class EmicssXML:
                 provenance_orcid = orcid_ids.get(prov)
                 author = EMICSS.authorType()
                 author.set_name("%s" % name)
-                author.set_orcid_id("%s" % id)
+                if id != "N/A":
+                    author.set_orcid_id("%s" % id)
                 if int(order) != 0:
                     author.set_order(int(order))
                 author.set_provenance("%s" % provenance_orcid)
