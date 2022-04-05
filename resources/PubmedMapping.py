@@ -45,13 +45,13 @@ class PubmedMapping:
 
     def worker(self, citation):
         if citation.pmcid:
-            citation.provenance_pmc = "AUTHOR"
+            citation.provenance_pmc = "EMDB"
 
         if citation.doi:
-            citation.provenance_doi = "AUTHOR"
+            citation.provenance_doi = "EMDB"
 
         if citation.pmedid:
-            citation.provenance_pm = "AUTHOR"
+            citation.provenance_pm = "EMDB"
             if not citation.doi or not citation.pmcid:
                 webAPI = self.pmc_api_query(("ext_id:" + citation.pmedid))
                 if not citation.pmcid:

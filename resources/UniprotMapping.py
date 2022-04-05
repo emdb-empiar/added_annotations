@@ -98,7 +98,7 @@ class UniprotMapping:
 			uniprot_id = self.extract_uniprot_from_blast(qout, protein.sample_organism)
 			if uniprot_id:
 				protein.uniprot_id = uniprot_id
-				protein.provenance = "BLASTP"
+				protein.provenance = "UNIPROT"
 		return protein
 
 	def extract_uniprot_from_blast(self, fastafile, ncbi_id):

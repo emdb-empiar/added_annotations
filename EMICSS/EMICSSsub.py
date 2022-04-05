@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Tue Mar 29 14:19:39 2022 by generateDS.py version 2.38.6.
+# Generated Mon Apr  4 11:43:36 2022 by generateDS.py version 2.38.6.
 # Python 3.7.6 (default, Dec 30 2019, 19:38:28)  [Clang 11.0.0 (clang-1100.0.33.16)]
 #
 # Command line options:
@@ -167,8 +167,8 @@ supermod.supramoleculesType.subclass = supramoleculesTypeSub
 
 
 class supramoleculeTypeSub(supermod.supramoleculeType):
-    def __init__(self, type_=None, emdb_supramolecule_id=None, copies=None, name=None, cross_ref_dbs=None, **kwargs_):
-        super(supramoleculeTypeSub, self).__init__(type_, emdb_supramolecule_id, copies, name, cross_ref_dbs,  **kwargs_)
+    def __init__(self, type_=None, id=None, copies=None, provenance=None, name=None, cross_ref_dbs=None, **kwargs_):
+        super(supramoleculeTypeSub, self).__init__(type_, id, copies, provenance, name, cross_ref_dbs,  **kwargs_)
 supermod.supramoleculeType.subclass = supramoleculeTypeSub
 # end class supramoleculeTypeSub
 
@@ -188,8 +188,8 @@ supermod.macromoleculesType.subclass = macromoleculesTypeSub
 
 
 class macromoleculeTypeSub(supermod.macromoleculeType):
-    def __init__(self, type_=None, emdb_macromolecule_id=None, copies=None, name=None, ccd_id=None, cross_ref_dbs=None, **kwargs_):
-        super(macromoleculeTypeSub, self).__init__(type_, emdb_macromolecule_id, copies, name, ccd_id, cross_ref_dbs,  **kwargs_)
+    def __init__(self, type_=None, id=None, copies=None, provenance=None, name=None, ccd_id=None, cross_ref_dbs=None, **kwargs_):
+        super(macromoleculeTypeSub, self).__init__(type_, id, copies, provenance, name, ccd_id, cross_ref_dbs,  **kwargs_)
 supermod.macromoleculeType.subclass = macromoleculeTypeSub
 # end class macromoleculeTypeSub
 

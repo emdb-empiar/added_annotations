@@ -251,7 +251,7 @@ class GO:
         return f"{self.id}\t{self.namespace}\t{self.type}\t{self.provenance}"
 
     def add_from_author(self, go_text, unip_id):
-        self.provenance = "AUTHOR"
+        self.provenance = "EMDB"
         self.unip_id = unip_id
         if "GO:" in go_text:
             self.id = go_text
@@ -306,7 +306,7 @@ class Interpro:
         return f"{self.id}\t{self.namespace}\t{self.provenance}"
 
     def add_from_author(self, ipr_text, unip_id):
-        self.provenance = "AUTHOR"
+        self.provenance = "EMDB"
         self.unip_id = unip_id
         if "IPR" in ipr_text:
             self.id = ipr_text
@@ -353,7 +353,7 @@ class Pfam:
         return f"{self.id}\t{self.namespace}\t{self.provenance}"
 
     def add_from_author(self, pfam_text, unip_id):
-        self.provenance = "AUTHOR"
+        self.provenance = "EMDB"
         self.unip_id = unip_id
         if "PF" in pfam_text:
             self.id = pfam_text

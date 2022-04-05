@@ -143,10 +143,12 @@
                                                   </xsd:element>
                                                 </xsd:sequence>
                                                 <xsd:attribute name="type" type="sample_kind"/>
-                                                <xsd:attribute name="emdb_supramolecule_id"
+                                                <xsd:attribute name="id"
                                                   type="xsd:nonNegativeInteger"/>
                                                 <xsd:attribute name="copies"
                                                   type="xsd:nonNegativeInteger"/>
+                                                <xsd:attribute name="provenance"
+                                                  type="provenance_type"/>
                                             </xsd:complexType>
                                         </xsd:element>
                                     </xsd:sequence>
@@ -176,10 +178,12 @@
                                                   </xsd:element>
                                                 </xsd:sequence>
                                                 <xsd:attribute name="type" type="sample_kind"/>
-                                                <xsd:attribute name="emdb_macromolecule_id"
+                                                <xsd:attribute name="id"
                                                   type="xsd:nonNegativeInteger"/>
                                                 <xsd:attribute name="copies"
                                                   type="xsd:nonNegativeInteger"/>
+                                                <xsd:attribute name="provenance"
+                                                  type="provenance_type"/>
                                             </xsd:complexType>
                                         </xsd:element>
                                     </xsd:sequence>

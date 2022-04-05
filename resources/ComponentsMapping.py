@@ -45,13 +45,13 @@ class ComponentsMapping:
         HET = ligand.HET
         if HET in chembl_map:
             ligand.chembl_id = chembl_map[HET]
-            ligand.provenance_chembl = "CCD"
+            ligand.provenance_chembl = "PDBe-CCD"
         if HET in chebi_map:
             ligand.chebi_id = chebi_map[HET]
-            ligand.provenance_chebi = "CCD"
+            ligand.provenance_chebi = "PDBe-CCD"
         if HET in drugbank_map:
             ligand.drugbank_id = drugbank_map[HET]
-            ligand.provenance_drugbank = "CCD"
+            ligand.provenance_drugbank = "PDBe-CCD"
         return ligand
 
     def export_tsv(self, chembl_logger, chebi_logger, drugbank_logger):

@@ -137,7 +137,7 @@ class XMLParser:
 						if qs.find('external_references').attrib['type'] == 'UNIPROTKB':
 							uniprot_id = qs.find('external_references').text
 							protein.uniprot_id = uniprot_id
-							protein.provenance = "AUTHOR"
+							protein.provenance = "EMDB"
 							for t in list(qs.iter('external_references')):
 								if t.attrib['type'] == 'GO':
 									go = GO()
@@ -168,7 +168,7 @@ class XMLParser:
 				if list(root.iter(element)):
 					for x in list(root.iter(element)):
 						weight = Weight(self.emdb_id)
-						weight.provenance = "AUTHOR"
+						weight.provenance = "EMDB"
 						if x.find('parent') is not None:
 							par_child = x.find('parent').text
 							weight.type = "parent"
@@ -243,15 +243,15 @@ class XMLParser:
 								if ref.attrib['type'] == 'CHEMBL':
 									chembl_id = ref.text
 									ligand.chembl_id = chembl_id
-									ligand.provenance_chembl = "AUTHOR"
+									ligand.provenance_chembl = "EMDB"
 								if ref.attrib['type'] == 'CHEBI':
 									chebi_id = ref.text
 									ligand.chebi_id = chebi_id
-									ligand.provenance_chebi = "AUTHOR"
+									ligand.provenance_chebi = "EMDB"
 								if ref.attrib['type'] == 'DRUGBANK':
 									drugbank_id = ref.text
 									ligand.drugbank_id = drugbank_id
-									ligand.provenance_drugbank = "AUTHOR"
+									ligand.provenance_drugbank = "EMDB"
 							self.ligands.append(ligand)
 
 			if list(root.iter('primary_citation')):
@@ -276,7 +276,7 @@ class XMLParser:
 								citation.orcid_ids[name_order] = orcid_id
 							else:
 								citation.orcid_ids[author] = orcid_id
-							citation.provenance_orcid = "AUTHOR"
+							citation.provenance_orcid = "EMDB"
 						ind = ind + 1
 					citation.name_order["ind"] = ind
 					nas = pub.find('title').text
