@@ -122,5 +122,5 @@ class PubmedMapping:
 
     def export_tsv(self, pubmed_logger):
         for citation in self.citations:
-            row = f"{citation.emdb_id}\t{citation.pmedid}\t{citation.pmcid}\t{citation.doi}"
+            row = f"{citation.emdb_id}\t{citation.pmedid}\t{citation.pmcid}\t{citation.issn}\t{citation.doi}"
             pubmed_logger.info(row)

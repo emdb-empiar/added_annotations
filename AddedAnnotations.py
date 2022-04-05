@@ -296,7 +296,7 @@ if __name__ == "__main__":
     if pmc:
         pubmed_log_file = os.path.join(args.workDir, 'emdb_pubmed.log')
         pubmed_log = setup_logger('pubmed_logger', pubmed_log_file)
-        pubmed_log.info("EMDB_ID\tPUBMED_ID\tPUBMEDCENTRAL_ID\tDOI")
+        pubmed_log.info("EMDB_ID\tPUBMED_ID\tPUBMEDCENTRAL_ID\tISSN\tDOI")
     if go:
         go_log_file = os.path.join(args.workDir, 'emdb_go.log')
         go_log = setup_logger('go_logger', go_log_file)
