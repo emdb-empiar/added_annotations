@@ -257,7 +257,7 @@ if __name__ == "__main__":
     assembly_ftp = config.get("file_paths", "assembly_ftp")
     emdb_empiar_list = config.get("file_paths", "emdb_empiar_list")
     pmc_api = config.get("api", "pmc")
-    uniprot_tab = os.path.join(args.workDir, "uniprot.tsv")
+    uniprot_tab = config.get("file_paths", "uniprot_tab")
     #GO_obo = config.get("file_paths", "GO_obo")
     sifts_path = config.get("file_paths", "sifts")
     alphafold_ftp = config.get("file_paths", "alphafold_ftp")
