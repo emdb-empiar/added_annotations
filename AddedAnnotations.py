@@ -233,7 +233,7 @@ if __name__ == "__main__":
         weight = True
         empiar = True
         pmc = True
-        orcid = True
+        orcid = False #TODO: Change when orcid is fixed
         go = True
         interpro = True
         pfam = True
