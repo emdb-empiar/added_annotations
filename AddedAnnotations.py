@@ -344,7 +344,6 @@ if __name__ == "__main__":
         chembl_map, chebi_map, drugbank_map = parseCCD(components_cif)
     if alphafold:
         alphafold_ids = generate_af_ids(alphafold_ftp)
-    if orcid:
-        orcid_dict = generate_orcid_dictionary(args.workDir)
+    orcid_dict = generate_orcid_dictionary(args.workDir) if orcid else {}
 
     Parallel(n_jobs=args.threads)(delayed(run)(file) for file in glob(os.path.join(args.headerDir, '*')))

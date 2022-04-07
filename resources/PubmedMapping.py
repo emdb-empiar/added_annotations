@@ -26,7 +26,7 @@ class PubmedMapping:
     EuropePMC if not provided by author.
     """
 
-    def __init__(self, citations, pmc_api, orcid_dict, is_orcid=True):
+    def __init__(self, citations, pmc_api, orcid_dict={}, is_orcid=True):
         self.citations = citations
         self.api = pmc_api
         self.is_orcid = is_orcid
