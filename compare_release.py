@@ -1,6 +1,7 @@
 import pathlib
 import argparse
 import sys
+import os
 
 latest_data_path = sys.argv[1]
 previous_data_path = sys.argv[2]
