@@ -2,8 +2,6 @@ import pathlib
 import argparse
 import sys
 
-# latest_data_path = "/Users/neli/EBI/annotations/data/compare/"
-# previous_data_path = "/Users/neli/EBI/annotations/data/compare/tab-files/"
 latest_data_path = sys.argv[1]
 previous_data_path = sys.argv[2]
 
