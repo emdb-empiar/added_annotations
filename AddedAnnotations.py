@@ -5,7 +5,6 @@ from resources.ComplexPortalMapping import CPMapping
 from resources.ComponentsMapping import ComponentsMapping, parseCCD
 from resources.UniprotMapping import UniprotMapping, generate_unp_dictionary, download_uniprot
 from resources.StructureMapping import StructureMapping
-from resources.SampleWeight import SampleWeight
 from resources.EMPIARMapping import EMPIARMapping, generate_emp_dictionary
 from resources.PubmedMapping import PubmedMapping, generate_orcid_dictionary
 from resources.ProteinTermsMapping import ProteinTermsMapping
@@ -74,9 +73,9 @@ def run(filename):
     if weight:
         weight_logger = start_logger_if_necessary("weight_logger", weight_log_file)
         weight_logger.info(f"{xml.emdb_id}\t{xml.overall_mw}")
-        sw_mapping = SampleWeight(xml.weights, xml.overall_mw)
-        sw_map = sw_mapping.execute()
-        mapping_list.extend(["WEIGHT", sw_map])
+        wgt = models.Weight(xml.emdb_id)
+        (wgt.emdb_id, wgt.overall_mw, wgt.units, wgt.provenance) = (xml.emdb_id, xml.overall_mw, "MDa", "EMDB")
+        mapping_list.extend(["WEIGHT", wgt])
     if empiar:
         empiar_logger = start_logger_if_necessary("empiar_logger", empiar_log_file)
         empiar_mapping = EMPIARMapping(xml.emdb_id, empiar_dictionary, empiar_logger)
