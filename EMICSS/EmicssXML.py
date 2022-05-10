@@ -78,7 +78,7 @@ class EmicssXML:
                 if samp_id is not None:
                     if re.search(r'%s\-\d+' % "EMPIAR", samp_id):
                         emicss_empiar = self.EMICSS_empiar(val, samp_id, all_db, dbs, entry_ref_dbs)
-                    if samp_id == "theoretical" or samp_id == "experimental":
+                    if samp_id == "overall_weight":
                         emicss_weight = self.EMICSS_weight(val, all_db, dbs, samp_id, weights)
                     if samp_id == "PMC":
                         emicss_primary_citation = self.EMICSS_PMC(val, samp_id, all_db, dbs, primary_citation)
@@ -276,29 +276,20 @@ class EmicssXML:
     def EMICSS_weight(self, val, all_db, dbs, samp_id, weights):
         "Adding author provided calulated total sample weight annotations to EMICSS"
 
-        th_weight = val.get(samp_id, {}).get('sample_th_weight')
-        th_units = val.get(samp_id, {}).get('th_unit')
-        exp_weight = val.get(samp_id, {}).get('sample_exp_weight')
-        exp_units = val.get(samp_id, {}).get('exp_unit')
-        if "EMDB" not in all_db:
-            db = EMICSS.dbType()
-            db.set_db_source("%s" % "EMDB")
-            dbs.add_db(db)
+        overall_mw = val.get(samp_id, {}).get('overall_mw')
+        units = val.get(samp_id, {}).get('units')
+        provenance = val.get(samp_id, {}).get('provenance')
+        if overall_mw:
+            if "EMDB" not in all_db:
+                db = EMICSS.dbType()
+                db.set_db_source("%s" % "EMDB")
+                dbs.add_db(db)
+            weight_info = EMICSS.weight_infoType()
+            weight_info.set_weight("%s" % overall_mw)
+            weight_info.set_unit("%s" % units)
+            weight_info.set_provenance("%s" % provenance)
+            weights.add_weight_info(weight_info)
         all_db.add("EMDB")
-        if th_weight:
-            weight_info = EMICSS.weight_infoType()
-            weight_info.set_method("%s" % "theoretical")
-            weight_info.set_weight("%s" % th_weight)
-            weight_info.set_unit("%s" % th_units)
-            weight_info.set_provenance("%s" % "EMDB")
-            weights.add_weight_info(weight_info)
-        if exp_weight:
-            weight_info = EMICSS.weight_infoType()
-            weight_info.set_method("%s" % "experimental")
-            weight_info.set_weight("%s" % exp_weight)
-            weight_info.set_unit("%s" % exp_units)
-            weight_info.set_provenance("%s" % "EMDB")
-            weights.add_weight_info(weight_info)
         return weights
 
     def EMICSS_proteins(self, val, samp_id, all_db, dbs, macromolecules):

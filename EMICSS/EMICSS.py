@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Mon Apr  4 11:43:36 2022 by generateDS.py version 2.38.6.
+# Generated Mon May  9 16:15:17 2022 by generateDS.py version 2.38.6.
 # Python 3.7.6 (default, Dec 30 2019, 19:38:28)  [Clang 11.0.0 (clang-1100.0.33.16)]
 #
 # Command line options:
@@ -1019,6 +1019,7 @@ class sample_kind(str, Enum):
 
 
 class emicss(GeneratedsSuper):
+    """EMDB entry idEMICSS schema version"""
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
@@ -1210,10 +1211,18 @@ class emicss(GeneratedsSuper):
 
 
 class cross_ref_db(GeneratedsSuper):
+    """Name as in the cross reference databaseDatabase/resource name Unique ID
+    provided by the databaseStarting residue number as in UniProtEnding
+    residue number as in UniProtThree main aspects Gene Ontology is
+    categorised onResource the mapping is fetched fromIf the complex in the
+    sample mathces exactly to the complex in the Complex Protal database
+    the score is 1.0. If anything between score 0.9 and 0.5, the complex
+    matches only partially with the complex in the Complex Portal. Score
+    below 0.5 is omitted."""
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, name=None, db_source=None, accession_id=None, uniprot_start=None, uniprot_end=None, type_=None, category=None, link=None, provenance=None, provenance1=None, provenance2=None, score=None, gds_collector_=None, **kwargs_):
+    def __init__(self, name=None, db_source=None, accession_id=None, uniprot_start=None, uniprot_end=None, type_=None, provenance=None, score=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
@@ -1231,16 +1240,8 @@ class cross_ref_db(GeneratedsSuper):
         self.uniprot_end_nsprefix_ = None
         self.type_ = _cast(None, type_)
         self.type__nsprefix_ = None
-        self.category = _cast(None, category)
-        self.category_nsprefix_ = None
-        self.link = _cast(None, link)
-        self.link_nsprefix_ = None
         self.provenance = _cast(None, provenance)
         self.provenance_nsprefix_ = None
-        self.provenance1 = _cast(None, provenance1)
-        self.provenance1_nsprefix_ = None
-        self.provenance2 = _cast(None, provenance2)
-        self.provenance2_nsprefix_ = None
         self.score = _cast(float, score)
         self.score_nsprefix_ = None
     def factory(*args_, **kwargs_):
@@ -1282,26 +1283,10 @@ class cross_ref_db(GeneratedsSuper):
         return self.type_
     def set_type(self, type_):
         self.type_ = type_
-    def get_category(self):
-        return self.category
-    def set_category(self, category):
-        self.category = category
-    def get_link(self):
-        return self.link
-    def set_link(self, link):
-        self.link = link
     def get_provenance(self):
         return self.provenance
     def set_provenance(self, provenance):
         self.provenance = provenance
-    def get_provenance1(self):
-        return self.provenance1
-    def set_provenance1(self, provenance1):
-        self.provenance1 = provenance1
-    def get_provenance2(self):
-        return self.provenance2
-    def set_provenance2(self, provenance2):
-        self.provenance2 = provenance2
     def get_score(self):
         return self.score
     def set_score(self, score):
@@ -1380,21 +1365,9 @@ class cross_ref_db(GeneratedsSuper):
         if self.type_ is not None and 'type_' not in already_processed:
             already_processed.add('type_')
             outfile.write(' type=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.type_), input_name='type')), ))
-        if self.category is not None and 'category' not in already_processed:
-            already_processed.add('category')
-            outfile.write(' category=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.category), input_name='category')), ))
-        if self.link is not None and 'link' not in already_processed:
-            already_processed.add('link')
-            outfile.write(' link=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.link), input_name='link')), ))
         if self.provenance is not None and 'provenance' not in already_processed:
             already_processed.add('provenance')
             outfile.write(' provenance=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.provenance), input_name='provenance')), ))
-        if self.provenance1 is not None and 'provenance1' not in already_processed:
-            already_processed.add('provenance1')
-            outfile.write(' provenance1=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.provenance1), input_name='provenance1')), ))
-        if self.provenance2 is not None and 'provenance2' not in already_processed:
-            already_processed.add('provenance2')
-            outfile.write(' provenance2=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.provenance2), input_name='provenance2')), ))
         if self.score is not None and 'score' not in already_processed:
             already_processed.add('score')
             outfile.write(' score="%s"' % self.gds_format_float(self.score, input_name='score'))
@@ -1442,32 +1415,12 @@ class cross_ref_db(GeneratedsSuper):
         if value is not None and 'type' not in already_processed:
             already_processed.add('type')
             self.type_ = value
-        value = find_attr_value_('category', node)
-        if value is not None and 'category' not in already_processed:
-            already_processed.add('category')
-            self.category = value
-        value = find_attr_value_('link', node)
-        if value is not None and 'link' not in already_processed:
-            already_processed.add('link')
-            self.link = value
         value = find_attr_value_('provenance', node)
         if value is not None and 'provenance' not in already_processed:
             already_processed.add('provenance')
             self.provenance = value
             self.provenance = ' '.join(self.provenance.split())
             self.validate_provenance_type(self.provenance)    # validate type provenance_type
-        value = find_attr_value_('provenance1', node)
-        if value is not None and 'provenance1' not in already_processed:
-            already_processed.add('provenance1')
-            self.provenance1 = value
-            self.provenance1 = ' '.join(self.provenance1.split())
-            self.validate_provenance_type(self.provenance1)    # validate type provenance_type
-        value = find_attr_value_('provenance2', node)
-        if value is not None and 'provenance2' not in already_processed:
-            already_processed.add('provenance2')
-            self.provenance2 = value
-            self.provenance2 = ' '.join(self.provenance2.split())
-            self.validate_provenance_type(self.provenance2)    # validate type provenance_type
         value = find_attr_value_('score', node)
         if value is not None and 'score' not in already_processed:
             already_processed.add('score')
@@ -1582,6 +1535,7 @@ class dbsType(GeneratedsSuper):
 
 
 class dbType(GeneratedsSuper):
+    """Name of the databaseVersion of the database if available"""
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
@@ -1801,6 +1755,8 @@ class entry_ref_dbsType(GeneratedsSuper):
 
 
 class entry_ref_dbType(GeneratedsSuper):
+    """Database/resource nameUnique ID provided by the databaseResource where
+    the cross reference is fetched from."""
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
@@ -1929,7 +1885,8 @@ class entry_ref_dbType(GeneratedsSuper):
 
 
 class primary_citationType(GeneratedsSuper):
-    """Entry based citation annotations"""
+    """Entry based citation annotations
+    DOI for the publicationResource from where DOI is mapped"""
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
@@ -2086,6 +2043,8 @@ class primary_citationType(GeneratedsSuper):
 
 
 class ref_citationType(GeneratedsSuper):
+    """Reference to citationDatabase/resource nameUnique ID provided by the
+    database/resourceResource citation reference is fetched"""
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
@@ -2317,6 +2276,8 @@ class authorsType(GeneratedsSuper):
 
 
 class authorType(GeneratedsSuper):
+    """Author’s detailAuthor's nameAuthor's ORCID idOrder of the author’s name
+    as in publication Resource ORCID is fetched"""
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
@@ -2562,10 +2523,13 @@ class weightsType(GeneratedsSuper):
 
 
 class weight_infoType(GeneratedsSuper):
+    """Sample weight by different methodsProtein Data Bank idNumber of
+    biological assemblies in PDBWeight of the sampleSample weight
+    UnitsResource sample weight is fetched"""
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, pdb_id=None, assemblies=None, method=None, weight=None, unit=None, provenance=None, gds_collector_=None, **kwargs_):
+    def __init__(self, pdb_id=None, assemblies=None, weight=None, unit=None, provenance=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
@@ -2575,8 +2539,6 @@ class weight_infoType(GeneratedsSuper):
         self.pdb_id_nsprefix_ = None
         self.assemblies = _cast(int, assemblies)
         self.assemblies_nsprefix_ = None
-        self.method = _cast(None, method)
-        self.method_nsprefix_ = None
         self.weight = _cast(None, weight)
         self.weight_nsprefix_ = None
         self.unit = _cast(None, unit)
@@ -2606,10 +2568,6 @@ class weight_infoType(GeneratedsSuper):
         return self.assemblies
     def set_assemblies(self, assemblies):
         self.assemblies = assemblies
-    def get_method(self):
-        return self.method
-    def set_method(self, method):
-        self.method = method
     def get_weight(self):
         return self.weight
     def set_weight(self, weight):
@@ -2671,9 +2629,6 @@ class weight_infoType(GeneratedsSuper):
         if self.assemblies is not None and 'assemblies' not in already_processed:
             already_processed.add('assemblies')
             outfile.write(' assemblies="%s"' % self.gds_format_integer(self.assemblies, input_name='assemblies'))
-        if self.method is not None and 'method' not in already_processed:
-            already_processed.add('method')
-            outfile.write(' method=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.method), input_name='method')), ))
         if self.weight is not None and 'weight' not in already_processed:
             already_processed.add('weight')
             outfile.write(' weight=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.weight), input_name='weight')), ))
@@ -2705,10 +2660,6 @@ class weight_infoType(GeneratedsSuper):
         if value is not None and 'assemblies' not in already_processed:
             already_processed.add('assemblies')
             self.assemblies = self.gds_parse_integer(value, node, 'assemblies')
-        value = find_attr_value_('method', node)
-        if value is not None and 'method' not in already_processed:
-            already_processed.add('method')
-            self.method = value
         value = find_attr_value_('weight', node)
         if value is not None and 'weight' not in already_processed:
             already_processed.add('weight')
@@ -3076,6 +3027,9 @@ class supramoleculesType(GeneratedsSuper):
 
 
 class supramoleculeType(GeneratedsSuper):
+    """Annotations for a supramolecularSample type either
+    Complexes/proteinsSupramolecule id numberNumber of supramolecules
+    Resource supramolecular cross reference is fetched"""
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
@@ -3270,6 +3224,7 @@ class supramoleculeType(GeneratedsSuper):
 
 
 class cross_ref_dbsType1(GeneratedsSuper):
+    """List of cross references for supramolecule"""
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
@@ -3475,6 +3430,10 @@ class macromoleculesType(GeneratedsSuper):
 
 
 class macromoleculeType(GeneratedsSuper):
+    """Annotations for a macromolecularSample type either
+    proteins/ligandsMacromolecule id numberNumber of copies of the
+    macromolecular in the sampleResource macromolecular cross reference is
+    fetched"""
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None

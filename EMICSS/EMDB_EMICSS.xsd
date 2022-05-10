@@ -3,7 +3,7 @@
     <xsd:element name="emicss">
         <xsd:complexType>
             <xsd:sequence>
-                <xsd:element name="dbs">
+                <xsd:element name="dbs" minOccurs="0">
                     <xsd:annotation>
                         <xsd:documentation>
                             List of databases annotated for this EMDB entry
@@ -13,8 +13,16 @@
                         <xsd:sequence>
                             <xsd:element maxOccurs="unbounded" name="db">
                                 <xsd:complexType>
-                                    <xsd:attribute name="db_source" type="db_source_type"/>
-                                    <xsd:attribute name="db_version" type="xsd:token"/>
+                                    <xsd:attribute name="db_source" type="db_source_type">
+                                        <xsd:annotation>
+                                            <xsd:documentation>Name of the database</xsd:documentation>
+                                        </xsd:annotation>
+                                    </xsd:attribute>
+                                    <xsd:attribute name="db_version" type="xsd:token">
+                                        <xsd:annotation>
+                                            <xsd:documentation>Version of the database if available</xsd:documentation>
+                                        </xsd:annotation>
+                                    </xsd:attribute>
                                 </xsd:complexType>
                             </xsd:element>
                         </xsd:sequence>
@@ -30,9 +38,21 @@
                         <xsd:sequence>
                             <xsd:element maxOccurs="unbounded" minOccurs="0" name="entry_ref_db">
                                 <xsd:complexType>
-                                    <xsd:attribute name="db_source" type="xsd:string"/>
-                                    <xsd:attribute name="accession_id" type="xsd:string"/>
-                                    <xsd:attribute name="provenance" type="provenance_type"/>
+                                    <xsd:attribute name="db_source" type="xsd:string">
+                                        <xsd:annotation>
+                                            <xsd:documentation>Database/resource name</xsd:documentation>
+                                        </xsd:annotation>
+                                    </xsd:attribute>
+                                    <xsd:attribute name="accession_id" type="xsd:string">
+                                        <xsd:annotation>
+                                            <xsd:documentation>Unique ID provided by the database</xsd:documentation>
+                                        </xsd:annotation>
+                                    </xsd:attribute>
+                                    <xsd:attribute name="provenance" type="provenance_type">
+                                        <xsd:annotation>
+                                            <xsd:documentation>Resource where the cross reference is fetched from.</xsd:documentation>
+                                        </xsd:annotation>
+                                    </xsd:attribute>
                                 </xsd:complexType>
                             </xsd:element>
                         </xsd:sequence>
@@ -47,10 +67,25 @@
                     <xsd:complexType>
                         <xsd:sequence>
                             <xsd:element maxOccurs="unbounded" minOccurs="0" name="ref_citation">
+                                <xsd:annotation>
+                                    <xsd:documentation>Reference to citation</xsd:documentation>
+                                </xsd:annotation>
                                 <xsd:complexType>
-                                    <xsd:attribute name="db_source" type="xsd:string"/>
-                                    <xsd:attribute name="accession_id" type="xsd:string"/>
-                                    <xsd:attribute name="provenance" type="provenance_type"/>
+                                    <xsd:attribute name="db_source" type="xsd:string">
+                                        <xsd:annotation>
+                                            <xsd:documentation>Database/resource name</xsd:documentation>
+                                        </xsd:annotation>
+                                    </xsd:attribute>
+                                    <xsd:attribute name="accession_id" type="xsd:string">
+                                        <xsd:annotation>
+                                            <xsd:documentation>Unique ID provided by the database/resource</xsd:documentation>
+                                        </xsd:annotation>
+                                    </xsd:attribute>
+                                    <xsd:attribute name="provenance" type="provenance_type">
+                                        <xsd:annotation>
+                                            <xsd:documentation>Resource citation reference is fetched</xsd:documentation>
+                                        </xsd:annotation>
+                                    </xsd:attribute>
                                 </xsd:complexType>
                             </xsd:element>
                             <xsd:element minOccurs="0" name="authors">
@@ -63,20 +98,47 @@
                                     <xsd:sequence>
                                         <xsd:element maxOccurs="unbounded" name="author"
                                             minOccurs="0">
+                                            <xsd:annotation>
+                                                <xsd:documentation>Author’s detail</xsd:documentation>
+                                            </xsd:annotation>
                                             <xsd:complexType>
-                                                <xsd:attribute name="name" type="xsd:string"/>
-                                                <xsd:attribute name="orcid_id" type="xsd:string"/>
-                                                <xsd:attribute name="order" type="xsd:integer"/>
+                                                <xsd:attribute name="name" type="xsd:string">
+                                                  <xsd:annotation>
+                                                  <xsd:documentation>Author's name</xsd:documentation>
+                                                  </xsd:annotation>
+                                                </xsd:attribute>
+                                                <xsd:attribute name="orcid_id" type="xsd:string">
+                                                  <xsd:annotation>
+                                                  <xsd:documentation>Author's ORCID id</xsd:documentation>
+                                                  </xsd:annotation>
+                                                </xsd:attribute>
+                                                <xsd:attribute name="order" type="xsd:integer">
+                                                  <xsd:annotation>
+                                                  <xsd:documentation>Order of the author’s name as in publication </xsd:documentation>
+                                                  </xsd:annotation>
+                                                </xsd:attribute>
                                                 <xsd:attribute name="provenance"
-                                                  type="provenance_type"/>
+                                                  type="provenance_type">
+                                                  <xsd:annotation>
+                                                  <xsd:documentation>Resource ORCID is fetched</xsd:documentation>
+                                                  </xsd:annotation>
+                                                </xsd:attribute>
                                             </xsd:complexType>
                                         </xsd:element>
                                     </xsd:sequence>
                                 </xsd:complexType>
                             </xsd:element>
                         </xsd:sequence>
-                        <xsd:attribute name="doi" type="xsd:string"/>
-                        <xsd:attribute name="provenance" type="provenance_type"/>
+                        <xsd:attribute name="doi" type="xsd:string">
+                            <xsd:annotation>
+                                <xsd:documentation>DOI for the publication</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:attribute>
+                        <xsd:attribute name="provenance" type="provenance_type">
+                            <xsd:annotation>
+                                <xsd:documentation>Resource from where DOI is mapped</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:attribute>
                     </xsd:complexType>
                 </xsd:element>
                 <xsd:element minOccurs="0" name="weights">
@@ -88,13 +150,35 @@
                     <xsd:complexType>
                         <xsd:sequence>
                             <xsd:element maxOccurs="unbounded" name="weight_info" minOccurs="0">
+                                <xsd:annotation>
+                                    <xsd:documentation>Sample weight by different methods</xsd:documentation>
+                                </xsd:annotation>
                                 <xsd:complexType>
-                                    <xsd:attribute name="pdb_id" type="xsd:string"/>
-                                    <xsd:attribute name="assemblies" type="xsd:int"/>
-                                    <xsd:attribute name="method" type="xsd:string"/>
-                                    <xsd:attribute name="weight" type="xsd:string"/>
-                                    <xsd:attribute name="unit" type="xsd:string"/>
-                                    <xsd:attribute name="provenance" type="provenance_type"/>
+                                    <xsd:attribute name="pdb_id" type="xsd:string">
+                                        <xsd:annotation>
+                                            <xsd:documentation>Protein Data Bank id</xsd:documentation>
+                                        </xsd:annotation>
+                                    </xsd:attribute>
+                                    <xsd:attribute name="assemblies" type="xsd:int">
+                                        <xsd:annotation>
+                                            <xsd:documentation>Number of biological assemblies in PDB</xsd:documentation>
+                                        </xsd:annotation>
+                                    </xsd:attribute>
+                                    <xsd:attribute name="weight" type="xsd:string">
+                                        <xsd:annotation>
+                                            <xsd:documentation>Weight of the sample</xsd:documentation>
+                                        </xsd:annotation>
+                                    </xsd:attribute>
+                                    <xsd:attribute name="unit" type="xsd:string">
+                                        <xsd:annotation>
+                                            <xsd:documentation>Sample weight Units</xsd:documentation>
+                                        </xsd:annotation>
+                                    </xsd:attribute>
+                                    <xsd:attribute name="provenance" type="provenance_type">
+                                        <xsd:annotation>
+                                            <xsd:documentation>Resource sample weight is fetched </xsd:documentation>
+                                        </xsd:annotation>
+                                    </xsd:attribute>
                                 </xsd:complexType>
                             </xsd:element>
                         </xsd:sequence>
@@ -108,7 +192,11 @@
                     </xsd:annotation>
                     <xsd:complexType>
                         <xsd:sequence minOccurs="0">
-                            <xsd:element name="name" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="name" type="xsd:string" minOccurs="0">
+                                <xsd:annotation>
+                                    <xsd:documentation>Name of the sample</xsd:documentation>
+                                </xsd:annotation>
+                            </xsd:element>
                             <xsd:element minOccurs="0" name="cross_ref_dbs">
                                 <xsd:annotation>
                                     <xsd:documentation>
@@ -130,10 +218,20 @@
                                 <xsd:complexType>
                                     <xsd:sequence>
                                         <xsd:element name="supramolecule" maxOccurs="unbounded">
+                                            <xsd:annotation>
+                                                <xsd:documentation>Annotations for a supramolecular</xsd:documentation>
+                                            </xsd:annotation>
                                             <xsd:complexType>
                                                 <xsd:sequence>
-                                                  <xsd:element name="name" type="xsd:string"/>
+                                                  <xsd:element name="name" type="xsd:string">
+                                                  <xsd:annotation>
+                                                  <xsd:documentation>Name of the supramolecule</xsd:documentation>
+                                                  </xsd:annotation>
+                                                  </xsd:element>
                                                   <xsd:element name="cross_ref_dbs">
+                                                  <xsd:annotation>
+                                                  <xsd:documentation>List of cross references for supramolecule</xsd:documentation>
+                                                  </xsd:annotation>
                                                   <xsd:complexType>
                                                   <xsd:sequence>
                                                   <xsd:element maxOccurs="unbounded"
@@ -142,13 +240,29 @@
                                                   </xsd:complexType>
                                                   </xsd:element>
                                                 </xsd:sequence>
-                                                <xsd:attribute name="type" type="sample_kind"/>
+                                                <xsd:attribute name="type" type="sample_kind">
+                                                  <xsd:annotation>
+                                                  <xsd:documentation>Sample type either Complexes/proteins</xsd:documentation>
+                                                  </xsd:annotation>
+                                                </xsd:attribute>
                                                 <xsd:attribute name="id"
-                                                  type="xsd:nonNegativeInteger"/>
+                                                  type="xsd:nonNegativeInteger">
+                                                  <xsd:annotation>
+                                                  <xsd:documentation>Supramolecule id number</xsd:documentation>
+                                                  </xsd:annotation>
+                                                </xsd:attribute>
                                                 <xsd:attribute name="copies"
-                                                  type="xsd:nonNegativeInteger"/>
+                                                  type="xsd:nonNegativeInteger">
+                                                  <xsd:annotation>
+                                                  <xsd:documentation>Number of supramolecules </xsd:documentation>
+                                                  </xsd:annotation>
+                                                </xsd:attribute>
                                                 <xsd:attribute name="provenance"
-                                                  type="provenance_type"/>
+                                                  type="provenance_type">
+                                                  <xsd:annotation>
+                                                  <xsd:documentation>Resource supramolecular cross reference is fetched</xsd:documentation>
+                                                  </xsd:annotation>
+                                                </xsd:attribute>
                                             </xsd:complexType>
                                         </xsd:element>
                                     </xsd:sequence>
@@ -163,11 +277,22 @@
                                 <xsd:complexType>
                                     <xsd:sequence>
                                         <xsd:element name="macromolecule" maxOccurs="unbounded">
+                                            <xsd:annotation>
+                                                <xsd:documentation>Annotations for a macromolecular</xsd:documentation>
+                                            </xsd:annotation>
                                             <xsd:complexType>
                                                 <xsd:sequence>
-                                                  <xsd:element name="name" type="xsd:string"/>
+                                                  <xsd:element name="name" type="xsd:string">
+                                                  <xsd:annotation>
+                                                  <xsd:documentation>Name of the macromolecule</xsd:documentation>
+                                                  </xsd:annotation>
+                                                  </xsd:element>
                                                   <xsd:element minOccurs="0" name="ccd_id"
-                                                  type="xsd:ID"/>
+                                                  type="xsd:ID">
+                                                  <xsd:annotation>
+                                                  <xsd:documentation>PDBe Chemical Component Dictionary (CCD) id</xsd:documentation>
+                                                  </xsd:annotation>
+                                                  </xsd:element>
                                                   <xsd:element name="cross_ref_dbs">
                                                   <xsd:complexType>
                                                   <xsd:sequence>
@@ -177,13 +302,29 @@
                                                   </xsd:complexType>
                                                   </xsd:element>
                                                 </xsd:sequence>
-                                                <xsd:attribute name="type" type="sample_kind"/>
+                                                <xsd:attribute name="type" type="sample_kind">
+                                                  <xsd:annotation>
+                                                  <xsd:documentation>Sample type either proteins/ligands</xsd:documentation>
+                                                  </xsd:annotation>
+                                                </xsd:attribute>
                                                 <xsd:attribute name="id"
-                                                  type="xsd:nonNegativeInteger"/>
+                                                  type="xsd:nonNegativeInteger">
+                                                  <xsd:annotation>
+                                                  <xsd:documentation>Macromolecule id number</xsd:documentation>
+                                                  </xsd:annotation>
+                                                </xsd:attribute>
                                                 <xsd:attribute name="copies"
-                                                  type="xsd:nonNegativeInteger"/>
+                                                  type="xsd:nonNegativeInteger">
+                                                  <xsd:annotation>
+                                                  <xsd:documentation>Number of copies of the macromolecular in the sample</xsd:documentation>
+                                                  </xsd:annotation>
+                                                </xsd:attribute>
                                                 <xsd:attribute name="provenance"
-                                                  type="provenance_type"/>
+                                                  type="provenance_type">
+                                                  <xsd:annotation>
+                                                  <xsd:documentation>Resource macromolecular cross reference is fetched</xsd:documentation>
+                                                  </xsd:annotation>
+                                                </xsd:attribute>
                                             </xsd:complexType>
                                         </xsd:element>
                                     </xsd:sequence>
@@ -193,8 +334,16 @@
                     </xsd:complexType>
                 </xsd:element>
             </xsd:sequence>
-            <xsd:attribute name="emdb_id" type="emdb_id_type"/>
-            <xsd:attribute name="schema_version" type="xsd:token"/>
+            <xsd:attribute name="emdb_id" type="emdb_id_type">
+                <xsd:annotation>
+                    <xsd:documentation>EMDB entry id</xsd:documentation>
+                </xsd:annotation>
+            </xsd:attribute>
+            <xsd:attribute name="schema_version" type="xsd:token">
+                <xsd:annotation>
+                    <xsd:documentation>EMICSS schema version</xsd:documentation>
+                </xsd:annotation>
+            </xsd:attribute>
         </xsd:complexType>
     </xsd:element>
     <xsd:simpleType name="emdb_id_type">
@@ -260,18 +409,46 @@
     </xsd:simpleType>
     <xsd:element name="cross_ref_db">
         <xsd:complexType>
-            <xsd:attribute name="name" type="xsd:string"/>
-            <xsd:attribute name="db_source" type="db_source_type"/>
-            <xsd:attribute name="accession_id" type="xsd:string"/>
-            <xsd:attribute name="uniprot_start" type="xsd:positiveInteger"/>
-            <xsd:attribute name="uniprot_end" type="xsd:positiveInteger"/>
-            <xsd:attribute name="type" type="xsd:string"/>
-            <xsd:attribute name="category" type="xsd:string"/>
-            <xsd:attribute name="link" type="xsd:string"/>
-            <xsd:attribute name="provenance" type="provenance_type"/>
-            <xsd:attribute name="provenance1" type="provenance_type"/>
-            <xsd:attribute name="provenance2" type="provenance_type"/>
-            <xsd:attribute name="score" type="xsd:float"/>
+            <xsd:attribute name="name" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>Name as in the cross reference database</xsd:documentation>
+                </xsd:annotation>
+            </xsd:attribute>
+            <xsd:attribute name="db_source" type="db_source_type">
+                <xsd:annotation>
+                    <xsd:documentation>Database/resource name </xsd:documentation>
+                </xsd:annotation>
+            </xsd:attribute>
+            <xsd:attribute name="accession_id" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>Unique ID provided by the database</xsd:documentation>
+                </xsd:annotation>
+            </xsd:attribute>
+            <xsd:attribute name="uniprot_start" type="xsd:positiveInteger">
+                <xsd:annotation>
+                    <xsd:documentation>Starting residue number as in UniProt</xsd:documentation>
+                </xsd:annotation>
+            </xsd:attribute>
+            <xsd:attribute name="uniprot_end" type="xsd:positiveInteger">
+                <xsd:annotation>
+                    <xsd:documentation>Ending residue number as in UniProt</xsd:documentation>
+                </xsd:annotation>
+            </xsd:attribute>
+            <xsd:attribute name="type" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>Three main aspects Gene Ontology is categorised on</xsd:documentation>
+                </xsd:annotation>
+            </xsd:attribute>
+            <xsd:attribute name="provenance" type="provenance_type">
+                <xsd:annotation>
+                    <xsd:documentation>Resource the mapping is fetched from</xsd:documentation>
+                </xsd:annotation>
+            </xsd:attribute>
+            <xsd:attribute name="score" type="xsd:float">
+                <xsd:annotation>
+                    <xsd:documentation>If the complex in the sample mathces exactly to the complex in the Complex Protal database the score is 1.0. If anything between score 0.9 and 0.5, the complex matches only partially with the complex in the Complex Portal. Score below 0.5 is omitted.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:attribute>
         </xsd:complexType>
     </xsd:element>
 </xsd:schema>

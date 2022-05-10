@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Mon Apr  4 11:43:36 2022 by generateDS.py version 2.38.6.
+# Generated Mon May  9 16:15:18 2022 by generateDS.py version 2.38.6.
 # Python 3.7.6 (default, Dec 30 2019, 19:38:28)  [Clang 11.0.0 (clang-1100.0.33.16)]
 #
 # Command line options:
@@ -69,8 +69,8 @@ supermod.emicss.subclass = emicssSub
 
 
 class cross_ref_dbSub(supermod.cross_ref_db):
-    def __init__(self, name=None, db_source=None, accession_id=None, uniprot_start=None, uniprot_end=None, type_=None, category=None, link=None, provenance=None, provenance1=None, provenance2=None, score=None, **kwargs_):
-        super(cross_ref_dbSub, self).__init__(name, db_source, accession_id, uniprot_start, uniprot_end, type_, category, link, provenance, provenance1, provenance2, score,  **kwargs_)
+    def __init__(self, name=None, db_source=None, accession_id=None, uniprot_start=None, uniprot_end=None, type_=None, provenance=None, score=None, **kwargs_):
+        super(cross_ref_dbSub, self).__init__(name, db_source, accession_id, uniprot_start, uniprot_end, type_, provenance, score,  **kwargs_)
 supermod.cross_ref_db.subclass = cross_ref_dbSub
 # end class cross_ref_dbSub
 
@@ -139,8 +139,8 @@ supermod.weightsType.subclass = weightsTypeSub
 
 
 class weight_infoTypeSub(supermod.weight_infoType):
-    def __init__(self, pdb_id=None, assemblies=None, method=None, weight=None, unit=None, provenance=None, **kwargs_):
-        super(weight_infoTypeSub, self).__init__(pdb_id, assemblies, method, weight, unit, provenance,  **kwargs_)
+    def __init__(self, pdb_id=None, assemblies=None, weight=None, unit=None, provenance=None, **kwargs_):
+        super(weight_infoTypeSub, self).__init__(pdb_id, assemblies, weight, unit, provenance,  **kwargs_)
 supermod.weight_infoType.subclass = weight_infoTypeSub
 # end class weight_infoTypeSub
 

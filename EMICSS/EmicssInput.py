@@ -59,9 +59,9 @@ class EmicssInput:
                     if sw.emdb_id not in emicss_dict:
                         emicss_dict[sw.emdb_id] = {}
                     if sw.emdb_id not in emicss_dict[sw.emdb_id]:
-                        emicss_dict[sw.emdb_id][sw.method] = sw.__dict__
+                        emicss_dict[sw.emdb_id]["overall_weight"] = sw.__dict__
                     else:
-                        emicss_dict[sw.emdb_id][sw.method] += sw.__dict__
+                        emicss_dict[sw.emdb_id]["overall_weight"] += sw.__dict__
         except AttributeError as e:
             print("WEIGHT mapping doesn't exist", e)
 

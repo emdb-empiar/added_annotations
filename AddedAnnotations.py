@@ -74,7 +74,7 @@ def run(filename):
     if weight:
         weight_logger = start_logger_if_necessary("weight_logger", weight_log_file)
         weight_logger.info(f"{xml.emdb_id}\t{xml.overall_mw}")
-        sw_mapping = SampleWeight(xml.weights)
+        sw_mapping = SampleWeight(xml.weights, xml.overall_mw)
         sw_map = sw_mapping.execute()
         mapping_list.extend(["WEIGHT", sw_map])
     if empiar:

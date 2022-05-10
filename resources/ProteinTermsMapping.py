@@ -7,7 +7,7 @@ import xmltodict
 
 class ProteinTermsMapping:
     """
-    Extract GO, InterPro and Pfam terms from SIFTS
+    Extract GO, InterPro, Pfam, CATH, SCOP and SCOP2 terms from SIFTS
 
     If sequence + model => Fetch from sifts
     """

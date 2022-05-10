@@ -18,8 +18,8 @@ logger.addHandler(file_handler)
 
 def generate_unp_dictionary(uniprot_tab):
 	"""
-	Parse the Uniprot tab file containg all entries with models and resulting in
-	 a dictionary of pdb_id -> [(Uniprot_id, protein_names)]
+	Parse the UniProt tab file containing all entries with models and resulting in
+	a dictionary of pdb_id -> [(Uniprot_id, protein_names)]
 	"""
 	uniprot = {}
 	with open(uniprot_tab, 'r') as fr:
@@ -60,6 +60,8 @@ class UniprotMapping:
 	def execute(self):
 		for protein in self.proteins:
 			protein = self.worker(protein)
+		# for p in self.proteins:
+		# 	print(p.__dict__)
 		return self.proteins
 
 	def worker(self, protein):
@@ -98,7 +100,7 @@ class UniprotMapping:
 			uniprot_id = self.extract_uniprot_from_blast(qout, protein.sample_organism)
 			if uniprot_id:
 				protein.uniprot_id = uniprot_id
-				protein.provenance = "UNIPROT"
+				protein.provenance = "UNIPROT+BLAST"
 		return protein
 
 	def extract_uniprot_from_blast(self, fastafile, ncbi_id):

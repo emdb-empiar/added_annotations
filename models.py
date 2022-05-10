@@ -172,26 +172,12 @@ class Weight:
     """
     def __init__(self, emdb_id):
         self.emdb_id = emdb_id
+        self.overall_mw = 0.0
+        self.units = ""
         self.provenance = ""
-        self.kind = ""
-        self.type = None
-        self.method = ""
-        self.sup_th_weight = []
-        self.sup_th_unit = ""
-        self.sup_exp_weight = []
-        self.sup_exp_unit = ""
-        self.macro_th_weight = []
-        self.macro_th_unit = ""
-        self.macro_exp_weight = []
-        self.macro_exp_unit = ""
-        self.sample_th_weight = 0.0
-        self.th_unit = ""
-        self.sample_exp_weight = 0.0
-        self.exp_unit = ""
 
     def __str__(self):
-            return ("%s\t%s\t%s\t%s\t%s\t%s\t%s\n" % (self.emdb_id, self.sample_th_weight, self.sample_exp_weight, self.sup_th_weight,
-                                                      self.sup_exp_weight, self.macro_th_weight, self.macro_exp_weight))
+            return ("%s\t%s\t%s\t%s\n" % (self.emdb_id, self.overall_mw, self.units, self.provenance))
 
 class Empiar:
     """
