@@ -213,23 +213,19 @@ class XMLParser:
 					for auth in y.iter('author'):
 						author = auth.text
 						author_lastname = author.split(" ")[0]
-						# (citation.authors).append(author)
-						citation.name_order["name_"+str(ind)] = author
+						citation.orcid_ids["name_" + str(ind)] = author
+						citation.orcid_ids["provenance_orcid_" + str(ind)] = "EMDB"
 						if 'order' in auth.attrib:
 							auth_order = auth.attrib['order']
-							citation.author_order[author_lastname] = auth_order
-							citation.name_order["order_"+str(ind)] = auth_order
+							citation.orcid_ids["order_" + str(ind)] = auth_order
 						if 'ORCID' in auth.attrib:
 							orcid_id = auth.attrib['ORCID']
-							if author_lastname in citation.author_order:
-								order = citation.author_order[author_lastname]
-								name_order = f'{order} [{author}]'
-								citation.orcid_ids[name_order] = orcid_id
-							else:
-								citation.orcid_ids[author] = orcid_id
-							citation.provenance_orcid = "EMDB"
+							citation.orcid_ids["id_" + str(ind)] = orcid_id
+						else:
+							citation.orcid_ids["id_" + str(ind)] = "N/A"
 						ind = ind + 1
-					citation.name_order["ind"] = ind
+
+					citation.orcid_ids["ind"] = ind
 					nas = pub.find('title').text
 					title = nas.split('\n\n', 1)[0]
 					citation.title = title

@@ -1,42 +1,16 @@
-import json, os
+import json
 import requests
-import itertools
 
-def generate_orcid_dictionary(workDir):
-    orcid_dict = {}
-    emdb_orcid = os.path.join(workDir, "emdb_orcid.log")
-    with open(emdb_orcid, 'r') as f:
-        for line in f.readlines()[1:]:
-            line = line.strip('\n')
-            emdb_id = line.split('\t')[0]
-            name = line.split('\t')[1]
-            id = line.split('\t')[2]
-            ord = line.split('\t')[3]
-            pvn = line.split('\t')[4]
-            if emdb_id not in orcid_dict:
-                orcid_dict[emdb_id] = {}
-                ind = 0
-            orc_list = ["name" + "_" + str(ind), name, "id" + "_" + str(ind), id , "order" + "_" + str(ind), ord,
-                        "provenance_orcid" + "_" + str(ind), pvn]
-            list_dict = dict(itertools.zip_longest(*[iter(orc_list)] * 2, fillvalue=""))
-            for k in list_dict.keys():
-                orcid_dict[emdb_id][k] = list_dict[k]
-            ind = ind + 1
-            orcid_dict[emdb_id]["ind"] = ind
-
-    return orcid_dict
-
-class PubmedMapping:
+class PublicationMapping:
     """
-    Author provided publication IDs (PUBMED, DOI) and querying PMC API for title if any publication IDs available in
-    EuropePMC if not provided by author.
+    Author provided publication IDs (PUBMED, DOI) and querying PMC API for PubMed, PubMED central, DOI and ORCID using
+    any publication IDs or title available in EuropePMC if not provided by author.
     """
 
-    def __init__(self, citations, pmc_api, orcid_dict={}, is_orcid=True):
+    def __init__(self, citations, pmc_api, is_orcid=True):
         self.citations = citations
         self.api = pmc_api
         self.is_orcid = is_orcid
-        self.orcid_dict = orcid_dict
 
     def execute(self):
         for citation in self.citations:
@@ -62,6 +36,9 @@ class PubmedMapping:
                     if webAPI[2]:
                         citation.doi = webAPI[2]
                         citation.provenance_doi = "EuropePMC"
+                if self.is_orcid:
+                    if webAPI[3]:
+                        citation.orcid_ids = webAPI[3]
 
         else:
             if citation.doi:
@@ -74,6 +51,9 @@ class PubmedMapping:
                     if webAPI[1]:
                         citation.pmcid = webAPI[1]
                         citation.provenance_pmc = "EuropePMC"
+                if self.is_orcid:
+                    if webAPI[3]:
+                        citation.orcid_ids = webAPI[3]
 
         if not citation.pmedid and not citation.doi:
             if citation.title:
@@ -90,19 +70,18 @@ class PubmedMapping:
                     if webAPI[2]:
                         citation.doi = webAPI[2]
                         citation.provenance_doi = "EuropePMC"
-
-        if self.is_orcid:
-            orc = self.orcid_dict.get(citation.emdb_id)
-            if orc:
-                citation.orcid_ids = orc
+                if self.is_orcid:
+                    if webAPI[3]:
+                        citation.orcid_ids = webAPI[3]
 
         return citation
 
     def pmc_api_query(self, queryString):
+        orcid_ids = {}
         pm_id = pmc_id = doi = None
         data = {'query': queryString,
                 'format': 'json',
-                'resultType': 'lite'}
+                'resultType': 'core'}
         response = requests.post(self.api, data=data)
         res_text = response.text
         try:
@@ -118,9 +97,38 @@ class PubmedMapping:
                 pm_id = result[0]['id']
                 pmc_id = result[0]['pmcid'] if 'pmcid' in result[0] else ""
                 doi = result[0]['doi'] if 'doi' in result[0] else ""
-        return pm_id, pmc_id, doi
+            res = pmcjdata['resultList']['result'][0]
+            if 'authorList' in res:
+                auth = res['authorList']['author']
+                size = len(auth)
+                for ind in range(size):
+                    auth_list = auth[ind]
+                    firstname = auth_list['firstName']
+                    lastname = auth_list['lastName']
+                    author_name = firstname + " " + lastname
+                    orcid_ids["name_" + str(ind)] = author_name
+                    orcid_ids["order_" + str(ind)] = ind + 1
+                    orcid_ids["provenance_orcid_" + str(ind)] = "EuropePMC"
+                    if 'authorId' in auth_list:
+                        type_id = auth_list['authorId']['type']
+                        if type_id == "ORCID":
+                            orcid_id = auth_list['authorId']['value']
+                            orcid_ids["id_" + str(ind)] = orcid_id
+                    else:
+                        orcid_ids["id_" + str(ind)] = "N/A"
+                orcid_ids["ind"] = size
 
-    def export_tsv(self, pubmed_logger):
+        return pm_id, pmc_id, doi, orcid_ids
+
+    def export_tsv(self, pubmed_logger, orcid_logger):
         for citation in self.citations:
             row = f"{citation.emdb_id}\t{citation.pmedid}\t{citation.pmcid}\t{citation.issn}\t{citation.doi}"
             pubmed_logger.info(row)
+            ind = citation.orcid_ids["ind"]
+            for i in range(int(ind)):
+                name = citation.orcid_ids["name_" + str(i)]
+                id = citation.orcid_ids["id_" + str(i)]
+                order = citation.orcid_ids["order_" + str(i)]
+                provenance = citation.orcid_ids["provenance_orcid_" + str(i)]
+                row = f"{citation.emdb_id}\t{name}\t{id}\t{order}\t{provenance}"
+                orcid_logger.info(row)

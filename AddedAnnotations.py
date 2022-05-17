@@ -6,7 +6,7 @@ from resources.ComponentsMapping import ComponentsMapping, parseCCD
 from resources.UniprotMapping import UniprotMapping, generate_unp_dictionary, download_uniprot
 from resources.StructureMapping import StructureMapping
 from resources.EMPIARMapping import EMPIARMapping, generate_emp_dictionary
-from resources.PubmedMapping import PubmedMapping, generate_orcid_dictionary
+from resources.PublicationMapping import PublicationMapping
 from resources.ProteinTermsMapping import ProteinTermsMapping
 from resources.PdbeKbMapping import PdbeKbMapping
 from resources.AlphaFoldMapping import AlphaFoldMapping, generate_af_ids
@@ -83,9 +83,10 @@ def run(filename):
         mapping_list.extend(["EMPIAR", empiar_map])
     if pmc or orcid:
         pubmed_log = start_logger_if_necessary("pubmed_logger", pubmed_log_file) if pmc else None
-        pmc_mapping = PubmedMapping(xml.citations, pmc_api, orcid_dict, orcid)
+        orcid_log = start_logger_if_necessary("orcid_logger", orcid_log_file) if orcid else None
+        pmc_mapping = PublicationMapping(xml.citations, pmc_api, orcid)
         pmc_map = pmc_mapping.execute()
-        pmc_mapping.export_tsv(pubmed_log)
+        pmc_mapping.export_tsv(pubmed_log, orcid_log)
         mapping_list.extend(["CITATION", pmc_map])
     if go or interpro or pfam or cath:
         go_log = start_logger_if_necessary("go_logger", go_log_file) if go else None
@@ -296,6 +297,11 @@ if __name__ == "__main__":
         pubmed_log_file = os.path.join(args.workDir, 'emdb_pubmed.log')
         pubmed_log = setup_logger('pubmed_logger', pubmed_log_file)
         pubmed_log.info("EMDB_ID\tPUBMED_ID\tPUBMEDCENTRAL_ID\tISSN\tDOI")
+    if orcid:
+        orcid_log_file = os.path.join(args.workDir, 'emdb_orcid.log')
+        orcid_log_file_backup = os.path.join(args.workDir, 'emdb_orcid_backup.log')
+        orcid_log = setup_logger('orcid_logger', orcid_log_file)
+        orcid_log.info("EMDB_ID\tAUTHOR_NAME\tORCID_ID\tAUTHOR_ORDER\tPROVENANCE")
     if go:
         go_log_file = os.path.join(args.workDir, 'emdb_go.log')
         go_log = setup_logger('go_logger', go_log_file)
@@ -343,6 +349,5 @@ if __name__ == "__main__":
         chembl_map, chebi_map, drugbank_map = parseCCD(components_cif)
     if alphafold:
         alphafold_ids = generate_af_ids(alphafold_ftp)
-    orcid_dict = generate_orcid_dictionary(args.workDir) if orcid else {}
 
     Parallel(n_jobs=args.threads)(delayed(run)(file) for file in glob(os.path.join(args.headerDir, '*')))
