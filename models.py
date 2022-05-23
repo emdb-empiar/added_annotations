@@ -196,6 +196,7 @@ class Citation:
     """
     def __init__(self, emdb_id):
         self.emdb_id = emdb_id
+        self.pubmed_ids = {}
         self.pmedid = None
         self.pmcid = None
         self.doi = None
