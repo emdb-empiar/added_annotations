@@ -209,23 +209,18 @@ class XMLParser:
 				for y in list(root.iter('primary_citation')):
 					citation = Citation(self.emdb_id)
 					pub = y.find('journal_citation')
-					ind = 0
 					for auth in y.iter('author'):
 						author = auth.text
-						author_lastname = author.split(" ")[0]
-						citation.orcid_ids["name_" + str(ind)] = author
-						citation.orcid_ids["provenance_orcid_" + str(ind)] = "EMDB"
-						if 'order' in auth.attrib:
-							auth_order = auth.attrib['order']
-							citation.orcid_ids["order_" + str(ind)] = auth_order
+						citation.author_order = auth.attrib['order']
+						order_auth = citation.author_order+"_"+author
 						if 'ORCID' in auth.attrib:
 							orcid_id = auth.attrib['ORCID']
-							citation.orcid_ids["id_" + str(ind)] = orcid_id
+							(citation.name_order)[order_auth] = orcid_id
+							citation.provenance_orcid = "EMDB"
 						else:
-							citation.orcid_ids["id_" + str(ind)] = "N/A"
-						ind = ind + 1
-
-					citation.orcid_ids["ind"] = ind
+							orcid_id = "N/A"
+							(citation.name_order)[order_auth] = orcid_id
+							citation.provenance_orcid = "EMDB"
 					nas = pub.find('title').text
 					title = nas.split('\n\n', 1)[0]
 					citation.title = title
@@ -246,6 +241,47 @@ class XMLParser:
 							if pmedty == 'ISSN':
 								citation.issn = pmedid
 					self.citations.append(citation)
+			# if list(root.iter('primary_citation')):
+			# 	for y in list(root.iter('primary_citation')):
+			# 		citation = Citation(self.emdb_id)
+			# 		pub = y.find('journal_citation')
+			# 		ind = 0
+			# 		for auth in y.iter('author'):
+			# 			author = auth.text
+			# 			author_lastname = author.split(" ")[0]
+			# 			citation.orcid_ids["name_" + str(ind)] = author
+			# 			citation.orcid_ids["provenance_orcid_" + str(ind)] = "EMDB"
+			# 			if 'order' in auth.attrib:
+			# 				auth_order = auth.attrib['order']
+			# 				citation.orcid_ids["order_" + str(ind)] = auth_order
+			# 			if 'ORCID' in auth.attrib:
+			# 				orcid_id = auth.attrib['ORCID']
+			# 				citation.orcid_ids["id_" + str(ind)] = orcid_id
+			# 			else:
+			# 				citation.orcid_ids["id_" + str(ind)] = "N/A"
+			# 			ind = ind + 1
+			#
+			# 		citation.orcid_ids["ind"] = ind
+			# 		nas = pub.find('title').text
+			# 		title = nas.split('\n\n', 1)[0]
+			# 		citation.title = title
+			# 		pubStatus = pub.attrib['published']
+			# 		if pubStatus == 'true':
+			# 			citation.status = "published"
+			# 		if pubStatus is None:
+			# 			continue
+			# 		for child in pub:
+			# 			pmedid = child.text
+			# 			pmedty = (child.attrib).get('type')
+			# 			if pmedty is not None:
+			# 				if pmedty == 'PUBMED':
+			# 					citation.pmedid = pmedid
+			# 				if pmedty == 'DOI':
+			# 					doi = pmedid.split(":")[1]
+			# 					citation.doi = doi
+			# 				if pmedty == 'ISSN':
+			# 					citation.issn = pmedid
+			# 		self.citations.append(citation)
 
 			#MW calculation
 			sample_dic = {}

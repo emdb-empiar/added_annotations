@@ -202,12 +202,13 @@ class Citation:
         self.doi = None
         self.issn = None
         self.name_order = {}
-        self.author_order = {}
+        self.author_order = ""
         self.orcid_ids = {}
         self.status = ""
         self.title = ""
         self.provenance_pm = ""
         self.provenance_pmc = ""
+        self.provenance_issn = ""
         self.provenance_doi = ""
         self.provenance_orcid = ""
         self.url = ""

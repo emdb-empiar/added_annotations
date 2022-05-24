@@ -32,7 +32,7 @@ class CitationMapping:
             for cite in webAPI:
                 for emdb_id, value in self.emdb_pubmed_ids.items():
                     if cite[0] == value:
-                        row = f"{emdb_id}\t{cite[0]}\t{cite[1]}\t{cite[3]}\t{cite[2]}"
+                        row = f"{emdb_id}\t{cite[0]}\t{cite[1]}\t{cite[3]}\t{cite[2]}\tEuropePMC"
                         self.pubmed_logger.info(row)
                         ind = cite[4]["ind"]
                         for i in range(int(ind)):

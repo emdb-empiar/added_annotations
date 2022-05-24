@@ -63,11 +63,10 @@ if __name__ == "__main__":
     pmc_api = config.get("api", "pmc")
 
     if citation:
-        pubmed_log_file = os.path.join(args.workDir, 'emdb_pubmed.log')
+        pubmed_log_file = os.path.join(args.workDir, 'EPMC_pubmed.log')
         pubmed_log = setup_logger('pubmed_logger', pubmed_log_file)
-        pubmed_log.info("EMDB_ID\tPUBMED_ID\tPUBMEDCENTRAL_ID\tISSN\tDOI")
-        orcid_log_file = os.path.join(args.workDir, 'emdb_orcid.log')
-        orcid_log_file_backup = os.path.join(args.workDir, 'emdb_orcid_backup.log')
+        pubmed_log.info("EMDB_ID\tPUBMED_ID\tPUBMEDCENTRAL_ID\tISSN\tDOI\tPROVENANCE")
+        orcid_log_file = os.path.join(args.workDir, 'EPMC_orcid.log')
         orcid_log = setup_logger('orcid_logger', orcid_log_file)
         orcid_log.info("EMDB_ID\tAUTHOR_NAME\tORCID_ID\tAUTHOR_ORDER\tPROVENANCE")
         pubmed_log = start_logger_if_necessary("pubmed_logger", pubmed_log_file) if citation else None
