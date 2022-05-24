@@ -161,6 +161,7 @@ class EmicssXML:
         provenance_pm = val.get(samp_id, {}).get('provenance_pm')
         provenance_pmc = val.get(samp_id, {}).get('provenance_pmc')
         provenance_doi = val.get(samp_id, {}).get('provenance_doi')
+        provenance_issn = val.get(samp_id, {}).get('provenance_issn')
         if "EMDB" not in all_db:
             db = EMICSS.dbType()
             db.set_db_source("%s" % "EMDB")
@@ -196,7 +197,7 @@ class EmicssXML:
             ref_citation = EMICSS.ref_citationType()
             ref_citation.set_db_source("%s" % "ISSN")
             ref_citation.set_accession_id("%s" % issn)
-            ref_citation.set_provenance("%s" % "EMDB")
+            ref_citation.set_provenance("%s" % provenance_issn)
             primary_citation.add_ref_citation(ref_citation)
             all_db.add("ISSN")
         if pub_doi:
@@ -261,7 +262,6 @@ class EmicssXML:
             if "PDBe" not in all_db:
                 db = EMICSS.dbType()
                 db.set_db_source("%s" % "PDBe")
-                # db.set_db_version("%s" % "38.21")
                 dbs.add_db(db)
             all_db.add("PDBe")
             weight_info = EMICSS.weight_infoType()
@@ -323,13 +323,6 @@ class EmicssXML:
             cross_ref_db.set_name("%s" % name.lower())
             cross_ref_db.set_db_source("%s" % "UNIPROT")
             cross_ref_db.set_provenance("%s" % uni_provenance)
-            # if not "+" in uni_provenance:
-            #     cross_ref_db.set_provenance("%s" % uni_provenance)
-            # if "+" in uni_provenance:
-            #     uni_provenance1 = uni_provenance.split(" + ")[0]
-            #     uni_provenance2 = uni_provenance.split(" + ")[1]
-            #     cross_ref_db.set_provenance1("%s" % uni_provenance1.strip())
-            #     cross_ref_db.set_provenance2("%s" % uni_provenance2.strip())
             cross_ref_db.set_accession_id("%s" % uniprot_id)
             cross_ref_dbs.add_cross_ref_db(cross_ref_db)
 
@@ -661,19 +654,10 @@ class EmicssXML:
                     if "COMPLEX PORTAL" not in all_db:
                         db = EMICSS.dbType()
                         db.set_db_source("%s" % "COMPLEX PORTAL")
-                        # db.set_db_version("%s" % self.cpx_vers)
                         dbs.add_db(db)
 
                     cross_ref_db.set_name("%s" % cpx_name)
                     cross_ref_db.set_db_source("%s" % "COMPLEX PORTAL")
-                    cross_ref_db.set_provenance("%s" % cpx_provenance)
-                    # if "+" in cpx_provenance:
-                    #     cpx_provenance1 = cpx_provenance.split(" + ")[0]
-                    #     cpx_provenance2 = cpx_provenance.split(" + ")[1]
-                    #     cross_ref_db.set_provenance1("%s" % cpx_provenance1.strip())
-                    #     cross_ref_db.set_provenance2("%s" % cpx_provenance2.strip())
-                    # if not "+" in cpx_provenance:
-                    #     cross_ref_db.set_provenance("%s" % cpx_provenance)
                     cross_ref_db.set_accession_id("%s" % cpx_id)
                     cross_ref_db.set_score(float(cpx_score))
                     cross_ref_dbs.add_cross_ref_db(cross_ref_db)
@@ -682,13 +666,6 @@ class EmicssXML:
                     cross_ref_db.set_name("%s" % cpx_name)
                     cross_ref_db.set_db_source("%s" % "COMPLEX PORTAL")
                     cross_ref_db.set_provenance("%s" % cpx_provenance)
-                    # if "+" in cpx_provenance:
-                    #     cpx_provenance1 = cpx_provenance.split("+")[0]
-                    #     cpx_provenance2 = cpx_provenance.split("+")[1]
-                    #     cross_ref_db.set_provenance1("%s" % cpx_provenance1.strip())
-                    #     cross_ref_db.set_provenance2("%s" % cpx_provenance2.strip())
-                    # if not "+" in cpx_provenance:
-                    #     cross_ref_db.set_provenance("%s" % cpx_provenance)
                     cross_ref_db.set_accession_id("%s" % cpx_id)
                     cross_ref_db.set_score(float(cpx_score))
                     cross_ref_dbs.add_cross_ref_db(cross_ref_db)
