@@ -112,7 +112,7 @@ class EmicssXML:
             if emicss_supramolecules or emicss_macromol or emicss_ligand:
                 headerXML.set_sample(sample)
 
-            output_path = os.path.join(self.workDir, "emicss")
+            output_path = os.path.join(self.workDir, "emicss_xml")
             Path(output_path).mkdir(parents=True, exist_ok=True)
             xmlFile = os.path.join(output_path, "emd-" + entry_id + "_emicss.xml")
             with open(xmlFile, 'w') as f:
@@ -399,7 +399,11 @@ class EmicssXML:
                 if "PFAM" not in all_db:
                     db = EMICSS.dbType()
                     db.set_db_source("%s" % "PFAM")
-                    db.set_db_version("%s" % self.pfam_vers)
+                    try:
+                        if self.pfam_vers:
+                            db.set_db_version("%s" % self.pfam_vers)
+                    except AttributeError as e:
+                        print("Pfam version not collected.", e)
                     dbs.add_db(db)
                 all_db.add("PFAM")
 
