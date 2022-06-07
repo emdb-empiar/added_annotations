@@ -112,10 +112,10 @@ def run(filename):
         af_mapping.export_tsv(alphafold_log)
         mapping_list.extend(["ALPHAFOLD", af_entries])
     if emicss:
-        emicss_input = EmicssInput(mapping_list)
-        emicss_annotation = emicss_input.execute()
-        write_annotation_xml = EmicssXML(args.workDir, emicss_annotation, db_version.db_list)
-        write_annotation_xml.execute()
+        # emicss_input = EmicssInput(mapping_list)
+        # emicss_annotation = emicss_input.execute()
+        write_annotation_xml = EmicssXML(args.workDir, db_version.db_list, mapping_list)
+        write_annotation_xml.writeXML()
 
 """
 List of things to do:
@@ -336,7 +336,6 @@ if __name__ == "__main__":
     if emicss:
         emicss_log_file = os.path.join(args.workDir, 'emdb_emicss.log')
         emicss_log = setup_logger('emicss_logger', emicss_log_file)
-        db_version = DBVersion(db_list)
 
     if args.download_uniprot:
             download_uniprot(uniprot_tab)
@@ -349,5 +348,7 @@ if __name__ == "__main__":
     if alphafold:
         alphafold_ids = generate_af_ids(alphafold_ftp)
     pubmed_dict = generate_pubmed_dictionary(args.workDir) if pmc else {}
+    if emicss:
+        db_version = DBVersion(db_list)
 
     Parallel(n_jobs=args.threads)(delayed(run)(file) for file in glob(os.path.join(args.headerDir, '*')))

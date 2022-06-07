@@ -85,6 +85,13 @@ class EmicssInput:
                         emicss_dict[pmc.emdb_id]["PMC"] = pmc.__dict__
                     else:
                         emicss_dict[pmc.emdb_id]["PMC"] += pmc.__dict__
+                    # for aut in pmc.authors:
+                    #     cath = cath2.__dict__
+                    #     if ProTerm.uniprot_id == cath2.unip_id:
+                    #         for k in cath.keys():
+                    #             new_key = '{}_{}_{}'.format("cath", k, ind)
+                    #             emicss_dict[ProTerm.emdb_id][ProTerm.uniprot_id][new_key] = cath[k]
+                    #         ind = ind + 1
         except AttributeError as e:
             print("CITATION mapping doesn't exist", e)
 
