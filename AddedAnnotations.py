@@ -49,13 +49,13 @@ def run(filename):
         unp_mapping = UniprotMapping(args.workDir, xml.proteins, uniprot_dictionary, blast_db, blastp_bin)
         unip_map = unp_mapping.execute()
         unp_mapping.export_tsv(uniprot_log)
-        mapping_list.extend(["UNIPROT", unip_map])
+        packed_models['UNIPROT'] = unip_map
     if cpx:
         cpx_logger = start_logger_if_necessary("cpx_logger", cpx_log_file)
         cpx_mapping = CPMapping(unp_mapping.proteins, xml.supras, CP_ftp)
         cpx_map = cpx_mapping.execute()
         cpx_mapping.export_tsv(cpx_logger)
-        mapping_list.extend(["COMPLEX", cpx_map])
+        packed_models["COMPLEX"] = cpx_map
     if component:
         chembl_log = start_logger_if_necessary("chembl_logger", chembl_log_file)
         chebi_log = start_logger_if_necessary("chebi_logger", chebi_log_file)
@@ -63,31 +63,31 @@ def run(filename):
         comp_mapping = ComponentsMapping(xml.ligands)
         comp_map = comp_mapping.execute(chembl_map, chebi_map, drugbank_map)
         comp_mapping.export_tsv(chembl_log, chebi_log, drugbank_log)
-        mapping_list.extend(["LIGANDS", comp_map])
+        packed_models["LIGANDS"] = comp_map
     if model:
         model_logger = start_logger_if_necessary("model_logger", model_log_file)
         mw_mapping = StructureMapping(xml.models, assembly_ftp)
         mw_map = mw_mapping.execute()
         mw_mapping.export_tsv(model_logger)
-        mapping_list.extend(["MODEL", mw_map])
+        packed_models["MODEL"] = mw_map
     if weight:
         weight_logger = start_logger_if_necessary("weight_logger", weight_log_file)
         weight_logger.info(f"{xml.emdb_id}\t{xml.overall_mw}")
         wgt = models.Weight(xml.emdb_id)
         (wgt.emdb_id, wgt.overall_mw, wgt.units, wgt.provenance) = (xml.emdb_id, xml.overall_mw, "MDa", "EMDB")
-        mapping_list.extend(["WEIGHT", wgt])
+        packed_models["WEIGHT"] = wgt
     if empiar:
         empiar_logger = start_logger_if_necessary("empiar_logger", empiar_log_file)
         empiar_mapping = EMPIARMapping(xml.emdb_id, empiar_dictionary, empiar_logger)
         empiar_map = empiar_mapping.execute()
-        mapping_list.extend(["EMPIAR", empiar_map])
+        packed_models["EMPIAR" = empiar_map
     if pmc or orcid:
         pubmed_log = start_logger_if_necessary("pubmed_logger", pubmed_log_file) if pmc else None
         orcid_log = start_logger_if_necessary("orcid_logger", orcid_log_file) if orcid else None
         pmc_mapping = PublicationMapping(xml.citations)
         pmc_map = pmc_mapping.execute(pubmed_dict)
         pmc_mapping.export_tsv(pubmed_log, orcid_log)
-        mapping_list.extend(["CITATION", pmc_map])
+        packed_models["CITATION"] = pmc_map
     if go or interpro or pfam or cath:
         go_log = start_logger_if_necessary("go_logger", go_log_file) if go else None
         interpro_log = start_logger_if_necessary("interpro_logger", interpro_log_file)  if interpro else None
@@ -98,23 +98,23 @@ def run(filename):
         PT_mapping = ProteinTermsMapping(unp_mapping.proteins, sifts_path, go, interpro, pfam, cath, scop, scop2)
         proteins_map = PT_mapping.execute()
         PT_mapping.export_tsv(go_log, interpro_log, pfam_log, cath_log, scop_log, scop2_log)
-        mapping_list.extend(["PROTEIN-TERMS", proteins_map])
+        packed_models["PROTEIN-TERMS"] = proteins_map
     if pdbekb:
         pdbekb_log = start_logger_if_necessary("pdbekb_logger", pdbekb_log_file)
         pdbekb_map = PdbeKbMapping()
         pdbekb_entries = pdbekb_map.execute(unp_mapping.proteins)
         pdbekb_map.export_tsv(pdbekb_log)
-        mapping_list.extend(["PDBeKB", pdbekb_entries])
+        packed_models["PDBeKB"] = pdbekb_entries
     if alphafold:
         alphafold_log = start_logger_if_necessary("alphafold_logger", alphafold_log_file)
         af_mapping = AlphaFoldMapping(alphafold_ids)
         af_entries = af_mapping.execute(unp_mapping.proteins)
         af_mapping.export_tsv(alphafold_log)
-        mapping_list.extend(["ALPHAFOLD", af_entries])
+        packed_models["ALPHAFOLD"] = af_entries
     if emicss:
-        # emicss_input = EmicssInput(mapping_list)
+        # emicss_input = EmicssInput(packed_models)
         # emicss_annotation = emicss_input.execute()
-        write_annotation_xml = EmicssXML(args.workDir, db_version, mapping_list)
+        write_annotation_xml = EmicssXML(args.workDir, db_version, packed_models)
         write_annotation_xml.writeXML()
 
 """
@@ -166,7 +166,7 @@ if __name__ == "__main__":
     parser.add_argument("--emicss", type=bool, nargs='?', const=True, default=False, help="writting EMICSS XML file for each EMDB entry")
     args = parser.parse_args()
 
-    mapping_list = []
+    packed_models = {}
     db_list= []
 
     uniprot = args.uniprot
