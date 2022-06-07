@@ -10,7 +10,7 @@ from resources.PublicationMapping import PublicationMapping, generate_pubmed_dic
 from resources.ProteinTermsMapping import ProteinTermsMapping
 from resources.PdbeKbMapping import PdbeKbMapping
 from resources.AlphaFoldMapping import AlphaFoldMapping, generate_af_ids
-from EMICSS.DBVersion import DBVersion
+from EMICSS.DBVersion import get_db_versions
 from EMICSS.EmicssInput import EmicssInput
 from EMICSS.EmicssXML import EmicssXML
 from XMLParser import XMLParser
@@ -114,7 +114,7 @@ def run(filename):
     if emicss:
         # emicss_input = EmicssInput(mapping_list)
         # emicss_annotation = emicss_input.execute()
-        write_annotation_xml = EmicssXML(args.workDir, db_version.db_list, mapping_list)
+        write_annotation_xml = EmicssXML(args.workDir, db_version, mapping_list)
         write_annotation_xml.writeXML()
 
 """
@@ -349,6 +349,6 @@ if __name__ == "__main__":
         alphafold_ids = generate_af_ids(alphafold_ftp)
     pubmed_dict = generate_pubmed_dictionary(args.workDir) if pmc else {}
     if emicss:
-        db_version = DBVersion(db_list)
+        db_version = get_db_versions(db_list)
 
     Parallel(n_jobs=args.threads)(delayed(run)(file) for file in glob(os.path.join(args.headerDir, '*')))
