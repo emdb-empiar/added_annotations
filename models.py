@@ -190,20 +190,29 @@ class Empiar:
     def __str__(self):
         return "%s\t%s\n" % (self.emdb_id, self.empiar_id)
 
+class Author:
+    """
+    Defines the attributes of an author
+    """
+    def __init__(self, name, order, orcid="", provenance="EMDB"):
+        self.name = name
+        self.order = order
+        self.orcid = orcid
+        self.provenance = provenance
+    def __str__(self):
+        return f"{self.name}\t{self.orcid}\t{self.order}\t{self.provenance}"
+
 class Citation:
     """
     Defines the attributes of a publication in a EMDB entry
     """
     def __init__(self, emdb_id):
         self.emdb_id = emdb_id
-        self.pubmed_ids = {}
-        self.pmedid = None
-        self.pmcid = None
-        self.doi = None
-        self.issn = None
-        self.name_order = {}
-        self.author_order = ""
-        self.orcid_ids = {}
+        self.pmedid = ""
+        self.pmcid = ""
+        self.doi = ""
+        self.issn = ""
+        self.authors = []
         self.status = ""
         self.title = ""
         self.provenance_pm = ""
@@ -214,7 +223,12 @@ class Citation:
         self.url = ""
 
     def __str__(self):
-        return "%s\t%s\t%s\t%s\t%s\t%s\n" % (self.emdb_id, self.pmedid, self.pmcid, self.doi, self.issn, self.orcid_ids)
+        return f"{self.emdb_id}\t{self.pmedid}\t{self.provenance_pm}\t{self.pmcid}\t{self.provenance_pmc}\t{self.issn}\t{self.provenance_issn}\t{self.doi}\t{self.provenance_doi}"
+    def addExternalOrcid(self, orcid, order, provenance):
+        for author in self.authors:
+            if author.order == order:
+                author.orcid = orcid
+                author.provenance = provenance
 
 class GO:
     """

@@ -1,5 +1,5 @@
 import lxml.etree as ET
-from models import Protein, Supra, Ligand, Model, Weight, Citation, GO, Sample, Interpro, Pfam
+from models import Protein, Supra, Ligand, Model, Weight, Citation, GO, Sample, Interpro, Pfam, Author
 import re
 
 class XMLParser:
@@ -209,17 +209,10 @@ class XMLParser:
 					citation = Citation(self.emdb_id)
 					pub = y.find('journal_citation')
 					for auth in y.iter('author'):
-						author = auth.text
-						citation.author_order = auth.attrib['order']
-						order_auth = citation.author_order+"_"+author
+						author = Author(auth.text, int(auth.attrib['order']))
 						if 'ORCID' in auth.attrib:
-							orcid_id = auth.attrib['ORCID']
-							(citation.name_order)[order_auth] = orcid_id
-							citation.provenance_orcid = "EMDB"
-						else:
-							orcid_id = "N/A"
-							(citation.name_order)[order_auth] = orcid_id
-							citation.provenance_orcid = "EMDB"
+							author.orcid = auth.attrib['ORCID']
+						citation.authors.append(author)
 					nas = pub.find('title').text
 					title = nas.split('\n\n', 1)[0]
 					citation.title = title
@@ -234,11 +227,14 @@ class XMLParser:
 						if pmedty is not None:
 							if pmedty == 'PUBMED':
 								citation.pmedid = pmedid
+								citation.provenance_pm = "EMDB"
 							if pmedty == 'DOI':
 								doi = pmedid.split(":")[1]
 								citation.doi = doi
+								citation.provenance_doi = "EMDB"
 							if pmedty == 'ISSN':
 								citation.issn = pmedid
+								citation.provenance_issn = "EMDB"
 					self.citations.append(citation)
 
 			#MW calculation

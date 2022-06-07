@@ -6,7 +6,7 @@ from resources.ComponentsMapping import ComponentsMapping, parseCCD
 from resources.UniprotMapping import UniprotMapping, generate_unp_dictionary, download_uniprot
 from resources.StructureMapping import StructureMapping
 from resources.EMPIARMapping import EMPIARMapping, generate_emp_dictionary
-from resources.PublicationMapping import PublicationMapping, generate_pubmed_dictionary, generate_orcid_dictionary
+from resources.PublicationMapping import PublicationMapping, generate_pubmed_dictionary
 from resources.ProteinTermsMapping import ProteinTermsMapping
 from resources.PdbeKbMapping import PdbeKbMapping
 from resources.AlphaFoldMapping import AlphaFoldMapping, generate_af_ids
@@ -84,8 +84,8 @@ def run(filename):
     if pmc or orcid:
         pubmed_log = start_logger_if_necessary("pubmed_logger", pubmed_log_file) if pmc else None
         orcid_log = start_logger_if_necessary("orcid_logger", orcid_log_file) if orcid else None
-        pmc_mapping = PublicationMapping(xml.citations, pmc_api, pubmed_dict, orcid, orcid_dict)
-        pmc_map = pmc_mapping.execute()
+        pmc_mapping = PublicationMapping(xml.citations)
+        pmc_map = pmc_mapping.execute(pubmed_dict)
         pmc_mapping.export_tsv(pubmed_log, orcid_log)
         mapping_list.extend(["CITATION", pmc_map])
     if go or interpro or pfam or cath:
@@ -296,7 +296,7 @@ if __name__ == "__main__":
     if pmc:
         pubmed_log_file = os.path.join(args.workDir, 'emdb_pubmed.log')
         pubmed_log = setup_logger('pubmed_logger', pubmed_log_file)
-        pubmed_log.info("EMDB_ID\tPUBMED_ID\tPUBMEDCENTRAL_ID\tISSN\tDOI")
+        pubmed_log.info("EMDB_ID\tPUBMED_ID\tPUBMED_PROVENANCE\tPUBMEDCENTRAL_ID\tPUBMEDCENTRAL_PROVENANCE\tISSN\tISSN_PROVENANCE\tDOI\tDOI_PROVENANCE")
     if orcid:
         orcid_log_file = os.path.join(args.workDir, 'emdb_orcid.log')
         orcid_log = setup_logger('orcid_logger', orcid_log_file)
@@ -349,6 +349,5 @@ if __name__ == "__main__":
     if alphafold:
         alphafold_ids = generate_af_ids(alphafold_ftp)
     pubmed_dict = generate_pubmed_dictionary(args.workDir) if pmc else {}
-    orcid_dict = generate_orcid_dictionary(args.workDir) if orcid else {}
 
     Parallel(n_jobs=args.threads)(delayed(run)(file) for file in glob(os.path.join(args.headerDir, '*')))
