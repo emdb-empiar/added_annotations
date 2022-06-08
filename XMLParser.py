@@ -15,7 +15,7 @@ class XMLParser:
 		self.ligands = []
 		self.models = []
 		self.weights = []
-		self.citations = []
+		self.citation = None
 		self.overall_mw = 0.0
 		self.read_xml()
 
@@ -235,7 +235,7 @@ class XMLParser:
 							if pmedty == 'ISSN':
 								citation.issn = pmedid
 								citation.provenance_issn = "EMDB"
-					self.citations.append(citation)
+					self.citation = citation
 
 			#MW calculation
 			sample_dic = {}

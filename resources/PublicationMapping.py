@@ -16,17 +16,16 @@ class PublicationMapping:
      if no pubmed id then author provided annotations for the publication.
     """
 
-    def __init__(self, citations):
-        self.citations = citations
+    def __init__(self, citation):
+        self.citation = citation
 
     def execute(self, pubmed_dict):
-        for citation in self.citations:
-            citation = self.worker(citation, pubmed_dict)
-        return self.citations
+        self.worker(pubmed_dict)
+        return self.citation
 
-    def worker(self, citation, pubmed_dict):
-        if citation.pmedid:
-            pmid = citation.pmedid
+    def worker(self, pubmed_dict):
+        if self.citation.pmedid:
+            pmid = self.citation.pmedid
             if pmid in pubmed_dict:
                 pm = pubmed_dict[pmid]
                 
@@ -34,24 +33,21 @@ class PublicationMapping:
                 authors = pm['authors']
                 for i, orcid in enumerate(authors):
                     if orcid:
-                        citation.addExternalOrcid(orcid, i+1, "EuropePMC")
+                        self.citation.addExternalOrcid(orcid, i+1, "EuropePMC")
 
                 # PMC
                 if pm['pmcid']:
-                    citation.pmcid = pm['pmcid']
-                    citation.provenance_pmc = "EuropePMC"
+                    self.citation.pmcid = pm['pmcid']
+                    self.citation.provenance_pmc = "EuropePMC"
                 if pm['doi']:
-                    citation.doi = pm['doi']
-                    citation.provenance_doi = "EuropePMC"
+                    self.citation.doi = pm['doi']
+                    self.citation.provenance_doi = "EuropePMC"
                 if pm['issn']:
-                    citation.issn = pm['issn']
-                    citation.provenance_issn = "EuropePMC"
-            
-        return citation
+                    self.citation.issn = pm['issn']
+                    self.citation.provenance_issn = "EuropePMC"
 
     def export_tsv(self, pubmed_logger, orcid_logger):
-        for citation in self.citations:
-            if citation.pmedid or citation.doi:
-                pubmed_logger.info(str(citation))
-            for author in citation.authors:
-                orcid_logger.info(f"{citation.emdb_id}\t{str(author)}")
+        if self.citation.pmedid or self.citation.doi:
+            pubmed_logger.info(str(self.citation))
+        for author in self.citation.authors:
+            orcid_logger.info(f"{self.citation.emdb_id}\t{str(author)}")

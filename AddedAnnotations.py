@@ -44,6 +44,7 @@ def run(filename):
     print(f"Running EMD-{id_num}")
     xml_filepath = os.path.join(filename, f"header/emd-{id_num}-v30.xml")
     xml = XMLParser(xml_filepath)
+    packed_models['HEADER'] = xml 
     if uniprot:
         uniprot_log = start_logger_if_necessary("uniprot_logger", uniprot_log_file)
         unp_mapping = UniprotMapping(args.workDir, xml.proteins, uniprot_dictionary, blast_db, blastp_bin)
@@ -84,7 +85,7 @@ def run(filename):
     if pmc or orcid:
         pubmed_log = start_logger_if_necessary("pubmed_logger", pubmed_log_file) if pmc else None
         orcid_log = start_logger_if_necessary("orcid_logger", orcid_log_file) if orcid else None
-        pmc_mapping = PublicationMapping(xml.citations)
+        pmc_mapping = PublicationMapping(xml.citation)
         pmc_map = pmc_mapping.execute(pubmed_dict)
         pmc_mapping.export_tsv(pubmed_log, orcid_log)
         packed_models["CITATION"] = pmc_map
@@ -114,8 +115,8 @@ def run(filename):
     if emicss:
         # emicss_input = EmicssInput(packed_models)
         # emicss_annotation = emicss_input.execute()
-        write_annotation_xml = EmicssXML(args.workDir, db_version, packed_models)
-        write_annotation_xml.writeXML()
+        write_annotation_xml = EmicssXML(args.workDir, db_version)
+        write_annotation_xml.write(packed_models)
 
 """
 List of things to do:

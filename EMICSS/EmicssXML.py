@@ -1,31 +1,97 @@
 import os, re
 from pathlib import Path
-from EMICSS import EMICSS
+from EMICSS.EMICSS import *
 
 class EmicssXML:
     """
     Writing annotations to output xml file according to the EMDB_EMICSS.xsd schema
+    # TODO: db_source should be a enum field
+    # TODO: weight_info has an attribute named method that seems to be not used anymore
     """
 
-    def __init__(self, workDir, version_list, mapping_list):
+    def __init__(self, workDir, version_list):
         self.workDir = workDir
         self.version_list = version_list
-        self.mapping_list = mapping_list
 
-    def writeXML(self):
+    def write(self, mapping_list):
         """
         Create and write added annotations to individual EMICSS file for every EMDB entry
         """
-        headerXML = EMICSS.emicss()
+        emdb_id = mapping_list['HEADER'].emdb_id
+        #TODO: Schema version can not be hard coded here. It must follow the version of the xsd file used to generate pymodels
+        headerXML = EMICSS.emicss(emdb_id=emdb_id, schema_version="0.9.0")
         dbs = EMICSS.dbsType()
         entry_ref_dbs = EMICSS.entry_ref_dbsType()
-        primary_citation = EMICSS.primary_citationType()
         weights = EMICSS.weightsType()
         sample = EMICSS.sampleType()
         macromolecules = EMICSS.macromoleculesType()
         supramolecules = EMICSS.supramoleculesType()
         all_db = set()
         uniq_id = set()
+
+    
+        if "EMPIAR" in mapping_list:
+            empiar_objects = mapping_list['EMPIAR']
+            if len(empiar_objects) > 0:
+                all_db.add("EMPIAR")
+                for empiar in empiar_objects:
+                    emp_ref_db_obj = entry_ref_dbType(db_source="EMPIAR", accession_id=empiar.empiar_id, provenance="EMDB")
+                    entry_ref_dbs.add_entry_ref_db(emp_ref_db_obj)
+        # MW calculated from header
+        if "WEIGHT" in mapping_list: 
+            mw = mapping_list["WEIGHT"]
+            if mw.overall_mw > 0:
+                all_db.add("EMDB")
+                mw_info_obj = weight_infoType(weight=mw.overall_mw, unit=mw.units, provenance=mw.provenance)
+                weights.add_weight_info(mw_info_obj)
+        # MW calculated from assemblies
+        if "MODEL" in mapping_list:
+            pdb_objects = mapping_list["MODEL"]
+            if len(pdb_objects) > 0:
+                all_db.add("PDBe")
+                for pdb in pdb_objects:
+                    pdb_info_obj = weight_infoType(pdb_id=pdb.pdb_id, assemblies=pdb.assembly, weight=pdb.molecular_weight, unit="Da", provenance="PDBe")
+                    weights.add_weight_info(pdb_info_obj)
+        if "CITATION" in mapping_list:
+            citation = mapping_list["CITATION"]
+            if citation.pmedid:
+                primary_citation = primary_citationType()
+                authors_obj = authorsType()
+                all_db.add("PUBMED")
+                pm_citation_obj = ref_citationType(db_source="PUBMED", accession_id=citation.pmedid, provenance=citation.provenance_pm)
+                primary_citation.add_ref_citation(pm_citation_obj)
+                if citation.pmcid:
+                    all_db.add("PUBMED CENTRAL")
+                    pmc_citation_obj = ref_citationType(db_source="PUBMED CENTRAL", accession_id=citation.pmcid, provenance=citation.provenance_pmc)
+                    primary_citation.add_ref_citation(pmc_citation_obj)
+                if citation.issn:
+                    all_db.add("ISSN")
+                    issn_citation_obj = ref_citationType(db_source="ISSN", accession_id=citation.issn, provenance=citation.provenance_issn)
+                    primary_citation.add_ref_citation(issn_citation_obj)
+                if citation.doi:
+                    primary_citation.set_doi(citation.doi)
+                    primary_citation.set_provenance(citation.provenance_doi)
+                for author in citation.authors:
+                    orcid = author.orcid if author.orcid else None
+                    author_obj = authorType(name=author.name, orcid_id=orcid, order=author.order, provenance=author.provenance)
+                    authors_obj.add_author(author_obj)
+                primary_citation.set_authors(authors)
+
+
+
+
+
+
+        # TODO: Use all_db to create dbType and DBVersion
+
+
+
+
+            
+
+
+
+
 
         for vers in range(0, len(self.version_list), 2):
             if self.version_list[vers] == "uniprot":
@@ -72,10 +138,6 @@ class EmicssXML:
 
         for samp_id in val.keys():
             if samp_id is not None:
-                if re.search(r'%s\-\d+' % "EMPIAR", samp_id):
-                    emicss_empiar = self.EMICSS_empiar(val, samp_id, all_db, dbs, entry_ref_dbs)
-                if samp_id == "overall_weight":
-                    emicss_weight = self.EMICSS_weight(val, all_db, dbs, samp_id, weights)
                 if samp_id == "PMC":
                     emicss_primary_citation = self.EMICSS_PMC(val, samp_id, all_db, dbs, primary_citation)
                 if (samp_id.isalnum() and not samp_id.isalpha() and not samp_id.isnumeric()):
@@ -120,8 +182,14 @@ class EmicssXML:
             #                                'xsi:schemaLocation="https://ftp.ebi.ac.uk/pub/databases/emtest/empiar/schema/empiar.xsd"')
 
 
-def EMICSS_empiar(self, val, samp_id, all_db, dbs, entry_ref_dbs):
-    "Adding EMPIAR_ID to EMICSS"
+def parse_empiar(self, objects):
+    """
+    Parse EMPIAR objects into EMICSS data model
+    """
+    if len(objects) > 0:
+        for empiar in objects:
+            emp_db_type = entry_ref_dbType(db_source="EMPIAR", accession_id=empiar.empiar_id, provenance="EMDB")
+
 
     empiar_id = val.get(samp_id, {}).get('empiar_id')
     if "EMDB" not in all_db:
