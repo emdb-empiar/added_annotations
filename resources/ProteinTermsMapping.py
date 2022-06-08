@@ -117,13 +117,13 @@ class ProteinTermsMapping:
             url = f"https://www.uniprot.org/uniprot/?query=id:{uniprot_id}%20database:(type:pdb)&sort=score&columns=id&format=tab"
             response = requests.get(url)
             if response.status_code == 200 and response.content:
-                pdbekb = Pdbekb(uniprot_id, "UniProtKB")
+                pdbekb = Pdbekb(uniprot_id, "UniProt")
                 return pdbekb
         return None
 
     def getAFDB(self, uniprot_id):
         if uniprot_id in self.alphafold_ids:
-            alphafold = Alphafold(uniprot_id, "AlphaFoldDB")
+            alphafold = Alphafold(uniprot_id, "AlphaFold DB")
             return alphafold
         return None
 
