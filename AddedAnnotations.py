@@ -81,7 +81,7 @@ def run(filename):
         empiar_logger = start_logger_if_necessary("empiar_logger", empiar_log_file)
         empiar_mapping = EMPIARMapping(xml.emdb_id, empiar_dictionary, empiar_logger)
         empiar_map = empiar_mapping.execute()
-        packed_models["EMPIAR" = empiar_map
+        packed_models["EMPIAR" = empiar_map]
     if pmc or orcid:
         pubmed_log = start_logger_if_necessary("pubmed_logger", pubmed_log_file) if pmc else None
         orcid_log = start_logger_if_necessary("orcid_logger", orcid_log_file) if orcid else None
@@ -89,29 +89,19 @@ def run(filename):
         pmc_map = pmc_mapping.execute(pubmed_dict)
         pmc_mapping.export_tsv(pubmed_log, orcid_log)
         packed_models["CITATION"] = pmc_map
-    if go or interpro or pfam or cath:
+    if go or interpro or pfam or cath or pdbekb or alphafold:
         go_log = start_logger_if_necessary("go_logger", go_log_file) if go else None
         interpro_log = start_logger_if_necessary("interpro_logger", interpro_log_file)  if interpro else None
         pfam_log = start_logger_if_necessary("pfam_logger", pfam_log_file)  if pfam else None
         cath_log = start_logger_if_necessary("cath_logger", cath_log_file)  if cath else None
         scop_log = start_logger_if_necessary("scop_logger", scop_log_file) if scop else None
         scop2_log = start_logger_if_necessary("scop2_logger", scop2_log_file) if scop2 else None
-        PT_mapping = ProteinTermsMapping(unp_mapping.proteins, sifts_path, go, interpro, pfam, cath, scop, scop2)
+        pdbekb_log = start_logger_if_necessary("pdbekb_logger", pdbekb_log_file) if pdbekb else None
+        alphafold_log = start_logger_if_necessary("alphafold_logger", alphafold_log_file) if alphafold else None
+        PT_mapping = ProteinTermsMapping(unp_mapping.proteins, sifts_path, alphafold_ids, go, interpro, pfam, cath, scop, scop2, pdbekb, alphafold)
         proteins_map = PT_mapping.execute()
-        PT_mapping.export_tsv(go_log, interpro_log, pfam_log, cath_log, scop_log, scop2_log)
+        PT_mapping.export_tsv(go_log, interpro_log, pfam_log, cath_log, scop_log, scop2_log, pdbekb_log, alphafold_log)
         packed_models["PROTEIN-TERMS"] = proteins_map
-    if pdbekb:
-        pdbekb_log = start_logger_if_necessary("pdbekb_logger", pdbekb_log_file)
-        pdbekb_map = PdbeKbMapping()
-        pdbekb_entries = pdbekb_map.execute(unp_mapping.proteins)
-        pdbekb_map.export_tsv(pdbekb_log)
-        packed_models["PDBeKB"] = pdbekb_entries
-    if alphafold:
-        alphafold_log = start_logger_if_necessary("alphafold_logger", alphafold_log_file)
-        af_mapping = AlphaFoldMapping(alphafold_ids)
-        af_entries = af_mapping.execute(unp_mapping.proteins)
-        af_mapping.export_tsv(alphafold_log)
-        packed_models["ALPHAFOLD"] = af_entries
     if emicss:
         # emicss_input = EmicssInput(packed_models)
         # emicss_annotation = emicss_input.execute()

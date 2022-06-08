@@ -23,8 +23,8 @@ class Protein:
         self.cath = set()
         self.scop = set()
         self.scop2 = set()
-        self.pdbekb = []
-        self.alphafold = []
+        self.pdbekb = None
+        self.alphafold = None
 
     def __str__(self):
         return "%s (%s)\n%s (%s) %s - %s [%s]\nComplexes: %s\nPDB: \n%s\n%s\n%s\n  %s\n%s\n" % (self.sample_name, self.sample_organism,
@@ -455,23 +455,21 @@ class Pdbekb:
     """
     Define the PDBeKB terms for the sample in the EMDB entry
     """
-    def __init__(self):
-        self.link = ""
-        self.unip_id = ""
-        self.provenance = ""
+    def __init__(self, uniprot_id, provenance):
+        self.unip_id = uniprot_id
+        self.provenance = provenance
 
     def __str__(self):
-        return f"{self.unip_id}\t{self.link}\t{self.provenance}"
+        return f"{self.unip_id}\t{self.provenance}"
 
 class Alphafold:
     """
     Define the Alphafold terms for the sample in the EMDB entry
     """
-    def __init__(self):
-        self.link = ""
-        self.unip_id = ""
-        self.provenance = ""
+    def __init__(self, uniprot_id, provenance):
+        self.unip_id = uniprot_id
+        self.provenance = provenance
 
     def __str__(self):
-        return f"{self.unip_id}\t{self.link}\t{self.provenance}"
+        return f"{self.unip_id}\t{self.provenance}"
 

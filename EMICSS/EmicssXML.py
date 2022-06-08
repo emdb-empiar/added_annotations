@@ -13,47 +13,47 @@ class EmicssXML:
         self.workDir = workDir
         self.version_list = version_list
 
-    def write(self, mapping_list):
+    def write(self, packed_models):
         """
         Create and write added annotations to individual EMICSS file for every EMDB entry
         """
-        emdb_id = mapping_list['HEADER'].emdb_id
+        emdb_id = packed_models['HEADER'].emdb_id
         #TODO: Schema version can not be hard coded here. It must follow the version of the xsd file used to generate pymodels
         headerXML = EMICSS.emicss(emdb_id=emdb_id, schema_version="0.9.0")
-        dbs = EMICSS.dbsType()
-        entry_ref_dbs = EMICSS.entry_ref_dbsType()
-        weights = EMICSS.weightsType()
-        sample = EMICSS.sampleType()
-        macromolecules = EMICSS.macromoleculesType()
-        supramolecules = EMICSS.supramoleculesType()
+        dbs = dbsType()
+        entry_ref_dbs = entry_ref_dbsType()
+        weights = weightsType()
+        sample = sampleType()
+        macromolecules = macromoleculesType()
+        supramolecules = supramoleculesType()
         all_db = set()
         uniq_id = set()
 
     
-        if "EMPIAR" in mapping_list:
-            empiar_objects = mapping_list['EMPIAR']
+        if "EMPIAR" in packed_models:
+            empiar_objects = packed_models['EMPIAR']
             if len(empiar_objects) > 0:
                 all_db.add("EMPIAR")
                 for empiar in empiar_objects:
                     emp_ref_db_obj = entry_ref_dbType(db_source="EMPIAR", accession_id=empiar.empiar_id, provenance="EMDB")
                     entry_ref_dbs.add_entry_ref_db(emp_ref_db_obj)
         # MW calculated from header
-        if "WEIGHT" in mapping_list: 
-            mw = mapping_list["WEIGHT"]
+        if "WEIGHT" in packed_models: 
+            mw = packed_models["WEIGHT"]
             if mw.overall_mw > 0:
                 all_db.add("EMDB")
                 mw_info_obj = weight_infoType(weight=mw.overall_mw, unit=mw.units, provenance=mw.provenance)
                 weights.add_weight_info(mw_info_obj)
         # MW calculated from assemblies
-        if "MODEL" in mapping_list:
-            pdb_objects = mapping_list["MODEL"]
+        if "MODEL" in packed_models:
+            pdb_objects = packed_models["MODEL"]
             if len(pdb_objects) > 0:
                 all_db.add("PDBe")
                 for pdb in pdb_objects:
                     pdb_info_obj = weight_infoType(pdb_id=pdb.pdb_id, assemblies=pdb.assembly, weight=pdb.molecular_weight, unit="Da", provenance="PDBe")
                     weights.add_weight_info(pdb_info_obj)
-        if "CITATION" in mapping_list:
-            citation = mapping_list["CITATION"]
+        if "CITATION" in packed_models:
+            citation = packed_models["CITATION"]
             if citation.pmedid:
                 primary_citation = primary_citationType()
                 authors_obj = authorsType()
@@ -76,6 +76,64 @@ class EmicssXML:
                     author_obj = authorType(name=author.name, orcid_id=orcid, order=author.order, provenance=author.provenance)
                     authors_obj.add_author(author_obj)
                 primary_citation.set_authors(authors)
+        if "PROTEIN-TERMS" in packed_models:
+            proteins = packed_models["PROTEIN-TERMS"]
+            if len(proteins) > 0:
+                all_db.add("EMDB")
+                for protein in proteins:
+                    cross_ref_dbs = cross_ref_dbsType()
+                    if protein.uniprot_id:
+                        all_db.add("UNIPROT")
+                        unp_xref_obj = cross_ref_db(db_source="UNIPROT", accession_id=protein.uniprot_id, provenance=protein.provenance)
+                        cross_ref_dbs.add_cross_ref_db(unp_xref_obj)
+                    if len(protein.go) > 0:
+                        all_db.add("GO")
+                        for go in protein.go:
+                            go_xref_obj = cross_ref_db(name=go.namespace, db_source="GO", accession_id=go.id, provenance=go.provenance)
+                            if go.type == "P": go_xref_obj.set_type("biological process")
+                            elif go.type == "C": go_xref_obj.set_type("cellular component")
+                            elif go.type == "F": go_xref_obj.set_type("molecular function")
+                            cross_ref_dbs.add_cross_ref_db(go_xref_obj)
+                    if len(protein.interpro) > 0:
+                        all_db.add("INTERPRO")
+                        for ipr in protein.interpro:
+                            ipr_xref_obj = cross_ref_db(name=ipr.namespace, db_source="INTERPRO", accession_id=ipr.id, uniprot_start=ipr.start, uniprot_end=ipr.end, provenance=ipr.provenance)
+                            cross_ref_dbs.add_cross_ref_db(ipr_xref_obj)
+                    if len(protein.pfam) > 0:
+                        all_db.add("PFAM")
+                        for pfam in protein.pfam:
+                            pfam_xref_obj = cross_ref_db(name=pfam.namespace, db_source="PFAM", accession_id=pfam.id, uniprot_start=pfam.start, uniprot_end=pfam.end, provenance=pfam.provenance)
+                            cross_ref_dbs.add_cross_ref_db(pfam_xref_obj)
+                    if len(protein.cath) > 0:
+                        all_db.add("CATH")
+                        for cath in protein.cath:
+                            cath_xref_obj = cross_ref_db(name=cath.namespace, db_source="CATH", accession_id=cath.id, uniprot_start=cath.start, uniprot_end=cath.end, provenance=cath.provenance)
+                            cross_ref_dbs.add_cross_ref_db(cath_xref_obj)
+                    if len(protein.scop) > 0:
+                        all_db.add("SCOP")
+                        for scop in protein.scop:
+                            scop_xref_obj = cross_ref_db(name=scop.namespace, db_source="SCOP", accession_id=scop.id, uniprot_start=scop.start, uniprot_end=scop.end, provenance=scop.provenance)
+                            cross_ref_dbs.add_cross_ref_db(scop_xref_obj)
+                    if len(protein.scop2) > 0:
+                        all_db.add("SCOP2")
+                        for scop2 in protein.scop2:
+                            scop2_xref_obj = cross_ref_db(name=scop2.namespace, db_source="SCOP2", accession_id=scop2.id, uniprot_start=scop2.start, uniprot_end=scop2.end, provenance=scop2.provenance)
+                            cross_ref_dbs.add_cross_ref_db(scop2_xref_obj)
+                    if protein.pdbekb:
+                        all_db.add("PDBe-KB")
+                        pdbekb_xref_obj = cross_ref_db(db_source="PDBe-KB", accession_id=protein.pdbekb.unip_id, provenance=protein.pdbekb.provenance)
+                        cross_ref_dbs.add_cross_ref_db(pdbekb_xref_obj)
+                    if protein.alphafold:
+                        all_db.add("ALPHAFOLD DB")
+                        afdb_xref_obj = cross_ref_db(db_source="ALPHAFOLD DB", accession_id=protein.alphafold.unip_id, provenance=protein.alphafold.provenance)
+                        cross_ref_dbs.add_cross_ref_db(afdb_xref_obj)
+                    macromolecule = macromoleculeType(type_="protein", id=protein.sample_id, copies=protein.sample_copies, 
+                        provenance="EMDB", name=protein.sample_name)
+                    macromolecule.set_cross_ref_dbs(cross_ref_dbs)
+                    macromolecules.add_macromolecule(macromolecule)
+
+
+
 
 
 
