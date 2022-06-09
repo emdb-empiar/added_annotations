@@ -100,7 +100,7 @@ class UniprotMapping:
 			uniprot_id = self.extract_uniprot_from_blast(qout, protein.sample_organism)
 			if uniprot_id:
 				protein.uniprot_id = uniprot_id
-				protein.provenance = "UNIPROT+BLAST"
+				protein.provenance = "UniProt"
 		return protein
 
 	def extract_uniprot_from_blast(self, fastafile, ncbi_id):
@@ -148,7 +148,7 @@ class UniprotMapping:
 		
 		if best_match and best_score > 80:
 			protein.uniprot_id = best_match
-			protein.provenance = "UNIPROT"
+			protein.provenance = "UniProt"
 			return True
 		return False
 
