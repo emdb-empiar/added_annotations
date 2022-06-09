@@ -19,6 +19,7 @@ def get_db_versions(db_list):
     week_num = today.isocalendar()[1]
     db_verison_list = {}
 
+    db_verison_list['EMDB'] = None
     if "cpx" in db_list:
         url = "http://ftp.ebi.ac.uk/pub/databases/intact/complex/current/"
         response = requests.get(url)

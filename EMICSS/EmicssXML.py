@@ -166,9 +166,8 @@ class EmicssXML:
         for database in all_db:
             if database in self.version_list:
                 version = self.version_list[database]
-                if version: # Some databases have None version
-                    db_ver = dbType(db_source=database, db_version=version)
-                    dbs.add_db(db_ver)
+                db_ver = dbType(db_source=database, db_version=version)
+                dbs.add_db(db_ver)
 
         if all_db:
             headerXML.set_dbs(dbs)
