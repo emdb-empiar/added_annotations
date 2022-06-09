@@ -1,21 +1,21 @@
 #!/usr/bin/env python
 
 #
-# Generated Mon May  9 16:15:18 2022 by generateDS.py version 2.38.6.
+# Generated Thu Jun  9 10:27:58 2022 by generateDS.py version 2.38.6.
 # Python 3.7.6 (default, Dec 30 2019, 19:38:28)  [Clang 11.0.0 (clang-1100.0.33.16)]
 #
 # Command line options:
-#   ('-o', 'EMICSS.py')
-#   ('-s', 'EMICSSsub.py')
+#   ('-o', '/Users/amudha/project/git_code/added_annotations/EMICSS/EMICSS.py')
+#   ('-s', '/Users/amudha/project/git_code/added_annotations/EMICSS/EMICSSsub.py')
 #
 # Command line arguments:
 #   EMDB_EMICSS.xsd
 #
 # Command line:
-#   /usr/local/bin/generateDS.py -o "EMICSS.py" -s "EMICSSsub.py" EMDB_EMICSS.xsd
+#   /usr/local/bin/generateDS.py -o "/Users/amudha/project/git_code/added_annotations/EMICSS/EMICSS.py" -s "/Users/amudha/project/git_code/added_annotations/EMICSS/EMICSSsub.py" EMDB_EMICSS.xsd
 #
 # Current working directory (os.getcwd()):
-#   EMICSS
+#   emicss-schema
 #
 
 import os
