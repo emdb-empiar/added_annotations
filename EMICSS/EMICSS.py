@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Thu Jun  9 15:01:54 2022 by generateDS.py version 2.38.6.
+# Generated Thu Jun  9 15:52:53 2022 by generateDS.py version 2.38.6.
 # Python 3.7.6 (default, Dec 30 2019, 19:38:28)  [Clang 11.0.0 (clang-1100.0.33.16)]
 #
 # Command line options:
@@ -1006,7 +1006,7 @@ class emicss(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, emdb_id=None, schema_version='0.9.1', dbs=None, entry_ref_dbs=None, primary_citation=None, weights=None, sample=None, gds_collector_=None, **kwargs_):
+    def __init__(self, emdb_id=None, schema_version='0.9.2', dbs=None, entry_ref_dbs=None, primary_citation=None, weights=None, sample=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
@@ -1118,7 +1118,7 @@ class emicss(GeneratedsSuper):
         if self.emdb_id is not None and 'emdb_id' not in already_processed:
             already_processed.add('emdb_id')
             outfile.write(' emdb_id=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.emdb_id), input_name='emdb_id')), ))
-        if self.schema_version != "0.9.1" and 'schema_version' not in already_processed:
+        if self.schema_version != "0.9.2" and 'schema_version' not in already_processed:
             already_processed.add('schema_version')
             outfile.write(' schema_version=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.schema_version), input_name='schema_version')), ))
     def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='emicss', fromsubclass_=False, pretty_print=True):
@@ -1406,12 +1406,17 @@ class dbsType(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, db=None, gds_collector_=None, **kwargs_):
+    def __init__(self, collection_date=None, db=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
         self.parent_object_ = kwargs_.get('parent_object_')
         self.ns_prefix_ = None
+        if isinstance(collection_date, BaseStrType_):
+            initvalue_ = datetime_.datetime.strptime(collection_date, '%Y-%m-%d').date()
+        else:
+            initvalue_ = collection_date
+        self.collection_date = initvalue_
         if db is None:
             self.db = []
         else:
@@ -1442,6 +1447,10 @@ class dbsType(GeneratedsSuper):
         self.db.insert(index, value)
     def replace_db_at(self, index, value):
         self.db[index] = value
+    def get_collection_date(self):
+        return self.collection_date
+    def set_collection_date(self, collection_date):
+        self.collection_date = collection_date
     def hasContent_(self):
         if (
             self.db
@@ -1473,7 +1482,9 @@ class dbsType(GeneratedsSuper):
         else:
             outfile.write('/>%s' % (eol_, ))
     def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='dbsType'):
-        pass
+        if self.collection_date is not None and 'collection_date' not in already_processed:
+            already_processed.add('collection_date')
+            outfile.write(' collection_date="%s"' % self.gds_format_date(self.collection_date, input_name='collection_date'))
     def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='dbsType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
@@ -1494,7 +1505,13 @@ class dbsType(GeneratedsSuper):
             self.buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
         return self
     def buildAttributes(self, node, attrs, already_processed):
-        pass
+        value = find_attr_value_('collection_date', node)
+        if value is not None and 'collection_date' not in already_processed:
+            already_processed.add('collection_date')
+            try:
+                self.collection_date = self.gds_parse_date(value)
+            except ValueError as exp:
+                raise ValueError('Bad date attribute (collection_date): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         if nodeName_ == 'db':
             obj_ = dbType.factory(parent_object_=self)
@@ -1509,7 +1526,7 @@ class dbType(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, db_source=None, db_version=None, collection_date=None, gds_collector_=None, **kwargs_):
+    def __init__(self, db_source=None, db_version=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
@@ -1519,11 +1536,6 @@ class dbType(GeneratedsSuper):
         self.db_source_nsprefix_ = None
         self.db_version = _cast(None, db_version)
         self.db_version_nsprefix_ = None
-        if isinstance(collection_date, BaseStrType_):
-            initvalue_ = datetime_.datetime.strptime(collection_date, '%Y-%m-%d').date()
-        else:
-            initvalue_ = collection_date
-        self.collection_date = initvalue_
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -1547,10 +1559,6 @@ class dbType(GeneratedsSuper):
         return self.db_version
     def set_db_version(self, db_version):
         self.db_version = db_version
-    def get_collection_date(self):
-        return self.collection_date
-    def set_collection_date(self, collection_date):
-        self.collection_date = collection_date
     def validate_provenance_type(self, value):
         # Validate type provenance_type, a restriction on xsd:token.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
@@ -1600,9 +1608,6 @@ class dbType(GeneratedsSuper):
         if self.db_version is not None and 'db_version' not in already_processed:
             already_processed.add('db_version')
             outfile.write(' db_version=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.db_version), input_name='db_version')), ))
-        if self.collection_date is not None and 'collection_date' not in already_processed:
-            already_processed.add('collection_date')
-            outfile.write(' collection_date="%s"' % self.gds_format_date(self.collection_date, input_name='collection_date'))
     def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='dbType', fromsubclass_=False, pretty_print=True):
         pass
     def build(self, node, gds_collector_=None):
@@ -1628,13 +1633,6 @@ class dbType(GeneratedsSuper):
             already_processed.add('db_version')
             self.db_version = value
             self.db_version = ' '.join(self.db_version.split())
-        value = find_attr_value_('collection_date', node)
-        if value is not None and 'collection_date' not in already_processed:
-            already_processed.add('collection_date')
-            try:
-                self.collection_date = self.gds_parse_date(value)
-            except ValueError as exp:
-                raise ValueError('Bad date attribute (collection_date): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         pass
 # end class dbType

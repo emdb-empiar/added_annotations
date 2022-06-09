@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Thu Jun  9 15:01:55 2022 by generateDS.py version 2.38.6.
+# Generated Thu Jun  9 15:52:54 2022 by generateDS.py version 2.38.6.
 # Python 3.7.6 (default, Dec 30 2019, 19:38:28)  [Clang 11.0.0 (clang-1100.0.33.16)]
 #
 # Command line options:
@@ -62,7 +62,7 @@ SaveElementTreeNode = True
 
 
 class emicssSub(supermod.emicss):
-    def __init__(self, emdb_id=None, schema_version='0.9.1', dbs=None, entry_ref_dbs=None, primary_citation=None, weights=None, sample=None, **kwargs_):
+    def __init__(self, emdb_id=None, schema_version='0.9.2', dbs=None, entry_ref_dbs=None, primary_citation=None, weights=None, sample=None, **kwargs_):
         super(emicssSub, self).__init__(emdb_id, schema_version, dbs, entry_ref_dbs, primary_citation, weights, sample,  **kwargs_)
 supermod.emicss.subclass = emicssSub
 # end class emicssSub
@@ -76,15 +76,15 @@ supermod.cross_ref_db.subclass = cross_ref_dbSub
 
 
 class dbsTypeSub(supermod.dbsType):
-    def __init__(self, db=None, **kwargs_):
-        super(dbsTypeSub, self).__init__(db,  **kwargs_)
+    def __init__(self, collection_date=None, db=None, **kwargs_):
+        super(dbsTypeSub, self).__init__(collection_date, db,  **kwargs_)
 supermod.dbsType.subclass = dbsTypeSub
 # end class dbsTypeSub
 
 
 class dbTypeSub(supermod.dbType):
-    def __init__(self, db_source=None, db_version=None, collection_date=None, **kwargs_):
-        super(dbTypeSub, self).__init__(db_source, db_version, collection_date,  **kwargs_)
+    def __init__(self, db_source=None, db_version=None, **kwargs_):
+        super(dbTypeSub, self).__init__(db_source, db_version,  **kwargs_)
 supermod.dbType.subclass = dbTypeSub
 # end class dbTypeSub
 
