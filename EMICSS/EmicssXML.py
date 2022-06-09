@@ -160,7 +160,8 @@ class EmicssXML:
                             for cpx in emdb_complex.cpx_list:
                                 cpx_obj = cross_ref_db(db_source="Complex Portal", accession_id=cpx, provenance=emdb_complex.provenance, score=emdb_complex.score)
                                 cross_ref_dbs.add_cross_ref_db(cpx_obj)
-                            supramolecule = supramoleculeType(type_="complex", id=emdb_complex.sample_id, copies=emdb_complex.sample_copies,
+                            sample_id = emdb_complex.sample_id.split('_')[1]
+                            supramolecule = supramoleculeType(type_="complex", id=sample_id, copies=emdb_complex.sample_copies,
                                 provenance=emdb_complex.provenance, name=emdb_complex.supra_name, cross_ref_dbs=cross_ref_dbs)
                             supramolecules.add_supramolecule(supramolecule)
 
