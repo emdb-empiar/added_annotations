@@ -83,7 +83,7 @@ class EmicssXML:
                     cross_ref_dbs = cross_ref_dbsType()
                     if protein.uniprot_id:
                         all_db.add("UniProt")
-                        unp_xref_obj = cross_ref_db(db_source="UNIPROT", accession_id=protein.uniprot_id, provenance=protein.provenance)
+                        unp_xref_obj = cross_ref_db(db_source="UniProt", accession_id=protein.uniprot_id, provenance=protein.provenance)
                         cross_ref_dbs.add_cross_ref_db(unp_xref_obj)
                     if len(protein.go) > 0:
                         all_db.add("GO")
@@ -96,12 +96,12 @@ class EmicssXML:
                     if len(protein.interpro) > 0:
                         all_db.add("InterPro")
                         for ipr in protein.interpro:
-                            ipr_xref_obj = cross_ref_db(name=ipr.namespace, db_source="INTERPRO", accession_id=ipr.id, uniprot_start=ipr.start, uniprot_end=ipr.end, provenance=ipr.provenance)
+                            ipr_xref_obj = cross_ref_db(name=ipr.namespace, db_source="InterPro", accession_id=ipr.id, uniprot_start=ipr.start, uniprot_end=ipr.end, provenance=ipr.provenance)
                             cross_ref_dbs.add_cross_ref_db(ipr_xref_obj)
                     if len(protein.pfam) > 0:
                         all_db.add("Pfam")
                         for pfam in protein.pfam:
-                            pfam_xref_obj = cross_ref_db(name=pfam.namespace, db_source="PFAM", accession_id=pfam.id, uniprot_start=pfam.start, uniprot_end=pfam.end, provenance=pfam.provenance)
+                            pfam_xref_obj = cross_ref_db(name=pfam.namespace, db_source="Pfam", accession_id=pfam.id, uniprot_start=pfam.start, uniprot_end=pfam.end, provenance=pfam.provenance)
                             cross_ref_dbs.add_cross_ref_db(pfam_xref_obj)
                     if len(protein.cath) > 0:
                         all_db.add("CATH")
@@ -124,7 +124,7 @@ class EmicssXML:
                         cross_ref_dbs.add_cross_ref_db(pdbekb_xref_obj)
                     if protein.alphafold:
                         all_db.add("AlphaFold DB")
-                        afdb_xref_obj = cross_ref_db(db_source="ALPHAFOLD DB", accession_id=protein.alphafold.unip_id, provenance=protein.alphafold.provenance)
+                        afdb_xref_obj = cross_ref_db(db_source="AlphaFold DB", accession_id=protein.alphafold.unip_id, provenance=protein.alphafold.provenance)
                         cross_ref_dbs.add_cross_ref_db(afdb_xref_obj)
                     macromolecule = macromoleculeType(type_="protein", id=protein.sample_id, copies=protein.sample_copies, 
                         provenance="EMDB", name=protein.sample_name, cross_ref_dbs=cross_ref_dbs)
@@ -157,7 +157,7 @@ class EmicssXML:
                     cross_ref_dbs = cross_ref_dbsType()
                     if emdb_complex.cpx_list:
                         for cpx in emdb_complex.cpx_list:
-                            cpx_obj = cross_ref_db(db_source="COMPLEX PORTAL", accession_id=cpx, provenance=emdb_complex.provenance, score=emdb_complex.score)
+                            cpx_obj = cross_ref_db(db_source="Complex Portal", accession_id=cpx, provenance=emdb_complex.provenance, score=emdb_complex.score)
                             cross_ref_dbs.add_cross_ref_db(cpx_obj)
                         supramolecule = supramoleculeType(type_="complex", id=emdb_complex.sample_id, copies=emdb_complex.sample_copies, 
                             provenance=emdb_complex.provenance, name=emdb_complex.supra_name, cross_ref_dbs=cross_ref_dbs)
