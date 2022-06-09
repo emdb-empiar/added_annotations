@@ -154,14 +154,15 @@ class EmicssXML:
             if len(complex_objects) > 0:
                 all_db.add("Complex Portal")
                 for emdb_complex in complex_objects:
-                    cross_ref_dbs = cross_ref_dbsType()
-                    if emdb_complex.cpx_list:
-                        for cpx in emdb_complex.cpx_list:
-                            cpx_obj = cross_ref_db(db_source="COMPLEX PORTAL", accession_id=cpx, provenance=emdb_complex.provenance, score=emdb_complex.score)
-                            cross_ref_dbs.add_cross_ref_db(cpx_obj)
-                        supramolecule = supramoleculeType(type_="complex", id=emdb_complex.sample_id, copies=emdb_complex.sample_copies, 
-                            provenance=emdb_complex.provenance, name=emdb_complex.supra_name, cross_ref_dbs=cross_ref_dbs)
-                        supramolecules.add_supramolecule(supramolecule)
+                    if emdb_complex:
+                        cross_ref_dbs = cross_ref_dbsType()
+                        if emdb_complex.cpx_list:
+                            for cpx in emdb_complex.cpx_list:
+                                cpx_obj = cross_ref_db(db_source="COMPLEX PORTAL", accession_id=cpx, provenance=emdb_complex.provenance, score=emdb_complex.score)
+                                cross_ref_dbs.add_cross_ref_db(cpx_obj)
+                            supramolecule = supramoleculeType(type_="complex", id=emdb_complex.sample_id, copies=emdb_complex.sample_copies,
+                                provenance=emdb_complex.provenance, name=emdb_complex.supra_name, cross_ref_dbs=cross_ref_dbs)
+                            supramolecules.add_supramolecule(supramolecule)
 
         for database in all_db:
             if database in self.version_list:
