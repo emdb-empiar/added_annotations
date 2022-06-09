@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Thu Jun  9 10:27:58 2022 by generateDS.py version 2.38.6.
+# Generated Thu Jun  9 14:00:46 2022 by generateDS.py version 2.38.6.
 # Python 3.7.6 (default, Dec 30 2019, 19:38:28)  [Clang 11.0.0 (clang-1100.0.33.16)]
 #
 # Command line options:
@@ -83,8 +83,8 @@ supermod.dbsType.subclass = dbsTypeSub
 
 
 class dbTypeSub(supermod.dbType):
-    def __init__(self, db_source=None, db_version=None, **kwargs_):
-        super(dbTypeSub, self).__init__(db_source, db_version,  **kwargs_)
+    def __init__(self, db_source=None, db_version=None, collection_date=None, **kwargs_):
+        super(dbTypeSub, self).__init__(db_source, db_version, collection_date,  **kwargs_)
 supermod.dbType.subclass = dbTypeSub
 # end class dbTypeSub
 

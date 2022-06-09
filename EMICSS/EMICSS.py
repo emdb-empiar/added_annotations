@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Thu Jun  9 10:27:57 2022 by generateDS.py version 2.38.6.
+# Generated Thu Jun  9 14:00:46 2022 by generateDS.py version 2.38.6.
 # Python 3.7.6 (default, Dec 30 2019, 19:38:28)  [Clang 11.0.0 (clang-1100.0.33.16)]
 #
 # Command line options:
@@ -968,29 +968,6 @@ def _cast(typ, value):
 #
 
 
-class db_source_type(str, Enum):
-    EMDB='EMDB'
-    UNI_PROT='UniProt'
-    COMPLEX_PORTAL='Complex Portal'
-    PD_BE='PDBe'
-    PD_BEKB='PDBe-KB'
-    ALPHA_FOLDDB='AlphaFold DB'
-    CH_EMBL='ChEMBL'
-    CH_EBI='ChEBI'
-    DRUG_BANK='DrugBank'
-    EMPIAR='EMPIAR'
-    PUB_MED='PubMed'
-    PUB_MED_CENTRAL='PubMed Central'
-    ISSN='ISSN'
-    DOI='DOI'
-    GO='GO'
-    INTER_PRO='InterPro'
-    PFAM='Pfam'
-    CATH='CATH'
-    SCOP='SCOP'
-    SCOP_2='SCOP2'
-
-
 class provenance_type(str, Enum):
     """Annotations done from the respective database. Could be more than one
     database"""
@@ -1297,19 +1274,6 @@ class cross_ref_db(GeneratedsSuper):
         return self.score
     def set_score(self, score):
         self.score = score
-    def validate_db_source_type(self, value):
-        # Validate type db_source_type, a restriction on xsd:token.
-        if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
-            if not isinstance(value, str):
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
-                return False
-            value = value
-            enumerations = ['EMDB', 'UniProt', 'Complex Portal', 'PDBe', 'PDBe-KB', 'AlphaFold DB', 'ChEMBL', 'ChEBI', 'DrugBank', 'EMPIAR', 'PubMed', 'PubMed Central', 'ISSN', 'DOI', 'GO', 'InterPro', 'Pfam', 'CATH', 'SCOP', 'SCOP2']
-            if value not in enumerations:
-                lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd enumeration restriction on db_source_type' % {"value" : encode_str_2_3(value), "lineno": lineno} )
-                result = False
     def validate_provenance_type(self, value):
         # Validate type provenance_type, a restriction on xsd:token.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
@@ -1400,7 +1364,7 @@ class cross_ref_db(GeneratedsSuper):
             already_processed.add('db_source')
             self.db_source = value
             self.db_source = ' '.join(self.db_source.split())
-            self.validate_db_source_type(self.db_source)    # validate type db_source_type
+            self.validate_provenance_type(self.db_source)    # validate type provenance_type
         value = find_attr_value_('accession_id', node)
         if value is not None and 'accession_id' not in already_processed:
             already_processed.add('accession_id')
@@ -1545,7 +1509,7 @@ class dbType(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, db_source=None, db_version=None, gds_collector_=None, **kwargs_):
+    def __init__(self, db_source=None, db_version=None, collection_date=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
@@ -1555,6 +1519,11 @@ class dbType(GeneratedsSuper):
         self.db_source_nsprefix_ = None
         self.db_version = _cast(None, db_version)
         self.db_version_nsprefix_ = None
+        if isinstance(collection_date, BaseStrType_):
+            initvalue_ = datetime_.datetime.strptime(collection_date, '%Y-%m-%d').date()
+        else:
+            initvalue_ = collection_date
+        self.collection_date = initvalue_
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -1578,18 +1547,22 @@ class dbType(GeneratedsSuper):
         return self.db_version
     def set_db_version(self, db_version):
         self.db_version = db_version
-    def validate_db_source_type(self, value):
-        # Validate type db_source_type, a restriction on xsd:token.
+    def get_collection_date(self):
+        return self.collection_date
+    def set_collection_date(self, collection_date):
+        self.collection_date = collection_date
+    def validate_provenance_type(self, value):
+        # Validate type provenance_type, a restriction on xsd:token.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
             if not isinstance(value, str):
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
                 return False
             value = value
-            enumerations = ['EMDB', 'UniProt', 'Complex Portal', 'PDBe', 'PDBe-KB', 'AlphaFold DB', 'ChEMBL', 'ChEBI', 'DrugBank', 'EMPIAR', 'PubMed', 'PubMed Central', 'ISSN', 'DOI', 'GO', 'InterPro', 'Pfam', 'CATH', 'SCOP', 'SCOP2']
+            enumerations = ['EMDB', 'UniProt', 'PDBe', 'PDBe-KB', 'AlphaFold DB', 'EMPIAR', 'EuropePMC', 'Complex Portal', 'ChEMBL', 'ChEBI', 'DrugBank', 'PDBe-CCD', 'PubMed', 'PubMed Central', 'ISSN', 'DOI', 'GO', 'InterPro', 'Pfam', 'CATH', 'SCOP', 'SCOP2']
             if value not in enumerations:
                 lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd enumeration restriction on db_source_type' % {"value" : encode_str_2_3(value), "lineno": lineno} )
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd enumeration restriction on provenance_type' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
     def hasContent_(self):
         if (
@@ -1627,6 +1600,9 @@ class dbType(GeneratedsSuper):
         if self.db_version is not None and 'db_version' not in already_processed:
             already_processed.add('db_version')
             outfile.write(' db_version=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.db_version), input_name='db_version')), ))
+        if self.collection_date is not None and 'collection_date' not in already_processed:
+            already_processed.add('collection_date')
+            outfile.write(' collection_date="%s"' % self.gds_format_date(self.collection_date, input_name='collection_date'))
     def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='dbType', fromsubclass_=False, pretty_print=True):
         pass
     def build(self, node, gds_collector_=None):
@@ -1646,12 +1622,19 @@ class dbType(GeneratedsSuper):
             already_processed.add('db_source')
             self.db_source = value
             self.db_source = ' '.join(self.db_source.split())
-            self.validate_db_source_type(self.db_source)    # validate type db_source_type
+            self.validate_provenance_type(self.db_source)    # validate type provenance_type
         value = find_attr_value_('db_version', node)
         if value is not None and 'db_version' not in already_processed:
             already_processed.add('db_version')
             self.db_version = value
             self.db_version = ' '.join(self.db_version.split())
+        value = find_attr_value_('collection_date', node)
+        if value is not None and 'collection_date' not in already_processed:
+            already_processed.add('collection_date')
+            try:
+                self.collection_date = self.gds_parse_date(value)
+            except ValueError as exp:
+                raise ValueError('Bad date attribute (collection_date): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         pass
 # end class dbType
@@ -2163,6 +2146,8 @@ class ref_citationType(GeneratedsSuper):
         if value is not None and 'db_source' not in already_processed:
             already_processed.add('db_source')
             self.db_source = value
+            self.db_source = ' '.join(self.db_source.split())
+            self.validate_provenance_type(self.db_source)    # validate type provenance_type
         value = find_attr_value_('accession_id', node)
         if value is not None and 'accession_id' not in already_processed:
             already_processed.add('accession_id')
