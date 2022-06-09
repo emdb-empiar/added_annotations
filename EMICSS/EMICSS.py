@@ -2,21 +2,21 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Mon May  9 16:15:17 2022 by generateDS.py version 2.38.6.
+# Generated Thu Jun  9 10:27:57 2022 by generateDS.py version 2.38.6.
 # Python 3.7.6 (default, Dec 30 2019, 19:38:28)  [Clang 11.0.0 (clang-1100.0.33.16)]
 #
 # Command line options:
-#   ('-o', 'EMICSS.py')
-#   ('-s', 'EMICSSsub.py')
+#   ('-o', '/Users/amudha/project/git_code/added_annotations/EMICSS/EMICSS.py')
+#   ('-s', '/Users/amudha/project/git_code/added_annotations/EMICSS/EMICSSsub.py')
 #
 # Command line arguments:
 #   EMDB_EMICSS.xsd
 #
 # Command line:
-#   /usr/local/bin/generateDS.py -o "EMICSS.py" -s "EMICSSsub.py" EMDB_EMICSS.xsd
+#   /usr/local/bin/generateDS.py -o "/Users/amudha/project/git_code/added_annotations/EMICSS/EMICSS.py" -s "/Users/amudha/project/git_code/added_annotations/EMICSS/EMICSSsub.py" EMDB_EMICSS.xsd
 #
 # Current working directory (os.getcwd()):
-#   EMICSS
+#   emicss-schema
 #
 
 import sys
@@ -969,47 +969,53 @@ def _cast(typ, value):
 
 
 class db_source_type(str, Enum):
-    UNIPROT='UNIPROT'
-    UNIPROTKB='UNIPROTKB'
-    COMPLEXPORTAL='COMPLEX PORTAL'
+    EMDB='EMDB'
+    UNI_PROT='UniProt'
+    COMPLEX_PORTAL='Complex Portal'
     PD_BE='PDBe'
     PD_BEKB='PDBe-KB'
-    ALPHAFOLDDB='ALPHAFOLD DB'
-    CHEMBL='CHEMBL'
-    CHEBI='CHEBI'
-    DRUGBANK='DRUGBANK'
+    ALPHA_FOLDDB='AlphaFold DB'
+    CH_EMBL='ChEMBL'
+    CH_EBI='ChEBI'
+    DRUG_BANK='DrugBank'
     EMPIAR='EMPIAR'
-    PUBMED='PUBMED'
-    PUBMEDCENTRAL='PUBMED CENTRAL'
+    PUB_MED='PubMed'
+    PUB_MED_CENTRAL='PubMed Central'
     ISSN='ISSN'
+    DOI='DOI'
     GO='GO'
-    INTERPRO='INTERPRO'
-    PFAM='PFAM'
+    INTER_PRO='InterPro'
+    PFAM='Pfam'
+    CATH='CATH'
+    SCOP='SCOP'
+    SCOP_2='SCOP2'
 
 
 class provenance_type(str, Enum):
     """Annotations done from the respective database. Could be more than one
     database"""
-    AUTHOR='AUTHOR'
-    UNIPROT='UNIPROT'
-    UNI_PROT_KB='UniProtKB'
+    EMDB='EMDB'
+    UNI_PROT='UniProt'
     PD_BE='PDBe'
     PD_BEKB='PDBe-KB'
     ALPHA_FOLDDB='AlphaFold DB'
     EMPIAR='EMPIAR'
     EUROPE_PMC='EuropePMC'
-    CPX='CPX'
-    BLASTP='BLASTP'
-    COMPLEXPORTAL='COMPLEX PORTAL'
+    COMPLEX_PORTAL='Complex Portal'
     CH_EMBL='ChEMBL'
     CH_EBI='ChEBI'
     DRUG_BANK='DrugBank'
-    CCD='CCD'
-    PUBMEDCENTRAL='PUBMED CENTRAL'
-    CALCULATED='CALCULATED'
+    PD_BECCD='PDBe-CCD'
+    PUB_MED='PubMed'
+    PUB_MED_CENTRAL='PubMed Central'
+    ISSN='ISSN'
+    DOI='DOI'
     GO='GO'
-    INTERPRO='INTERPRO'
-    PFAM='PFAM'
+    INTER_PRO='InterPro'
+    PFAM='Pfam'
+    CATH='CATH'
+    SCOP='SCOP'
+    SCOP_2='SCOP2'
 
 
 class sample_kind(str, Enum):
@@ -1299,7 +1305,7 @@ class cross_ref_db(GeneratedsSuper):
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
                 return False
             value = value
-            enumerations = ['UNIPROT', 'UNIPROTKB', 'COMPLEX PORTAL', 'PDBe', 'PDBe-KB', 'ALPHAFOLD DB', 'CHEMBL', 'CHEBI', 'DRUGBANK', 'EMPIAR', 'PUBMED', 'PUBMED CENTRAL', 'ISSN', 'GO', 'INTERPRO', 'PFAM']
+            enumerations = ['EMDB', 'UniProt', 'Complex Portal', 'PDBe', 'PDBe-KB', 'AlphaFold DB', 'ChEMBL', 'ChEBI', 'DrugBank', 'EMPIAR', 'PubMed', 'PubMed Central', 'ISSN', 'DOI', 'GO', 'InterPro', 'Pfam', 'CATH', 'SCOP', 'SCOP2']
             if value not in enumerations:
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd enumeration restriction on db_source_type' % {"value" : encode_str_2_3(value), "lineno": lineno} )
@@ -1312,7 +1318,7 @@ class cross_ref_db(GeneratedsSuper):
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
                 return False
             value = value
-            enumerations = ['AUTHOR', 'UNIPROT', 'UniProtKB', 'PDBe', 'PDBe-KB', 'AlphaFold DB', 'EMPIAR', 'EuropePMC', 'CPX', 'BLASTP', 'COMPLEX PORTAL', 'ChEMBL', 'ChEBI', 'DrugBank', 'CCD', 'PUBMED CENTRAL', 'CALCULATED', 'GO', 'INTERPRO', 'PFAM']
+            enumerations = ['EMDB', 'UniProt', 'PDBe', 'PDBe-KB', 'AlphaFold DB', 'EMPIAR', 'EuropePMC', 'Complex Portal', 'ChEMBL', 'ChEBI', 'DrugBank', 'PDBe-CCD', 'PubMed', 'PubMed Central', 'ISSN', 'DOI', 'GO', 'InterPro', 'Pfam', 'CATH', 'SCOP', 'SCOP2']
             if value not in enumerations:
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd enumeration restriction on provenance_type' % {"value" : encode_str_2_3(value), "lineno": lineno} )
@@ -1580,7 +1586,7 @@ class dbType(GeneratedsSuper):
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
                 return False
             value = value
-            enumerations = ['UNIPROT', 'UNIPROTKB', 'COMPLEX PORTAL', 'PDBe', 'PDBe-KB', 'ALPHAFOLD DB', 'CHEMBL', 'CHEBI', 'DRUGBANK', 'EMPIAR', 'PUBMED', 'PUBMED CENTRAL', 'ISSN', 'GO', 'INTERPRO', 'PFAM']
+            enumerations = ['EMDB', 'UniProt', 'Complex Portal', 'PDBe', 'PDBe-KB', 'AlphaFold DB', 'ChEMBL', 'ChEBI', 'DrugBank', 'EMPIAR', 'PubMed', 'PubMed Central', 'ISSN', 'DOI', 'GO', 'InterPro', 'Pfam', 'CATH', 'SCOP', 'SCOP2']
             if value not in enumerations:
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd enumeration restriction on db_source_type' % {"value" : encode_str_2_3(value), "lineno": lineno} )
@@ -1807,7 +1813,7 @@ class entry_ref_dbType(GeneratedsSuper):
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
                 return False
             value = value
-            enumerations = ['AUTHOR', 'UNIPROT', 'UniProtKB', 'PDBe', 'PDBe-KB', 'AlphaFold DB', 'EMPIAR', 'EuropePMC', 'CPX', 'BLASTP', 'COMPLEX PORTAL', 'ChEMBL', 'ChEBI', 'DrugBank', 'CCD', 'PUBMED CENTRAL', 'CALCULATED', 'GO', 'INTERPRO', 'PFAM']
+            enumerations = ['EMDB', 'UniProt', 'PDBe', 'PDBe-KB', 'AlphaFold DB', 'EMPIAR', 'EuropePMC', 'Complex Portal', 'ChEMBL', 'ChEBI', 'DrugBank', 'PDBe-CCD', 'PubMed', 'PubMed Central', 'ISSN', 'DOI', 'GO', 'InterPro', 'Pfam', 'CATH', 'SCOP', 'SCOP2']
             if value not in enumerations:
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd enumeration restriction on provenance_type' % {"value" : encode_str_2_3(value), "lineno": lineno} )
@@ -1952,7 +1958,7 @@ class primary_citationType(GeneratedsSuper):
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
                 return False
             value = value
-            enumerations = ['AUTHOR', 'UNIPROT', 'UniProtKB', 'PDBe', 'PDBe-KB', 'AlphaFold DB', 'EMPIAR', 'EuropePMC', 'CPX', 'BLASTP', 'COMPLEX PORTAL', 'ChEMBL', 'ChEBI', 'DrugBank', 'CCD', 'PUBMED CENTRAL', 'CALCULATED', 'GO', 'INTERPRO', 'PFAM']
+            enumerations = ['EMDB', 'UniProt', 'PDBe', 'PDBe-KB', 'AlphaFold DB', 'EMPIAR', 'EuropePMC', 'Complex Portal', 'ChEMBL', 'ChEBI', 'DrugBank', 'PDBe-CCD', 'PubMed', 'PubMed Central', 'ISSN', 'DOI', 'GO', 'InterPro', 'Pfam', 'CATH', 'SCOP', 'SCOP2']
             if value not in enumerations:
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd enumeration restriction on provenance_type' % {"value" : encode_str_2_3(value), "lineno": lineno} )
@@ -2095,7 +2101,7 @@ class ref_citationType(GeneratedsSuper):
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
                 return False
             value = value
-            enumerations = ['AUTHOR', 'UNIPROT', 'UniProtKB', 'PDBe', 'PDBe-KB', 'AlphaFold DB', 'EMPIAR', 'EuropePMC', 'CPX', 'BLASTP', 'COMPLEX PORTAL', 'ChEMBL', 'ChEBI', 'DrugBank', 'CCD', 'PUBMED CENTRAL', 'CALCULATED', 'GO', 'INTERPRO', 'PFAM']
+            enumerations = ['EMDB', 'UniProt', 'PDBe', 'PDBe-KB', 'AlphaFold DB', 'EMPIAR', 'EuropePMC', 'Complex Portal', 'ChEMBL', 'ChEBI', 'DrugBank', 'PDBe-CCD', 'PubMed', 'PubMed Central', 'ISSN', 'DOI', 'GO', 'InterPro', 'Pfam', 'CATH', 'SCOP', 'SCOP2']
             if value not in enumerations:
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd enumeration restriction on provenance_type' % {"value" : encode_str_2_3(value), "lineno": lineno} )
@@ -2334,7 +2340,7 @@ class authorType(GeneratedsSuper):
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
                 return False
             value = value
-            enumerations = ['AUTHOR', 'UNIPROT', 'UniProtKB', 'PDBe', 'PDBe-KB', 'AlphaFold DB', 'EMPIAR', 'EuropePMC', 'CPX', 'BLASTP', 'COMPLEX PORTAL', 'ChEMBL', 'ChEBI', 'DrugBank', 'CCD', 'PUBMED CENTRAL', 'CALCULATED', 'GO', 'INTERPRO', 'PFAM']
+            enumerations = ['EMDB', 'UniProt', 'PDBe', 'PDBe-KB', 'AlphaFold DB', 'EMPIAR', 'EuropePMC', 'Complex Portal', 'ChEMBL', 'ChEBI', 'DrugBank', 'PDBe-CCD', 'PubMed', 'PubMed Central', 'ISSN', 'DOI', 'GO', 'InterPro', 'Pfam', 'CATH', 'SCOP', 'SCOP2']
             if value not in enumerations:
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd enumeration restriction on provenance_type' % {"value" : encode_str_2_3(value), "lineno": lineno} )
@@ -2588,7 +2594,7 @@ class weight_infoType(GeneratedsSuper):
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
                 return False
             value = value
-            enumerations = ['AUTHOR', 'UNIPROT', 'UniProtKB', 'PDBe', 'PDBe-KB', 'AlphaFold DB', 'EMPIAR', 'EuropePMC', 'CPX', 'BLASTP', 'COMPLEX PORTAL', 'ChEMBL', 'ChEBI', 'DrugBank', 'CCD', 'PUBMED CENTRAL', 'CALCULATED', 'GO', 'INTERPRO', 'PFAM']
+            enumerations = ['EMDB', 'UniProt', 'PDBe', 'PDBe-KB', 'AlphaFold DB', 'EMPIAR', 'EuropePMC', 'Complex Portal', 'ChEMBL', 'ChEBI', 'DrugBank', 'PDBe-CCD', 'PubMed', 'PubMed Central', 'ISSN', 'DOI', 'GO', 'InterPro', 'Pfam', 'CATH', 'SCOP', 'SCOP2']
             if value not in enumerations:
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd enumeration restriction on provenance_type' % {"value" : encode_str_2_3(value), "lineno": lineno} )
@@ -3111,7 +3117,7 @@ class supramoleculeType(GeneratedsSuper):
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
                 return False
             value = value
-            enumerations = ['AUTHOR', 'UNIPROT', 'UniProtKB', 'PDBe', 'PDBe-KB', 'AlphaFold DB', 'EMPIAR', 'EuropePMC', 'CPX', 'BLASTP', 'COMPLEX PORTAL', 'ChEMBL', 'ChEBI', 'DrugBank', 'CCD', 'PUBMED CENTRAL', 'CALCULATED', 'GO', 'INTERPRO', 'PFAM']
+            enumerations = ['EMDB', 'UniProt', 'PDBe', 'PDBe-KB', 'AlphaFold DB', 'EMPIAR', 'EuropePMC', 'Complex Portal', 'ChEMBL', 'ChEBI', 'DrugBank', 'PDBe-CCD', 'PubMed', 'PubMed Central', 'ISSN', 'DOI', 'GO', 'InterPro', 'Pfam', 'CATH', 'SCOP', 'SCOP2']
             if value not in enumerations:
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd enumeration restriction on provenance_type' % {"value" : encode_str_2_3(value), "lineno": lineno} )
@@ -3521,7 +3527,7 @@ class macromoleculeType(GeneratedsSuper):
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s is not of the correct base simple type (str)' % {"value": value, "lineno": lineno, })
                 return False
             value = value
-            enumerations = ['AUTHOR', 'UNIPROT', 'UniProtKB', 'PDBe', 'PDBe-KB', 'AlphaFold DB', 'EMPIAR', 'EuropePMC', 'CPX', 'BLASTP', 'COMPLEX PORTAL', 'ChEMBL', 'ChEBI', 'DrugBank', 'CCD', 'PUBMED CENTRAL', 'CALCULATED', 'GO', 'INTERPRO', 'PFAM']
+            enumerations = ['EMDB', 'UniProt', 'PDBe', 'PDBe-KB', 'AlphaFold DB', 'EMPIAR', 'EuropePMC', 'Complex Portal', 'ChEMBL', 'ChEBI', 'DrugBank', 'PDBe-CCD', 'PubMed', 'PubMed Central', 'ISSN', 'DOI', 'GO', 'InterPro', 'Pfam', 'CATH', 'SCOP', 'SCOP2']
             if value not in enumerations:
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd enumeration restriction on provenance_type' % {"value" : encode_str_2_3(value), "lineno": lineno} )
