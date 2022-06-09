@@ -106,17 +106,17 @@ class EmicssXML:
                     if len(protein.cath) > 0:
                         all_db.add("CATH")
                         for cath in protein.cath:
-                            cath_xref_obj = cross_ref_db(name=cath.namespace, db_source="CATH", accession_id=cath.id, uniprot_start=cath.start, uniprot_end=cath.end, provenance=cath.provenance)
+                            cath_xref_obj = cross_ref_db(db_source="CATH", accession_id=cath.id, uniprot_start=cath.start, uniprot_end=cath.end, provenance=cath.provenance)
                             cross_ref_dbs.add_cross_ref_db(cath_xref_obj)
                     if len(protein.scop) > 0:
                         all_db.add("SCOP")
                         for scop in protein.scop:
-                            scop_xref_obj = cross_ref_db(name=scop.namespace, db_source="SCOP", accession_id=scop.id, uniprot_start=scop.start, uniprot_end=scop.end, provenance=scop.provenance)
+                            scop_xref_obj = cross_ref_db(db_source="SCOP", accession_id=scop.id, uniprot_start=scop.start, uniprot_end=scop.end, provenance=scop.provenance)
                             cross_ref_dbs.add_cross_ref_db(scop_xref_obj)
                     if len(protein.scop2) > 0:
                         all_db.add("SCOP2")
                         for scop2 in protein.scop2:
-                            scop2_xref_obj = cross_ref_db(name=scop2.namespace, db_source="SCOP2", accession_id=scop2.id, uniprot_start=scop2.start, uniprot_end=scop2.end, provenance=scop2.provenance)
+                            scop2_xref_obj = cross_ref_db(db_source="SCOP2", accession_id=scop2.id, uniprot_start=scop2.start, uniprot_end=scop2.end, provenance=scop2.provenance)
                             cross_ref_dbs.add_cross_ref_db(scop2_xref_obj)
                     if protein.pdbekb:
                         all_db.add("PDBe-KB")
