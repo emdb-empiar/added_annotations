@@ -19,7 +19,7 @@ class EmicssXML:
         """
         emdb_id = packed_models['HEADER'].emdb_id
         #TODO: Schema version can not be hard coded here. It must follow the version of the xsd file used to generate pymodels
-        headerXML = emicss(emdb_id=emdb_id, schema_version="0.9.1")
+        headerXML = emicss(emdb_id=emdb_id)
         dbs = dbsType()
         entry_ref_dbs = entry_ref_dbsType()
         weights = weightsType()
