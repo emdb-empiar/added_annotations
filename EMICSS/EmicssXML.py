@@ -26,6 +26,7 @@ class EmicssXML:
         sample = sampleType()
         macromolecules = macromoleculesType()
         supramolecules = supramoleculesType()
+        primary_citation = primary_citationType()
         all_db = set()
 
     
@@ -54,7 +55,6 @@ class EmicssXML:
         if "CITATION" in packed_models:
             citation = packed_models["CITATION"]
             if citation.pmedid:
-                primary_citation = primary_citationType()
                 authors_obj = authorsType()
                 all_db.add("PubMed")
                 pm_citation_obj = ref_citationType(db_source="PUBMED", accession_id=citation.pmedid, provenance=citation.provenance_pm)
@@ -136,18 +136,18 @@ class EmicssXML:
                     cross_ref_dbs = cross_ref_dbsType()
                     if ligand.chembl_id:
                         all_db.add("ChEBML")
-                        chembl_obj = cross_ref_db(db_source="ChEBML", accession_id=ligand.chembl_id, provenance="PDBe-CCD")
+                        chembl_obj = cross_ref_db(db_source="ChEBML", accession_id=ligand.chembl_id, provenance=ligand.provenance_chembl)
                         cross_ref_dbs.add_cross_ref_db(chembl_obj)
                     if ligand.chebi_id:
                         all_db.add("ChEBI")
-                        chebi_obj = cross_ref_db(db_source="ChEBI", accession_id=ligand.chebi_id, provenance="PDBe-CCD")
+                        chebi_obj = cross_ref_db(db_source="ChEBI", accession_id=ligand.chebi_id, provenance=ligand.provenance_chebi)
                         cross_ref_dbs.add_cross_ref_db(chebi_obj)
                     if ligand.drugbank_id:
                         all_db.add("DrugBank")
-                        drugbank_obj = cross_ref_db(db_source="DrugBank", accession_id=ligand.drugbank_id, provenance="PDBe-CCD")
+                        drugbank_obj = cross_ref_db(db_source="DrugBank", accession_id=ligand.drugbank_id, provenance=ligand.provenance_drugbank)
                         cross_ref_dbs.add_cross_ref_db(drugbank_obj)
                     macromolecule = macromoleculeType(type_="ligand", id=ligand.sample_id, copies=ligand.lig_copies, 
-                        provenance=ligand.provenance, name=ligand.lig_name, ccd_id=ligand.HET, cross_ref_dbs=cross_ref_dbs)
+                        provenance="EMDB", name=ligand.lig_name, ccd_id=ligand.HET, cross_ref_dbs=cross_ref_dbs)
                     macromolecules.add_macromolecule(macromolecule)
         if "COMPLEX" in packed_models:
             complex_objects = packed_models['COMPLEX']
