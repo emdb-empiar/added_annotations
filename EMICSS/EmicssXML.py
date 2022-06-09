@@ -20,7 +20,7 @@ class EmicssXML:
         emdb_id = packed_models['HEADER'].emdb_id
         #TODO: Schema version can not be hard coded here. It must follow the version of the xsd file used to generate pymodels
         headerXML = emicss(emdb_id=emdb_id)
-        dbs = dbsType()
+        dbs = dbsType(collection_date=self.version_list['date'])
         entry_ref_dbs = entry_ref_dbsType()
         weights = weightsType()
         sample = sampleType()
@@ -42,7 +42,7 @@ class EmicssXML:
             mw = packed_models["WEIGHT"]
             if mw.overall_mw > 0:
                 all_db.add("EMDB")
-                mw_info_obj = weight_infoType(weight=mw.overall_mw, unit=mw.units, provenance=mw.provenance)
+                mw_info_obj = weight_infoType(weight=round(mw.overall_mw,2), unit=mw.units, provenance=mw.provenance)
                 weights.add_weight_info(mw_info_obj)
         # MW calculated from assemblies
         if "MODEL" in packed_models:
@@ -158,7 +158,7 @@ class EmicssXML:
                         cross_ref_dbs = cross_ref_dbsType()
                         if emdb_complex.cpx_list:
                             for cpx in emdb_complex.cpx_list:
-                                cpx_obj = cross_ref_db(name=cpx.name, db_source="Complex Portal", accession_id=cpx.cpx_id, provenance=emdb_complex.provenance, score=emdb_complex.score)
+                                cpx_obj = cross_ref_db(name=cpx.name, db_source="Complex Portal", accession_id=cpx.cpx_id, provenance=emdb_complex.provenance, score=round(emdb_complex.score,2))
                                 cross_ref_dbs.add_cross_ref_db(cpx_obj)
                             sample_id = emdb_complex.sample_id.split('_')[1]
                             supramolecule = supramoleculeType(type_="complex", id=sample_id, copies=emdb_complex.sample_copies,
