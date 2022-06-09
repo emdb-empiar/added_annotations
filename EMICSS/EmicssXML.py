@@ -166,9 +166,8 @@ class EmicssXML:
         for database in all_db:
             if database in self.version_list:
                 version = self.version_list[database]
-                if version: # Some databases have None version
-                    db_ver = dbType(db_source=database, db_version=version)
-                    dbs.add_db(db_ver)
+                db_ver = dbType(db_source=database, db_version=version)
+                dbs.add_db(db_ver)
 
         if all_db:
             headerXML.set_dbs(dbs)
@@ -187,7 +186,7 @@ class EmicssXML:
 
         output_path = os.path.join(self.workDir, "emicss_xml")
         Path(output_path).mkdir(parents=True, exist_ok=True)
-        xmlFile = os.path.join(output_path, f"emd-{emdb_id}_emicss.xml")
+        xmlFile = os.path.join(output_path, f"emd-{emdb_id[4:]}_emicss.xml")
         with open(xmlFile, 'w') as f:
             f.write('<?xml version="1.0" encoding="UTF-8"?>\n')
             headerXML.export(f, 0, name_='emicss',  namespacedef_='schemaLocation=""')
