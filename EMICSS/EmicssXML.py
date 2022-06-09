@@ -19,7 +19,7 @@ class EmicssXML:
         """
         emdb_id = packed_models['HEADER'].emdb_id
         #TODO: Schema version can not be hard coded here. It must follow the version of the xsd file used to generate pymodels
-        headerXML = emicss(emdb_id=emdb_id, schema_version="0.9.0")
+        headerXML = emicss(emdb_id=emdb_id, schema_version="0.9.1")
         dbs = dbsType()
         entry_ref_dbs = entry_ref_dbsType()
         weights = weightsType()
@@ -54,8 +54,13 @@ class EmicssXML:
                     weights.add_weight_info(pdb_info_obj)
         if "CITATION" in packed_models:
             citation = packed_models["CITATION"]
+            authors_obj = authorsType()
+            for author in citation.authors:
+                orcid = author.orcid if author.orcid else None
+                author_obj = authorType(name=author.name, orcid_id=orcid, order=author.order, provenance=author.provenance)
+                authors_obj.add_author(author_obj)
+            primary_citation.set_authors(authors_obj)
             if citation.pmedid:
-                authors_obj = authorsType()
                 all_db.add("PubMed")
                 pm_citation_obj = ref_citationType(db_source="PUBMED", accession_id=citation.pmedid, provenance=citation.provenance_pm)
                 primary_citation.add_ref_citation(pm_citation_obj)
@@ -70,11 +75,6 @@ class EmicssXML:
                 if citation.doi:
                     primary_citation.set_doi(citation.doi)
                     primary_citation.set_provenance(citation.provenance_doi)
-                for author in citation.authors:
-                    orcid = author.orcid if author.orcid else None
-                    author_obj = authorType(name=author.name, orcid_id=orcid, order=author.order, provenance=author.provenance)
-                    authors_obj.add_author(author_obj)
-                primary_citation.set_authors(authors_obj)
         if "PROTEIN-TERMS" in packed_models:
             proteins = packed_models["PROTEIN-TERMS"]
             if len(proteins) > 0:
