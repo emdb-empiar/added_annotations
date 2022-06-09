@@ -191,5 +191,5 @@ class EmicssXML:
         xmlFile = os.path.join(output_path, f"emd-{emdb_id[4:]}_emicss.xml")
         with open(xmlFile, 'w') as f:
             f.write('<?xml version="1.0" encoding="UTF-8"?>\n')
-            headerXML.export(f, 0, name_='emicss',  namespacedef_='schemaLocation=""')
+            headerXML.export(f, 0, name_='emicss', namespacedef_=f'version="{headerXML.schema_version}"')
 
