@@ -8,16 +8,21 @@ from resources.StructureMapping import StructureMapping
 from resources.EMPIARMapping import EMPIARMapping, generate_emp_dictionary
 from resources.PublicationMapping import PublicationMapping, generate_pubmed_dictionary
 from resources.ProteinTermsMapping import ProteinTermsMapping
-from resources.PdbeKbMapping import PdbeKbMapping
-from resources.AlphaFoldMapping import AlphaFoldMapping, generate_af_ids
 from EMICSS.DBVersion import get_db_versions
-from EMICSS.EmicssInput import EmicssInput
 from EMICSS.EmicssXML import EmicssXML
 from XMLParser import XMLParser
 from glob import glob
 import logging
 from joblib import Parallel, delayed
 formatter = logging.Formatter('%(message)s')
+
+def get_afdb_ids(alphafold_ftp):
+    alphafold_ids = set()
+    with open(alphafold_ftp) as f:
+        for line in f:
+            id = line.split(',')[0]
+            alphafold_ids.add(id)
+    return alphafold_ids
 
 def setup_logger(name, log_file, level=logging.INFO, mode='w'):
     """To setup as many loggers as you want"""
@@ -81,7 +86,7 @@ def run(filename):
         empiar_logger = start_logger_if_necessary("empiar_logger", empiar_log_file)
         empiar_mapping = EMPIARMapping(xml.emdb_id, empiar_dictionary, empiar_logger)
         empiar_map = empiar_mapping.execute()
-        packed_models["EMPIAR" = empiar_map]
+        packed_models["EMPIAR"] = empiar_map
     if pmc or orcid:
         pubmed_log = start_logger_if_necessary("pubmed_logger", pubmed_log_file) if pmc else None
         orcid_log = start_logger_if_necessary("orcid_logger", orcid_log_file) if orcid else None
@@ -337,7 +342,7 @@ if __name__ == "__main__":
     if component:
         chembl_map, chebi_map, drugbank_map = parseCCD(components_cif)
     if alphafold:
-        alphafold_ids = generate_af_ids(alphafold_ftp)
+        alphafold_ids = get_afdb_ids(alphafold_ftp)
     pubmed_dict = generate_pubmed_dictionary(args.workDir) if pmc else {}
     if emicss:
         db_version = get_db_versions(db_list)

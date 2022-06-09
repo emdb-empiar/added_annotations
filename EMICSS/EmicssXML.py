@@ -19,7 +19,7 @@ class EmicssXML:
         """
         emdb_id = packed_models['HEADER'].emdb_id
         #TODO: Schema version can not be hard coded here. It must follow the version of the xsd file used to generate pymodels
-        headerXML = EMICSS.emicss(emdb_id=emdb_id, schema_version="0.9.0")
+        headerXML = emicss(emdb_id=emdb_id, schema_version="0.9.0")
         dbs = dbsType()
         entry_ref_dbs = entry_ref_dbsType()
         weights = weightsType()
@@ -74,7 +74,7 @@ class EmicssXML:
                     orcid = author.orcid if author.orcid else None
                     author_obj = authorType(name=author.name, orcid_id=orcid, order=author.order, provenance=author.provenance)
                     authors_obj.add_author(author_obj)
-                primary_citation.set_authors(authors)
+                primary_citation.set_authors(authors_obj)
         if "PROTEIN-TERMS" in packed_models:
             proteins = packed_models["PROTEIN-TERMS"]
             if len(proteins) > 0:
@@ -187,7 +187,7 @@ class EmicssXML:
 
         output_path = os.path.join(self.workDir, "emicss_xml")
         Path(output_path).mkdir(parents=True, exist_ok=True)
-        xmlFile = os.path.join(output_path, "emd-" + entry_id + "_emicss.xml")
+        xmlFile = os.path.join(output_path, f"emd-{emdb_id}_emicss.xml")
         with open(xmlFile, 'w') as f:
             f.write('<?xml version="1.0" encoding="UTF-8"?>\n')
             headerXML.export(f, 0, name_='emicss',  namespacedef_='schemaLocation=""')
