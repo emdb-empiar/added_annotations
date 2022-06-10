@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Thu Jun  9 15:52:53 2022 by generateDS.py version 2.38.6.
+# Generated Fri Jun 10 09:37:20 2022 by generateDS.py version 2.38.6.
 # Python 3.7.6 (default, Dec 30 2019, 19:38:28)  [Clang 11.0.0 (clang-1100.0.33.16)]
 #
 # Command line options:
@@ -10,10 +10,10 @@
 #   ('-s', '/Users/amudha/project/git_code/added_annotations/EMICSS/EMICSSsub.py')
 #
 # Command line arguments:
-#   EMDB_EMICSS.xsd
+#   current/emdb_emicss.xsd
 #
 # Command line:
-#   /usr/local/bin/generateDS.py -o "/Users/amudha/project/git_code/added_annotations/EMICSS/EMICSS.py" -s "/Users/amudha/project/git_code/added_annotations/EMICSS/EMICSSsub.py" EMDB_EMICSS.xsd
+#   /usr/local/bin/generateDS.py -o "/Users/amudha/project/git_code/added_annotations/EMICSS/EMICSS.py" -s "/Users/amudha/project/git_code/added_annotations/EMICSS/EMICSSsub.py" current/emdb_emicss.xsd
 #
 # Current working directory (os.getcwd()):
 #   emicss-schema
@@ -1006,7 +1006,7 @@ class emicss(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, emdb_id=None, schema_version='0.9.2', dbs=None, entry_ref_dbs=None, primary_citation=None, weights=None, sample=None, gds_collector_=None, **kwargs_):
+    def __init__(self, emdb_id=None, version='0.9.3', dbs=None, entry_ref_dbs=None, primary_citation=None, weights=None, sample=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
@@ -1014,8 +1014,8 @@ class emicss(GeneratedsSuper):
         self.ns_prefix_ = None
         self.emdb_id = _cast(None, emdb_id)
         self.emdb_id_nsprefix_ = None
-        self.schema_version = _cast(None, schema_version)
-        self.schema_version_nsprefix_ = None
+        self.version = _cast(None, version)
+        self.version_nsprefix_ = None
         self.dbs = dbs
         self.dbs_nsprefix_ = None
         self.entry_ref_dbs = entry_ref_dbs
@@ -1065,10 +1065,10 @@ class emicss(GeneratedsSuper):
         return self.emdb_id
     def set_emdb_id(self, emdb_id):
         self.emdb_id = emdb_id
-    def get_schema_version(self):
-        return self.schema_version
-    def set_schema_version(self, schema_version):
-        self.schema_version = schema_version
+    def get_version(self):
+        return self.version
+    def set_version(self, version):
+        self.version = version
     def validate_emdb_id_type(self, value):
         # Validate type emdb_id_type, a restriction on xsd:token.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
@@ -1118,9 +1118,9 @@ class emicss(GeneratedsSuper):
         if self.emdb_id is not None and 'emdb_id' not in already_processed:
             already_processed.add('emdb_id')
             outfile.write(' emdb_id=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.emdb_id), input_name='emdb_id')), ))
-        if self.schema_version != "0.9.2" and 'schema_version' not in already_processed:
-            already_processed.add('schema_version')
-            outfile.write(' schema_version=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.schema_version), input_name='schema_version')), ))
+        if self.version != "0.9.3" and 'version' not in already_processed:
+            already_processed.add('version')
+            outfile.write(' version=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.version), input_name='version')), ))
     def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='emicss', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
@@ -1159,11 +1159,11 @@ class emicss(GeneratedsSuper):
             self.emdb_id = value
             self.emdb_id = ' '.join(self.emdb_id.split())
             self.validate_emdb_id_type(self.emdb_id)    # validate type emdb_id_type
-        value = find_attr_value_('schema_version', node)
-        if value is not None and 'schema_version' not in already_processed:
-            already_processed.add('schema_version')
-            self.schema_version = value
-            self.schema_version = ' '.join(self.schema_version.split())
+        value = find_attr_value_('version', node)
+        if value is not None and 'version' not in already_processed:
+            already_processed.add('version')
+            self.version = value
+            self.version = ' '.join(self.version.split())
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         if nodeName_ == 'dbs':
             obj_ = dbsType.factory(parent_object_=self)
@@ -1205,7 +1205,7 @@ class cross_ref_db(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, name=None, db_source=None, accession_id=None, uniprot_start=None, uniprot_end=None, type_=None, provenance=None, score=None, gds_collector_=None, **kwargs_):
+    def __init__(self, name=None, source=None, accession_id=None, uniprot_start=None, uniprot_end=None, type_=None, provenance=None, score=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
@@ -1213,8 +1213,8 @@ class cross_ref_db(GeneratedsSuper):
         self.ns_prefix_ = None
         self.name = _cast(None, name)
         self.name_nsprefix_ = None
-        self.db_source = _cast(None, db_source)
-        self.db_source_nsprefix_ = None
+        self.source = _cast(None, source)
+        self.source_nsprefix_ = None
         self.accession_id = _cast(None, accession_id)
         self.accession_id_nsprefix_ = None
         self.uniprot_start = _cast(int, uniprot_start)
@@ -1246,10 +1246,10 @@ class cross_ref_db(GeneratedsSuper):
         return self.name
     def set_name(self, name):
         self.name = name
-    def get_db_source(self):
-        return self.db_source
-    def set_db_source(self, db_source):
-        self.db_source = db_source
+    def get_source(self):
+        return self.source
+    def set_source(self, source):
+        self.source = source
     def get_accession_id(self):
         return self.accession_id
     def set_accession_id(self, accession_id):
@@ -1320,9 +1320,9 @@ class cross_ref_db(GeneratedsSuper):
         if self.name is not None and 'name' not in already_processed:
             already_processed.add('name')
             outfile.write(' name=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.name), input_name='name')), ))
-        if self.db_source is not None and 'db_source' not in already_processed:
-            already_processed.add('db_source')
-            outfile.write(' db_source=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.db_source), input_name='db_source')), ))
+        if self.source is not None and 'source' not in already_processed:
+            already_processed.add('source')
+            outfile.write(' source=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.source), input_name='source')), ))
         if self.accession_id is not None and 'accession_id' not in already_processed:
             already_processed.add('accession_id')
             outfile.write(' accession_id=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.accession_id), input_name='accession_id')), ))
@@ -1359,12 +1359,12 @@ class cross_ref_db(GeneratedsSuper):
         if value is not None and 'name' not in already_processed:
             already_processed.add('name')
             self.name = value
-        value = find_attr_value_('db_source', node)
-        if value is not None and 'db_source' not in already_processed:
-            already_processed.add('db_source')
-            self.db_source = value
-            self.db_source = ' '.join(self.db_source.split())
-            self.validate_provenance_type(self.db_source)    # validate type provenance_type
+        value = find_attr_value_('source', node)
+        if value is not None and 'source' not in already_processed:
+            already_processed.add('source')
+            self.source = value
+            self.source = ' '.join(self.source.split())
+            self.validate_provenance_type(self.source)    # validate type provenance_type
         value = find_attr_value_('accession_id', node)
         if value is not None and 'accession_id' not in already_processed:
             already_processed.add('accession_id')
@@ -1526,16 +1526,16 @@ class dbType(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, db_source=None, db_version=None, gds_collector_=None, **kwargs_):
+    def __init__(self, source=None, version=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
         self.parent_object_ = kwargs_.get('parent_object_')
         self.ns_prefix_ = None
-        self.db_source = _cast(None, db_source)
-        self.db_source_nsprefix_ = None
-        self.db_version = _cast(None, db_version)
-        self.db_version_nsprefix_ = None
+        self.source = _cast(None, source)
+        self.source_nsprefix_ = None
+        self.version = _cast(None, version)
+        self.version_nsprefix_ = None
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -1551,14 +1551,14 @@ class dbType(GeneratedsSuper):
         return self.ns_prefix_
     def set_ns_prefix_(self, ns_prefix):
         self.ns_prefix_ = ns_prefix
-    def get_db_source(self):
-        return self.db_source
-    def set_db_source(self, db_source):
-        self.db_source = db_source
-    def get_db_version(self):
-        return self.db_version
-    def set_db_version(self, db_version):
-        self.db_version = db_version
+    def get_source(self):
+        return self.source
+    def set_source(self, source):
+        self.source = source
+    def get_version(self):
+        return self.version
+    def set_version(self, version):
+        self.version = version
     def validate_provenance_type(self, value):
         # Validate type provenance_type, a restriction on xsd:token.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
@@ -1602,12 +1602,12 @@ class dbType(GeneratedsSuper):
         else:
             outfile.write('/>%s' % (eol_, ))
     def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='dbType'):
-        if self.db_source is not None and 'db_source' not in already_processed:
-            already_processed.add('db_source')
-            outfile.write(' db_source=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.db_source), input_name='db_source')), ))
-        if self.db_version is not None and 'db_version' not in already_processed:
-            already_processed.add('db_version')
-            outfile.write(' db_version=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.db_version), input_name='db_version')), ))
+        if self.source is not None and 'source' not in already_processed:
+            already_processed.add('source')
+            outfile.write(' source=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.source), input_name='source')), ))
+        if self.version is not None and 'version' not in already_processed:
+            already_processed.add('version')
+            outfile.write(' version=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.version), input_name='version')), ))
     def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='dbType', fromsubclass_=False, pretty_print=True):
         pass
     def build(self, node, gds_collector_=None):
@@ -1622,17 +1622,17 @@ class dbType(GeneratedsSuper):
             self.buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
         return self
     def buildAttributes(self, node, attrs, already_processed):
-        value = find_attr_value_('db_source', node)
-        if value is not None and 'db_source' not in already_processed:
-            already_processed.add('db_source')
-            self.db_source = value
-            self.db_source = ' '.join(self.db_source.split())
-            self.validate_provenance_type(self.db_source)    # validate type provenance_type
-        value = find_attr_value_('db_version', node)
-        if value is not None and 'db_version' not in already_processed:
-            already_processed.add('db_version')
-            self.db_version = value
-            self.db_version = ' '.join(self.db_version.split())
+        value = find_attr_value_('source', node)
+        if value is not None and 'source' not in already_processed:
+            already_processed.add('source')
+            self.source = value
+            self.source = ' '.join(self.source.split())
+            self.validate_provenance_type(self.source)    # validate type provenance_type
+        value = find_attr_value_('version', node)
+        if value is not None and 'version' not in already_processed:
+            already_processed.add('version')
+            self.version = value
+            self.version = ' '.join(self.version.split())
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         pass
 # end class dbType
@@ -1747,14 +1747,14 @@ class entry_ref_dbType(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, db_source=None, accession_id=None, provenance=None, gds_collector_=None, **kwargs_):
+    def __init__(self, source=None, accession_id=None, provenance=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
         self.parent_object_ = kwargs_.get('parent_object_')
         self.ns_prefix_ = None
-        self.db_source = _cast(None, db_source)
-        self.db_source_nsprefix_ = None
+        self.source = _cast(None, source)
+        self.source_nsprefix_ = None
         self.accession_id = _cast(None, accession_id)
         self.accession_id_nsprefix_ = None
         self.provenance = _cast(None, provenance)
@@ -1774,10 +1774,10 @@ class entry_ref_dbType(GeneratedsSuper):
         return self.ns_prefix_
     def set_ns_prefix_(self, ns_prefix):
         self.ns_prefix_ = ns_prefix
-    def get_db_source(self):
-        return self.db_source
-    def set_db_source(self, db_source):
-        self.db_source = db_source
+    def get_source(self):
+        return self.source
+    def set_source(self, source):
+        self.source = source
     def get_accession_id(self):
         return self.accession_id
     def set_accession_id(self, accession_id):
@@ -1829,9 +1829,9 @@ class entry_ref_dbType(GeneratedsSuper):
         else:
             outfile.write('/>%s' % (eol_, ))
     def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='entry_ref_dbType'):
-        if self.db_source is not None and 'db_source' not in already_processed:
-            already_processed.add('db_source')
-            outfile.write(' db_source=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.db_source), input_name='db_source')), ))
+        if self.source is not None and 'source' not in already_processed:
+            already_processed.add('source')
+            outfile.write(' source=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.source), input_name='source')), ))
         if self.accession_id is not None and 'accession_id' not in already_processed:
             already_processed.add('accession_id')
             outfile.write(' accession_id=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.accession_id), input_name='accession_id')), ))
@@ -1852,10 +1852,10 @@ class entry_ref_dbType(GeneratedsSuper):
             self.buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
         return self
     def buildAttributes(self, node, attrs, already_processed):
-        value = find_attr_value_('db_source', node)
-        if value is not None and 'db_source' not in already_processed:
-            already_processed.add('db_source')
-            self.db_source = value
+        value = find_attr_value_('source', node)
+        if value is not None and 'source' not in already_processed:
+            already_processed.add('source')
+            self.source = value
         value = find_attr_value_('accession_id', node)
         if value is not None and 'accession_id' not in already_processed:
             already_processed.add('accession_id')
@@ -2035,14 +2035,14 @@ class ref_citationType(GeneratedsSuper):
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, db_source=None, accession_id=None, provenance=None, gds_collector_=None, **kwargs_):
+    def __init__(self, source=None, accession_id=None, provenance=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
         self.parent_object_ = kwargs_.get('parent_object_')
         self.ns_prefix_ = None
-        self.db_source = _cast(None, db_source)
-        self.db_source_nsprefix_ = None
+        self.source = _cast(None, source)
+        self.source_nsprefix_ = None
         self.accession_id = _cast(None, accession_id)
         self.accession_id_nsprefix_ = None
         self.provenance = _cast(None, provenance)
@@ -2062,10 +2062,10 @@ class ref_citationType(GeneratedsSuper):
         return self.ns_prefix_
     def set_ns_prefix_(self, ns_prefix):
         self.ns_prefix_ = ns_prefix
-    def get_db_source(self):
-        return self.db_source
-    def set_db_source(self, db_source):
-        self.db_source = db_source
+    def get_source(self):
+        return self.source
+    def set_source(self, source):
+        self.source = source
     def get_accession_id(self):
         return self.accession_id
     def set_accession_id(self, accession_id):
@@ -2117,9 +2117,9 @@ class ref_citationType(GeneratedsSuper):
         else:
             outfile.write('/>%s' % (eol_, ))
     def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='ref_citationType'):
-        if self.db_source is not None and 'db_source' not in already_processed:
-            already_processed.add('db_source')
-            outfile.write(' db_source=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.db_source), input_name='db_source')), ))
+        if self.source is not None and 'source' not in already_processed:
+            already_processed.add('source')
+            outfile.write(' source=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.source), input_name='source')), ))
         if self.accession_id is not None and 'accession_id' not in already_processed:
             already_processed.add('accession_id')
             outfile.write(' accession_id=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.accession_id), input_name='accession_id')), ))
@@ -2140,12 +2140,12 @@ class ref_citationType(GeneratedsSuper):
             self.buildChildren(child, node, nodeName_, gds_collector_=gds_collector_)
         return self
     def buildAttributes(self, node, attrs, already_processed):
-        value = find_attr_value_('db_source', node)
-        if value is not None and 'db_source' not in already_processed:
-            already_processed.add('db_source')
-            self.db_source = value
-            self.db_source = ' '.join(self.db_source.split())
-            self.validate_provenance_type(self.db_source)    # validate type provenance_type
+        value = find_attr_value_('source', node)
+        if value is not None and 'source' not in already_processed:
+            already_processed.add('source')
+            self.source = value
+            self.source = ' '.join(self.source.split())
+            self.validate_provenance_type(self.source)    # validate type provenance_type
         value = find_attr_value_('accession_id', node)
         if value is not None and 'accession_id' not in already_processed:
             already_processed.add('accession_id')
