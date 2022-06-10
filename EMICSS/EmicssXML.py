@@ -1,12 +1,10 @@
-import os, re
+import os
 from pathlib import Path
 from EMICSS.EMICSS import *
 
 class EmicssXML:
     """
     Writing annotations to output xml file according to the EMDB_EMICSS.xsd schema
-    # TODO: source should be a enum field
-    # TODO: weight_info has an attribute named method that seems to be not used anymore
     """
 
     def __init__(self, workDir, version_list):
@@ -18,7 +16,6 @@ class EmicssXML:
         Create and write added annotations to individual EMICSS file for every EMDB entry
         """
         emdb_id = packed_models['HEADER'].emdb_id
-        #TODO: Schema version can not be hard coded here. It must follow the version of the xsd file used to generate pymodels
         headerXML = emicss(emdb_id=emdb_id)
         dbs = dbsType(collection_date=self.version_list['date'])
         entry_ref_dbs = entry_ref_dbsType()
@@ -135,8 +132,8 @@ class EmicssXML:
                 for ligand in ligand_obj:
                     cross_ref_dbs = cross_ref_dbsType()
                     if ligand.chembl_id:
-                        all_db.add("ChEBML")
-                        chembl_obj = cross_ref_db(source="ChEBML", accession_id=ligand.chembl_id, provenance=ligand.provenance_chembl)
+                        all_db.add("ChEMBL")
+                        chembl_obj = cross_ref_db(source="ChEMBL", accession_id=ligand.chembl_id, provenance=ligand.provenance_chembl)
                         cross_ref_dbs.add_cross_ref_db(chembl_obj)
                     if ligand.chebi_id:
                         all_db.add("ChEBI")
@@ -192,4 +189,3 @@ class EmicssXML:
         with open(xmlFile, 'w') as f:
             f.write('<?xml version="1.0" encoding="UTF-8"?>\n')
             headerXML.export(f, 0, name_='emicss', namespacedef_=f'version="{headerXML.version}"')
-
