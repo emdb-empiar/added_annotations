@@ -189,5 +189,5 @@ class EmicssXML:
         with open(xmlFile, 'w') as f:
             f.write('<?xml version="1.0" encoding="UTF-8"?>\n')
             headerXML.export(f, 0, name_='emicss', namespacedef_=f'version="{headerXML.version}" '
-                                                                 'schema_location="https://github.com/emdb-empiar/emicss-schema/tree/main/current" ')
+                                                                 f'schema_location="https://github.com/emdb-empiar/emicss-schema/tree/main/current/emdb_emicss_{headerXML.version}.xsd" ')
 

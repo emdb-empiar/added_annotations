@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Fri Jun 10 09:37:22 2022 by generateDS.py version 2.38.6.
+# Generated Fri Jun 10 16:27:32 2022 by generateDS.py version 2.38.6.
 # Python 3.7.6 (default, Dec 30 2019, 19:38:28)  [Clang 11.0.0 (clang-1100.0.33.16)]
 #
 # Command line options:
@@ -9,10 +9,10 @@
 #   ('-s', '/Users/amudha/project/git_code/added_annotations/EMICSS/EMICSSsub.py')
 #
 # Command line arguments:
-#   current/emdb_emicss.xsd
+#   current/emdb_emicss_0.9.3.xsd
 #
 # Command line:
-#   /usr/local/bin/generateDS.py -o "/Users/amudha/project/git_code/added_annotations/EMICSS/EMICSS.py" -s "/Users/amudha/project/git_code/added_annotations/EMICSS/EMICSSsub.py" current/emdb_emicss.xsd
+#   /usr/local/bin/generateDS.py -o "/Users/amudha/project/git_code/added_annotations/EMICSS/EMICSS.py" -s "/Users/amudha/project/git_code/added_annotations/EMICSS/EMICSSsub.py" current/emdb_emicss_0.9.3.xsd
 #
 # Current working directory (os.getcwd()):
 #   emicss-schema
