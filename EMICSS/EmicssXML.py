@@ -59,11 +59,11 @@ class EmicssXML:
             primary_citation.set_authors(authors_obj)
             if citation.pmedid:
                 all_db.add("PubMed")
-                pm_citation_obj = ref_citationType(source="PUBMED", accession_id=citation.pmedid, provenance=citation.provenance_pm)
+                pm_citation_obj = ref_citationType(source="PubMed", accession_id=citation.pmedid, provenance=citation.provenance_pm)
                 primary_citation.add_ref_citation(pm_citation_obj)
                 if citation.pmcid:
                     all_db.add("PubMed Central")
-                    pmc_citation_obj = ref_citationType(source="PUBMED CENTRAL", accession_id=citation.pmcid, provenance=citation.provenance_pmc)
+                    pmc_citation_obj = ref_citationType(source="PubMed Central", accession_id=citation.pmcid, provenance=citation.provenance_pmc)
                     primary_citation.add_ref_citation(pmc_citation_obj)
                 if citation.issn:
                     all_db.add("ISSN")
@@ -123,9 +123,10 @@ class EmicssXML:
                         all_db.add("AlphaFold DB")
                         afdb_xref_obj = cross_ref_db(source="AlphaFold DB", accession_id=protein.alphafold.unip_id, provenance=protein.alphafold.provenance)
                         cross_ref_dbs.add_cross_ref_db(afdb_xref_obj)
-                    macromolecule = macromoleculeType(type_="protein", id=protein.sample_id, copies=protein.sample_copies, 
-                        provenance="EMDB", name=protein.sample_name, cross_ref_dbs=cross_ref_dbs)
-                    macromolecules.add_macromolecule(macromolecule)
+                    if cross_ref_dbs.hasContent_():
+                        macromolecule = macromoleculeType(type_="protein", id=protein.sample_id, copies=protein.sample_copies,
+                            provenance="EMDB", name=protein.sample_name, cross_ref_dbs=cross_ref_dbs)
+                        macromolecules.add_macromolecule(macromolecule)
         if "LIGANDS" in packed_models:
             ligand_obj = packed_models["LIGANDS"]
             if len(ligand_obj) > 0:
@@ -143,9 +144,10 @@ class EmicssXML:
                         all_db.add("DrugBank")
                         drugbank_obj = cross_ref_db(source="DrugBank", accession_id=ligand.drugbank_id, provenance=ligand.provenance_drugbank)
                         cross_ref_dbs.add_cross_ref_db(drugbank_obj)
-                    macromolecule = macromoleculeType(type_="ligand", id=ligand.sample_id, copies=ligand.lig_copies, 
-                        provenance="EMDB", name=ligand.lig_name, ccd_id=ligand.HET, cross_ref_dbs=cross_ref_dbs)
-                    macromolecules.add_macromolecule(macromolecule)
+                    if cross_ref_dbs.hasContent_():
+                        macromolecule = macromoleculeType(type_="ligand", id=ligand.sample_id, copies=ligand.lig_copies,
+                            provenance="EMDB", name=ligand.lig_name, ccd_id=ligand.HET, cross_ref_dbs=cross_ref_dbs)
+                        macromolecules.add_macromolecule(macromolecule)
         if "COMPLEX" in packed_models:
             complex_objects = packed_models['COMPLEX']
             if len(complex_objects) > 0:
@@ -157,10 +159,11 @@ class EmicssXML:
                             for cpx in emdb_complex.cpx_list:
                                 cpx_obj = cross_ref_db(name=cpx.name, source="Complex Portal", accession_id=cpx.cpx_id, provenance=emdb_complex.provenance, score=round(emdb_complex.score,2))
                                 cross_ref_dbs.add_cross_ref_db(cpx_obj)
-                            sample_id = emdb_complex.sample_id.split('_')[1]
-                            supramolecule = supramoleculeType(type_="complex", id=sample_id, copies=emdb_complex.sample_copies,
-                                provenance=emdb_complex.provenance, name=emdb_complex.supra_name, cross_ref_dbs=cross_ref_dbs)
-                            supramolecules.add_supramolecule(supramolecule)
+                            if cross_ref_dbs.hasContent_():
+                                sample_id = emdb_complex.sample_id.split('_')[1]
+                                supramolecule = supramoleculeType(type_="complex", id=sample_id, copies=emdb_complex.sample_copies,
+                                    provenance=emdb_complex.provenance, name=emdb_complex.supra_name, cross_ref_dbs=cross_ref_dbs)
+                                supramolecules.add_supramolecule(supramolecule)
 
         for database in all_db:
             if database in self.version_list:
@@ -185,7 +188,7 @@ class EmicssXML:
 
         output_path = os.path.join(self.workDir, "emicss_xml")
         Path(output_path).mkdir(parents=True, exist_ok=True)
-        xmlFile = os.path.join(output_path, f"emd-{emdb_id[4:]}_emicss.xml")
+        xmlFile = os.path.join(output_path, f"emd_{emdb_id[4:]}_emicss.xml")
         with open(xmlFile, 'w') as f:
             f.write('<?xml version="1.0" encoding="UTF-8"?>\n')
             headerXML.export(f, 0, name_='emicss', namespacedef_=f'version="{headerXML.version}" '

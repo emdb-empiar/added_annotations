@@ -2,21 +2,21 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Fri Jun 10 16:27:32 2022 by generateDS.py version 2.38.6.
+# Generated Tue Jun 14 21:14:10 2022 by generateDS.py version 2.38.6.
 # Python 3.7.6 (default, Dec 30 2019, 19:38:28)  [Clang 11.0.0 (clang-1100.0.33.16)]
 #
 # Command line options:
-#   ('-o', '/Users/amudha/project/git_code/added_annotations/EMICSS/EMICSS.py')
-#   ('-s', '/Users/amudha/project/git_code/added_annotations/EMICSS/EMICSSsub.py')
+#   ('-o', 'EMICSS/EMICSS.py')
+#   ('-s', 'EMICSS/EMICSSsub.py')
 #
 # Command line arguments:
-#   current/emdb_emicss_0.9.3.xsd
+#   ../../emicss-schema/current/emdb_emicss.xsd
 #
 # Command line:
-#   /usr/local/bin/generateDS.py -o "/Users/amudha/project/git_code/added_annotations/EMICSS/EMICSS.py" -s "/Users/amudha/project/git_code/added_annotations/EMICSS/EMICSSsub.py" current/emdb_emicss_0.9.3.xsd
+#   /usr/local/bin/generateDS.py -o "EMICSS/EMICSS.py" -s "EMICSS/EMICSSsub.py" ../../emicss-schema/current/emdb_emicss.xsd
 #
 # Current working directory (os.getcwd()):
-#   emicss-schema
+#   added_annotations
 #
 
 import sys
@@ -968,13 +968,7 @@ def _cast(typ, value):
 #
 
 
-class sample_kind(str, Enum):
-    COMPLEX='complex'
-    PROTEIN='protein'
-    LIGAND='ligand'
-
-
-class source_type(str, Enum):
+class provenance_type(str, Enum):
     """Annotations done from the respective database. Could be more than one
     database"""
     EMDB='EMDB'
@@ -1001,12 +995,18 @@ class source_type(str, Enum):
     SCOP_2='SCOP2'
 
 
+class sample_kind(str, Enum):
+    COMPLEX='complex'
+    PROTEIN='protein'
+    LIGAND='ligand'
+
+
 class emicss(GeneratedsSuper):
     """EMDB entry idEMICSS schema version"""
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
-    def __init__(self, emdb_id=None, version='0.9.3', dbs=None, entry_ref_dbs=None, primary_citation=None, weights=None, sample=None, gds_collector_=None, **kwargs_):
+    def __init__(self, emdb_id=None, version='0.9.3', schema_location=None, dbs=None, entry_ref_dbs=None, primary_citation=None, weights=None, sample=None, gds_collector_=None, **kwargs_):
         self.gds_collector_ = gds_collector_
         self.gds_elementtree_node_ = None
         self.original_tagname_ = None
@@ -1016,6 +1016,8 @@ class emicss(GeneratedsSuper):
         self.emdb_id_nsprefix_ = None
         self.version = _cast(None, version)
         self.version_nsprefix_ = None
+        self.schema_location = _cast(None, schema_location)
+        self.schema_location_nsprefix_ = None
         self.dbs = dbs
         self.dbs_nsprefix_ = None
         self.entry_ref_dbs = entry_ref_dbs
@@ -1069,6 +1071,10 @@ class emicss(GeneratedsSuper):
         return self.version
     def set_version(self, version):
         self.version = version
+    def get_schema_location(self):
+        return self.schema_location
+    def set_schema_location(self, schema_location):
+        self.schema_location = schema_location
     def validate_emdb_id_type(self, value):
         # Validate type emdb_id_type, a restriction on xsd:token.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
@@ -1121,6 +1127,9 @@ class emicss(GeneratedsSuper):
         if self.version != "0.9.3" and 'version' not in already_processed:
             already_processed.add('version')
             outfile.write(' version=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.version), input_name='version')), ))
+        if self.schema_location is not None and 'schema_location' not in already_processed:
+            already_processed.add('schema_location')
+            outfile.write(' schema_location=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.schema_location), input_name='schema_location')), ))
     def exportChildren(self, outfile, level, namespaceprefix_='', namespacedef_='', name_='emicss', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
@@ -1164,6 +1173,10 @@ class emicss(GeneratedsSuper):
             already_processed.add('version')
             self.version = value
             self.version = ' '.join(self.version.split())
+        value = find_attr_value_('schema_location', node)
+        if value is not None and 'schema_location' not in already_processed:
+            already_processed.add('schema_location')
+            self.schema_location = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         if nodeName_ == 'dbs':
             obj_ = dbsType.factory(parent_object_=self)
@@ -1274,8 +1287,8 @@ class cross_ref_db(GeneratedsSuper):
         return self.score
     def set_score(self, score):
         self.score = score
-    def validate_source_type(self, value):
-        # Validate type source_type, a restriction on xsd:token.
+    def validate_provenance_type(self, value):
+        # Validate type provenance_type, a restriction on xsd:token.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
             if not isinstance(value, str):
                 lineno = self.gds_get_node_lineno_()
@@ -1285,7 +1298,7 @@ class cross_ref_db(GeneratedsSuper):
             enumerations = ['EMDB', 'UniProt', 'PDBe', 'PDBe-KB', 'AlphaFold DB', 'EMPIAR', 'EuropePMC', 'Complex Portal', 'ChEMBL', 'ChEBI', 'DrugBank', 'PDBe-CCD', 'PubMed', 'PubMed Central', 'ISSN', 'DOI', 'GO', 'InterPro', 'Pfam', 'CATH', 'SCOP', 'SCOP2']
             if value not in enumerations:
                 lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd enumeration restriction on source_type' % {"value" : encode_str_2_3(value), "lineno": lineno} )
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd enumeration restriction on provenance_type' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
     def hasContent_(self):
         if (
@@ -1364,7 +1377,7 @@ class cross_ref_db(GeneratedsSuper):
             already_processed.add('source')
             self.source = value
             self.source = ' '.join(self.source.split())
-            self.validate_source_type(self.source)    # validate type source_type
+            self.validate_provenance_type(self.source)    # validate type provenance_type
         value = find_attr_value_('accession_id', node)
         if value is not None and 'accession_id' not in already_processed:
             already_processed.add('accession_id')
@@ -1373,14 +1386,14 @@ class cross_ref_db(GeneratedsSuper):
         if value is not None and 'uniprot_start' not in already_processed:
             already_processed.add('uniprot_start')
             self.uniprot_start = self.gds_parse_integer(value, node, 'uniprot_start')
-            if self.uniprot_start <= 0:
-                raise_parse_error(node, 'Invalid PositiveInteger')
+            if self.uniprot_start < 0:
+                raise_parse_error(node, 'Invalid NonNegativeInteger')
         value = find_attr_value_('uniprot_end', node)
         if value is not None and 'uniprot_end' not in already_processed:
             already_processed.add('uniprot_end')
             self.uniprot_end = self.gds_parse_integer(value, node, 'uniprot_end')
-            if self.uniprot_end <= 0:
-                raise_parse_error(node, 'Invalid PositiveInteger')
+            if self.uniprot_end < 0:
+                raise_parse_error(node, 'Invalid NonNegativeInteger')
         value = find_attr_value_('type', node)
         if value is not None and 'type' not in already_processed:
             already_processed.add('type')
@@ -1390,7 +1403,7 @@ class cross_ref_db(GeneratedsSuper):
             already_processed.add('provenance')
             self.provenance = value
             self.provenance = ' '.join(self.provenance.split())
-            self.validate_source_type(self.provenance)    # validate type source_type
+            self.validate_provenance_type(self.provenance)    # validate type provenance_type
         value = find_attr_value_('score', node)
         if value is not None and 'score' not in already_processed:
             already_processed.add('score')
@@ -1402,8 +1415,7 @@ class cross_ref_db(GeneratedsSuper):
 
 
 class dbsType(GeneratedsSuper):
-    """List of databases annotated for this EMDB entry
-    Date of collection of EMICSS."""
+    """List of databases annotated for this EMDB entry"""
     __hash__ = GeneratedsSuper.__hash__
     subclass = None
     superclass = None
@@ -1560,8 +1572,8 @@ class dbType(GeneratedsSuper):
         return self.version
     def set_version(self, version):
         self.version = version
-    def validate_source_type(self, value):
-        # Validate type source_type, a restriction on xsd:token.
+    def validate_provenance_type(self, value):
+        # Validate type provenance_type, a restriction on xsd:token.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
             if not isinstance(value, str):
                 lineno = self.gds_get_node_lineno_()
@@ -1571,7 +1583,7 @@ class dbType(GeneratedsSuper):
             enumerations = ['EMDB', 'UniProt', 'PDBe', 'PDBe-KB', 'AlphaFold DB', 'EMPIAR', 'EuropePMC', 'Complex Portal', 'ChEMBL', 'ChEBI', 'DrugBank', 'PDBe-CCD', 'PubMed', 'PubMed Central', 'ISSN', 'DOI', 'GO', 'InterPro', 'Pfam', 'CATH', 'SCOP', 'SCOP2']
             if value not in enumerations:
                 lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd enumeration restriction on source_type' % {"value" : encode_str_2_3(value), "lineno": lineno} )
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd enumeration restriction on provenance_type' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
     def hasContent_(self):
         if (
@@ -1628,7 +1640,7 @@ class dbType(GeneratedsSuper):
             already_processed.add('source')
             self.source = value
             self.source = ' '.join(self.source.split())
-            self.validate_source_type(self.source)    # validate type source_type
+            self.validate_provenance_type(self.source)    # validate type provenance_type
         value = find_attr_value_('version', node)
         if value is not None and 'version' not in already_processed:
             already_processed.add('version')
@@ -1787,8 +1799,8 @@ class entry_ref_dbType(GeneratedsSuper):
         return self.provenance
     def set_provenance(self, provenance):
         self.provenance = provenance
-    def validate_source_type(self, value):
-        # Validate type source_type, a restriction on xsd:token.
+    def validate_provenance_type(self, value):
+        # Validate type provenance_type, a restriction on xsd:token.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
             if not isinstance(value, str):
                 lineno = self.gds_get_node_lineno_()
@@ -1798,7 +1810,7 @@ class entry_ref_dbType(GeneratedsSuper):
             enumerations = ['EMDB', 'UniProt', 'PDBe', 'PDBe-KB', 'AlphaFold DB', 'EMPIAR', 'EuropePMC', 'Complex Portal', 'ChEMBL', 'ChEBI', 'DrugBank', 'PDBe-CCD', 'PubMed', 'PubMed Central', 'ISSN', 'DOI', 'GO', 'InterPro', 'Pfam', 'CATH', 'SCOP', 'SCOP2']
             if value not in enumerations:
                 lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd enumeration restriction on source_type' % {"value" : encode_str_2_3(value), "lineno": lineno} )
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd enumeration restriction on provenance_type' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
     def hasContent_(self):
         if (
@@ -1857,8 +1869,6 @@ class entry_ref_dbType(GeneratedsSuper):
         if value is not None and 'source' not in already_processed:
             already_processed.add('source')
             self.source = value
-            self.source = ' '.join(self.source.split())
-            self.validate_source_type(self.source)    # validate type source_type
         value = find_attr_value_('accession_id', node)
         if value is not None and 'accession_id' not in already_processed:
             already_processed.add('accession_id')
@@ -1868,7 +1878,7 @@ class entry_ref_dbType(GeneratedsSuper):
             already_processed.add('provenance')
             self.provenance = value
             self.provenance = ' '.join(self.provenance.split())
-            self.validate_source_type(self.provenance)    # validate type source_type
+            self.validate_provenance_type(self.provenance)    # validate type provenance_type
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         pass
 # end class entry_ref_dbType
@@ -1934,8 +1944,8 @@ class primary_citationType(GeneratedsSuper):
         return self.provenance
     def set_provenance(self, provenance):
         self.provenance = provenance
-    def validate_source_type(self, value):
-        # Validate type source_type, a restriction on xsd:token.
+    def validate_provenance_type(self, value):
+        # Validate type provenance_type, a restriction on xsd:token.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
             if not isinstance(value, str):
                 lineno = self.gds_get_node_lineno_()
@@ -1945,7 +1955,7 @@ class primary_citationType(GeneratedsSuper):
             enumerations = ['EMDB', 'UniProt', 'PDBe', 'PDBe-KB', 'AlphaFold DB', 'EMPIAR', 'EuropePMC', 'Complex Portal', 'ChEMBL', 'ChEBI', 'DrugBank', 'PDBe-CCD', 'PubMed', 'PubMed Central', 'ISSN', 'DOI', 'GO', 'InterPro', 'Pfam', 'CATH', 'SCOP', 'SCOP2']
             if value not in enumerations:
                 lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd enumeration restriction on source_type' % {"value" : encode_str_2_3(value), "lineno": lineno} )
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd enumeration restriction on provenance_type' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
     def hasContent_(self):
         if (
@@ -2017,7 +2027,7 @@ class primary_citationType(GeneratedsSuper):
             already_processed.add('provenance')
             self.provenance = value
             self.provenance = ' '.join(self.provenance.split())
-            self.validate_source_type(self.provenance)    # validate type source_type
+            self.validate_provenance_type(self.provenance)    # validate type provenance_type
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         if nodeName_ == 'ref_citation':
             obj_ = ref_citationType.factory(parent_object_=self)
@@ -2077,8 +2087,8 @@ class ref_citationType(GeneratedsSuper):
         return self.provenance
     def set_provenance(self, provenance):
         self.provenance = provenance
-    def validate_source_type(self, value):
-        # Validate type source_type, a restriction on xsd:token.
+    def validate_provenance_type(self, value):
+        # Validate type provenance_type, a restriction on xsd:token.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
             if not isinstance(value, str):
                 lineno = self.gds_get_node_lineno_()
@@ -2088,7 +2098,7 @@ class ref_citationType(GeneratedsSuper):
             enumerations = ['EMDB', 'UniProt', 'PDBe', 'PDBe-KB', 'AlphaFold DB', 'EMPIAR', 'EuropePMC', 'Complex Portal', 'ChEMBL', 'ChEBI', 'DrugBank', 'PDBe-CCD', 'PubMed', 'PubMed Central', 'ISSN', 'DOI', 'GO', 'InterPro', 'Pfam', 'CATH', 'SCOP', 'SCOP2']
             if value not in enumerations:
                 lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd enumeration restriction on source_type' % {"value" : encode_str_2_3(value), "lineno": lineno} )
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd enumeration restriction on provenance_type' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
     def hasContent_(self):
         if (
@@ -2148,7 +2158,7 @@ class ref_citationType(GeneratedsSuper):
             already_processed.add('source')
             self.source = value
             self.source = ' '.join(self.source.split())
-            self.validate_source_type(self.source)    # validate type source_type
+            self.validate_provenance_type(self.source)    # validate type provenance_type
         value = find_attr_value_('accession_id', node)
         if value is not None and 'accession_id' not in already_processed:
             already_processed.add('accession_id')
@@ -2158,7 +2168,7 @@ class ref_citationType(GeneratedsSuper):
             already_processed.add('provenance')
             self.provenance = value
             self.provenance = ' '.join(self.provenance.split())
-            self.validate_source_type(self.provenance)    # validate type source_type
+            self.validate_provenance_type(self.provenance)    # validate type provenance_type
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         pass
 # end class ref_citationType
@@ -2318,8 +2328,8 @@ class authorType(GeneratedsSuper):
         return self.provenance
     def set_provenance(self, provenance):
         self.provenance = provenance
-    def validate_source_type(self, value):
-        # Validate type source_type, a restriction on xsd:token.
+    def validate_provenance_type(self, value):
+        # Validate type provenance_type, a restriction on xsd:token.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
             if not isinstance(value, str):
                 lineno = self.gds_get_node_lineno_()
@@ -2329,7 +2339,7 @@ class authorType(GeneratedsSuper):
             enumerations = ['EMDB', 'UniProt', 'PDBe', 'PDBe-KB', 'AlphaFold DB', 'EMPIAR', 'EuropePMC', 'Complex Portal', 'ChEMBL', 'ChEBI', 'DrugBank', 'PDBe-CCD', 'PubMed', 'PubMed Central', 'ISSN', 'DOI', 'GO', 'InterPro', 'Pfam', 'CATH', 'SCOP', 'SCOP2']
             if value not in enumerations:
                 lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd enumeration restriction on source_type' % {"value" : encode_str_2_3(value), "lineno": lineno} )
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd enumeration restriction on provenance_type' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
     def hasContent_(self):
         if (
@@ -2404,7 +2414,7 @@ class authorType(GeneratedsSuper):
             already_processed.add('provenance')
             self.provenance = value
             self.provenance = ' '.join(self.provenance.split())
-            self.validate_source_type(self.provenance)    # validate type source_type
+            self.validate_provenance_type(self.provenance)    # validate type provenance_type
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         pass
 # end class authorType
@@ -2572,8 +2582,8 @@ class weight_infoType(GeneratedsSuper):
         return self.provenance
     def set_provenance(self, provenance):
         self.provenance = provenance
-    def validate_source_type(self, value):
-        # Validate type source_type, a restriction on xsd:token.
+    def validate_provenance_type(self, value):
+        # Validate type provenance_type, a restriction on xsd:token.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
             if not isinstance(value, str):
                 lineno = self.gds_get_node_lineno_()
@@ -2583,7 +2593,7 @@ class weight_infoType(GeneratedsSuper):
             enumerations = ['EMDB', 'UniProt', 'PDBe', 'PDBe-KB', 'AlphaFold DB', 'EMPIAR', 'EuropePMC', 'Complex Portal', 'ChEMBL', 'ChEBI', 'DrugBank', 'PDBe-CCD', 'PubMed', 'PubMed Central', 'ISSN', 'DOI', 'GO', 'InterPro', 'Pfam', 'CATH', 'SCOP', 'SCOP2']
             if value not in enumerations:
                 lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd enumeration restriction on source_type' % {"value" : encode_str_2_3(value), "lineno": lineno} )
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd enumeration restriction on provenance_type' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
     def hasContent_(self):
         if (
@@ -2665,7 +2675,7 @@ class weight_infoType(GeneratedsSuper):
             already_processed.add('provenance')
             self.provenance = value
             self.provenance = ' '.join(self.provenance.split())
-            self.validate_source_type(self.provenance)    # validate type source_type
+            self.validate_provenance_type(self.provenance)    # validate type provenance_type
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         pass
 # end class weight_infoType
@@ -3095,8 +3105,8 @@ class supramoleculeType(GeneratedsSuper):
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd enumeration restriction on sample_kind' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
-    def validate_source_type(self, value):
-        # Validate type source_type, a restriction on xsd:token.
+    def validate_provenance_type(self, value):
+        # Validate type provenance_type, a restriction on xsd:token.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
             if not isinstance(value, str):
                 lineno = self.gds_get_node_lineno_()
@@ -3106,7 +3116,7 @@ class supramoleculeType(GeneratedsSuper):
             enumerations = ['EMDB', 'UniProt', 'PDBe', 'PDBe-KB', 'AlphaFold DB', 'EMPIAR', 'EuropePMC', 'Complex Portal', 'ChEMBL', 'ChEBI', 'DrugBank', 'PDBe-CCD', 'PubMed', 'PubMed Central', 'ISSN', 'DOI', 'GO', 'InterPro', 'Pfam', 'CATH', 'SCOP', 'SCOP2']
             if value not in enumerations:
                 lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd enumeration restriction on source_type' % {"value" : encode_str_2_3(value), "lineno": lineno} )
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd enumeration restriction on provenance_type' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
     def hasContent_(self):
         if (
@@ -3199,7 +3209,7 @@ class supramoleculeType(GeneratedsSuper):
             already_processed.add('provenance')
             self.provenance = value
             self.provenance = ' '.join(self.provenance.split())
-            self.validate_source_type(self.provenance)    # validate type source_type
+            self.validate_provenance_type(self.provenance)    # validate type provenance_type
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         if nodeName_ == 'name':
             value_ = child_.text
@@ -3505,8 +3515,8 @@ class macromoleculeType(GeneratedsSuper):
                 lineno = self.gds_get_node_lineno_()
                 self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd enumeration restriction on sample_kind' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
-    def validate_source_type(self, value):
-        # Validate type source_type, a restriction on xsd:token.
+    def validate_provenance_type(self, value):
+        # Validate type provenance_type, a restriction on xsd:token.
         if value is not None and Validate_simpletypes_ and self.gds_collector_ is not None:
             if not isinstance(value, str):
                 lineno = self.gds_get_node_lineno_()
@@ -3516,7 +3526,7 @@ class macromoleculeType(GeneratedsSuper):
             enumerations = ['EMDB', 'UniProt', 'PDBe', 'PDBe-KB', 'AlphaFold DB', 'EMPIAR', 'EuropePMC', 'Complex Portal', 'ChEMBL', 'ChEBI', 'DrugBank', 'PDBe-CCD', 'PubMed', 'PubMed Central', 'ISSN', 'DOI', 'GO', 'InterPro', 'Pfam', 'CATH', 'SCOP', 'SCOP2']
             if value not in enumerations:
                 lineno = self.gds_get_node_lineno_()
-                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd enumeration restriction on source_type' % {"value" : encode_str_2_3(value), "lineno": lineno} )
+                self.gds_collector_.add_message('Value "%(value)s"%(lineno)s does not match xsd enumeration restriction on provenance_type' % {"value" : encode_str_2_3(value), "lineno": lineno} )
                 result = False
     def hasContent_(self):
         if (
@@ -3614,7 +3624,7 @@ class macromoleculeType(GeneratedsSuper):
             already_processed.add('provenance')
             self.provenance = value
             self.provenance = ' '.join(self.provenance.split())
-            self.validate_source_type(self.provenance)    # validate type source_type
+            self.validate_provenance_type(self.provenance)    # validate type provenance_type
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False, gds_collector_=None):
         if nodeName_ == 'name':
             value_ = child_.text
@@ -3624,6 +3634,10 @@ class macromoleculeType(GeneratedsSuper):
             self.name_nsprefix_ = child_.prefix
         elif nodeName_ == 'ccd_id':
             value_ = child_.text
+            if value_:
+                value_ = re_.sub(String_cleanup_pat_, " ", value_).strip()
+            else:
+                value_ = ""
             value_ = self.gds_parse_string(value_, node, 'ccd_id')
             value_ = self.gds_validate_string(value_, node, 'ccd_id')
             self.ccd_id = value_

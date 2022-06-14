@@ -1,21 +1,21 @@
 #!/usr/bin/env python
 
 #
-# Generated Fri Jun 10 16:27:32 2022 by generateDS.py version 2.38.6.
+# Generated Tue Jun 14 21:14:10 2022 by generateDS.py version 2.38.6.
 # Python 3.7.6 (default, Dec 30 2019, 19:38:28)  [Clang 11.0.0 (clang-1100.0.33.16)]
 #
 # Command line options:
-#   ('-o', '/Users/amudha/project/git_code/added_annotations/EMICSS/EMICSS.py')
-#   ('-s', '/Users/amudha/project/git_code/added_annotations/EMICSS/EMICSSsub.py')
+#   ('-o', 'EMICSS/EMICSS.py')
+#   ('-s', 'EMICSS/EMICSSsub.py')
 #
 # Command line arguments:
-#   current/emdb_emicss_0.9.3.xsd
+#   ../../emicss-schema/current/emdb_emicss.xsd
 #
 # Command line:
-#   /usr/local/bin/generateDS.py -o "/Users/amudha/project/git_code/added_annotations/EMICSS/EMICSS.py" -s "/Users/amudha/project/git_code/added_annotations/EMICSS/EMICSSsub.py" current/emdb_emicss_0.9.3.xsd
+#   /usr/local/bin/generateDS.py -o "EMICSS/EMICSS.py" -s "EMICSS/EMICSSsub.py" ../../emicss-schema/current/emdb_emicss.xsd
 #
 # Current working directory (os.getcwd()):
-#   emicss-schema
+#   added_annotations
 #
 
 import os
@@ -62,8 +62,8 @@ SaveElementTreeNode = True
 
 
 class emicssSub(supermod.emicss):
-    def __init__(self, emdb_id=None, version='0.9.3', dbs=None, entry_ref_dbs=None, primary_citation=None, weights=None, sample=None, **kwargs_):
-        super(emicssSub, self).__init__(emdb_id, version, dbs, entry_ref_dbs, primary_citation, weights, sample,  **kwargs_)
+    def __init__(self, emdb_id=None, version='0.9.3', schema_location=None, dbs=None, entry_ref_dbs=None, primary_citation=None, weights=None, sample=None, **kwargs_):
+        super(emicssSub, self).__init__(emdb_id, version, schema_location, dbs, entry_ref_dbs, primary_citation, weights, sample,  **kwargs_)
 supermod.emicss.subclass = emicssSub
 # end class emicssSub
 
