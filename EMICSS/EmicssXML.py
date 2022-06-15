@@ -1,12 +1,10 @@
-import os, re
+import os
 from pathlib import Path
 from EMICSS.EMICSS import *
 
 class EmicssXML:
     """
     Writing annotations to output xml file according to the EMDB_EMICSS.xsd schema
-    # TODO: db_source should be a enum field
-    # TODO: weight_info has an attribute named method that seems to be not used anymore
     """
 
     def __init__(self, workDir, version_list):
@@ -18,7 +16,6 @@ class EmicssXML:
         Create and write added annotations to individual EMICSS file for every EMDB entry
         """
         emdb_id = packed_models['HEADER'].emdb_id
-        #TODO: Schema version can not be hard coded here. It must follow the version of the xsd file used to generate pymodels
         headerXML = emicss(emdb_id=emdb_id)
         dbs = dbsType(collection_date=self.version_list['date'])
         entry_ref_dbs = entry_ref_dbsType()
@@ -35,7 +32,7 @@ class EmicssXML:
             if len(empiar_objects) > 0:
                 all_db.add("EMPIAR")
                 for empiar in empiar_objects:
-                    emp_ref_db_obj = entry_ref_dbType(db_source="EMPIAR", accession_id=empiar.empiar_id, provenance="EMDB")
+                    emp_ref_db_obj = entry_ref_dbType(source="EMPIAR", accession_id=empiar.empiar_id, provenance="EMDB")
                     entry_ref_dbs.add_entry_ref_db(emp_ref_db_obj)
         # MW calculated from header
         if "WEIGHT" in packed_models: 
@@ -62,15 +59,15 @@ class EmicssXML:
             primary_citation.set_authors(authors_obj)
             if citation.pmedid:
                 all_db.add("PubMed")
-                pm_citation_obj = ref_citationType(db_source="PUBMED", accession_id=citation.pmedid, provenance=citation.provenance_pm)
+                pm_citation_obj = ref_citationType(source="PubMed", accession_id=citation.pmedid, provenance=citation.provenance_pm)
                 primary_citation.add_ref_citation(pm_citation_obj)
                 if citation.pmcid:
                     all_db.add("PubMed Central")
-                    pmc_citation_obj = ref_citationType(db_source="PUBMED CENTRAL", accession_id=citation.pmcid, provenance=citation.provenance_pmc)
+                    pmc_citation_obj = ref_citationType(source="PubMed Central", accession_id=citation.pmcid, provenance=citation.provenance_pmc)
                     primary_citation.add_ref_citation(pmc_citation_obj)
                 if citation.issn:
                     all_db.add("ISSN")
-                    issn_citation_obj = ref_citationType(db_source="ISSN", accession_id=citation.issn, provenance=citation.provenance_issn)
+                    issn_citation_obj = ref_citationType(source="ISSN", accession_id=citation.issn, provenance=citation.provenance_issn)
                     primary_citation.add_ref_citation(issn_citation_obj)
                 if citation.doi:
                     primary_citation.set_doi(citation.doi)
@@ -83,12 +80,12 @@ class EmicssXML:
                     cross_ref_dbs = cross_ref_dbsType()
                     if protein.uniprot_id:
                         all_db.add("UniProt")
-                        unp_xref_obj = cross_ref_db(db_source="UniProt", accession_id=protein.uniprot_id, provenance=protein.provenance)
+                        unp_xref_obj = cross_ref_db(source="UniProt", accession_id=protein.uniprot_id, provenance=protein.provenance)
                         cross_ref_dbs.add_cross_ref_db(unp_xref_obj)
                     if len(protein.go) > 0:
                         all_db.add("GO")
                         for go in protein.go:
-                            go_xref_obj = cross_ref_db(name=go.namespace, db_source="GO", accession_id=go.id, provenance=go.provenance)
+                            go_xref_obj = cross_ref_db(name=go.namespace, source="GO", accession_id=go.id, provenance=go.provenance)
                             if go.type == "P": go_xref_obj.set_type("biological process")
                             elif go.type == "C": go_xref_obj.set_type("cellular component")
                             elif go.type == "F": go_xref_obj.set_type("molecular function")
@@ -96,59 +93,61 @@ class EmicssXML:
                     if len(protein.interpro) > 0:
                         all_db.add("InterPro")
                         for ipr in protein.interpro:
-                            ipr_xref_obj = cross_ref_db(name=ipr.namespace, db_source="InterPro", accession_id=ipr.id, uniprot_start=ipr.start, uniprot_end=ipr.end, provenance=ipr.provenance)
+                            ipr_xref_obj = cross_ref_db(name=ipr.namespace, source="InterPro", accession_id=ipr.id, uniprot_start=ipr.start, uniprot_end=ipr.end, provenance=ipr.provenance)
                             cross_ref_dbs.add_cross_ref_db(ipr_xref_obj)
                     if len(protein.pfam) > 0:
                         all_db.add("Pfam")
                         for pfam in protein.pfam:
-                            pfam_xref_obj = cross_ref_db(name=pfam.namespace, db_source="Pfam", accession_id=pfam.id, uniprot_start=pfam.start, uniprot_end=pfam.end, provenance=pfam.provenance)
+                            pfam_xref_obj = cross_ref_db(name=pfam.namespace, source="Pfam", accession_id=pfam.id, uniprot_start=pfam.start, uniprot_end=pfam.end, provenance=pfam.provenance)
                             cross_ref_dbs.add_cross_ref_db(pfam_xref_obj)
                     if len(protein.cath) > 0:
                         all_db.add("CATH")
                         for cath in protein.cath:
-                            cath_xref_obj = cross_ref_db(db_source="CATH", accession_id=cath.id, uniprot_start=cath.start, uniprot_end=cath.end, provenance=cath.provenance)
+                            cath_xref_obj = cross_ref_db(source="CATH", accession_id=cath.id, uniprot_start=cath.start, uniprot_end=cath.end, provenance=cath.provenance)
                             cross_ref_dbs.add_cross_ref_db(cath_xref_obj)
                     if len(protein.scop) > 0:
                         all_db.add("SCOP")
                         for scop in protein.scop:
-                            scop_xref_obj = cross_ref_db(db_source="SCOP", accession_id=scop.id, uniprot_start=scop.start, uniprot_end=scop.end, provenance=scop.provenance)
+                            scop_xref_obj = cross_ref_db(source="SCOP", accession_id=scop.id, uniprot_start=scop.start, uniprot_end=scop.end, provenance=scop.provenance)
                             cross_ref_dbs.add_cross_ref_db(scop_xref_obj)
                     if len(protein.scop2) > 0:
                         all_db.add("SCOP2")
                         for scop2 in protein.scop2:
-                            scop2_xref_obj = cross_ref_db(db_source="SCOP2", accession_id=scop2.id, uniprot_start=scop2.start, uniprot_end=scop2.end, provenance=scop2.provenance)
+                            scop2_xref_obj = cross_ref_db(source="SCOP2", accession_id=scop2.id, uniprot_start=scop2.start, uniprot_end=scop2.end, provenance=scop2.provenance)
                             cross_ref_dbs.add_cross_ref_db(scop2_xref_obj)
                     if protein.pdbekb:
                         all_db.add("PDBe-KB")
-                        pdbekb_xref_obj = cross_ref_db(db_source="PDBe-KB", accession_id=protein.pdbekb.unip_id, provenance=protein.pdbekb.provenance)
+                        pdbekb_xref_obj = cross_ref_db(source="PDBe-KB", accession_id=protein.pdbekb.unip_id, provenance=protein.pdbekb.provenance)
                         cross_ref_dbs.add_cross_ref_db(pdbekb_xref_obj)
                     if protein.alphafold:
                         all_db.add("AlphaFold DB")
-                        afdb_xref_obj = cross_ref_db(db_source="AlphaFold DB", accession_id=protein.alphafold.unip_id, provenance=protein.alphafold.provenance)
+                        afdb_xref_obj = cross_ref_db(source="AlphaFold DB", accession_id=protein.alphafold.unip_id, provenance=protein.alphafold.provenance)
                         cross_ref_dbs.add_cross_ref_db(afdb_xref_obj)
-                    macromolecule = macromoleculeType(type_="protein", id=protein.sample_id, copies=protein.sample_copies, 
-                        provenance="EMDB", name=protein.sample_name, cross_ref_dbs=cross_ref_dbs)
-                    macromolecules.add_macromolecule(macromolecule)
+                    if cross_ref_dbs.hasContent_():
+                        macromolecule = macromoleculeType(type_="protein", id=protein.sample_id, copies=protein.sample_copies,
+                            provenance="EMDB", name=protein.sample_name, cross_ref_dbs=cross_ref_dbs)
+                        macromolecules.add_macromolecule(macromolecule)
         if "LIGANDS" in packed_models:
             ligand_obj = packed_models["LIGANDS"]
             if len(ligand_obj) > 0:
                 for ligand in ligand_obj:
                     cross_ref_dbs = cross_ref_dbsType()
                     if ligand.chembl_id:
-                        all_db.add("ChEBML")
-                        chembl_obj = cross_ref_db(db_source="ChEBML", accession_id=ligand.chembl_id, provenance=ligand.provenance_chembl)
+                        all_db.add("ChEMBL")
+                        chembl_obj = cross_ref_db(source="ChEMBL", accession_id=ligand.chembl_id, provenance=ligand.provenance_chembl)
                         cross_ref_dbs.add_cross_ref_db(chembl_obj)
                     if ligand.chebi_id:
                         all_db.add("ChEBI")
-                        chebi_obj = cross_ref_db(db_source="ChEBI", accession_id=ligand.chebi_id, provenance=ligand.provenance_chebi)
+                        chebi_obj = cross_ref_db(source="ChEBI", accession_id=ligand.chebi_id, provenance=ligand.provenance_chebi)
                         cross_ref_dbs.add_cross_ref_db(chebi_obj)
                     if ligand.drugbank_id:
                         all_db.add("DrugBank")
-                        drugbank_obj = cross_ref_db(db_source="DrugBank", accession_id=ligand.drugbank_id, provenance=ligand.provenance_drugbank)
+                        drugbank_obj = cross_ref_db(source="DrugBank", accession_id=ligand.drugbank_id, provenance=ligand.provenance_drugbank)
                         cross_ref_dbs.add_cross_ref_db(drugbank_obj)
-                    macromolecule = macromoleculeType(type_="ligand", id=ligand.sample_id, copies=ligand.lig_copies, 
-                        provenance="EMDB", name=ligand.lig_name, ccd_id=ligand.HET, cross_ref_dbs=cross_ref_dbs)
-                    macromolecules.add_macromolecule(macromolecule)
+                    if cross_ref_dbs.hasContent_():
+                        macromolecule = macromoleculeType(type_="ligand", id=ligand.sample_id, copies=ligand.lig_copies,
+                            provenance="EMDB", name=ligand.lig_name, ccd_id=ligand.HET, cross_ref_dbs=cross_ref_dbs)
+                        macromolecules.add_macromolecule(macromolecule)
         if "COMPLEX" in packed_models:
             complex_objects = packed_models['COMPLEX']
             if len(complex_objects) > 0:
@@ -158,17 +157,18 @@ class EmicssXML:
                         cross_ref_dbs = cross_ref_dbsType()
                         if emdb_complex.cpx_list:
                             for cpx in emdb_complex.cpx_list:
-                                cpx_obj = cross_ref_db(name=cpx.name, db_source="Complex Portal", accession_id=cpx.cpx_id, provenance=emdb_complex.provenance, score=round(emdb_complex.score,2))
+                                cpx_obj = cross_ref_db(name=cpx.name, source="Complex Portal", accession_id=cpx.cpx_id, provenance=emdb_complex.provenance, score=round(emdb_complex.score,2))
                                 cross_ref_dbs.add_cross_ref_db(cpx_obj)
-                            sample_id = emdb_complex.sample_id.split('_')[1]
-                            supramolecule = supramoleculeType(type_="complex", id=sample_id, copies=emdb_complex.sample_copies,
-                                provenance=emdb_complex.provenance, name=emdb_complex.supra_name, cross_ref_dbs=cross_ref_dbs)
-                            supramolecules.add_supramolecule(supramolecule)
+                            if cross_ref_dbs.hasContent_():
+                                sample_id = emdb_complex.sample_id.split('_')[1]
+                                supramolecule = supramoleculeType(type_="complex", id=sample_id, copies=emdb_complex.sample_copies,
+                                    provenance=emdb_complex.provenance, name=emdb_complex.supra_name, cross_ref_dbs=cross_ref_dbs)
+                                supramolecules.add_supramolecule(supramolecule)
 
         for database in all_db:
             if database in self.version_list:
                 version = self.version_list[database]
-                db_ver = dbType(db_source=database, db_version=version)
+                db_ver = dbType(source=database, version=version)
                 dbs.add_db(db_ver)
 
         if all_db:
@@ -188,8 +188,9 @@ class EmicssXML:
 
         output_path = os.path.join(self.workDir, "emicss_xml")
         Path(output_path).mkdir(parents=True, exist_ok=True)
-        xmlFile = os.path.join(output_path, f"emd-{emdb_id[4:]}_emicss.xml")
+        xmlFile = os.path.join(output_path, f"emd_{emdb_id[4:]}_emicss.xml")
         with open(xmlFile, 'w') as f:
             f.write('<?xml version="1.0" encoding="UTF-8"?>\n')
-            headerXML.export(f, 0, name_='emicss', namespacedef_=f'version="{headerXML.schema_version}"')
+            headerXML.export(f, 0, name_='emicss', namespacedef_=f'version="{headerXML.version}" '
+                                                                 f'schema_location="https://github.com/emdb-empiar/emicss-schema/tree/main/versions/emdb_emicss_{headerXML.version}.xsd" ')
 

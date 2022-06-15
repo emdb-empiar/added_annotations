@@ -1,21 +1,21 @@
 #!/usr/bin/env python
 
 #
-# Generated Thu Jun  9 15:52:54 2022 by generateDS.py version 2.38.6.
+# Generated Tue Jun 14 21:14:10 2022 by generateDS.py version 2.38.6.
 # Python 3.7.6 (default, Dec 30 2019, 19:38:28)  [Clang 11.0.0 (clang-1100.0.33.16)]
 #
 # Command line options:
-#   ('-o', '/Users/amudha/project/git_code/added_annotations/EMICSS/EMICSS.py')
-#   ('-s', '/Users/amudha/project/git_code/added_annotations/EMICSS/EMICSSsub.py')
+#   ('-o', 'EMICSS/EMICSS.py')
+#   ('-s', 'EMICSS/EMICSSsub.py')
 #
 # Command line arguments:
-#   EMDB_EMICSS.xsd
+#   ../../emicss-schema/current/emdb_emicss.xsd
 #
 # Command line:
-#   /usr/local/bin/generateDS.py -o "/Users/amudha/project/git_code/added_annotations/EMICSS/EMICSS.py" -s "/Users/amudha/project/git_code/added_annotations/EMICSS/EMICSSsub.py" EMDB_EMICSS.xsd
+#   /usr/local/bin/generateDS.py -o "EMICSS/EMICSS.py" -s "EMICSS/EMICSSsub.py" ../../emicss-schema/current/emdb_emicss.xsd
 #
 # Current working directory (os.getcwd()):
-#   emicss-schema
+#   added_annotations
 #
 
 import os
@@ -62,15 +62,15 @@ SaveElementTreeNode = True
 
 
 class emicssSub(supermod.emicss):
-    def __init__(self, emdb_id=None, schema_version='0.9.2', dbs=None, entry_ref_dbs=None, primary_citation=None, weights=None, sample=None, **kwargs_):
-        super(emicssSub, self).__init__(emdb_id, schema_version, dbs, entry_ref_dbs, primary_citation, weights, sample,  **kwargs_)
+    def __init__(self, emdb_id=None, version='0.9.3', schema_location=None, dbs=None, entry_ref_dbs=None, primary_citation=None, weights=None, sample=None, **kwargs_):
+        super(emicssSub, self).__init__(emdb_id, version, schema_location, dbs, entry_ref_dbs, primary_citation, weights, sample,  **kwargs_)
 supermod.emicss.subclass = emicssSub
 # end class emicssSub
 
 
 class cross_ref_dbSub(supermod.cross_ref_db):
-    def __init__(self, name=None, db_source=None, accession_id=None, uniprot_start=None, uniprot_end=None, type_=None, provenance=None, score=None, **kwargs_):
-        super(cross_ref_dbSub, self).__init__(name, db_source, accession_id, uniprot_start, uniprot_end, type_, provenance, score,  **kwargs_)
+    def __init__(self, name=None, source=None, accession_id=None, uniprot_start=None, uniprot_end=None, type_=None, provenance=None, score=None, **kwargs_):
+        super(cross_ref_dbSub, self).__init__(name, source, accession_id, uniprot_start, uniprot_end, type_, provenance, score,  **kwargs_)
 supermod.cross_ref_db.subclass = cross_ref_dbSub
 # end class cross_ref_dbSub
 
@@ -83,8 +83,8 @@ supermod.dbsType.subclass = dbsTypeSub
 
 
 class dbTypeSub(supermod.dbType):
-    def __init__(self, db_source=None, db_version=None, **kwargs_):
-        super(dbTypeSub, self).__init__(db_source, db_version,  **kwargs_)
+    def __init__(self, source=None, version=None, **kwargs_):
+        super(dbTypeSub, self).__init__(source, version,  **kwargs_)
 supermod.dbType.subclass = dbTypeSub
 # end class dbTypeSub
 
@@ -97,8 +97,8 @@ supermod.entry_ref_dbsType.subclass = entry_ref_dbsTypeSub
 
 
 class entry_ref_dbTypeSub(supermod.entry_ref_dbType):
-    def __init__(self, db_source=None, accession_id=None, provenance=None, **kwargs_):
-        super(entry_ref_dbTypeSub, self).__init__(db_source, accession_id, provenance,  **kwargs_)
+    def __init__(self, source=None, accession_id=None, provenance=None, **kwargs_):
+        super(entry_ref_dbTypeSub, self).__init__(source, accession_id, provenance,  **kwargs_)
 supermod.entry_ref_dbType.subclass = entry_ref_dbTypeSub
 # end class entry_ref_dbTypeSub
 
@@ -111,8 +111,8 @@ supermod.primary_citationType.subclass = primary_citationTypeSub
 
 
 class ref_citationTypeSub(supermod.ref_citationType):
-    def __init__(self, db_source=None, accession_id=None, provenance=None, **kwargs_):
-        super(ref_citationTypeSub, self).__init__(db_source, accession_id, provenance,  **kwargs_)
+    def __init__(self, source=None, accession_id=None, provenance=None, **kwargs_):
+        super(ref_citationTypeSub, self).__init__(source, accession_id, provenance,  **kwargs_)
 supermod.ref_citationType.subclass = ref_citationTypeSub
 # end class ref_citationTypeSub
 
