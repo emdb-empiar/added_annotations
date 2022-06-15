@@ -26,12 +26,12 @@ class ProteinTermsMapping:
         self.alphafold_ids = alphafold_ids
         self.sifts_prefix = sifts_prefix
 
-    def execute(self):
+    def execute(self, uniprot_with_models):
         for protein in self.proteins:
             if protein.uniprot_id:
                 if self.is_pdbekb:
-                    pdbekb = self.getPDBeKb(protein.uniprot_id)
-                    if pdbekb:
+                    if protein.uniprot_id in uniprot_with_models:
+                        pdbekb = Pdbekb(protein.uniprot_id, "UniProt")
                         protein.pdbekb = pdbekb
                 if self.is_AFDB:
                     afdb = self.getAFDB(protein.uniprot_id)
@@ -110,16 +110,7 @@ class ProteinTermsMapping:
                                         protein.scop2.add(scop2)
 
         return self.proteins
-
-
-    def getPDBeKb(self, uniprot_id):
-        if uniprot_id:
-            url = f"https://www.uniprot.org/uniprot/?query=id:{uniprot_id}%20database:(type:pdb)&sort=score&columns=id&format=tab"
-            response = requests.get(url)
-            if response.status_code == 200 and response.content:
-                pdbekb = Pdbekb(uniprot_id, "UniProt")
-                return pdbekb
-        return None
+        
 
     def getAFDB(self, uniprot_id):
         if uniprot_id in self.alphafold_ids:

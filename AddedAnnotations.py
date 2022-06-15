@@ -104,7 +104,7 @@ def run(filename):
         pdbekb_log = start_logger_if_necessary("pdbekb_logger", pdbekb_log_file) if pdbekb else None
         alphafold_log = start_logger_if_necessary("alphafold_logger", alphafold_log_file) if alphafold else None
         PT_mapping = ProteinTermsMapping(unp_mapping.proteins, sifts_path, alphafold_ids, go, interpro, pfam, cath, scop, scop2, pdbekb, alphafold)
-        proteins_map = PT_mapping.execute()
+        proteins_map = PT_mapping.execute(uniprot_with_models)
         PT_mapping.export_tsv(go_log, interpro_log, pfam_log, cath_log, scop_log, scop2_log, pdbekb_log, alphafold_log)
         packed_models["PROTEIN-TERMS"] = proteins_map
     if emicss:
@@ -336,7 +336,7 @@ if __name__ == "__main__":
     if args.download_uniprot:
             download_uniprot(uniprot_tab)
     if uniprot:
-        uniprot_dictionary = generate_unp_dictionary(uniprot_tab)
+        uniprot_dictionary, uniprot_with_models = generate_unp_dictionary(uniprot_tab)
     if empiar:
         empiar_dictionary = generate_emp_dictionary(emdb_empiar_list)
     if component:

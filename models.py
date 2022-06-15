@@ -262,7 +262,10 @@ class GO:
 
         if self.id and not self.namespace:
             url = f"https://www.ebi.ac.uk/QuickGO/services/ontology/go/terms/{self.id}"
-            response = requests.get(url)
+            try:
+                response = requests.get(url, timeout=10)
+            except requests.exceptions.ConnectTimeout:
+                return False
             if response.status_code == 200:
                 res_text = response.text
                 data = json.loads(res_text)
@@ -315,7 +318,10 @@ class Interpro:
 
         if self.id and not self.namespace:
             url = f"https://www.ebi.ac.uk/interpro/api/entry/interpro/{self.id}"
-            response = requests.get(url)
+            try:
+                response = requests.get(url, timeout=10)
+            except requests.exceptions.ConnectTimeout:
+                return False
             if response.status_code == 200:
                 res_text = response.text
                 data = json.loads(res_text)
@@ -362,7 +368,10 @@ class Pfam:
 
         if self.id and not self.namespace:
             url = f"https://pfam.xfam.org/family/{self.id}?output=xml"
-            response = requests.get(url)
+            try:
+                response = requests.get(url, timeout=10)
+            except requests.exceptions.ConnectTimeout:
+                return False
             if response.status_code == 200:
                 res_text = response.text
                 data = json.loads(res_text)
