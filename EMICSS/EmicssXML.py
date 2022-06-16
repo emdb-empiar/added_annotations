@@ -186,7 +186,7 @@ class EmicssXML:
         if sample.hasContent_():
             headerXML.set_sample(sample)
 
-        output_path = os.path.join(self.workDir, "emicss_xml")
+        output_path = os.path.join(self.workDir, "emicss")
         Path(output_path).mkdir(parents=True, exist_ok=True)
         xmlFile = os.path.join(output_path, f"emd_{emdb_id[4:]}_emicss.xml")
         with open(xmlFile, 'w') as f:
