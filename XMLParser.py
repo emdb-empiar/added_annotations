@@ -1,7 +1,6 @@
 import lxml.etree as ET
-from glob import glob
-from models import Protein, Supra, Ligand, Model, Weight, Citation, GO, Sample, Interpro, Pfam
-import os, re
+from models import Protein, Supra, Ligand, Model, Weight, Citation, GO, Sample, Interpro, Pfam, Author
+import re
 
 class XMLParser:
 	"""
@@ -16,7 +15,7 @@ class XMLParser:
 		self.ligands = []
 		self.models = []
 		self.weights = []
-		self.citations = []
+		self.citation = None
 		self.overall_mw = 0.0
 		self.read_xml()
 
@@ -137,7 +136,7 @@ class XMLParser:
 						if qs.find('external_references').attrib['type'] == 'UNIPROTKB':
 							uniprot_id = qs.find('external_references').text
 							protein.uniprot_id = uniprot_id
-							protein.provenance = "AUTHOR"
+							protein.provenance = "EMDB"
 							for t in list(qs.iter('external_references')):
 								if t.attrib['type'] == 'GO':
 									go = GO()
@@ -168,57 +167,8 @@ class XMLParser:
 				if list(root.iter(element)):
 					for x in list(root.iter(element)):
 						weight = Weight(self.emdb_id)
-						weight.provenance = "AUTHOR"
-						if x.find('parent') is not None:
-							par_child = x.find('parent').text
-							weight.type = "parent"
-						else:
-							par_child = None
-						if par_child == "0" or par_child is None:
-							if x.find('molecular_weight') is not None:
-								if x.find('number_of_copies') is not None:
-									num_copies = x.find('number_of_copies').text
-								else:
-									num_copies = 1
-								sup_wei = x.find('molecular_weight')
-								if sup_wei.find('theoretical') is not None:
-									sup_th_wei = float(sup_wei.find('theoretical').text)*float(num_copies)
-									(weight.sup_th_weight).append(sup_th_wei)
-									if 'units' in sup_wei.find('theoretical').attrib:
-										sup_th_unit = sup_wei.find('theoretical').attrib['units']
-										weight.sup_th_unit = sup_th_unit
-								if sup_wei.find('experimental') is not None:
-									sup_exp_wei = float(sup_wei.find('experimental').text)*float(num_copies)
-									(weight.sup_exp_weight).append(sup_exp_wei)
-									if 'units' in sup_wei.find('experimental').attrib:
-										sup_exp_unit = sup_wei.find('experimental').attrib['units']
-										weight.sup_exp_unit = sup_exp_unit
-						if par_child != 0:
-							if not weight.sup_th_weight and not weight.sup_exp_weight:
-								macromolecule_list = ["protein_or_peptide", "ligand", "rna", "dna", "em_label",
-													  "other_macromolecule", "saccharide"]
-								for item in macromolecule_list:
-									if list(root.iter(item)):
-										for x in list(root.iter(item)):
-											if x.find('molecular_weight') is not None:
-												weight.type = "child"
-												if x.find('number_of_copies') is not None:
-													num_copies = x.find('number_of_copies').text
-												else:
-													num_copies = 1
-												mol_wei = x.find('molecular_weight')
-												if mol_wei.find('theoretical') is not None:
-													th_wei = float(mol_wei.find('theoretical').text)*float(num_copies)
-													(weight.macro_th_weight).append(th_wei)
-													if 'units' in mol_wei.find('theoretical').attrib:
-														th_weight_unit = mol_wei.find('theoretical').attrib['units']
-														weight.macro_th_unit = th_weight_unit
-												if mol_wei.find('experimental') is not None:
-													exp_wei = float(mol_wei.find('experimental').text)*float(num_copies)
-													(weight.macro_exp_weight).append(exp_wei)
-													if 'units' in mol_wei.find('experimental').attrib:
-														exp_weight_unit = mol_wei.find('experimental').attrib['units']
-														weight.macro_exp_unit = exp_weight_unit
+						weight.provenance = "EMDB"
+						# t.macro_exp_unit = exp_weight_unit
 						self.weights.append(weight)
 
 			if list(root.iter('ligand')):
@@ -243,15 +193,15 @@ class XMLParser:
 								if ref.attrib['type'] == 'CHEMBL':
 									chembl_id = ref.text
 									ligand.chembl_id = chembl_id
-									ligand.provenance_chembl = "AUTHOR"
+									ligand.provenance_chembl = "EMDB"
 								if ref.attrib['type'] == 'CHEBI':
 									chebi_id = ref.text
 									ligand.chebi_id = chebi_id
-									ligand.provenance_chebi = "AUTHOR"
+									ligand.provenance_chebi = "EMDB"
 								if ref.attrib['type'] == 'DRUGBANK':
 									drugbank_id = ref.text
 									ligand.drugbank_id = drugbank_id
-									ligand.provenance_drugbank = "AUTHOR"
+									ligand.provenance_drugbank = "EMDB"
 							self.ligands.append(ligand)
 
 			if list(root.iter('primary_citation')):
@@ -259,13 +209,10 @@ class XMLParser:
 					citation = Citation(self.emdb_id)
 					pub = y.find('journal_citation')
 					for auth in y.iter('author'):
-						author = auth.text
-						author_order = auth.attrib['order']
-						(citation.authors).append(author)
+						author = Author(auth.text, int(auth.attrib['order']))
 						if 'ORCID' in auth.attrib:
-							orcid_id = auth.attrib['ORCID']
-							(citation.orcid_ids)[author] = orcid_id
-							citation.provenance_orcid = "AUTHOR"
+							author.orcid = auth.attrib['ORCID']
+						citation.authors.append(author)
 					nas = pub.find('title').text
 					title = nas.split('\n\n', 1)[0]
 					citation.title = title
@@ -280,12 +227,15 @@ class XMLParser:
 						if pmedty is not None:
 							if pmedty == 'PUBMED':
 								citation.pmedid = pmedid
+								citation.provenance_pm = "EMDB"
 							if pmedty == 'DOI':
 								doi = pmedid.split(":")[1]
 								citation.doi = doi
+								citation.provenance_doi = "EMDB"
 							if pmedty == 'ISSN':
 								citation.issn = pmedid
-					self.citations.append(citation)
+								citation.provenance_issn = "EMDB"
+					self.citation = citation
 
 			#MW calculation
 			sample_dic = {}

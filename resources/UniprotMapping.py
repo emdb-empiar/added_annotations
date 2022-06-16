@@ -18,15 +18,17 @@ logger.addHandler(file_handler)
 
 def generate_unp_dictionary(uniprot_tab):
 	"""
-	Parse the Uniprot tab file containg all entries with models and resulting in
-	 a dictionary of pdb_id -> [(Uniprot_id, protein_names)]
+	Parse the UniProt tab file containing all entries with models and resulting in
+	a dictionary of pdb_id -> [(Uniprot_id, protein_names)] and set of uniprot_ids
 	"""
 	uniprot = {}
+	uniprot_with_models = set()
 	with open(uniprot_tab, 'r') as fr:
 		next(fr) #Skip header
 		for line in fr:
 			line = line.strip()
 			uniprot_id, pdb_list, protein_names = line.split('\t')
+			uniprot_with_models.add(uniprot_id)
 			pdb_list = pdb_list.split(';')[:-1]
 			for pdb_id in pdb_list:
 				pdb_id = pdb_id.lower()
@@ -34,7 +36,7 @@ def generate_unp_dictionary(uniprot_tab):
 					uniprot[pdb_id].append((uniprot_id, protein_names))
 				else:
 					uniprot[pdb_id] = [(uniprot_id, protein_names)]
-	return uniprot
+	return uniprot, uniprot_with_models
 
 def download_uniprot(uniprot_tab):
 	os.system('wget "https://www.uniprot.org/uniprot/?query=database:(type:pdb)&format=tab&limit=100000&columns=id,'
@@ -60,6 +62,8 @@ class UniprotMapping:
 	def execute(self):
 		for protein in self.proteins:
 			protein = self.worker(protein)
+		# for p in self.proteins:
+		# 	print(p.__dict__)
 		return self.proteins
 
 	def worker(self, protein):
@@ -98,7 +102,7 @@ class UniprotMapping:
 			uniprot_id = self.extract_uniprot_from_blast(qout, protein.sample_organism)
 			if uniprot_id:
 				protein.uniprot_id = uniprot_id
-				protein.provenance = "BLASTP"
+				protein.provenance = "UniProt"
 		return protein
 
 	def extract_uniprot_from_blast(self, fastafile, ncbi_id):
@@ -146,7 +150,7 @@ class UniprotMapping:
 		
 		if best_match and best_score > 80:
 			protein.uniprot_id = best_match
-			protein.provenance = "PDBe + UNIPROT"
+			protein.provenance = "UniProt"
 			return True
 		return False
 

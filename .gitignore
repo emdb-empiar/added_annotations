@@ -6,3 +6,7 @@ venv/
 **.log
 **.ini
 **.pyc
+**.png
+**.jpeg
+**.gif
+**.xsd

@@ -24,7 +24,7 @@ class EMPIARMapping:
         empiars = []
         if self.emdb_id in self.empiar_dictionary:
             for empiar_id in self.empiar_dictionary[self.emdb_id]:
-                self.empiar_logger.info(f"{self.emdb_id}\t{empiar_id}\tAUTHOR")
+                self.empiar_logger.info(f"{self.emdb_id}\t{empiar_id}\tEMDB")
                 empiar = Empiar(self.emdb_id)
                 empiar.emdb_id = self.emdb_id
                 empiar.empiar_id = empiar_id

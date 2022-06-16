@@ -23,8 +23,8 @@ class Protein:
         self.cath = set()
         self.scop = set()
         self.scop2 = set()
-        self.pdbekb = []
-        self.alphafold = []
+        self.pdbekb = None
+        self.alphafold = None
 
     def __str__(self):
         return "%s (%s)\n%s (%s) %s - %s [%s]\nComplexes: %s\nPDB: \n%s\n%s\n%s\n  %s\n%s\n" % (self.sample_name, self.sample_organism,
@@ -172,26 +172,12 @@ class Weight:
     """
     def __init__(self, emdb_id):
         self.emdb_id = emdb_id
+        self.overall_mw = 0.0
+        self.units = ""
         self.provenance = ""
-        self.kind = ""
-        self.type = None
-        self.method = ""
-        self.sup_th_weight = []
-        self.sup_th_unit = ""
-        self.sup_exp_weight = []
-        self.sup_exp_unit = ""
-        self.macro_th_weight = []
-        self.macro_th_unit = ""
-        self.macro_exp_weight = []
-        self.macro_exp_unit = ""
-        self.sample_th_weight = 0.0
-        self.th_unit = ""
-        self.sample_exp_weight = 0.0
-        self.exp_unit = ""
 
     def __str__(self):
-            return ("%s\t%s\t%s\t%s\t%s\t%s\t%s\n" % (self.emdb_id, self.sample_th_weight, self.sample_exp_weight, self.sup_th_weight,
-                                                      self.sup_exp_weight, self.macro_th_weight, self.macro_exp_weight))
+            return ("%s\t%s\t%s\t%s\n" % (self.emdb_id, self.overall_mw, self.units, self.provenance))
 
 class Empiar:
     """
@@ -204,28 +190,45 @@ class Empiar:
     def __str__(self):
         return "%s\t%s\n" % (self.emdb_id, self.empiar_id)
 
+class Author:
+    """
+    Defines the attributes of an author
+    """
+    def __init__(self, name, order, orcid="", provenance="EMDB"):
+        self.name = name
+        self.order = order
+        self.orcid = orcid
+        self.provenance = provenance
+    def __str__(self):
+        return f"{self.name}\t{self.orcid}\t{self.order}\t{self.provenance}"
+
 class Citation:
     """
     Defines the attributes of a publication in a EMDB entry
     """
     def __init__(self, emdb_id):
         self.emdb_id = emdb_id
-        self.pmedid = None
-        self.pmcid = None
-        self.doi = None
-        self.issn = None
+        self.pmedid = ""
+        self.pmcid = ""
+        self.doi = ""
+        self.issn = ""
         self.authors = []
-        self.orcid_ids = {}
         self.status = ""
         self.title = ""
         self.provenance_pm = ""
         self.provenance_pmc = ""
+        self.provenance_issn = ""
         self.provenance_doi = ""
         self.provenance_orcid = ""
         self.url = ""
 
     def __str__(self):
-        return "%s\t%s\t%s\t%s\t%s\n" % (self.emdb_id, self.pmedid, self.pmcid, self.doi, self.issn)
+        return f"{self.emdb_id}\t{self.pmedid}\t{self.provenance_pm}\t{self.pmcid}\t{self.provenance_pmc}\t{self.issn}\t{self.provenance_issn}\t{self.doi}\t{self.provenance_doi}"
+    def addExternalOrcid(self, orcid, order, provenance):
+        for author in self.authors:
+            if author.order == order:
+                author.orcid = orcid
+                author.provenance = provenance
 
 class GO:
     """
@@ -250,7 +253,7 @@ class GO:
         return f"{self.id}\t{self.namespace}\t{self.type}\t{self.provenance}"
 
     def add_from_author(self, go_text, unip_id):
-        self.provenance = "AUTHOR"
+        self.provenance = "EMDB"
         self.unip_id = unip_id
         if "GO:" in go_text:
             self.id = go_text
@@ -259,7 +262,10 @@ class GO:
 
         if self.id and not self.namespace:
             url = f"https://www.ebi.ac.uk/QuickGO/services/ontology/go/terms/{self.id}"
-            response = requests.get(url)
+            try:
+                response = requests.get(url, timeout=10)
+            except requests.exceptions.ConnectTimeout:
+                return False
             if response.status_code == 200:
                 res_text = response.text
                 data = json.loads(res_text)
@@ -305,14 +311,17 @@ class Interpro:
         return f"{self.id}\t{self.namespace}\t{self.provenance}"
 
     def add_from_author(self, ipr_text, unip_id):
-        self.provenance = "AUTHOR"
+        self.provenance = "EMDB"
         self.unip_id = unip_id
         if "IPR" in ipr_text:
             self.id = ipr_text
 
         if self.id and not self.namespace:
             url = f"https://www.ebi.ac.uk/interpro/api/entry/interpro/{self.id}"
-            response = requests.get(url)
+            try:
+                response = requests.get(url, timeout=10)
+            except requests.exceptions.ConnectTimeout:
+                return False
             if response.status_code == 200:
                 res_text = response.text
                 data = json.loads(res_text)
@@ -352,14 +361,17 @@ class Pfam:
         return f"{self.id}\t{self.namespace}\t{self.provenance}"
 
     def add_from_author(self, pfam_text, unip_id):
-        self.provenance = "AUTHOR"
+        self.provenance = "EMDB"
         self.unip_id = unip_id
         if "PF" in pfam_text:
             self.id = pfam_text
 
         if self.id and not self.namespace:
             url = f"https://pfam.xfam.org/family/{self.id}?output=xml"
-            response = requests.get(url)
+            try:
+                response = requests.get(url, timeout=10)
+            except requests.exceptions.ConnectTimeout:
+                return False
             if response.status_code == 200:
                 res_text = response.text
                 data = json.loads(res_text)
@@ -452,23 +464,21 @@ class Pdbekb:
     """
     Define the PDBeKB terms for the sample in the EMDB entry
     """
-    def __init__(self):
-        self.link = ""
-        self.unip_id = ""
-        self.provenance = ""
+    def __init__(self, uniprot_id, provenance):
+        self.unip_id = uniprot_id
+        self.provenance = provenance
 
     def __str__(self):
-        return f"{self.unip_id}\t{self.link}\t{self.provenance}"
+        return f"{self.unip_id}\t{self.provenance}"
 
 class Alphafold:
     """
     Define the Alphafold terms for the sample in the EMDB entry
     """
-    def __init__(self):
-        self.link = ""
-        self.unip_id = ""
-        self.provenance = ""
+    def __init__(self, uniprot_id, provenance):
+        self.unip_id = uniprot_id
+        self.provenance = provenance
 
     def __str__(self):
-        return f"{self.unip_id}\t{self.link}\t{self.provenance}"
+        return f"{self.unip_id}\t{self.provenance}"
 

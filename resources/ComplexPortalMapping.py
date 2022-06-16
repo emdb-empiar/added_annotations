@@ -132,7 +132,7 @@ class CPMapping:
         if max_score >= MIN_SCORE:
             emdb_complex.cpx_list = best_hits
             emdb_complex.score = max_score
-            emdb_complex.provenance = "COMPLEX PORTAL + UNIPROT"
+            emdb_complex.provenance = "Complex Portal"
 
             return emdb_complex
         return None

@@ -1,5 +1,5 @@
 import requests, re, gzip
-from models import GO, Interpro, Pfam, Cath, SCOP, SCOP2
+from models import GO, Interpro, Pfam, Cath, SCOP, SCOP2, Pdbekb, Alphafold
 import lxml.etree as ET
 from Bio import Align
 import copy
@@ -7,12 +7,12 @@ import xmltodict
 
 class ProteinTermsMapping:
     """
-    Extract GO, InterPro and Pfam terms from SIFTS
+    Extract GO, InterPro, Pfam, CATH, SCOP and SCOP2 terms from SIFTS
 
     If sequence + model => Fetch from sifts
     """
 
-    def __init__(self, proteins, sifts_prefix, is_go=True, is_interpro=True, is_pfam=True, is_cath=True, is_scop=True, is_scop2=True):
+    def __init__(self, proteins, sifts_prefix, alphafold_ids, is_go=True, is_interpro=True, is_pfam=True, is_cath=True, is_scop=True, is_scop2=True, is_pdbekb=True, is_AFDB=True):
         self.proteins = proteins
 
         self.is_interpro = is_interpro
@@ -21,95 +21,103 @@ class ProteinTermsMapping:
         self.is_cath = is_cath
         self.is_scop = is_scop
         self.is_scop2 = is_scop2
+        self.is_pdbekb = is_pdbekb
+        self.is_AFDB = is_AFDB
+        self.alphafold_ids = alphafold_ids
         self.sifts_prefix = sifts_prefix
 
-    def execute(self):
+    def execute(self, uniprot_with_models):
         for protein in self.proteins:
-            if protein.sequence and protein.uniprot_id:
-                map_sequence = self.strip_sequence(protein.sequence)
-                if map_sequence:
-                    protein_sequence, go_data, ipr_data, pf_data = self.fetch_uniprot(protein.uniprot_id)
-                    if protein_sequence:
-                        aligned_positions, score = self.align(protein_sequence, map_sequence)
+            if protein.uniprot_id:
+                if self.is_pdbekb:
+                    if protein.uniprot_id in uniprot_with_models:
+                        pdbekb = Pdbekb(protein.uniprot_id, "UniProt")
+                        protein.pdbekb = pdbekb
+                if self.is_AFDB:
+                    afdb = self.getAFDB(protein.uniprot_id)
+                    if afdb:
+                        protein.alphafold = afdb
 
-                        if score > 0.5*min([len(protein_sequence), len(map_sequence)]):
-                            if protein.pdb:
-                                go_matches, ipr_matches, pfam_matches, cath_matches, scop_matches, scop2_matches = self.parse_sifts(protein, aligned_positions)
-                                
-                                ipr_matches = self.remove_duplications(self.uniprot_to_map_positions(ipr_matches, aligned_positions))
-                                pfam_matches = self.remove_duplications(self.uniprot_to_map_positions(pfam_matches, aligned_positions))
-                                cath_matches = self.remove_duplications(self.uniprot_to_map_positions(cath_matches, aligned_positions))
-                                scop_matches = self.remove_duplications(self.uniprot_to_map_positions(scop_matches, aligned_positions))
-                                scop2_matches = self.remove_duplications(self.uniprot_to_map_positions(scop2_matches, aligned_positions))
+                if protein.sequence:
+                    map_sequence = self.strip_sequence(protein.sequence)
+                    if map_sequence:
+                        protein_sequence, go_data, ipr_data, pf_data = self.fetch_uniprot(protein.uniprot_id)
+                        if protein_sequence:
+                            aligned_positions, score = self.align(protein_sequence, map_sequence)
 
-                                for go_id in go_matches:
-                                    if go_id in go_data:
-                                        go = copy.deepcopy(go_data[go_id])
-                                        go.provenance = "PDBe"
-                                        protein.go.add(go)
-                                for ipr_id, start, end, unp_start, unp_end in ipr_matches:
-                                    if ipr_id in ipr_data:
-                                        ipr = copy.deepcopy(ipr_data[ipr_id])
-                                        ipr.provenance = "PDBe"
-                                        ipr.start = start
-                                        ipr.end = end
-                                        ipr.unp_start = unp_start
-                                        ipr.unp_end = unp_end
-                                        protein.interpro.add(ipr)
-                                for pf_id, start, end, unp_start, unp_end in pfam_matches:
-                                    if pf_id in pf_data:
-                                        pfam = copy.deepcopy(pf_data[pf_id])
-                                        pfam.provenance = "PDBe"
-                                        pfam.start = start
-                                        pfam.end = end
-                                        pfam.unp_start = unp_start
-                                        pfam.unp_end = unp_end
-                                        protein.pfam.add(pfam)
-                                for cath_id, start, end, unp_start, unp_end in cath_matches:
-                                    cath = Cath()
-                                    cath.id = cath_id
-                                    cath.start = start
-                                    cath.end = end
-                                    cath.unp_start = unp_start
-                                    cath.unp_end = unp_end
-                                    cath.unip_id = protein.uniprot_id
-                                    cath.provenance = "PDBe"
-                                    protein.cath.add(cath)
-                                for scop_id, start, end, unp_start, unp_end in scop_matches:
-                                    scop = SCOP()
-                                    scop.id = scop_id
-                                    scop.start = start
-                                    scop.end = end
-                                    scop.unp_start = unp_start
-                                    scop.unp_end = unp_end
-                                    scop.unip_id = protein.uniprot_id
-                                    scop.provenance = "PDBe"
-                                    protein.scop.add(scop)
-                                for scop2_id, start, end, unp_start, unp_end in scop2_matches:
-                                    scop2 = SCOP2()
-                                    scop2.id = scop2_id
-                                    scop2.start = start
-                                    scop2.end = end
-                                    scop2.unp_start = unp_start
-                                    scop2.unp_end = unp_end
-                                    scop2.unip_id = protein.uniprot_id
-                                    scop2.provenance = "PDBe"
-                                    protein.scop2.add(scop2)
+                            if score > 0.5*min([len(protein_sequence), len(map_sequence)]):
+                                if protein.pdb:
+                                    go_matches, ipr_matches, pfam_matches, cath_matches, scop_matches, scop2_matches = self.parse_sifts(protein, aligned_positions)
+                                    
+                                    ipr_matches = self.remove_duplications(self.uniprot_to_map_positions(ipr_matches, aligned_positions))
+                                    pfam_matches = self.remove_duplications(self.uniprot_to_map_positions(pfam_matches, aligned_positions))
+                                    cath_matches = self.remove_duplications(self.uniprot_to_map_positions(cath_matches, aligned_positions))
+                                    scop_matches = self.remove_duplications(self.uniprot_to_map_positions(scop_matches, aligned_positions))
+                                    scop2_matches = self.remove_duplications(self.uniprot_to_map_positions(scop2_matches, aligned_positions))
 
-                            # else:
-                            #     pfam_map_matches = self.pfam_api_maponly(protein)
-                            #     pfam_map_matches = self.uniprot_to_map_positions(pfam_map_matches, aligned_positions)
-                            #     for pf_id, start, end, unp_start, unp_end in pfam_map_matches:
-                            #         if pf_id in pf_data:
-                            #             pfam = copy.deepcopy(pf_data[pf_id])
-                            #             pfam.provenance = "PFAM"
-                            #             pfam.start = start
-                            #             pfam.end = end
-                            #             pfam.unp_start = unp_start
-                            #             pfam.unp_end = unp_end
-                            #             protein.pfam.add(pfam)
+                                    for go_id in go_matches:
+                                        if go_id in go_data:
+                                            go = copy.deepcopy(go_data[go_id])
+                                            go.provenance = "PDBe"
+                                            protein.go.add(go)
+                                    for ipr_id, start, end, unp_start, unp_end in ipr_matches:
+                                        if ipr_id in ipr_data:
+                                            ipr = copy.deepcopy(ipr_data[ipr_id])
+                                            ipr.provenance = "PDBe"
+                                            ipr.start = start
+                                            ipr.end = end
+                                            ipr.unp_start = unp_start
+                                            ipr.unp_end = unp_end
+                                            protein.interpro.add(ipr)
+                                    for pf_id, start, end, unp_start, unp_end in pfam_matches:
+                                        if pf_id in pf_data:
+                                            pfam = copy.deepcopy(pf_data[pf_id])
+                                            pfam.provenance = "PDBe"
+                                            pfam.start = start
+                                            pfam.end = end
+                                            pfam.unp_start = unp_start
+                                            pfam.unp_end = unp_end
+                                            protein.pfam.add(pfam)
+                                    for cath_id, start, end, unp_start, unp_end in cath_matches:
+                                        cath = Cath()
+                                        cath.id = cath_id
+                                        cath.start = start
+                                        cath.end = end
+                                        cath.unp_start = unp_start
+                                        cath.unp_end = unp_end
+                                        cath.unip_id = protein.uniprot_id
+                                        cath.provenance = "PDBe"
+                                        protein.cath.add(cath)
+                                    for scop_id, start, end, unp_start, unp_end in scop_matches:
+                                        scop = SCOP()
+                                        scop.id = scop_id
+                                        scop.start = start
+                                        scop.end = end
+                                        scop.unp_start = unp_start
+                                        scop.unp_end = unp_end
+                                        scop.unip_id = protein.uniprot_id
+                                        scop.provenance = "PDBe"
+                                        protein.scop.add(scop)
+                                    for scop2_id, start, end, unp_start, unp_end in scop2_matches:
+                                        scop2 = SCOP2()
+                                        scop2.id = scop2_id
+                                        scop2.start = start
+                                        scop2.end = end
+                                        scop2.unp_start = unp_start
+                                        scop2.unp_end = unp_end
+                                        scop2.unip_id = protein.uniprot_id
+                                        scop2.provenance = "PDBe"
+                                        protein.scop2.add(scop2)
 
         return self.proteins
+        
+
+    def getAFDB(self, uniprot_id):
+        if uniprot_id in self.alphafold_ids:
+            alphafold = Alphafold(uniprot_id, "AlphaFold DB")
+            return alphafold
+        return None
+
 
     def remove_duplications(self, matches):
         refs = {}
@@ -335,7 +343,7 @@ class ProteinTermsMapping:
 
         return sequence, go_data, interpro_data, pfam_data
 
-    def export_tsv(self, go_logger, interpro_logger, pfam_logger, cath_logger, scop_logger, scop2_logger):
+    def export_tsv(self, go_logger, interpro_logger, pfam_logger, cath_logger, scop_logger, scop2_logger, pdbekb_logger, alphafold_logger):
         for protein in self.proteins:
             if self.is_go and protein.go:
                 for go in protein.go:
@@ -366,3 +374,12 @@ class ProteinTermsMapping:
                     row = f"{protein.emdb_id}\t{protein.sample_id}\t{scop2.id}\t{scop2.start}\t{scop2.end}\t{scop2.unp_start}" \
                           f"\t{scop2.unp_end}\t{scop2.provenance}"
                     scop2_logger.info(row)
+            if self.is_pdbekb and protein.pdbekb:
+                row = f"{protein.emdb_id}\t{protein.sample_id}\t{protein.uniprot_id}\tUniProtKB"
+                pdbekb_logger.info(row)
+            if self.is_AFDB and protein.alphafold:
+                row = f"{protein.emdb_id}\t{protein.sample_id}\t{protein.uniprot_id}\tAlphaFold DB"
+                alphafold_logger.info(row)
+
+
+
