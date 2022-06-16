@@ -16,7 +16,7 @@ class EmicssXML:
         Create and write added annotations to individual EMICSS file for every EMDB entry
         """
         emdb_id = packed_models['HEADER'].emdb_id
-        headerXML = emicss(emdb_id=emdb_id)
+        headerXML = emicss()
         dbs = dbsType(collection_date=self.version_list['date'])
         entry_ref_dbs = entry_ref_dbsType()
         weights = weightsType()
@@ -191,6 +191,7 @@ class EmicssXML:
         xmlFile = os.path.join(output_path, f"emd_{emdb_id[4:]}_emicss.xml")
         with open(xmlFile, 'w') as f:
             f.write('<?xml version="1.0" encoding="UTF-8"?>\n')
-            headerXML.export(f, 0, name_='emicss', namespacedef_=f'version="{headerXML.version}" '
+            headerXML.export(f, 0, name_='emicss', namespacedef_=f'emdb_id="{emdb_id}" '
+                                                                 f'version="{headerXML.version}" '
                                                                  f'schema_location="https://github.com/emdb-empiar/emicss-schema/tree/main/versions/emdb_emicss_{headerXML.version}.xsd" ')
 
