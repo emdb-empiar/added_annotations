@@ -238,7 +238,7 @@ if __name__ == "__main__":
         scop2 = True
         pdbekb = True
         alphafold = True
-        emicss = False
+        emicss = True
         db_list.extend(["pdbe", "empiar", "uniprot", "chembl", "chebi", "drugbank", "pubmed", "pubmedcentral", "issn",
                         "orcid", "cpx", "go", "interpro", "pfam", "cath", "scop", "scop2", "pdbekb", "alphafold"])
 
