@@ -27,7 +27,7 @@ def get_afdb_ids(alphafold_ftp):
 def setup_logger(name, log_file, level=logging.INFO, mode='w'):
     """To setup as many loggers as you want"""
 
-    handler = logging.FileHandler(log_file, mode=mode)        
+    handler = logging.FileHandler(log_file, mode=mode)
     handler.setFormatter(formatter)
 
     logger = logging.getLogger(name)
@@ -49,7 +49,7 @@ def run(filename):
     print(f"Running EMD-{id_num}")
     xml_filepath = os.path.join(filename, f"header/emd-{id_num}-v30.xml")
     xml = XMLParser(xml_filepath)
-    packed_models['HEADER'] = xml 
+    packed_models['HEADER'] = xml
     if uniprot:
         uniprot_log = start_logger_if_necessary("uniprot_logger", uniprot_log_file)
         unp_mapping = UniprotMapping(args.workDir, xml.proteins, uniprot_dictionary, blast_db, blastp_bin)
@@ -101,11 +101,12 @@ def run(filename):
         cath_log = start_logger_if_necessary("cath_logger", cath_log_file)  if cath else None
         scop_log = start_logger_if_necessary("scop_logger", scop_log_file) if scop else None
         scop2_log = start_logger_if_necessary("scop2_logger", scop2_log_file) if scop2 else None
+        scop2B_log = start_logger_if_necessary("scop2B_logger", scop2B_log_file) if scop2B else None
         pdbekb_log = start_logger_if_necessary("pdbekb_logger", pdbekb_log_file) if pdbekb else None
         alphafold_log = start_logger_if_necessary("alphafold_logger", alphafold_log_file) if alphafold else None
-        PT_mapping = ProteinTermsMapping(unp_mapping.proteins, sifts_path, alphafold_ids, go, interpro, pfam, cath, scop, scop2, pdbekb, alphafold)
+        PT_mapping = ProteinTermsMapping(unp_mapping.proteins, sifts_path, alphafold_ids, go, interpro, pfam, cath, scop, scop2, scop2B, pdbekb, alphafold)
         proteins_map = PT_mapping.execute(uniprot_with_models)
-        PT_mapping.export_tsv(go_log, interpro_log, pfam_log, cath_log, scop_log, scop2_log, pdbekb_log, alphafold_log)
+        PT_mapping.export_tsv(go_log, interpro_log, pfam_log, cath_log, scop_log, scop2_log, scop2B_log, pdbekb_log, alphafold_log)
         packed_models["PROTEIN-TERMS"] = proteins_map
     if emicss:
         # emicss_input = EmicssInput(packed_models)
@@ -131,7 +132,7 @@ if __name__ == "__main__":
             -f '[{"/path/to/EMDB/header/files/folder"}]'
             -p '[{"/path/to/PDBe/files/folder"}]'
             --download_uniprot --uniprot --CPX --component --model --weight --empiar --pmc --GO --interpro --pfam --pbdekb 
-            --cath --scop --scop2 --alphafold --emicss
+            --cath --scop --scop2 --scop2B --alphafold --emicss
           """
 
     parser = argparse.ArgumentParser(prog=prog, usage=usage, add_help=False,
@@ -157,6 +158,7 @@ if __name__ == "__main__":
     parser.add_argument("--cath", type=bool, nargs='?', const=True, default=False, help="Mapping Cath domains to EMDB entries")
     parser.add_argument("--scop", type=bool, nargs='?', const=True, default=False, help="Mapping SCOP domains to EMDB entries")
     parser.add_argument("--scop2", type=bool, nargs='?', const=True, default=False, help="Mapping SCOP2 domains to EMDB entries")
+    parser.add_argument("--scop2B", type=bool, nargs='?', const=True, default=False, help="Mapping SCOP2B domains to EMDB entries")
     parser.add_argument("--pdbekb", type=bool, nargs='?', const=True, default=False, help="Mapping PDBeKB links to EMDB entries")
     parser.add_argument("--alphafold", type=bool, nargs='?', const=True, default=False, help="Mapping Alphafold links to EMDB entries")
     parser.add_argument("--emicss", type=bool, nargs='?', const=True, default=False, help="writting EMICSS XML file for each EMDB entry")
@@ -179,6 +181,7 @@ if __name__ == "__main__":
     cath = args.cath
     scop = args.scop
     scop2 = args.scop2
+    scop2B = args.scop2B
     pdbekb = args.pdbekb
     alphafold = args.alphafold
     emicss = args.emicss
@@ -215,6 +218,9 @@ if __name__ == "__main__":
     if scop2:
         uniprot = True
         db_list.append("scop2")
+    if scop2B:
+        uniprot = True
+        db_list.append("scop2B")
     if pdbekb:
         uniprot = True
         db_list.append("pdbekb")
@@ -236,11 +242,12 @@ if __name__ == "__main__":
         cath = True
         scop = True
         scop2 = True
+        scop2B = True
         pdbekb = True
         alphafold = True
         emicss = True
         db_list.extend(["pdbe", "empiar", "uniprot", "chembl", "chebi", "drugbank", "pubmed", "pubmedcentral", "issn",
-                        "orcid", "cpx", "go", "interpro", "pfam", "cath", "scop", "scop2", "pdbekb", "alphafold"])
+                        "orcid", "cpx", "go", "interpro", "pfam", "cath", "scop", "scop2", "scop2B", "pdbekb", "alphafold"])
 
     #Get config variables:
     config = configparser.ConfigParser()
@@ -321,6 +328,10 @@ if __name__ == "__main__":
         scop2_log_file = os.path.join(args.workDir, 'emdb_scop2.log')
         scop2_log = setup_logger('scop2_logger', scop2_log_file)
         scop2_log.info("EMDB_ID\tEMDB_SAMPLE_ID\tSCOP2_ID\tSTART\tEND\tUNIPROT_START\tUNIPROT_END\tPROVENANCE")
+    if scop2B:
+        scop2B_log_file = os.path.join(args.workDir, 'emdb_scop2B.log')
+        scop2B_log = setup_logger('scop2B_logger', scop2B_log_file)
+        scop2B_log.info("EMDB_ID\tEMDB_SAMPLE_ID\tSCOP2B_ID\tSTART\tEND\tUNIPROT_START\tUNIPROT_END\tPROVENANCE")
     if pdbekb:
         pdbekb_log_file = os.path.join(args.workDir, 'emdb_pdbekb.log')
         pdbekb_log = setup_logger('pdbekb_logger', pdbekb_log_file)

@@ -23,6 +23,7 @@ class Protein:
         self.cath = set()
         self.scop = set()
         self.scop2 = set()
+        self.scop2B = set()
         self.pdbekb = None
         self.alphafold = None
 
@@ -459,6 +460,34 @@ class SCOP2:
 
     def __str__(self):
         return f"{self.id}\t{self.start}\t{self.end}\t{self.provenance}"
+
+class SCOP2B:
+    """
+    Define the SCOP2B domains for the sample in the EMDB entry
+    """
+    def __init__(self):
+        self.id = ""
+        self.unip_id = ""
+        self.provenance = ""
+        self.start = 0
+        self.end = 0
+        self.unp_start = 0
+        self.unp_end = 0
+
+    def __eq__(self, other):
+        return (isinstance(other, self.__class__) and
+            getattr(other, 'id', None) == self.id and
+            getattr(other, 'start', None) == self.start and
+            getattr(other, 'end', None) == self.end and
+            getattr(other, 'unp_start', None) == self.unp_start and
+            getattr(other, 'unp_end', None) == self.unp_end)
+
+    def __hash__(self):
+        return hash(self.id + self.unip_id + self.provenance + str(self.start) + str(self.end) + str(self.unp_start) + str(self.unp_end))
+
+    def __str__(self):
+        return f"{self.id}\t{self.start}\t{self.end}\t{self.provenance}"
+
 
 class Pdbekb:
     """
