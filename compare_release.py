@@ -30,7 +30,7 @@ resources_2_column = {
 	"PFAM": "pfam",
 	"PUBMED": "pubmed",
 	"SCOP": "scop",
-	"SCOP": "scop2",
+	"SCOP2": "scop2",
 	"UNIPROT": "uniprot"
 }
 
