@@ -81,11 +81,20 @@ class TestUniprotMapping(unittest.TestCase):
             if not self.proteins[n].pdb:
                 self.assertEqual(self.ProteinMap.worker(self.proteins[n]).uniprot_id, uniprot_seq[0])
 
-    def test_extract_uniprot_from_blast(self):
-        fastafile = os.path.join(str(self.workDir) + "/fasta/EMD-22813_1.xml")
+    @mock.patch("builtins.open")
+    def test_extract_uniprot_from_blast(self, open_mock):
+        open_mock.side_effect = [io.StringIO("""\
+        <BlastOutput>
+        <BlastOutput_query-len>651</BlastOutput_query-len>
+        <Hit>
+        <Hit_def>sp|Q12931|TRAP1_HUMAN Heat shock protein 75 kDa, mitochondrial OS=Homo sapiens OX=9606 GN=TRAP1 PE=1 SV=3</Hit_def>
+        <Hit_accession>490430</Hit_accession>
+        <Hit_len>704</Hit_len>
+        </Hit>
+        </BlastOutput>""")]
         ncbi_id = "9606"
         extracted_uniprot = "Q12931"
-        self.assertEqual(resources.UniprotMapping.UniprotMapping.extract_uniprot_from_blast(self, fastafile, ncbi_id), extracted_uniprot)
+        self.assertEqual(resources.UniprotMapping.UniprotMapping.extract_uniprot_from_blast(self, "fastafile", ncbi_id), extracted_uniprot)
 
     def test_blastp(self):
         uni_map = ["P0A7Z4", "UniProt"]
