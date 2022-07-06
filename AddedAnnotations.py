@@ -1,4 +1,4 @@
-import argparse, configparser, os
+import argparse, configparser, os, json
 from pathlib import Path
 import models
 from resources.ComplexPortalMapping import CPMapping
@@ -43,6 +43,19 @@ def start_logger_if_necessary(log_name, log_file):
         fh = logging.FileHandler(log_file, mode='a')
         logger.addHandler(fh)
     return logger
+
+def read_json(input_file, headerDir):
+    entries = set()
+    files = []
+    with open(input_file) as json_file:
+        data = json.load(json_file)
+        if 'mapReleases' in data:
+            if 'entries' in data['mapReleases']:
+                entries.update(data['mapReleases']['entries'])
+    for entry in entries:
+        files.append(os.path.join(headerDir, entry))
+
+    return files
 
 def run(filename):
     id_num = filename.split('-')[1]
@@ -141,6 +154,7 @@ if __name__ == "__main__":
     parser.add_argument('-f', '--headerDir', type=Path, help="Directory path to the EMDB version 3.0 header files.")
     parser.add_argument('-p', '--PDBeDir', type=Path, help="Directory path to the PDBe Complex portal mapping files.")
     parser.add_argument('-t', '--threads', type=int, default=4, help="Number of threads.")
+    parser.add_argument('--json', type=Path, help="Path to release json file.")
     parser.add_argument("--all", type=bool, nargs='?', const=True, default=False, help="Fetch all external resources.")
     parser.add_argument("--download_uniprot", type=bool, nargs='?', const=True, default=False, help="Download uniprot tab file.")
     parser.add_argument("--uniprot", type=bool, nargs='?', const=True, default=False, help="Mapping to Complex Portal.")
@@ -182,6 +196,7 @@ if __name__ == "__main__":
     pdbekb = args.pdbekb
     alphafold = args.alphafold
     emicss = args.emicss
+    input_json = args.json
     uniprot_dictionary = {}
 
     if model:
@@ -346,5 +361,9 @@ if __name__ == "__main__":
     pubmed_dict = generate_pubmed_dictionary(args.workDir) if pmc else {}
     if emicss:
         db_version = get_db_versions(db_list)
+    if input_json:
+        files = read_json(input_json, args.headerDir)
+    else:
+        files = glob(os.path.join(args.headerDir, '*'))
 
-    Parallel(n_jobs=args.threads)(delayed(run)(file) for file in glob(os.path.join(args.headerDir, '*')))
+    Parallel(n_jobs=args.threads)(delayed(run)(file) for file in files)
