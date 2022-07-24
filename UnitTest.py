@@ -7,7 +7,6 @@ from unit_test.test_ComponentsMapping import TestComponentsMapping
 from unit_test.test_StructureMapping import TestStructureMapping
 from unit_test.test_PublicationMapping import TestPublicationMapping
 from unit_test.test_ProteinTermsMapping import TestProteinTermsMapping
-from unit_test.test_EMICSSXML import TestEMICSSXML
 
 if __name__ == "__main__":
     prog = "UnitTest(EMICSS)"
@@ -89,31 +88,28 @@ if __name__ == "__main__":
     blastp_bin = config.get("file_paths", "BLASTP_BIN")
     sifts_path = config.get("file_paths", "sifts")
 
-    # if uniprot:
-    #     test_uniprot = TestUniprotMapping(workDir, blast_db, blastp_bin)
-    #     test_uniprot.test_generate_unp_dictionary()
-    #     test_uniprot.test_worker()
-    #     test_uniprot.test_blastp()
-    #     test_uniprot.test_extract_uniprot_from_blast()
-    # if cpx:
-    #     test_cpx = TestComplexPortalMapping()
-    #     test_cpx.test_worker()
-    # if empiar:
-    #     test_empiar = TestEMPIARMapping()
-    #     test_empiar.test_execute()
-    # if component:
-    #     test_component = TestComponentsMapping()
-    #     test_component.test_worker()
-    # if model:
-    #     test_model = TestStructureMapping()
-    #     test_model.test_worker()
-    # if pmc or orcid:
-    #     test_publication = TestPublicationMapping()
-    #     test_publication.test_generate_pubmed_dictionary()
-    #     test_publication.test_worker()
-    # if go or interpro or pfam or cath or scop or scop2 or scop2B or pdbekb or alphafold:
-    #     test_proteinterms = TestProteinTermsMapping(sifts_path, go, interpro, pfam, cath, scop, scop2, scop2B, pdbekb, alphafold)
-    #     test_proteinterms.test_execute()
-    if xml:
-        test_xml = TestEMICSSXML(workDir)
-        test_xml.test_write()
+    if uniprot:
+        test_uniprot = TestUniprotMapping(workDir, blast_db, blastp_bin)
+        test_uniprot.test_generate_unp_dictionary()
+        test_uniprot.test_worker()
+        test_uniprot.test_blastp()
+        test_uniprot.test_extract_uniprot_from_blast()
+    if cpx:
+        test_cpx = TestComplexPortalMapping()
+        test_cpx.test_worker()
+    if empiar:
+        test_empiar = TestEMPIARMapping()
+        test_empiar.test_execute()
+    if component:
+        test_component = TestComponentsMapping()
+        test_component.test_worker()
+    if model:
+        test_model = TestStructureMapping()
+        test_model.test_worker()
+    if pmc or orcid:
+        test_publication = TestPublicationMapping()
+        test_publication.test_generate_pubmed_dictionary()
+        test_publication.test_worker()
+    if go or interpro or pfam or cath or scop or scop2 or scop2B or pdbekb or alphafold:
+        test_proteinterms = TestProteinTermsMapping(sifts_path, go, interpro, pfam, cath, scop, scop2, scop2B, pdbekb, alphafold)
+        test_proteinterms.test_execute()
