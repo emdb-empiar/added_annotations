@@ -94,7 +94,7 @@ def run(filename):
         pmc_map = pmc_mapping.execute(pubmed_dict)
         pmc_mapping.export_tsv(pubmed_log, orcid_log)
         packed_models["CITATION"] = pmc_map
-    if go or interpro or pfam or cath or pdbekb or alphafold:
+    if go or interpro or pfam or cath or scop or scop2 or scop2B or pdbekb or alphafold:
         go_log = start_logger_if_necessary("go_logger", go_log_file) if go else None
         interpro_log = start_logger_if_necessary("interpro_logger", interpro_log_file)  if interpro else None
         pfam_log = start_logger_if_necessary("pfam_logger", pfam_log_file)  if pfam else None
@@ -109,8 +109,6 @@ def run(filename):
         PT_mapping.export_tsv(go_log, interpro_log, pfam_log, cath_log, scop_log, scop2_log, scop2B_log, pdbekb_log, alphafold_log)
         packed_models["PROTEIN-TERMS"] = proteins_map
     if emicss:
-        # emicss_input = EmicssInput(packed_models)
-        # emicss_annotation = emicss_input.execute()
         write_annotation_xml = EmicssXML(args.workDir, db_version)
         write_annotation_xml.write(packed_models)
 
@@ -121,8 +119,7 @@ List of things to do:
 
 if __name__ == "__main__":
     ######### Command : python /Users/amudha/project/git_code/added_annotations/AddedAnnotations.py
-    # -w /Users/amudha/project/ -f /Users/amudha/project/EMD_XML/ -p /Users/amudha/project/pdbeFiles/ --CPX --model
-    # --component --uniprot --weight --empiar --pmc
+    # -w /Users/amudha/project/ -f /Users/amudha/project/EMD_XML/ --CPX --model --uniprot --weight --empiar --pmc
 
     prog = "EMDBAddedAnnotations"
     usage = """

@@ -1,5 +1,5 @@
 import unittest
-import io, os
+import io
 import resources.UniprotMapping
 from models import Protein
 import mock
@@ -40,8 +40,8 @@ class TestUniprotMapping(unittest.TestCase):
         return prot
 
     @mock.patch("builtins.open")
-    def test_generate_unp_dictionary(self, open_mock):
-        open_mock.return_value = io.StringIO("""\
+    def test_generate_unp_dictionary(self, file_mock):
+        file_mock.return_value = io.StringIO("""\
         uni_id	pdb_id	name
         A0A0J9X294	5AFT;	Dynactin subunit 2
         A0A5S8WF48	6EE9;	Stress-response Peptide-1

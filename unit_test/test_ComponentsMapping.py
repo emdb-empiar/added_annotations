@@ -50,15 +50,15 @@ class TestComponentsMapping(unittest.TestCase):
         return lig
 
     def test_worker(self):
-        self.ligands = [
+        ligands = [
             self.ligand("EMD-8959", "2", "CA", "CALCIUM ION", "4", None, "29108", "DB14577", None, "PDBe-CCD", "PDBe-CCD"),
             self.ligand("EMD-8959", "3", "D12", "DODECANE", "8", "CHEMBL30959", "28817", None, "PDBe-CCD", "PDBe-CCD", None),
             self.ligand("EMD-8959", "4", "D10", "DECANE", "2", "CHEMBL134537", None, None, "PDBe-CCD", None, "PDBe-CCD")]
         chembl_map = {'D12': 'CHEMBL30959', 'D10': 'CHEMBL134537'}
         chebi_map = {'D12': '28817', 'CA': '29108'}
         drugbank_map = {'CA': 'DB14577'}
-        LigandMap = resources.ComponentsMapping.ComponentsMapping(self.ligands)
-        for n in range(len(self.ligands)):
-            self.assertEqual(LigandMap.worker(self.ligands[n], chembl_map, chebi_map, drugbank_map).chembl_id, chembl_map.get(self.ligands[n].HET))
-            self.assertEqual(LigandMap.worker(self.ligands[n], chembl_map, chebi_map, drugbank_map).chebi_id, chebi_map.get(self.ligands[n].HET))
-            self.assertEqual(LigandMap.worker(self.ligands[n], chembl_map, chebi_map, drugbank_map).drugbank_id, drugbank_map.get(self.ligands[n].HET))
+        LigandMap = resources.ComponentsMapping.ComponentsMapping(ligands)
+        for n in range(len(ligands)):
+            self.assertEqual(LigandMap.worker(ligands[n], chembl_map, chebi_map, drugbank_map).chembl_id, chembl_map.get(ligands[n].HET))
+            self.assertEqual(LigandMap.worker(ligands[n], chembl_map, chebi_map, drugbank_map).chebi_id, chebi_map.get(ligands[n].HET))
+            self.assertEqual(LigandMap.worker(ligands[n], chembl_map, chebi_map, drugbank_map).drugbank_id, drugbank_map.get(ligands[n].HET))

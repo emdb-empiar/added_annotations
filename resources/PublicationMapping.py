@@ -45,6 +45,7 @@ class PublicationMapping:
                 if pm['issn']:
                     self.citation.issn = pm['issn']
                     self.citation.provenance_issn = "EuropePMC"
+        return self.citation
 
     def export_tsv(self, pubmed_logger, orcid_logger):
         if self.citation.pmedid or self.citation.doi:
