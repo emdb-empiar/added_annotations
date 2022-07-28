@@ -164,7 +164,6 @@ if __name__ == "__main__":
     parser.add_argument("--weight", type=bool, nargs='?', const=True, default=False, help="Collect sample weight from header file.")
     parser.add_argument("--empiar", type=bool, nargs='?', const=True, default=False, help="Mapping EMPIAR ID to EMDB entries")
     parser.add_argument("--pmc", type=bool, nargs='?', const=True, default=False, help="Mapping publication ID to EMDB entries")
-    parser.add_argument("--orcid", type=bool, nargs='?', const=True, default=False, help="Mapping ORCID ID to Publications in entries ")
     parser.add_argument("--GO", type=bool, nargs='?', const=True, default=False, help="Mapping GO ids to EMDB entries")
     parser.add_argument("--interpro", type=bool, nargs='?', const=True, default=False, help="Mapping InterPro ids to EMDB entries")
     parser.add_argument("--pfam", type=bool, nargs='?', const=True, default=False, help="Mapping pfam ids to EMDB entries")
@@ -186,7 +185,7 @@ if __name__ == "__main__":
     weight = args.weight
     empiar = args.empiar
     pmc = args.pmc
-    orcid = args.orcid
+    orcid = pmc
     go = args.GO
     interpro = args.interpro
     pfam = args.pfam
@@ -307,7 +306,7 @@ if __name__ == "__main__":
     if pmc:
         pubmed_log_file = os.path.join(args.workDir, 'emdb_pubmed.log')
         pubmed_log = setup_logger('pubmed_logger', pubmed_log_file)
-        pubmed_log.info("EMDB_ID\tPUBMED_ID\tPUBMED_PROVENANCE\tPUBMEDCENTRAL_ID\tPUBMEDCENTRAL_PROVENANCE\tISSN\tISSN_PROVENANCE\tDOI\tDOI_PROVENANCE")
+        pubmed_log.info("EMDB_ID\tPUBMED_ID\tPUBMED_PROVENANCE\tPUBMEDCENTRAL_ID\tPUBMEDCENTRAL_PROVENANCE\tISSN\tISSN_PROVENANCE\tDOI\tDOI_PROVENANCE\tJOURNAL_NAME\tJOURNAL_ABBV")
     if orcid:
         orcid_log_file = os.path.join(args.workDir, 'emdb_orcid.log')
         orcid_log = setup_logger('orcid_logger', orcid_log_file)

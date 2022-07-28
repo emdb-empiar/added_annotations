@@ -212,6 +212,8 @@ class Citation:
         self.pmcid = ""
         self.doi = ""
         self.issn = ""
+        self.journal = ""
+        self.journal_abbv = ""
         self.authors = []
         self.status = ""
         self.title = ""
@@ -223,7 +225,7 @@ class Citation:
         self.url = ""
 
     def __str__(self):
-        return f"{self.emdb_id}\t{self.pmedid}\t{self.provenance_pm}\t{self.pmcid}\t{self.provenance_pmc}\t{self.issn}\t{self.provenance_issn}\t{self.doi}\t{self.provenance_doi}"
+        return f"{self.emdb_id}\t{self.pmedid}\t{self.provenance_pm}\t{self.pmcid}\t{self.provenance_pmc}\t{self.issn}\t{self.provenance_issn}\t{self.doi}\t{self.provenance_doi}\t{self.journal}\t{self.journal_abbv}"
     def addExternalOrcid(self, orcid, order, provenance):
         for author in self.authors:
             if author.order == order:
