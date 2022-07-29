@@ -19,7 +19,12 @@ class TestComponentsMapping(unittest.TestCase):
 
     def test_worker(self):
         LigandMap = resources.ComponentsMapping.ComponentsMapping(self.ligands)
+        chembl = ["", "CHEMBL30959", "CHEMBL134537"]
+        chebi = ["29108", "28817", ""]
+        drugbank = ["DB14577", "", ""]
+
         for n in range(len(self.ligands)):
-            self.assertEqual(LigandMap.worker(self.ligands[n], self.chembl_map, self.chebi_map, self.drugbank_map).chembl_id, self.chembl_map.get(self.ligands[n].HET))
-            self.assertEqual(LigandMap.worker(self.ligands[n], self.chembl_map, self.chebi_map, self.drugbank_map).chebi_id, self.chebi_map.get(self.ligands[n].HET))
-            self.assertEqual(LigandMap.worker(self.ligands[n], self.chembl_map, self.chebi_map, self.drugbank_map).drugbank_id, self.drugbank_map.get(self.ligands[n].HET))
+            map = LigandMap.worker(self.ligands[n], self.chembl_map, self.chebi_map, self.drugbank_map)
+            self.assertEqual(map.chembl_id, chembl[n])
+            self.assertEqual(map.chebi_id, chebi[n])
+            self.assertEqual(map.drugbank_id, drugbank[n])
