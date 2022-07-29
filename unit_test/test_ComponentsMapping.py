@@ -1,6 +1,6 @@
 import unittest
 import resources.ComponentsMapping
-from unit_test.setters import set_ligand
+from models import Ligand
 
 class TestComponentsMapping(unittest.TestCase):
     """
@@ -9,9 +9,9 @@ class TestComponentsMapping(unittest.TestCase):
     def setUp(self):
         super(TestComponentsMapping, self).setUp()
         self.ligands = [
-            set_ligand("EMD-8959", "2", "CA", "CALCIUM ION", "4", None, None, None, None, None, None),
-            set_ligand("EMD-8959", "3", "D12", "DODECANE", "8", None, None, None, None, None, None),
-            set_ligand("EMD-8959", "4", "D10", "DECANE", "2", None, None, None, None, None, None)]
+            Ligand("EMD-8959", "2", HET="CA", lig_name="CALCIUM ION", lig_copies="4"),
+            Ligand("EMD-8959", "3", HET="D12", lig_name="DODECANE", lig_copies="8"),
+            Ligand("EMD-8959", "4", HET="D10", lig_name="DECANE", lig_copies="2")]
         self.chembl_map = {'D12': 'CHEMBL30959', 'D10': 'CHEMBL134537'}
         self.chebi_map = {'D12': '28817', 'CA': '29108'}
         self.drugbank_map = {'CA': 'DB14577'}

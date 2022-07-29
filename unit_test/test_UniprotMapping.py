@@ -1,9 +1,8 @@
 import unittest
 import io
 import resources.UniprotMapping
-from unit_test.setters import set_protein
 import mock
-from models import Model
+from models import Model, Protein
 
 class TestUniprotMapping(unittest.TestCase):
     """
@@ -17,12 +16,11 @@ class TestUniprotMapping(unittest.TestCase):
         self.blastp_bin = "/blastp_bin"
         self.uniprot_dict = {'6GFW': [('P0A7Z4', 'DNA-directed RNA polymerase subunit alpha'), ('P0A8T7', 'DNA-directed RNA polymerase subunit beta')]}
         self.proteins = [
-            set_protein("EMD-0001", "1", "DNA-directed RNA polymerase subunit alpha", "83333", [Model('EMD-0001', '6GFW')], ['1', '2'],
-                         None, None, "", "2", "", "", "", "", "", "", "", "", ""),
-            set_protein("EMD-0001", "2", "DNA-directed RNA polymerase subunit beta", "83333", [Model('EMD-0001', '6GFW')], ['1', '2'],
-                         None, None, "", "1", "", "", "", "", "", "", "", "", ""),
-            set_protein("EMD-0001", "4", "DNA-directed RNA polymerase subunit omega", "83333", "", "", None,
-                         None, "", "1", "", "", "", "", "", "", "", "", "")]
+            Protein("EMD-0001", "1", sample_name="DNA-directed RNA polymerase subunit alpha", sample_organism="83333",
+                    pdb=[Model('EMD-0001', '6GFW')], sample_complexes=['1', '2']),
+            Protein("EMD-0001", "2", sample_name="DNA-directed RNA polymerase subunit beta", sample_organism="83333",
+                        pdb=[Model('EMD-0001', '6GFW')], sample_complexes=['1', '2']),
+            Protein("EMD-0001", "4", sample_name="DNA-directed RNA polymerase subunit omega", sample_organism="83333")]
 
     @mock.patch("builtins.open")
     def test_generate_unp_dictionary(self, file_mock):

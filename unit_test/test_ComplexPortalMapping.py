@@ -2,7 +2,7 @@ import unittest
 import resources.ComplexPortalMapping
 from models import CPX
 import mock
-from unit_test.setters import set_protein, set_supra, set_EMDB_comp
+from models import Protein, Model, Supra, EMDB_complex
 
 
 class TestComplexPortalMapping(unittest.TestCase):
@@ -23,32 +23,19 @@ class TestComplexPortalMapping(unittest.TestCase):
                                 CPX(self.row[0]), CPX(self.row[1]), CPX(self.row[2]),
                                 CPX(self.row[0]), CPX(self.row[1]), CPX(self.row[2])]
         self.proteins = [
-            set_protein("EMD-0001", "1", "RNA polymerase-sigma54 holoenzyme", "83333", ['6GFW'], ['1', '2'],
-                         "P0A7Z4", "UNIPROT",
-                         "MQGSVTEFLKPRLVDIEQVSSTHAKVTLEPLERGFGHTLGNALRRILLSSMPGCAVTEVEIDGVLHEYSTKEGVQEDILEILLNLKG"
-                         "LAVRVQGKDEVILTLNKSGIGPVTAADITHDGDVEIVKPQHVICHLTDENASISMRIKVQRGRGYVPASTRIHSEEDERPIGRLLVDA"
-                         "CYSPVERIAYNVEAARVEQRTDLDKLVIEMETNGTIDPEEAIRRAATILAEQLEAFVDLRDVRQPEVKEEKPEFDPILLRPVDDLELT"
-                         "VRSANCLKAEAIHYIGDLVQRTEVELLKTPNLGKKSLTEIKDVLASRGLSLGMRLENWPPASIADE",
-                         "2", "", "", "", "", "", "", "", "", ""),
-            set_protein("EMD-0001", "2", "DNA-directed RNA polymerase", "83333", ['6GFW'], ['1', '2'],
-                         "P0A8T7", "UNIPROT",
-                         "MVYSYTEKKRIRKDFGKRPQVLDVPYLLSIQLDSFQKFIEQDPEGQYGLEAAFRSVFPIQSYSGNSELQYVSYRLGEPVF DVQECQIRGVTYS"
-                         "APLRVKLRLVIYEREAPEGTVKDIKEQEVYMGEIPLMTDNGTFVINGTERVIVSQLHRSPGVFFDSD KGKTHSSGKVLYNARIIPYRGSWLDFE"
-                         "FDPKDNLFVRIDRRRKLPATIILRALNYTTEQILDLFFEKVIFEIRDNKLQME LVPERLRGETASFDIEANGKVYVEKGRRITARHIRQLEKDDV"
-                         "KLIEVPVEYIAGKVVAKDYIDESTGELICAANMELSLD LLAKLSQSGHKRIETLFTNDLDHGPYISETLRVDPTNDRLSALVEIYRMMRPGEPPT",
-                         "1", "", "", "", "", "", "", "", "", ""),
-            set_protein("EMD-0001", "4", "DNA", "83333", "", "" , "P0A7Z4", "UNIPROT",
-                         "MARVTVQDAVEKIGNRFDLVLVAARRARQMQVGGKDPLVPEENDKTTVIALREIEEGLINNQILDVRERQEQQEQEAAEL QAVTAIAEGRR",
-                         "1", "", "", "", "", "", "", "", "", "")]
-        self.supras = [set_supra('EMD-0001', 'supra_1', 'RNA polymerase-sigma54 holoenzyme', 'supra'),
-                  set_supra('EMD-0001', 'supra_2', 'DNA-directed RNA polymerase', 'supra'),
-                  set_supra('EMD-0001', 'supra_4', 'DNA', 'supra')]
-        self.EMDB_complex = [set_EMDB_comp('EMD-0001', 'EMD-0001_1', 'RNA polymerase-sigma54 holoenzyme', '1', '', ['CPX-4881', 'CPX-4883', 'CPX-4885'],
-                                       {'P0A800', 'P0A8T7', 'P0A7Z4'}, 'Complex Portal', ''),
-                        set_EMDB_comp('EMD-0001', 'EMD-0001_2', 'DNA-directed RNA polymerase', '1', '', ['CPX-4881', 'CPX-4883', 'CPX-4885'],
-                                       {'P0A800', 'P0A8T7', 'P0A7Z4'}, 'Complex Portal', ''),
-                        set_EMDB_comp('EMD-0001', 'EMD-0001_4', 'DNA', '1', '',[], {'P0987'}, '', '')]
-
+            Protein("EMD-0001", "1", sample_name="RNA polymerase-sigma54 holoenzyme", sample_organism="83333", pdb=[Model('EMD-0001','6GFW')],
+                    sample_complexes=['1', '2'], uniprot_id="P0A7Z4", provenance="UNIPROT"),
+            Protein("EMD-0001", "2", sample_name="DNA-directed RNA polymerase", sample_organism="83333", pdb=[Model('EMD-0001','6GFW')],
+                    sample_complexes=['1', '2'], uniprot_id="P0A8T7", provenance="UNIPROT"),
+            Protein("EMD-0001", "4", sample_name="DNA", sample_organism="83333", uniprot_id="P0A7Z4", provenance="UNIPROT")]
+        self.supras = [Supra('EMD-0001', 'supra_1', supra_name='RNA polymerase-sigma54 holoenzyme', kind='supra'),
+                  Supra('EMD-0001', 'supra_2', supra_name='DNA-directed RNA polymerase', kind='supra'),
+                  Supra('EMD-0001', 'supra_4', supra_name='DNA', kind='supra')]
+        self.EMDB_complex = [EMDB_complex('EMD-0001', 'EMD-0001_1', 'RNA polymerase-sigma54 holoenzyme', '1', '', cpx_list=['CPX-4881', 'CPX-4883', 'CPX-4885'],
+                                       proteins={'P0A800', 'P0A8T7', 'P0A7Z4'}),
+                        EMDB_complex('EMD-0001', 'EMD-0001_2', 'DNA-directed RNA polymerase', '1', '', cpx_list=['CPX-4881', 'CPX-4883', 'CPX-4885'],
+                                       proteins={'P0A800', 'P0A8T7', 'P0A7Z4'}),
+                        EMDB_complex('EMD-0001', 'EMD-0001_4', 'DNA', '1', '', proteins={'P0987'})]
 
 
     # @patch.object(resources.ComplexPortalMapping.CPX_database, 'cpx_database', return_value='cpx_db')
