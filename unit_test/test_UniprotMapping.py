@@ -17,21 +17,21 @@ class TestUniprotMapping(unittest.TestCase):
         self.uniprot_dict = {'6GFW': [('P0A7Z4', 'DNA-directed RNA polymerase subunit alpha'), ('P0A8T7', 'DNA-directed RNA polymerase subunit beta')]}
         self.proteins = [
             set_protein("EMD-0001", "1", "DNA-directed RNA polymerase subunit alpha", "83333", ['6GFW'], ['1', '2'],
-                         "P0A7Z4", "UNIPROT",
+                         None, None,
                          "MQGSVTEFLKPRLVDIEQVSSTHAKVTLEPLERGFGHTLGNALRRILLSSMPGCAVTEVEIDGVLHEYSTKEGVQEDILEILLNLKG"
                          "LAVRVQGKDEVILTLNKSGIGPVTAADITHDGDVEIVKPQHVICHLTDENASISMRIKVQRGRGYVPASTRIHSEEDERPIGRLLVDA"
                          "CYSPVERIAYNVEAARVEQRTDLDKLVIEMETNGTIDPEEAIRRAATILAEQLEAFVDLRDVRQPEVKEEKPEFDPILLRPVDDLELT"
                          "VRSANCLKAEAIHYIGDLVQRTEVELLKTPNLGKKSLTEIKDVLASRGLSLGMRLENWPPASIADE",
                          "2", "", "", "", "", "", "", "", "", ""),
             set_protein("EMD-0001", "2", "DNA-directed RNA polymerase subunit beta", "83333", ['6GFW'], ['1', '2'],
-                         "P0A8T7", "UNIPROT",
+                         None, None,
                          "MVYSYTEKKRIRKDFGKRPQVLDVPYLLSIQLDSFQKFIEQDPEGQYGLEAAFRSVFPIQSYSGNSELQYVSYRLGEPVF DVQECQIRGVTYS"
                          "APLRVKLRLVIYEREAPEGTVKDIKEQEVYMGEIPLMTDNGTFVINGTERVIVSQLHRSPGVFFDSD KGKTHSSGKVLYNARIIPYRGSWLDFE"
                          "FDPKDNLFVRIDRRRKLPATIILRALNYTTEQILDLFFEKVIFEIRDNKLQME LVPERLRGETASFDIEANGKVYVEKGRRITARHIRQLEKDDV"
                          "KLIEVPVEYIAGKVVAKDYIDESTGELICAANMELSLD LLAKLSQSGHKRIETLFTNDLDHGPYISETLRVDPTNDRLSALVEIYRMMRPGEPPT",
                          "1", "", "", "", "", "", "", "", "", ""),
-            set_protein("EMD-0001", "4", "DNA-directed RNA polymerase subunit omega", "83333", "", "", "P0A800",
-                         "UNIPROT",
+            set_protein("EMD-0001", "4", "DNA-directed RNA polymerase subunit omega", "83333", "", "", None,
+                         None,
                          "MARVTVQDAVEKIGNRFDLVLVAARRARQMQVGGKDPLVPEENDKTTVIALREIEEGLINNQILDVRERQEQQEQEAAEL QAVTAIAEGRR",
                          "1", "", "", "", "", "", "", "", "", "")]
 
@@ -47,6 +47,7 @@ class TestUniprotMapping(unittest.TestCase):
         self.assertEqual(resources.UniprotMapping.generate_unp_dictionary("filename"), (uniprot, uniprot_with_models))
 
     def test_worker(self):
+        #TODO: Test fail
         uniprot_model = {'6GFW': [('P0A7Z4', 'DNA-directed RNA polymerase subunit alpha'), ('P0A8T7', 'DNA-directed RNA polymerase subunit beta')]}
         uniprot_seq = ['P0A800', 'DNA-directed RNA polymerase subunit omega']
         ProteinMap = resources.UniprotMapping.UniprotMapping(self.workDir, self.proteins, self.uniprot_dict, self.blast_db, self.blastp_bin)

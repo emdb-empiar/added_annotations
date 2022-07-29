@@ -1,4 +1,4 @@
-from models import Protein, GO, Interpro, Cath, Pdbekb, Supra, EMDB_complex, Ligand
+from models import Protein, GO, Interpro, Cath, Pdbekb, Supra, EMDB_complex, Ligand, Model
 
 def set_protein(emdb_id, sample_id, sample_name, sample_organism, pdb, sample_complexes, uniprot_id, provenance,
             sequence, sample_copies, go, interpro, pfam, cath, scop, scop2, scop2B, pdbekb, alphafold):
@@ -101,3 +101,11 @@ def set_ligand(emdb_id, sample_id, HET, lig_name, lig_copies, chembl_id, chebi_i
     lig.provenance_chebi = provenance_chebi
     lig.provenance_drugbank = provenance_drugbank
     return lig
+
+def set_model(emdb_id, pdb_id, assembly, molecular_weight):
+    mod = Model(emdb_id, pdb_id)
+    mod.emdb_id = emdb_id
+    mod.pdb_id = pdb_id
+    mod.assembly = assembly
+    mod.molecular_weight = molecular_weight
+    return mod
