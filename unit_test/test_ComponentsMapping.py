@@ -9,9 +9,9 @@ class TestComponentsMapping(unittest.TestCase):
     def setUp(self):
         super(TestComponentsMapping, self).setUp()
         self.ligands = [
-            set_ligand("EMD-8959", "2", "CA", "CALCIUM ION", "4", None, "29108", "DB14577", None, "PDBe-CCD", "PDBe-CCD"),
-            set_ligand("EMD-8959", "3", "D12", "DODECANE", "8", "CHEMBL30959", "28817", None, "PDBe-CCD", "PDBe-CCD", None),
-            set_ligand("EMD-8959", "4", "D10", "DECANE", "2", "CHEMBL134537", None, None, "PDBe-CCD", None, "PDBe-CCD")]
+            set_ligand("EMD-8959", "2", "CA", "CALCIUM ION", "4", None, None, None, None, None, None),
+            set_ligand("EMD-8959", "3", "D12", "DODECANE", "8", None, None, None, None, None, None),
+            set_ligand("EMD-8959", "4", "D10", "DECANE", "2", None, None, None, None, None, None)]
         self.chembl_map = {'D12': 'CHEMBL30959', 'D10': 'CHEMBL134537'}
         self.chebi_map = {'D12': '28817', 'CA': '29108'}
         self.drugbank_map = {'CA': 'DB14577'}
