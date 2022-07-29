@@ -6,11 +6,13 @@ from glob import glob
 import lxml.etree as ET
 
 class PubRef:
-    def __init__(self, pubmed, pmc="", doi="", issn="", ):
+    def __init__(self, pubmed, pmc="", doi="", issn="", journal="", abbv=""):
         self.pubmed = pubmed
         self.doi = doi
         self.issn = issn
         self.pmc = pmc
+        self.journal = journal
+        self.journal_abbreviation = abbv
         self.authors = []
     def __eq__(self, other):
         return (isinstance(other, self.__class__) and
@@ -22,8 +24,8 @@ class PubRef:
         return hash(self.pubmed + self.doi + self.issn + self.pmc) + hash(self.authors)
     def __str__(self):
         if len(self.authors) == 0:
-            return f"{self.pubmed}\t{self.pmc}\t{self.doi}\t{self.issn}"
-        return f"{self.pubmed}\t{self.pmc}\t{self.doi}\t{self.issn}\t" + '\t'.join(self.authors)
+            return f"{self.pubmed}\t{self.pmc}\t{self.doi}\t{self.issn}\t{self.journal}\t{self.journal_abbreviation}"
+        return f"{self.pubmed}\t{self.pmc}\t{self.doi}\t{self.issn}\t{self.journal}\t{self.journal_abbreviation}\t" + '\t'.join(self.authors)
 
 def call_ePubmedCentral(pubmed_list, uri):
     publications = []
@@ -48,10 +50,14 @@ def call_ePubmedCentral(pubmed_list, uri):
                         pmcid = pub_data['pmcid'] if "pmcid" in pub_data else ""
                         doi = pub_data['doi'] if "doi" in pub_data else ""
                         issn = ""
+                        journal_name = ""
+                        abbv = ""
                         if "journalInfo" in pub_data:
                             if "journal" in pub_data['journalInfo']:
                                 issn = pub_data['journalInfo']['journal']['issn'] if 'issn' in pub_data['journalInfo']['journal'] else ""
-                        pub_ref = PubRef(pmid, pmcid, doi, issn)
+                                journal_name = pub_data['journalInfo']['journal']['title'] if 'title' in pub_data['journalInfo']['journal'] else ""
+                                abbv = pub_data['journalInfo']['journal']['medlineAbbreviation'] if 'medlineAbbreviation' in pub_data['journalInfo']['journal'] else ""
+                        pub_ref = PubRef(pmid, pmcid, doi, issn, journal_name, abbv)
                         if "authorList" in pub_data:
                             for author in pub_data['authorList']['author']:
                                 if "authorId" in author:
@@ -118,6 +124,6 @@ if __name__ == "__main__":
 
     #Export results
     with open(os.path.join(workDir, "EPMC_pubmed.tsv"), "w") as fw:
-        fw.write("PMID\tPMC\tDOI\tISSN\t[AUTHORS ORCID]\n")
+        fw.write("PMID\tPMC\tDOI\tISSN\tJOURNAL\tABBREVIATION\t[AUTHORS ORCID]\n")
         for pub in publications:
             fw.write(f"{str(pub)}\n")

@@ -25,7 +25,7 @@ def get_db_versions(db_list):
         url = "http://ftp.ebi.ac.uk/pub/databases/intact/complex/current/"
         try:
             response = requests.get(url, timeout=10)
-        except requests.exceptions.ConnectTimeout:
+        except (requests.exceptions.ConnectTimeout, requests.exceptions.ReadTimeout) as e:
             db_verison_list['Complex Portal'] = None
         else:
             if response.status_code == 200 and response.content:
@@ -36,7 +36,7 @@ def get_db_versions(db_list):
         url = "https://go.drugbank.com/releases/latest"
         try:
             response = requests.get(url, timeout=10)
-        except requests.exceptions.ConnectTimeout:
+        except (requests.exceptions.ConnectTimeout, requests.exceptions.ReadTimeout) as e:
             db_verison_list['DrugBank'] = None
         else:
             if response.status_code == 200 and response.content:
@@ -48,7 +48,7 @@ def get_db_versions(db_list):
         url = "http://pfam.xfam.org/family/Piwi/acc?output=xml"
         try:
             response = requests.get(url, timeout=10)
-        except requests.exceptions.ConnectTimeout:
+        except (requests.exceptions.ConnectTimeout, requests.exceptions.ReadTimeout) as e:
             db_verison_list['Pfam'] = None
         else:
             if response.status_code == 200 and response.content:
@@ -60,7 +60,7 @@ def get_db_versions(db_list):
         url = f"https://www.ebi.ac.uk/interpro/api/"
         try:
             response = requests.get(url, timeout=10)
-        except requests.exceptions.ConnectTimeout:
+        except (requests.exceptions.ConnectTimeout, requests.exceptions.ReadTimeout) as e:
             db_verison_list['InterPro'] = None
         else:
             if response.status_code == 200:
@@ -73,7 +73,7 @@ def get_db_versions(db_list):
         url = "https://www.cathdb.info/"
         try:
             response = requests.get(url, timeout=10)
-        except requests.exceptions.ConnectTimeout:
+        except (requests.exceptions.ConnectTimeout, requests.exceptions.ReadTimeout) as e:
             db_verison_list['CATH'] = None
         else:
             if response.status_code == 200 and response.content:
@@ -89,7 +89,7 @@ def get_db_versions(db_list):
         url = f"https://www.ebi.ac.uk/chembl/api/data/status/"
         try:
             response = requests.get(url, timeout=10)
-        except requests.exceptions.ConnectTimeout:
+        except (requests.exceptions.ConnectTimeout, requests.exceptions.ReadTimeout) as e:
             db_verison_list['ChEMBL'] = None
         else:
             if response.status_code == 200 and response.content:
@@ -103,7 +103,7 @@ def get_db_versions(db_list):
         url = "http://current.geneontology.org/release_stats/go-stats-summary.json"
         try:
             response = requests.get(url, timeout=10)
-        except requests.exceptions.ConnectTimeout:
+        except (requests.exceptions.ConnectTimeout, requests.exceptions.ReadTimeout) as e:
             db_verison_list['GO'] = None
         else:
             if response.status_code == 200 and response.content:
@@ -113,7 +113,7 @@ def get_db_versions(db_list):
         url = "https://ftp.uniprot.org/pub/databases/uniprot/relnotes.txt"
         try:
             response = requests.get(url, timeout=10)
-        except requests.exceptions.ConnectTimeout:
+        except (requests.exceptions.ConnectTimeout, requests.exceptions.ReadTimeout) as e:
             db_verison_list['UniProt'] = None
         else:
             if response.status_code == 200 and response.content:

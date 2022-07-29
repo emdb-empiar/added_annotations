@@ -1,4 +1,4 @@
-import argparse, configparser, os
+import argparse, configparser, os, json
 from pathlib import Path
 import models
 from resources.ComplexPortalMapping import CPMapping
@@ -43,6 +43,19 @@ def start_logger_if_necessary(log_name, log_file):
         fh = logging.FileHandler(log_file, mode='a')
         logger.addHandler(fh)
     return logger
+
+def read_json(input_file, headerDir):
+    entries = set()
+    files = []
+    with open(input_file) as json_file:
+        data = json.load(json_file)
+        if 'mapReleases' in data:
+            if 'entries' in data['mapReleases']:
+                entries.update(data['mapReleases']['entries'])
+    for entry in entries:
+        files.append(os.path.join(headerDir, entry))
+
+    return files
 
 def run(filename):
     id_num = filename.split('-')[1]
@@ -139,6 +152,7 @@ if __name__ == "__main__":
     parser.add_argument('-f', '--headerDir', type=Path, help="Directory path to the EMDB version 3.0 header files.")
     parser.add_argument('-p', '--PDBeDir', type=Path, help="Directory path to the PDBe Complex portal mapping files.")
     parser.add_argument('-t', '--threads', type=int, default=4, help="Number of threads.")
+    parser.add_argument('--json', type=Path, help="Path to release json file.")
     parser.add_argument("--all", type=bool, nargs='?', const=True, default=False, help="Fetch all external resources.")
     parser.add_argument("--download_uniprot", type=bool, nargs='?', const=True, default=False, help="Download uniprot tab file.")
     parser.add_argument("--uniprot", type=bool, nargs='?', const=True, default=False, help="Mapping to Complex Portal.")
@@ -148,7 +162,6 @@ if __name__ == "__main__":
     parser.add_argument("--weight", type=bool, nargs='?', const=True, default=False, help="Collect sample weight from header file.")
     parser.add_argument("--empiar", type=bool, nargs='?', const=True, default=False, help="Mapping EMPIAR ID to EMDB entries")
     parser.add_argument("--pmc", type=bool, nargs='?', const=True, default=False, help="Mapping publication ID to EMDB entries")
-    parser.add_argument("--orcid", type=bool, nargs='?', const=True, default=False, help="Mapping ORCID ID to Publications in entries ")
     parser.add_argument("--GO", type=bool, nargs='?', const=True, default=False, help="Mapping GO ids to EMDB entries")
     parser.add_argument("--interpro", type=bool, nargs='?', const=True, default=False, help="Mapping InterPro ids to EMDB entries")
     parser.add_argument("--pfam", type=bool, nargs='?', const=True, default=False, help="Mapping pfam ids to EMDB entries")
@@ -171,7 +184,7 @@ if __name__ == "__main__":
     weight = args.weight
     empiar = args.empiar
     pmc = args.pmc
-    orcid = args.orcid
+    orcid = pmc
     go = args.GO
     interpro = args.interpro
     pfam = args.pfam
@@ -182,6 +195,7 @@ if __name__ == "__main__":
     pdbekb = args.pdbekb
     alphafold = args.alphafold
     emicss = args.emicss
+    input_json = args.json
     uniprot_dictionary = {}
 
     if model:
@@ -296,7 +310,7 @@ if __name__ == "__main__":
     if pmc:
         pubmed_log_file = os.path.join(args.workDir, 'emdb_pubmed.log')
         pubmed_log = setup_logger('pubmed_logger', pubmed_log_file)
-        pubmed_log.info("EMDB_ID\tPUBMED_ID\tPUBMED_PROVENANCE\tPUBMEDCENTRAL_ID\tPUBMEDCENTRAL_PROVENANCE\tISSN\tISSN_PROVENANCE\tDOI\tDOI_PROVENANCE")
+        pubmed_log.info("EMDB_ID\tPUBMED_ID\tPUBMED_PROVENANCE\tPUBMEDCENTRAL_ID\tPUBMEDCENTRAL_PROVENANCE\tISSN\tISSN_PROVENANCE\tDOI\tDOI_PROVENANCE\tJOURNAL_NAME\tJOURNAL_ABBV")
     if orcid:
         orcid_log_file = os.path.join(args.workDir, 'emdb_orcid.log')
         orcid_log = setup_logger('orcid_logger', orcid_log_file)
@@ -354,5 +368,9 @@ if __name__ == "__main__":
     pubmed_dict = generate_pubmed_dictionary(args.workDir) if pmc else {}
     if emicss:
         db_version = get_db_versions(db_list)
+    if input_json:
+        files = read_json(input_json, args.headerDir)
+    else:
+        files = glob(os.path.join(args.headerDir, '*'))
 
-    Parallel(n_jobs=args.threads)(delayed(run)(file) for file in glob(os.path.join(args.headerDir, '*')))
+    Parallel(n_jobs=args.threads)(delayed(run)(file) for file in files)
