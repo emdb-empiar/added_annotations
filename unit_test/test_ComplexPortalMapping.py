@@ -108,7 +108,4 @@ class TestComplexPortalMapping(unittest.TestCase):
                 self.assertEqual(EM_comp.score, score[n])
                 self.assertEqual(EM_comp.provenance, provenance[n])
             else:
-                if n == 2:
-                    self.assertTrue(True)
-                else:
-                    self.assertTrue(False)
+                self.assertEqual(n, 2)
