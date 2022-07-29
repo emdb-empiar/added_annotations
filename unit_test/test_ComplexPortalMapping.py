@@ -11,6 +11,7 @@ class TestComplexPortalMapping(unittest.TestCase):
     """
 
     def setUp(self):
+        super(TestComplexPortalMapping, self).setUp()
         self.uniprot_side_effect = [['CPX-4881', 'CPX-4883', 'CPX-4885'], ['CPX-4881', 'CPX-4883', 'CPX-4885'], [],
                         ['CPX-4881', 'CPX-4883', 'CPX-4885'], ['CPX-4881', 'CPX-4883', 'CPX-4885'], [],
                         []]
