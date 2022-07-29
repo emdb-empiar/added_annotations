@@ -8,11 +8,11 @@ class TestUniprotMapping(unittest.TestCase):
     """
     UnitTest for Uniprot annotations
     """
-    def __init__(self, workDir, blast_db, blastp_bin):
+    def setUp(self):
         super().__init__()
-        self.workDir = workDir
-        self.blast_db = blast_db
-        self.blastp_bin = blastp_bin
+        self.workDir = "/dummy"
+        self.blast_db = "/blast_db"
+        self.blastp_bin = "/blast_db_bin"
         self.uniprot_dict = {'6GFW': [('P0A7Z4', 'DNA-directed RNA polymerase subunit alpha'), ('P0A8T7', 'DNA-directed RNA polymerase subunit beta')]}
 
     def protein(self, emdb_id, sample_id, sample_name, sample_organism, pdb, sample_complexes, uniprot_id, provenance,
