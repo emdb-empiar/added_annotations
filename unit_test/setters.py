@@ -1,4 +1,4 @@
-from models import Protein, GO, Interpro, Cath, Pdbekb, Supra, EMDB_complex
+from models import Protein, GO, Interpro, Cath, Pdbekb, Supra, EMDB_complex, Ligand
 
 def set_protein(emdb_id, sample_id, sample_name, sample_organism, pdb, sample_complexes, uniprot_id, provenance,
             sequence, sample_copies, go, interpro, pfam, cath, scop, scop2, scop2B, pdbekb, alphafold):
@@ -88,3 +88,16 @@ def set_EMDB_comp(emdb_id, sample_id, supra_name, sample_copies, complex_sample_
     em_cpx.provenance = provenance
     em_cpx.score = score
     return em_cpx
+
+def set_ligand(emdb_id, sample_id, HET, lig_name, lig_copies, chembl_id, chebi_id, drugbank_id, provenance_chembl, provenance_chebi, provenance_drugbank):
+    lig = Ligand(emdb_id, sample_id)
+    lig.HET = HET
+    lig.lig_name = lig_name
+    lig.lig_copies = lig_copies
+    lig.chembl_id = chembl_id
+    lig.chebi_id = chebi_id
+    lig.drugbank_id = drugbank_id
+    lig.provenance_chembl = provenance_chembl
+    lig.provenance_chebi = provenance_chebi
+    lig.provenance_drugbank = provenance_drugbank
+    return lig
