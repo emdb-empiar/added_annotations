@@ -1,9 +1,7 @@
 import unittest
-import io
 import resources.ComplexPortalMapping
 from models import Protein, CPX, EMDB_complex, Supra
 import mock
-from mock import patch
 
 class TestComplexPortalMapping(unittest.TestCase):
     """
@@ -54,7 +52,6 @@ class TestComplexPortalMapping(unittest.TestCase):
         em_cpx.score = score
         return em_cpx
 
-    # @patch.object(resources.ComplexPortalMapping.CPX_database, 'cpx_database', return_value='cpx_db')
     @mock.patch("resources.ComplexPortalMapping.CPX_database.get_from_cpx")
     @mock.patch("resources.ComplexPortalMapping.CPX_database.get_from_uniprot")
     def test_worker(self, uniprot_mock, cpx_mock):
