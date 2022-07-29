@@ -6,19 +6,18 @@ class TestProteinTermsMapping(unittest.TestCase):
     """
     UnitTest for GO, InterPro, Pfam, CATH, SCOP, SCOP2, SCOP2B, pdbekb and alphafold DB
     """
-    def __init__(self, sifts_prefix, is_go=True, is_interpro=True, is_pfam=True, is_cath=True,
-                 is_scop=True, is_scop2=True, is_scop2B=True, is_pdbekb=True, is_AFDB=True):
-        super().__init__()
-        self.sifts_prefix = sifts_prefix
-        self.is_go = is_go
-        self.is_interpro = is_interpro
-        self.is_pfam = is_pfam
-        self.is_cath = is_cath
-        self.is_scop = is_scop
-        self.is_scop2 = is_scop2
-        self.is_scop2B = is_scop2B
-        self.is_pdbekb = is_pdbekb
-        self.is_AFDB = is_AFDB
+    def setUp(self):
+        super(TestProteinTermsMapping, self).setUp()
+        self.sifts_prefix = "/"
+        self.is_go = True
+        self.is_interpro = True
+        self.is_pfam = True
+        self.is_cath = True
+        self.is_scop = True
+        self.is_scop2 = True
+        self.is_scop2B = True
+        self.is_pdbekb = True
+        self.is_AFDB = True
 
     def protein(self, emdb_id, sample_id, sample_name, sample_organism, pdb, sample_complexes, uniprot_id, provenance,
                 sequence, sample_copies, go, interpro, pfam, cath, scop, scop2, scop2B, pdbekb, alphafold):
