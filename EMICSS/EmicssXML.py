@@ -115,6 +115,11 @@ class EmicssXML:
                         for scop2 in protein.scop2:
                             scop2_xref_obj = cross_ref_db(source="SCOP2", accession_id=scop2.id, uniprot_start=scop2.start, uniprot_end=scop2.end, provenance=scop2.provenance)
                             cross_ref_dbs.add_cross_ref_db(scop2_xref_obj)
+                    if len(protein.scop2B) > 0:
+                        all_db.add("SCOP2")
+                        for scop2B in protein.scop2B:
+                            scop2B_xref_obj = cross_ref_db(source="SCOP2B", accession_id=scop2B.id, uniprot_start=scop2B.start, uniprot_end=scop2B.end, provenance=scop2B.provenance)
+                            cross_ref_dbs.add_cross_ref_db(scop2B_xref_obj)
                     if protein.pdbekb:
                         all_db.add("PDBe-KB")
                         pdbekb_xref_obj = cross_ref_db(source="PDBe-KB", accession_id=protein.pdbekb.unip_id, provenance=protein.pdbekb.provenance)
@@ -193,4 +198,3 @@ class EmicssXML:
             f.write('<?xml version="1.0" encoding="UTF-8"?>\n')
             headerXML.export(f, 0, name_='emicss', namespacedef_=f'version="{headerXML.version}" '
                                                                  f'schema_location="https://github.com/emdb-empiar/emicss-schema/tree/main/versions/emdb_emicss_{headerXML.version}.xsd" ')
-

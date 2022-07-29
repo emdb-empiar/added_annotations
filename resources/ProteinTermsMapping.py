@@ -1,18 +1,20 @@
 import requests, re, gzip
-from models import GO, Interpro, Pfam, Cath, SCOP, SCOP2, Pdbekb, Alphafold
+from models import GO, Interpro, Pfam, Cath, SCOP, SCOP2, SCOP2B, Pdbekb, Alphafold
 import lxml.etree as ET
 from Bio import Align
 import copy
 import xmltodict
 
+
 class ProteinTermsMapping:
     """
-    Extract GO, InterPro, Pfam, CATH, SCOP and SCOP2 terms from SIFTS
+    Extract GO, InterPro, Pfam, CATH, SCOP, SCOP2 and SCOP2B terms from SIFTS
 
     If sequence + model => Fetch from sifts
     """
 
-    def __init__(self, proteins, sifts_prefix, alphafold_ids, is_go=True, is_interpro=True, is_pfam=True, is_cath=True, is_scop=True, is_scop2=True, is_pdbekb=True, is_AFDB=True):
+    def __init__(self, proteins, sifts_prefix, alphafold_ids, is_go=True, is_interpro=True, is_pfam=True, is_cath=True,
+                 is_scop=True, is_scop2=True, is_scop2B=True, is_pdbekb=True, is_AFDB=True):
         self.proteins = proteins
 
         self.is_interpro = is_interpro
@@ -21,6 +23,7 @@ class ProteinTermsMapping:
         self.is_cath = is_cath
         self.is_scop = is_scop
         self.is_scop2 = is_scop2
+        self.is_scop2B = is_scop2B
         self.is_pdbekb = is_pdbekb
         self.is_AFDB = is_AFDB
         self.alphafold_ids = alphafold_ids
@@ -45,15 +48,23 @@ class ProteinTermsMapping:
                         if protein_sequence:
                             aligned_positions, score = self.align(protein_sequence, map_sequence)
 
-                            if score > 0.5*min([len(protein_sequence), len(map_sequence)]):
+                            if score > 0.5 * min([len(protein_sequence), len(map_sequence)]):
                                 if protein.pdb:
-                                    go_matches, ipr_matches, pfam_matches, cath_matches, scop_matches, scop2_matches = self.parse_sifts(protein, aligned_positions)
-                                    
-                                    ipr_matches = self.remove_duplications(self.uniprot_to_map_positions(ipr_matches, aligned_positions))
-                                    pfam_matches = self.remove_duplications(self.uniprot_to_map_positions(pfam_matches, aligned_positions))
-                                    cath_matches = self.remove_duplications(self.uniprot_to_map_positions(cath_matches, aligned_positions))
-                                    scop_matches = self.remove_duplications(self.uniprot_to_map_positions(scop_matches, aligned_positions))
-                                    scop2_matches = self.remove_duplications(self.uniprot_to_map_positions(scop2_matches, aligned_positions))
+                                    go_matches, ipr_matches, pfam_matches, cath_matches, scop_matches, scop2_matches, scop2B_matches = self.parse_sifts(
+                                        protein, aligned_positions)
+
+                                    ipr_matches = self.remove_duplications(
+                                        self.uniprot_to_map_positions(ipr_matches, aligned_positions))
+                                    pfam_matches = self.remove_duplications(
+                                        self.uniprot_to_map_positions(pfam_matches, aligned_positions))
+                                    cath_matches = self.remove_duplications(
+                                        self.uniprot_to_map_positions(cath_matches, aligned_positions))
+                                    scop_matches = self.remove_duplications(
+                                        self.uniprot_to_map_positions(scop_matches, aligned_positions))
+                                    scop2_matches = self.remove_duplications(
+                                        self.uniprot_to_map_positions(scop2_matches, aligned_positions))
+                                    scop2B_matches = self.remove_duplications(
+                                        self.uniprot_to_map_positions(scop2B_matches, aligned_positions))
 
                                     for go_id in go_matches:
                                         if go_id in go_data:
@@ -108,16 +119,24 @@ class ProteinTermsMapping:
                                         scop2.unip_id = protein.uniprot_id
                                         scop2.provenance = "PDBe"
                                         protein.scop2.add(scop2)
+                                    for scop2B_id, start, end, unp_start, unp_end in scop2B_matches:
+                                        scop2B = SCOP2B()
+                                        scop2B.id = scop2B_id
+                                        scop2B.start = start
+                                        scop2B.end = end
+                                        scop2B.unp_start = unp_start
+                                        scop2B.unp_end = unp_end
+                                        scop2B.unip_id = protein.uniprot_id
+                                        scop2B.provenance = "PDBe"
+                                        protein.scop2B.add(scop2B)
 
         return self.proteins
-        
 
     def getAFDB(self, uniprot_id):
         if uniprot_id in self.alphafold_ids:
             alphafold = Alphafold(uniprot_id, "AlphaFold DB")
             return alphafold
         return None
-
 
     def remove_duplications(self, matches):
         refs = {}
@@ -135,29 +154,32 @@ class ProteinTermsMapping:
 
         return list(refs.values())
 
-    def extract_uniprot_position(self, db_tag, segment, namespaces={'x': 'http://www.ebi.ac.uk/pdbe/docs/sifts/eFamily.xsd'}):
+    def extract_uniprot_position(self, db_tag, segment,
+                                 namespaces={'x': 'http://www.ebi.ac.uk/pdbe/docs/sifts/eFamily.xsd'}):
         region = db_tag.getparent()
         pdb_start = region.get("start")
         pdb_end = region.get("end")
-        start_tag = segment.xpath(f".//x:residue[@dbResNum='{pdb_start}']/x:crossRefDb[@dbSource='UniProt']/@dbResNum", namespaces=namespaces)
-        end_tag = segment.xpath(f".//x:residue[@dbResNum='{pdb_end}']/x:crossRefDb[@dbSource='UniProt']/@dbResNum", namespaces=namespaces)
+        start_tag = segment.xpath(f".//x:residue[@dbResNum='{pdb_start}']/x:crossRefDb[@dbSource='UniProt']/@dbResNum",
+                                  namespaces=namespaces)
+        end_tag = segment.xpath(f".//x:residue[@dbResNum='{pdb_end}']/x:crossRefDb[@dbSource='UniProt']/@dbResNum",
+                                namespaces=namespaces)
 
         start = int(start_tag[0]) if len(start_tag) > 0 else None
         end = int(end_tag[0]) if len(end_tag) > 0 else None
-        return start,end
+        return start, end
 
     def convert_positions(self, position, positions):
-        last_i = len(positions[0])-1
-        for i, (x,y) in enumerate(positions[0]):
+        last_i = len(positions[0]) - 1
+        for i, (x, y) in enumerate(positions[0]):
             if int(position) < int(x):
                 if i == 0:
                     return positions[1][0][0]
                 else:
-                    return positions[1][i-1][1]
+                    return positions[1][i - 1][1]
             elif int(position) > y and i == last_i:
                 return positions[1][last_i][1]
             elif int(position) <= y:
-                j = int(position)-x
+                j = int(position) - x
                 return positions[1][i][0] + j
 
     def uniprot_to_map_positions(self, dataset, positions):
@@ -167,8 +189,8 @@ class ProteinTermsMapping:
             start = self.convert_positions(unp_start, positions)
             end = self.convert_positions(unp_end, positions)
 
-            #Miniumum 15 amino acids coverage to avoid mapping of bad alignment fragments
-            if start > 0 and end > 0 and end-start > 15:
+            # Miniumum 15 amino acids coverage to avoid mapping of bad alignment fragments
+            if start > 0 and end > 0 and end - start > 15:
                 if start < end:
                     new_dataset.add((ref, start, end, unp_start, unp_end))
         return new_dataset
@@ -182,10 +204,11 @@ class ProteinTermsMapping:
         cath_matches = set()
         scop_matches = set()
         scop2_matches = set()
+        scop2B_matches = set()
         unp_positions = positions[0]
         map_positions = positions[1]
-        unp_begin = unp_positions[0][0]+1
-        unp_end = unp_positions[-1][1]+1
+        unp_begin = unp_positions[0][0] + 1
+        unp_end = unp_positions[-1][1] + 1
 
         for model in models:
             pdb_id = model.pdb_id
@@ -202,49 +225,64 @@ class ProteinTermsMapping:
                         if unp.get("dbAccessionId") == unp_id:
                             if unp_end >= int(unp.get("start")) and unp_begin <= int(unp.get("end")):
                                 if self.is_go:
-                                    go_list = segment.xpath(".//x:mapRegion/x:db[@dbSource='GO']", namespaces=namespaces)
+                                    go_list = segment.xpath(".//x:mapRegion/x:db[@dbSource='GO']",
+                                                            namespaces=namespaces)
                                     for go in go_list:
                                         go_id = go.get("dbAccessionId")
                                         go_matches.add(go_id)
                                 if self.is_interpro:
-                                    interpro_list = segment.xpath(".//x:mapRegion/x:db[@dbSource='InterPro']", namespaces=namespaces)
+                                    interpro_list = segment.xpath(".//x:mapRegion/x:db[@dbSource='InterPro']",
+                                                                  namespaces=namespaces)
                                     for ipr in interpro_list:
                                         ipr_id = ipr.get("dbAccessionId")
                                         start, end = self.extract_uniprot_position(ipr, segment)
                                         if start and end:
                                             ipr_matches.add((ipr_id, start, end))
                                 if self.is_pfam:
-                                    pfam_list = segment.xpath(".//x:mapRegion/x:db[@dbSource='Pfam']", namespaces=namespaces)
+                                    pfam_list = segment.xpath(".//x:mapRegion/x:db[@dbSource='Pfam']",
+                                                              namespaces=namespaces)
                                     for pfam in pfam_list:
                                         pfam_id = pfam.get("dbAccessionId")
                                         start, end = self.extract_uniprot_position(pfam, segment)
                                         if start and end:
                                             pfam_matches.add((pfam_id, start, end))
                                 if self.is_cath:
-                                    cath_list = segment.xpath(".//x:mapRegion/x:db[@dbSource='CATH']", namespaces=namespaces)
+                                    cath_list = segment.xpath(".//x:mapRegion/x:db[@dbSource='CATH']",
+                                                              namespaces=namespaces)
                                     for cath in cath_list:
                                         cath_id = cath.get("dbAccessionId")
                                         start, end = self.extract_uniprot_position(cath, segment)
                                         if start and end:
                                             cath_matches.add((cath_id, start, end))
                                 if self.is_scop:
-                                    scop_list = segment.xpath(".//x:mapRegion/x:db[@dbSource='SCOP']", namespaces=namespaces)
+                                    scop_list = segment.xpath(".//x:mapRegion/x:db[@dbSource='SCOP']",
+                                                              namespaces=namespaces)
                                     for scop in scop_list:
                                         scop_id = scop.get("dbAccessionId")
                                         start, end = self.extract_uniprot_position(scop, segment)
                                         if start and end:
                                             scop_matches.add((scop_id, start, end))
                                 if self.is_scop2:
-                                    scop2_list = segment.xpath(".//x:mapRegion/x:db[@dbSource='SCOP2']", namespaces=namespaces)
+                                    scop2_list = segment.xpath(".//x:mapRegion/x:db[@dbSource='SCOP2']",
+                                                               namespaces=namespaces)
                                     for scop2 in scop2_list:
                                         scop2_id = scop2.get("dbAccessionId")
                                         start, end = self.extract_uniprot_position(scop2, segment)
                                         if start and end:
                                             scop2_matches.add((scop2_id, start, end))
+                                if self.is_scop2B:
+                                    scop2B_list = segment.xpath(".//x:mapRegion/x:db[@dbSource='SCOP2B']",
+                                                                namespaces=namespaces)
+                                    for scop2B in scop2B_list:
+                                        scop2B_id = scop2B.get("dbAccessionId")
+                                        start, end = self.extract_uniprot_position(scop2B, segment)
+                                        if start and end:
+                                            scop2B_matches.add((scop2B_id, start, end))
+
             except (FileNotFoundError, ET.XMLSyntaxError):
                 continue
 
-        return go_matches, ipr_matches, pfam_matches, cath_matches, scop_matches, scop2_matches
+        return go_matches, ipr_matches, pfam_matches, cath_matches, scop_matches, scop2_matches, scop2B_matches
 
     def pfam_api_maponly(self, protein):
         """
@@ -281,7 +319,7 @@ class ProteinTermsMapping:
 
     def align(self, target, query):
         """
-        Align the map sequence and target full protein sequence to return 
+        Align the map sequence and target full protein sequence to return
         mapped positions (indexes: beggining with 0).
         i.e. (((2, 13), (38, 46)), ((0, 11), (11, 19)))
         """
@@ -292,8 +330,8 @@ class ProteinTermsMapping:
         try:
             optimal = next(alignments)
         except StopIteration:
-            return (None,None), 0
-        
+            return (None, None), 0
+
         return optimal.aligned, optimal.score
 
     def fetch_uniprot(self, uid):
@@ -343,7 +381,8 @@ class ProteinTermsMapping:
 
         return sequence, go_data, interpro_data, pfam_data
 
-    def export_tsv(self, go_logger, interpro_logger, pfam_logger, cath_logger, scop_logger, scop2_logger, pdbekb_logger, alphafold_logger):
+    def export_tsv(self, go_logger, interpro_logger, pfam_logger, cath_logger, scop_logger, scop2_logger, scop2B_logger,
+                   pdbekb_logger, alphafold_logger):
         for protein in self.proteins:
             if self.is_go and protein.go:
                 for go in protein.go:
@@ -374,12 +413,14 @@ class ProteinTermsMapping:
                     row = f"{protein.emdb_id}\t{protein.sample_id}\t{scop2.id}\t{scop2.start}\t{scop2.end}\t{scop2.unp_start}" \
                           f"\t{scop2.unp_end}\t{scop2.provenance}"
                     scop2_logger.info(row)
+            if self.is_scop2B and protein.scop2B:
+                for scop2B in protein.scop2B:
+                    row = f"{protein.emdb_id}\t{protein.sample_id}\t{scop2B.id}\t{scop2B.start}\t{scop2B.end}\t{scop2B.unp_start}" \
+                          f"\t{scop2B.unp_end}\t{scop2B.provenance}"
+                    scop2B_logger.info(row)
             if self.is_pdbekb and protein.pdbekb:
                 row = f"{protein.emdb_id}\t{protein.sample_id}\t{protein.uniprot_id}\tUniProtKB"
                 pdbekb_logger.info(row)
             if self.is_AFDB and protein.alphafold:
                 row = f"{protein.emdb_id}\t{protein.sample_id}\t{protein.uniprot_id}\tAlphaFold DB"
                 alphafold_logger.info(row)
-
-
-
