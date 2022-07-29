@@ -36,8 +36,6 @@ class TestUniprotMapping(unittest.TestCase):
         self.assertEqual(resources.UniprotMapping.generate_unp_dictionary("filename"), (uniprot, uniprot_with_models))
 
     def test_worker(self):
-        uniprot_model = {'6GFW': [('P0A7Z4', 'DNA-directed RNA polymerase subunit alpha'), ('P0A8T7', 'DNA-directed RNA polymerase subunit beta')]}
-        uniprot_seq = ['P0A800', 'DNA-directed RNA polymerase subunit omega']
         ProteinMap = resources.UniprotMapping.UniprotMapping(self.workDir, self.proteins, self.uniprot_dict, self.blast_db, self.blastp_bin)
 
         self.assertEqual(ProteinMap.worker(self.proteins[0]).uniprot_id, "P0A7Z4")
