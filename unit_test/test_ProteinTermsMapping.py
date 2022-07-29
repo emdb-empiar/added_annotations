@@ -11,21 +11,9 @@ class TestProteinTermsMapping(unittest.TestCase):
     def setUp(self):
         super(TestProteinTermsMapping, self).setUp()
         self.sifts_prefix = "/"
-        self.is_go = True
-        self.is_interpro = True
-        self.is_pfam = True
-        self.is_cath = True
-        self.is_scop = True
-        self.is_scop2 = True
-        self.is_scop2B = True
-        self.is_pdbekb = True
-        self.is_AFDB = True
-
-
-    def test_execute(self):
-        model = Model("EMD-0001", '6GFW')
-        proteins = [
-            set_protein("EMD-0001", "1", "DNA-directed RNA polymerase subunit alpha", "83333", [model], ['1', '2'],
+        self.model = Model("EMD-0001", '6GFW')
+        self.proteins = [
+            set_protein("EMD-0001", "1", "DNA-directed RNA polymerase subunit alpha", "83333", [self.model], ['1', '2'],
                          "P0A7Z4", "UNIPROT",
                          "MQGSVTEFLKPRLVDIEQVSSTHAKVTLEPLERGFGHTLGNALRRILLSSMPGCAVTEVEIDGVLHEYSTKEGVQEDILEILLNLKG"
                          "LAVRVQGKDEVILTLNKSGIGPVTAADITHDGDVEIVKPQHVICHLTDENASISMRIKVQRGRGYVPASTRIHSEEDERPIGRLLVDA"
@@ -43,7 +31,7 @@ class TestProteinTermsMapping(unittest.TestCase):
                          [set_csss('SF-DOMID:8035907', 'P0A7Z4', 'PDBe', '4', '232', '4', '232')],
                          [set_csss('SF-DOMID:8042964', 'P0A7Z4', 'PDBe', '250', '321', '250', '321')],
                          set_kbalpha('P0A7Z4', 'UniProt'), set_kbalpha('P0A7Z4', 'AlphaFold DB')),
-            set_protein("EMD-0001", "4", "DNA-directed RNA polymerase subunit omega", "83333", [model], "", "P0A800",
+            set_protein("EMD-0001", "4", "DNA-directed RNA polymerase subunit omega", "83333", [self.model], "", "P0A800",
                          "UNIPROT",
                          "MARVTVQDAVEKIGNRFDLVLVAARRARQMQVGGKDPLVPEENDKTTVIALREIEEGLINNQILDVRERQEQQEQEAAEL QAVTAIAEGRR",
                          "1", [set_go('GO:0030880', 'RNA polymerase complex', 'cellular component', 'P0A800', 'PDBe'),
@@ -52,45 +40,45 @@ class TestProteinTermsMapping(unittest.TestCase):
                          [set_ipro('PF01192', 'RNA_pol_Rpb6', 'P0A800', 'PDBe', '8', '60', '8', '60')],
                          [set_csss('3.90.940.10', 'P0A800', 'PDBe', '1', '75', '1', '75')], "", "", "",
                          set_kbalpha('P0A800', 'UniProt'), set_kbalpha('P0A800', 'AlphaFold DB'))]
-        uniprot_model = {'6GFW': [('P0A7Z4', 'DNA-directed RNA polymerase subunit alpha'),
-                                  ('P0A800', 'DNA-directed RNA polymerase subunit omega')]}
-        alphafold_ids = {'Q54TQ2', 'O07175', 'K7KVD5', 'Q9W1U1', 'P0A7Z4', 'P0A800'}
+        self.uniprot_model = {'6GFW': [('P0A7Z4', 'DNA-directed RNA polymerase subunit alpha'),('P0A800', 'DNA-directed RNA polymerase subunit omega')]}
+        self.alphafold_ids = {'Q54TQ2', 'O07175', 'K7KVD5', 'Q9W1U1', 'P0A7Z4', 'P0A800'}
 
-        ProteinMap = resources.ProteinTermsMapping.ProteinTermsMapping(proteins, self.sifts_prefix, alphafold_ids,
-                                                                            self.is_go, self.is_interpro, self.is_pfam, self.is_cath, self.is_scop,
-                                                                            self.is_scop2, self.is_scop2B, self.is_pdbekb, self.is_AFDB)
 
-        self.assertEqual(len(proteins), 2)
-        for n in range(len(proteins)):
-            PT = ProteinMap.execute(uniprot_model)
-            lg = len(proteins[n].go)
+    def test_execute(self):
+        ProteinMap = resources.ProteinTermsMapping.ProteinTermsMapping(self.proteins, self.sifts_prefix, self.alphafold_ids,
+                                                                            True, True, True, True, True, True, True, True, True)
+
+        self.assertEqual(len(self.proteins), 2)
+        for n in range(len(self.proteins)):
+            PT = ProteinMap.execute(self.uniprot_model)
+            lg = len(self.proteins[n].go)
             self.assertGreater(lg, 0)
             for x in range(lg):
-                self.assertEqual(PT[n].go[x], proteins[n].go[x])
-            li = len(proteins[n].interpro)
+                self.assertEqual(PT[n].go[x], self.proteins[n].go[x])
+            li = len(self.proteins[n].interpro)
             self.assertGreater(li, 0)
             for x in range(li):
-                self.assertEqual(PT[n].interpro[x], proteins[n].interpro[x])
-            lp = len(proteins[n].pfam)
+                self.assertEqual(PT[n].interpro[x], self.proteins[n].interpro[x])
+            lp = len(self.proteins[n].pfam)
             self.assertGreater(lp, 0)
             for x in range(lp):
-                self.assertEqual(PT[n].pfam[x], proteins[n].pfam[x])
-            lc = len(proteins[n].cath)
+                self.assertEqual(PT[n].pfam[x], self.proteins[n].pfam[x])
+            lc = len(self.proteins[n].cath)
             self.assertGreater(lc, 0)
             for x in range(lc):
-                self.assertEqual(PT[n].cath[x], proteins[n].cath[x])
-            ls = len(proteins[n].scop)
+                self.assertEqual(PT[n].cath[x], self.proteins[n].cath[x])
+            ls = len(self.proteins[n].scop)
 
             for x in range(ls):
-                self.assertEqual(PT[n].scop[x], proteins[n].scop[x])
-            ls2 = len(proteins[n].scop2)
+                self.assertEqual(PT[n].scop[x], self.proteins[n].scop[x])
+            ls2 = len(self.proteins[n].scop2)
 
             for x in range(ls2):
-                self.assertEqual(PT[n].scop2[x], proteins[n].scop2[x])
-            ls2b = len(proteins[n].scop2B)
+                self.assertEqual(PT[n].scop2[x], self.proteins[n].scop2[x])
+            ls2b = len(self.proteins[n].scop2B)
 
             for x in range(ls2b):
-                self.assertEqual(PT[n].scop2B[x], proteins[n].scop2B[x])
-            self.assertEqual(PT[n].pdbekb, proteins[n].pdbekb)
-            self.assertEqual(PT[n].alphafold, proteins[n].alphafold)
+                self.assertEqual(PT[n].scop2B[x], self.proteins[n].scop2B[x])
+            self.assertEqual(PT[n].pdbekb, self.proteins[n].pdbekb)
+            self.assertEqual(PT[n].alphafold, self.proteins[n].alphafold)
 
