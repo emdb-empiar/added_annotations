@@ -73,11 +73,11 @@ class Sample:
     """
     Unique sample along its parents and childrens
     """
-    def __init__(self, sample_id, mw=None, copies=1, parent=[], children=[]):
+    def __init__(self, sample_id, mw=None, copies=1):
         self.id = sample_id
         self.mw = mw
-        self.parent = parent
-        self.children = children
+        self.parent = []
+        self.children = []
         self.copies = copies
 
     def add_parent(self, node):
