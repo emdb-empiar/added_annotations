@@ -194,7 +194,7 @@ if __name__ == "__main__":
     scop2B = args.scop2B
     pdbekb = args.pdbekb
     alphafold = args.alphafold
-    emicss = args.emicss
+    emicss = False # args.emicss Temporary false
     input_json = args.json
     uniprot_dictionary = {}
 
@@ -256,7 +256,7 @@ if __name__ == "__main__":
         scop2B = True
         pdbekb = True
         alphafold = True
-        emicss = True
+        emicss = False # TODO: Temporary
         db_list.extend(["pdbe", "empiar", "uniprot", "chembl", "chebi", "drugbank", "pubmed", "pubmedcentral", "issn",
                         "orcid", "cpx", "go", "interpro", "pfam", "cath", "scop", "scop2", "scop2B", "pdbekb", "alphafold"])
 
