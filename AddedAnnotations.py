@@ -16,13 +16,6 @@ import logging
 from joblib import Parallel, delayed
 formatter = logging.Formatter('%(message)s')
 
-def get_afdb_ids(alphafold_ftp):
-    alphafold_ids = set()
-    with open(alphafold_ftp) as f:
-        for line in f:
-            id = line.split(',')[0]
-            alphafold_ids.add(id)
-    return alphafold_ids
 
 def setup_logger(name, log_file, level=logging.INFO, mode='w'):
     """To setup as many loggers as you want"""
@@ -117,6 +110,7 @@ def run(filename):
         scop2B_log = start_logger_if_necessary("scop2B_logger", scop2B_log_file) if scop2B else None
         pdbekb_log = start_logger_if_necessary("pdbekb_logger", pdbekb_log_file) if pdbekb else None
         alphafold_log = start_logger_if_necessary("alphafold_logger", alphafold_log_file) if alphafold else None
+        alphafold_ids = set() # Todo: Remove this variable
         PT_mapping = ProteinTermsMapping(unp_mapping.proteins, sifts_path, alphafold_ids, go, interpro, pfam, cath, scop, scop2, scop2B, pdbekb, alphafold)
         proteins_map = PT_mapping.execute(uniprot_with_models)
         PT_mapping.export_tsv(go_log, interpro_log, pfam_log, cath_log, scop_log, scop2_log, scop2B_log, pdbekb_log, alphafold_log)
@@ -363,8 +357,6 @@ if __name__ == "__main__":
         empiar_dictionary = generate_emp_dictionary(emdb_empiar_list)
     if component:
         chembl_map, chebi_map, drugbank_map = parseCCD(components_cif)
-    if alphafold:
-        alphafold_ids = get_afdb_ids(alphafold_ftp)
     pubmed_dict = generate_pubmed_dictionary(args.workDir) if pmc else {}
     if emicss:
         db_version = get_db_versions(db_list)
