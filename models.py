@@ -6,26 +6,26 @@ class Protein:
     """
     Defines the attributes of a protein sample in a EMDB entry
     """
-    def __init__(self, emdb_id, sample_id, sample_name="", sample_organism=None, pdb=[], sample_complexes=[], uniprot_id=None,
-                 provenance=None, sequence="", sample_copies="", go=set(), interpro=set(), pfam=set(), cath=set(), scop=set(),
-                 scop2=set(), scop2B=set(), pdbekb=None, alphafold=None):
+    def __init__(self, emdb_id, sample_id, sample_name="", sample_organism=None, pdb=None, sample_complexes=None, uniprot_id=None,
+                 provenance=None, sequence="", sample_copies="", go=None, interpro=None, pfam=None, cath=None, scop=None,
+                 scop2=None, scop2B=None, pdbekb=None, alphafold=None):
         self.emdb_id = emdb_id
         self.sample_id = sample_id
         self.sample_name = sample_name
         self.sample_organism = sample_organism
-        self.pdb = pdb
-        self.sample_complexes = sample_complexes
+        self.pdb = [] if pdb is None else pdb
+        self.sample_complexes = [] if sample_complexes is None else sample_complexes
         self.uniprot_id = uniprot_id
         self.provenance = provenance
         self.sequence = sequence
         self.sample_copies = sample_copies
-        self.go = go
-        self.interpro = interpro
-        self.pfam = pfam
-        self.cath = cath
-        self.scop = scop
-        self.scop2 = scop2
-        self.scop2B = scop2B
+        self.go = set() if go is None else go
+        self.interpro = set() if interpro is None else interpro
+        self.pfam = set() if pfam is None else pfam
+        self.cath = set() if cath is None else cath
+        self.scop = set() if scop is None else scop
+        self.scop2 = set() if scop2 is None else scop2
+        self.scop2B = set() if scop2B is None else scop2B
         self.pdbekb = pdbekb
         self.alphafold = alphafold
 
@@ -107,15 +107,15 @@ class EMDB_complex:
     EMDB complex sample obtained from the header files in the Uniprot mapping
     """
 
-    def __init__(self, emdb_id, sample_id, supra_name, sample_copies, complex_sample_id, cpx_list=[], proteins=set(),
+    def __init__(self, emdb_id, sample_id, supra_name, sample_copies, complex_sample_id, cpx_list=None, proteins=None,
                  provenance="", score=0.0):
         self.emdb_id = emdb_id
         self.sample_id = emdb_id+"_"+sample_id
         self.supra_name = supra_name
         self.sample_copies = sample_copies
         self.complex_sample_id = complex_sample_id
-        self.cpx_list = cpx_list
-        self.proteins = proteins
+        self.cpx_list = [] if cpx_list is None else cpx_list
+        self.proteins = [] if proteins is None else proteins
         self.provenance = provenance
         self.score = score
 
@@ -211,7 +211,7 @@ class Citation:
     """
     Defines the attributes of a publication in a EMDB entry
     """
-    def __init__(self, emdb_id, pmedid="", pmcid="", doi="", issn="", journal="", journal_abbv="", authors=[], status="",
+    def __init__(self, emdb_id, pmedid="", pmcid="", doi="", issn="", journal="", journal_abbv="", authors=None, status="",
                  title="", provenance_pm="", provenance_pmc="", provenance_issn="", provenance_doi="", provenance_orcid="",
                  url=""):
         self.emdb_id = emdb_id
@@ -221,7 +221,7 @@ class Citation:
         self.issn = issn
         self.journal = journal
         self.journal_abbv = journal_abbv
-        self.authors = authors
+        self.authors = [] if authors is None else authors
         self.status = status
         self.title = title
         self.provenance_pm = provenance_pm
