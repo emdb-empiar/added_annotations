@@ -1,5 +1,5 @@
 import requests, re, gzip
-from models import GO, Interpro, Pfam, Cath, SCOP, SCOP2, SCOP2B, Pdbekb, Alphafold
+from models import GO, Interpro, Pfam, Cath, SCOP, SCOP2, SCOP2B, Pdbekb
 import lxml.etree as ET
 from Bio import Align
 import copy
@@ -13,8 +13,8 @@ class ProteinTermsMapping:
     If sequence + model => Fetch from sifts
     """
 
-    def __init__(self, proteins, sifts_prefix, alphafold_ids, is_go=True, is_interpro=True, is_pfam=True, is_cath=True,
-                 is_scop=True, is_scop2=True, is_scop2B=True, is_pdbekb=True, is_AFDB=True):
+    def __init__(self, proteins, sifts_prefix, is_go=True, is_interpro=True, is_pfam=True, is_cath=True,
+                 is_scop=True, is_scop2=True, is_scop2B=True, is_pdbekb=True):
         self.proteins = proteins
 
         self.is_interpro = is_interpro
@@ -25,8 +25,6 @@ class ProteinTermsMapping:
         self.is_scop2 = is_scop2
         self.is_scop2B = is_scop2B
         self.is_pdbekb = is_pdbekb
-        self.is_AFDB = is_AFDB
-        self.alphafold_ids = alphafold_ids
         self.sifts_prefix = sifts_prefix
 
     def execute(self, uniprot_with_models):
@@ -36,10 +34,6 @@ class ProteinTermsMapping:
                     if protein.uniprot_id in uniprot_with_models:
                         pdbekb = Pdbekb(protein.uniprot_id, "UniProt")
                         protein.pdbekb = pdbekb
-                if self.is_AFDB:
-                    afdb = self.getAFDB(protein.uniprot_id)
-                    if afdb:
-                        protein.alphafold = afdb
 
                 if protein.sequence:
                     map_sequence = self.strip_sequence(protein.sequence)
@@ -132,11 +126,6 @@ class ProteinTermsMapping:
 
         return self.proteins
 
-    def getAFDB(self, uniprot_id):
-        if uniprot_id in self.alphafold_ids:
-            alphafold = Alphafold(uniprot_id, "AlphaFold DB")
-            return alphafold
-        return None
 
     def remove_duplications(self, matches):
         refs = {}
@@ -382,7 +371,7 @@ class ProteinTermsMapping:
         return sequence, go_data, interpro_data, pfam_data
 
     def export_tsv(self, go_logger, interpro_logger, pfam_logger, cath_logger, scop_logger, scop2_logger, scop2B_logger,
-                   pdbekb_logger, alphafold_logger):
+                   pdbekb_logger):
         for protein in self.proteins:
             if self.is_go and protein.go:
                 for go in protein.go:
@@ -421,6 +410,3 @@ class ProteinTermsMapping:
             if self.is_pdbekb and protein.pdbekb:
                 row = f"{protein.emdb_id}\t{protein.sample_id}\t{protein.uniprot_id}\tUniProtKB"
                 pdbekb_logger.info(row)
-            if self.is_AFDB and protein.alphafold:
-                row = f"{protein.emdb_id}\t{protein.sample_id}\t{protein.uniprot_id}\tAlphaFold DB"
-                alphafold_logger.info(row)

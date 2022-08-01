@@ -16,13 +16,6 @@ import logging
 from joblib import Parallel, delayed
 formatter = logging.Formatter('%(message)s')
 
-def get_afdb_ids(alphafold_ftp):
-    alphafold_ids = set()
-    with open(alphafold_ftp) as f:
-        for line in f:
-            id = line.split(',')[0]
-            alphafold_ids.add(id)
-    return alphafold_ids
 
 def setup_logger(name, log_file, level=logging.INFO, mode='w'):
     """To setup as many loggers as you want"""
@@ -107,7 +100,7 @@ def run(filename):
         pmc_map = pmc_mapping.execute(pubmed_dict)
         pmc_mapping.export_tsv(pubmed_log, orcid_log)
         packed_models["CITATION"] = pmc_map
-    if go or interpro or pfam or cath or scop or scop2 or scop2B or pdbekb or alphafold:
+    if go or interpro or pfam or cath or scop or scop2 or scop2B or pdbekb:
         go_log = start_logger_if_necessary("go_logger", go_log_file) if go else None
         interpro_log = start_logger_if_necessary("interpro_logger", interpro_log_file)  if interpro else None
         pfam_log = start_logger_if_necessary("pfam_logger", pfam_log_file)  if pfam else None
@@ -116,10 +109,9 @@ def run(filename):
         scop2_log = start_logger_if_necessary("scop2_logger", scop2_log_file) if scop2 else None
         scop2B_log = start_logger_if_necessary("scop2B_logger", scop2B_log_file) if scop2B else None
         pdbekb_log = start_logger_if_necessary("pdbekb_logger", pdbekb_log_file) if pdbekb else None
-        alphafold_log = start_logger_if_necessary("alphafold_logger", alphafold_log_file) if alphafold else None
-        PT_mapping = ProteinTermsMapping(unp_mapping.proteins, sifts_path, alphafold_ids, go, interpro, pfam, cath, scop, scop2, scop2B, pdbekb, alphafold)
+        PT_mapping = ProteinTermsMapping(unp_mapping.proteins, sifts_path, go, interpro, pfam, cath, scop, scop2, scop2B, pdbekb)
         proteins_map = PT_mapping.execute(uniprot_with_models)
-        PT_mapping.export_tsv(go_log, interpro_log, pfam_log, cath_log, scop_log, scop2_log, scop2B_log, pdbekb_log, alphafold_log)
+        PT_mapping.export_tsv(go_log, interpro_log, pfam_log, cath_log, scop_log, scop2_log, scop2B_log, pdbekb_log)
         packed_models["PROTEIN-TERMS"] = proteins_map
     if emicss:
         write_annotation_xml = EmicssXML(args.workDir, db_version)
@@ -142,7 +134,7 @@ if __name__ == "__main__":
             -f '[{"/path/to/EMDB/header/files/folder"}]'
             -p '[{"/path/to/PDBe/files/folder"}]'
             --download_uniprot --uniprot --CPX --component --model --weight --empiar --pmc --GO --interpro --pfam --pbdekb 
-            --cath --scop --scop2 --scop2B --alphafold --emicss
+            --cath --scop --scop2 --scop2B --emicss
           """
 
     parser = argparse.ArgumentParser(prog=prog, usage=usage, add_help=False,
@@ -170,7 +162,6 @@ if __name__ == "__main__":
     parser.add_argument("--scop2", type=bool, nargs='?', const=True, default=False, help="Mapping SCOP2 domains to EMDB entries")
     parser.add_argument("--scop2B", type=bool, nargs='?', const=True, default=False, help="Mapping SCOP2B domains to EMDB entries")
     parser.add_argument("--pdbekb", type=bool, nargs='?', const=True, default=False, help="Mapping PDBeKB links to EMDB entries")
-    parser.add_argument("--alphafold", type=bool, nargs='?', const=True, default=False, help="Mapping Alphafold links to EMDB entries")
     parser.add_argument("--emicss", type=bool, nargs='?', const=True, default=False, help="writting EMICSS XML file for each EMDB entry")
     args = parser.parse_args()
 
@@ -193,7 +184,6 @@ if __name__ == "__main__":
     scop2 = args.scop2
     scop2B = args.scop2B
     pdbekb = args.pdbekb
-    alphafold = args.alphafold
     emicss = False # args.emicss Temporary false
     input_json = args.json
     uniprot_dictionary = {}
@@ -235,9 +225,6 @@ if __name__ == "__main__":
     if pdbekb:
         uniprot = True
         db_list.append("pdbekb")
-    if alphafold:
-        uniprot = True
-        db_list.append("alphafold")
     if args.all:
         uniprot = True
         cpx = True
@@ -255,10 +242,9 @@ if __name__ == "__main__":
         scop2 = True
         scop2B = True
         pdbekb = True
-        alphafold = True
         emicss = False # TODO: Temporary
         db_list.extend(["pdbe", "empiar", "uniprot", "chembl", "chebi", "drugbank", "pubmed", "pubmedcentral", "issn",
-                        "orcid", "cpx", "go", "interpro", "pfam", "cath", "scop", "scop2", "scop2B", "pdbekb", "alphafold"])
+                        "orcid", "cpx", "go", "interpro", "pfam", "cath", "scop", "scop2", "scop2B", "pdbekb"])
 
     #Get config variables:
     config = configparser.ConfigParser()
@@ -274,7 +260,6 @@ if __name__ == "__main__":
     uniprot_tab = config.get("file_paths", "uniprot_tab")
     #GO_obo = config.get("file_paths", "GO_obo")
     sifts_path = config.get("file_paths", "sifts")
-    alphafold_ftp = config.get("file_paths", "alphafold_ftp")
 
     #Start loggers
     if uniprot:
@@ -347,10 +332,6 @@ if __name__ == "__main__":
         pdbekb_log_file = os.path.join(args.workDir, 'emdb_pdbekb.log')
         pdbekb_log = setup_logger('pdbekb_logger', pdbekb_log_file)
         pdbekb_log.info("EMDB_ID\tEMDB_SAMPLE_ID\tPDBeKB_ID\tPROVENANCE")
-    if alphafold:
-        alphafold_log_file = os.path.join(args.workDir, 'emdb_alphafold.log')
-        alphafold_log = setup_logger('alphafold_logger', alphafold_log_file)
-        alphafold_log.info("EMDB_ID\tEMDB_SAMPLE_ID\tALPHAFOLDDB_ID\tPROVENANCE")
     if emicss:
         emicss_log_file = os.path.join(args.workDir, 'emdb_emicss.log')
         emicss_log = setup_logger('emicss_logger', emicss_log_file)
@@ -363,8 +344,6 @@ if __name__ == "__main__":
         empiar_dictionary = generate_emp_dictionary(emdb_empiar_list)
     if component:
         chembl_map, chebi_map, drugbank_map = parseCCD(components_cif)
-    if alphafold:
-        alphafold_ids = get_afdb_ids(alphafold_ftp)
     pubmed_dict = generate_pubmed_dictionary(args.workDir) if pmc else {}
     if emicss:
         db_version = get_db_versions(db_list)
