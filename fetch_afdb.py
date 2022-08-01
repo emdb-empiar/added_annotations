@@ -27,25 +27,34 @@ if __name__ == "__main__":
                                      formatter_class=argparse.RawTextHelpFormatter)
     parser.add_argument("-h", "--help", action="help", help="Show this help message and exit.")
     parser.add_argument('-w', '--workDir', type=Path, help="Main working directory path .")
-    parser.add_argument('-a', '--afdbFile', type=Path, help="List of AlphaFold ids.")
+    args = parser.parse_args()
 
     work_dir = args.workDir
     uniprot_file = os.path.join(work_dir, 'emdb_uniprot.log')
     afdb_map_file = os.path.join(work_dir, 'emdb_alphafold.log')
-    afdb_file = args.afdbFile
+
+    #Get config variables:
+    config = configparser.ConfigParser()
+    env_file = os.path.join(Path(__file__).parent.absolute(), "config.ini")
+    config.read(env_file)
+    afdb_file = config.get("file_paths", "alphafold_ftp")
 
     afdb = get_afdb_ids(afdb_file)
 
-    uniprot_reader = open(uniprotFile, 'r')
+    uniprot_reader = open(uniprot_file, 'r')
     next(uniprot_reader) #Skip header
     afdb_writer = open(afdb_map_file, 'w')
-EMDB_ID SAMPLE_ID   SAMPLE_NAME SAMPLE_COPIES   NCBI_ID UNIPROT_ID  PROVENANCE  SAMPLE_COMPLEX_IDS
+    afdb_writer.write("EMDB_ID\tEMDB_SAMPLE_ID\tALPHAFOLDDB_ID\tPROVENANCE\n")
+
     for line in uniprot_reader:
         line = line.strip()
         row = line.split("\t")
         if len(row) > 0:
             emdb_id = row[0]
             sample_id = row[1]
+            unp_id = row[5]
+            if unp_id in afdb:
+                afdb_writer.write(f"{emdb_id}\t{sample_id}\t{unp_id}\tAlphaFold DB\n")
 
 
 
