@@ -62,8 +62,6 @@ class UniprotMapping:
 	def execute(self):
 		for protein in self.proteins:
 			protein = self.worker(protein)
-		# for p in self.proteins:
-		# 	print(p.__dict__)
 		return self.proteins
 
 	def worker(self, protein):

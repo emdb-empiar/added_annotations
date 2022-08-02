@@ -1,5 +1,4 @@
 import os
-import itertools
 
 def generate_pubmed_dictionary(workDir):
     pubmed_dict = {}

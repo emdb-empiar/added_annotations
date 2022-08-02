@@ -8,14 +8,12 @@ from resources.StructureMapping import StructureMapping
 from resources.EMPIARMapping import EMPIARMapping, generate_emp_dictionary
 from resources.PublicationMapping import PublicationMapping, generate_pubmed_dictionary
 from resources.ProteinTermsMapping import ProteinTermsMapping
-from EMICSS.DBVersion import get_db_versions
-from EMICSS.EmicssXML import EmicssXML
 from XMLParser import XMLParser
 from glob import glob
 import logging
 from joblib import Parallel, delayed
-formatter = logging.Formatter('%(message)s')
 
+formatter = logging.Formatter('%(message)s')
 
 def setup_logger(name, log_file, level=logging.INFO, mode='w'):
     """To setup as many loggers as you want"""
@@ -113,28 +111,16 @@ def run(filename):
         proteins_map = PT_mapping.execute(uniprot_with_models)
         PT_mapping.export_tsv(go_log, interpro_log, pfam_log, cath_log, scop_log, scop2_log, scop2B_log, pdbekb_log)
         packed_models["PROTEIN-TERMS"] = proteins_map
-    if emicss:
-        write_annotation_xml = EmicssXML(args.workDir, db_version)
-        write_annotation_xml.write(packed_models)
-
-"""
-List of things to do:
-  - Adapt the unit tests to work with this version
-"""
 
 if __name__ == "__main__":
-    ######### Command : python /Users/amudha/project/git_code/added_annotations/AddedAnnotations.py
-    # -w /Users/amudha/project/ -f /Users/amudha/project/EMD_XML/ --CPX --model --uniprot --weight --empiar --pmc
-
     prog = "EMDBAddedAnnotations"
     usage = """
-            Mapping EMDB entries to Complex portal, UNIPROT, chEMBL.
+            Mapping EMDB entries to Databases/Resources.
             Example:
             python AddedAnnotations.py -w '[{"/path/to/working/folder"}]'
             -f '[{"/path/to/EMDB/header/files/folder"}]'
-            -p '[{"/path/to/PDBe/files/folder"}]'
             --download_uniprot --uniprot --CPX --component --model --weight --empiar --pmc --GO --interpro --pfam --pbdekb 
-            --cath --scop --scop2 --scop2B --emicss
+            --cath --scop --scop2 --scop2B
           """
 
     parser = argparse.ArgumentParser(prog=prog, usage=usage, add_help=False,
@@ -162,11 +148,10 @@ if __name__ == "__main__":
     parser.add_argument("--scop2", type=bool, nargs='?', const=True, default=False, help="Mapping SCOP2 domains to EMDB entries")
     parser.add_argument("--scop2B", type=bool, nargs='?', const=True, default=False, help="Mapping SCOP2B domains to EMDB entries")
     parser.add_argument("--pdbekb", type=bool, nargs='?', const=True, default=False, help="Mapping PDBeKB links to EMDB entries")
-    parser.add_argument("--emicss", type=bool, nargs='?', const=True, default=False, help="writting EMICSS XML file for each EMDB entry")
     args = parser.parse_args()
 
     packed_models = {}
-    db_list= []
+    db_list = []
 
     uniprot = args.uniprot
     cpx = args.CPX
@@ -184,47 +169,12 @@ if __name__ == "__main__":
     scop2 = args.scop2
     scop2B = args.scop2B
     pdbekb = args.pdbekb
-    emicss = False # args.emicss Temporary false
     input_json = args.json
     uniprot_dictionary = {}
 
-    if model:
-        db_list.append("pdbe")
-    if empiar:
-        db_list.append("empiar")
-    if uniprot:
-        db_list.append("uniprot")
-    if component:
-        db_list.append("chembl, chebi, drugbank")
-    if pmc:
-        db_list.append("pubmed, pubmedcentral, issn, ORCID")
-    if cpx:
+    if cpx or go or interpro or pfam or cath or scop or scop2 or scop2B or pdbekb:
         uniprot = True
-        db_list.append("cpx")
-    if go:
-        uniprot = True
-        db_list.append("go")
-    if interpro:
-        uniprot = True
-        db_list.append("interpro")
-    if pfam:
-        uniprot = True
-        db_list.append("pfam")
-    if cath:
-        uniprot = True
-        db_list.append("cath")
-    if scop:
-        uniprot = True
-        db_list.append("scop")
-    if scop2:
-        uniprot = True
-        db_list.append("scop2")
-    if scop2B:
-        uniprot = True
-        db_list.append("scop2B")
-    if pdbekb:
-        uniprot = True
-        db_list.append("pdbekb")
+
     if args.all:
         uniprot = True
         cpx = True
@@ -242,9 +192,6 @@ if __name__ == "__main__":
         scop2 = True
         scop2B = True
         pdbekb = True
-        emicss = False # TODO: Temporary
-        db_list.extend(["pdbe", "empiar", "uniprot", "chembl", "chebi", "drugbank", "pubmed", "pubmedcentral", "issn",
-                        "orcid", "cpx", "go", "interpro", "pfam", "cath", "scop", "scop2", "scop2B", "pdbekb"])
 
     #Get config variables:
     config = configparser.ConfigParser()
@@ -285,7 +232,7 @@ if __name__ == "__main__":
         model_log = setup_logger('model_logger', model_log_file)
         model_log.info("EMDB_ID\tPDB_ID\tASSEMBLY\tMOLECULAR_WEIGHT")
     if weight:
-        weight_log_file = os.path.join(args.workDir, 'overall_mw.log')
+        weight_log_file = os.path.join(args.workDir, 'emdb_overall_mw.log')
         weight_log = setup_logger('weight_logger', weight_log_file)
         weight_log.info("EMDB_ID\tOVERALL_MW")
     if empiar:
@@ -332,9 +279,6 @@ if __name__ == "__main__":
         pdbekb_log_file = os.path.join(args.workDir, 'emdb_pdbekb.log')
         pdbekb_log = setup_logger('pdbekb_logger', pdbekb_log_file)
         pdbekb_log.info("EMDB_ID\tEMDB_SAMPLE_ID\tPDBeKB_ID\tPROVENANCE")
-    if emicss:
-        emicss_log_file = os.path.join(args.workDir, 'emdb_emicss.log')
-        emicss_log = setup_logger('emicss_logger', emicss_log_file)
 
     if args.download_uniprot:
             download_uniprot(uniprot_tab)
@@ -345,11 +289,10 @@ if __name__ == "__main__":
     if component:
         chembl_map, chebi_map, drugbank_map = parseCCD(components_cif)
     pubmed_dict = generate_pubmed_dictionary(args.workDir) if pmc else {}
-    if emicss:
-        db_version = get_db_versions(db_list)
     if input_json:
         files = read_json(input_json, args.headerDir)
     else:
         files = glob(os.path.join(args.headerDir, '*'))
 
     Parallel(n_jobs=args.threads)(delayed(run)(file) for file in files)
+

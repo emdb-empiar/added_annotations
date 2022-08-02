@@ -1,9 +1,5 @@
-import argparse, configparser, os, json
+import argparse, configparser, os
 from pathlib import Path
-import logging
-import requests
-from glob import glob
-import lxml.etree as ET
 
 def get_afdb_ids(alphafold_ftp):
     alphafold_ids = set()
@@ -14,13 +10,12 @@ def get_afdb_ids(alphafold_ftp):
     return alphafold_ids
 
 if __name__ == "__main__":
-    prog = "EMDBAddedAnnotations(EMICSS)"
+    prog = "EMICSS AlphaFold DB"
     usage = """
-            Collect citation information be read by added annotations
+            AlphaFold DB annotations
             Example:
             python fetch_pubmed.py -w '[{"/path/to/working/folder"}]'
             -f '[{"/path/to/EMDB/header/files/folder"}]'
-            --citation
           """
 
     parser = argparse.ArgumentParser(prog=prog, usage=usage, add_help=False,

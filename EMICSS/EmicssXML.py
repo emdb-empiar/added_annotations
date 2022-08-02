@@ -1,6 +1,6 @@
 import os
 from pathlib import Path
-from EMICSS.EMICSS import *
+from EMICSS.EMICSSGDS import *
 
 class EmicssXML:
     """
@@ -15,7 +15,7 @@ class EmicssXML:
         """
         Create and write added annotations to individual EMICSS file for every EMDB entry
         """
-        emdb_id = packed_models['HEADER'].emdb_id
+        emdb_id = packed_models['EMDB_ID']
         headerXML = emicss(emdb_id=emdb_id)
         dbs = dbsType(collection_date=self.version_list['date'])
         entry_ref_dbs = entry_ref_dbsType()
