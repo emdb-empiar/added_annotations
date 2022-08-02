@@ -115,7 +115,7 @@ class EMDB_complex:
         self.sample_copies = sample_copies
         self.complex_sample_id = complex_sample_id
         self.cpx_list = [] if cpx_list is None else cpx_list
-        self.proteins = [] if proteins is None else proteins
+        self.proteins = set() if proteins is None else proteins
         self.provenance = provenance
         self.score = score
 
