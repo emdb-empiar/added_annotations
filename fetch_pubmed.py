@@ -98,7 +98,6 @@ if __name__ == "__main__":
             Example:
             python fetch_pubmed.py -w '[{"/path/to/working/folder"}]'
             -f '[{"/path/to/EMDB/header/files/folder"}]'
-            --citation
           """
 
     parser = argparse.ArgumentParser(prog=prog, usage=usage, add_help=False,
@@ -106,7 +105,7 @@ if __name__ == "__main__":
     parser.add_argument("-h", "--help", action="help", help="Show this help message and exit.")
     parser.add_argument('-w', '--workDir', type=Path, help="Main working directory path .")
     parser.add_argument('-f', '--headerDir', type=Path, help="Directory path to the EMDB version 3.0 header files.")
-    parser.add_argument('-N', default=500, help="Number of simultaneosly papers to be included in a query.")
+    parser.add_argument('-N', default=500, help="Number of papers to be included simultaneously in a query.")
 
     args = parser.parse_args()
     workDir = args.workDir

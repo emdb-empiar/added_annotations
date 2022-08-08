@@ -7,7 +7,8 @@ class EmicssXML:
     Writing annotations to output xml file according to the EMDB_EMICSS.xsd schema
     """
 
-    def __init__(self, workDir, version_list):
+    def __init__(self, emdb_id, workDir, version_list):
+        self.emdb_id = emdb_id
         self.workDir = workDir
         self.version_list = version_list
 
@@ -15,7 +16,7 @@ class EmicssXML:
         """
         Create and write added annotations to individual EMICSS file for every EMDB entry
         """
-        emdb_id = packed_models['EMDB_ID']
+        emdb_id = self.emdb_id
         headerXML = emicss(emdb_id=emdb_id)
         dbs = dbsType(collection_date=self.version_list['date'])
         entry_ref_dbs = entry_ref_dbsType()
@@ -26,7 +27,6 @@ class EmicssXML:
         primary_citation = primary_citationType()
         all_db = set()
 
-    
         if "EMPIAR" in packed_models:
             empiar_objects = packed_models['EMPIAR']
             if len(empiar_objects) > 0:
@@ -36,11 +36,12 @@ class EmicssXML:
                     entry_ref_dbs.add_entry_ref_db(emp_ref_db_obj)
         # MW calculated from header
         if "WEIGHT" in packed_models: 
-            mw = packed_models["WEIGHT"]
-            if mw.overall_mw > 0:
+            mweight = packed_models["WEIGHT"]
+            if len(mweight) > 0:
                 all_db.add("EMDB")
-                mw_info_obj = weight_infoType(weight=round(mw.overall_mw,2), unit=mw.units, provenance=mw.provenance)
-                weights.add_weight_info(mw_info_obj)
+                for mw in mweight:
+                    mw_info_obj = weight_infoType(weight=round(mw.overall_mw,2), unit=mw.units, provenance=mw.provenance)
+                    weights.add_weight_info(mw_info_obj)
         # MW calculated from assemblies
         if "MODEL" in packed_models:
             pdb_objects = packed_models["MODEL"]
@@ -50,28 +51,30 @@ class EmicssXML:
                     pdb_info_obj = weight_infoType(pdb_id=pdb.pdb_id, assemblies=pdb.assembly, weight=pdb.molecular_weight, unit="Da", provenance="PDBe")
                     weights.add_weight_info(pdb_info_obj)
         if "CITATION" in packed_models:
-            citation = packed_models["CITATION"]
-            authors_obj = authorsType()
-            for author in citation.authors:
-                orcid = author.orcid if author.orcid else None
-                author_obj = authorType(name=author.name, orcid_id=orcid, order=author.order, provenance=author.provenance)
-                authors_obj.add_author(author_obj)
-            primary_citation.set_authors(authors_obj)
-            if citation.pmedid:
-                all_db.add("PubMed")
-                pm_citation_obj = ref_citationType(source="PubMed", accession_id=citation.pmedid, provenance=citation.provenance_pm)
-                primary_citation.add_ref_citation(pm_citation_obj)
-                if citation.pmcid:
-                    all_db.add("PubMed Central")
-                    pmc_citation_obj = ref_citationType(source="PubMed Central", accession_id=citation.pmcid, provenance=citation.provenance_pmc)
-                    primary_citation.add_ref_citation(pmc_citation_obj)
-                if citation.issn:
-                    all_db.add("ISSN")
-                    issn_citation_obj = ref_citationType(source="ISSN", accession_id=citation.issn, provenance=citation.provenance_issn)
-                    primary_citation.add_ref_citation(issn_citation_obj)
-                if citation.doi:
-                    primary_citation.set_doi(citation.doi)
-                    primary_citation.set_provenance(citation.provenance_doi)
+            citations = packed_models["CITATION"]
+            if len(citations) > 0:
+                for citation in citations:
+                    authors_obj = authorsType()
+                    for author in citation.authors:
+                        orcid = author.orcid if author.orcid else None
+                        author_obj = authorType(name=author.name, orcid_id=orcid, order=author.order, provenance=author.provenance)
+                        authors_obj.add_author(author_obj)
+                    primary_citation.set_authors(authors_obj)
+                    if citation.pmedid:
+                        all_db.add("PubMed")
+                        pm_citation_obj = ref_citationType(source="PubMed", accession_id=citation.pmedid, provenance=citation.provenance_pm)
+                        primary_citation.add_ref_citation(pm_citation_obj)
+                        if citation.pmcid:
+                            all_db.add("PubMed Central")
+                            pmc_citation_obj = ref_citationType(source="PubMed Central", accession_id=citation.pmcid, provenance=citation.provenance_pmc)
+                            primary_citation.add_ref_citation(pmc_citation_obj)
+                        if citation.issn:
+                            all_db.add("ISSN")
+                            issn_citation_obj = ref_citationType(source="ISSN", accession_id=citation.issn, provenance=citation.provenance_issn)
+                            primary_citation.add_ref_citation(issn_citation_obj)
+                        if citation.doi:
+                            primary_citation.set_doi(citation.doi)
+                            primary_citation.set_provenance(citation.provenance_doi)
         if "PROTEIN-TERMS" in packed_models:
             proteins = packed_models["PROTEIN-TERMS"]
             if len(proteins) > 0:
