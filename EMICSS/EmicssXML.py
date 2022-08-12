@@ -81,10 +81,11 @@ class EmicssXML:
                 all_db.add("EMDB")
                 for protein in proteins:
                     cross_ref_dbs = cross_ref_dbsType()
-                    if protein.uniprot_id:
+                    if len(protein.uniprot_id) > 0:
                         all_db.add("UniProt")
-                        unp_xref_obj = cross_ref_db(source="UniProt", accession_id=protein.uniprot_id, provenance=protein.provenance)
-                        cross_ref_dbs.add_cross_ref_db(unp_xref_obj)
+                        for uni in protein.uniprot_id:
+                            unp_xref_obj = cross_ref_db(source="UniProt", accession_id=uni.uniprot_id, provenance=uni.provenance)
+                            cross_ref_dbs.add_cross_ref_db(unp_xref_obj)
                     if len(protein.go) > 0:
                         all_db.add("GO")
                         for go in protein.go:
@@ -123,17 +124,18 @@ class EmicssXML:
                         for scop2B in protein.scop2B:
                             scop2B_xref_obj = cross_ref_db(source="SCOP2B", accession_id=scop2B.id, uniprot_start=scop2B.start, uniprot_end=scop2B.end, provenance=scop2B.provenance)
                             cross_ref_dbs.add_cross_ref_db(scop2B_xref_obj)
-                    if protein.pdbekb:
+                    if len(protein.pdbekb) > 0:
                         all_db.add("PDBe-KB")
-                        pdbekb_xref_obj = cross_ref_db(source="PDBe-KB", accession_id=protein.pdbekb.unip_id, provenance=protein.pdbekb.provenance)
-                        cross_ref_dbs.add_cross_ref_db(pdbekb_xref_obj)
-                    if protein.alphafold:
+                        for pdbekb in protein.pdbekb:
+                            pdbekb_xref_obj = cross_ref_db(source="PDBe-KB", accession_id=pdbekb.unip_id, provenance=pdbekb.provenance)
+                            cross_ref_dbs.add_cross_ref_db(pdbekb_xref_obj)
+                    if len(protein.alphafold) > 0:
                         all_db.add("AlphaFold DB")
-                        afdb_xref_obj = cross_ref_db(source="AlphaFold DB", accession_id=protein.alphafold.unip_id, provenance=protein.alphafold.provenance)
-                        cross_ref_dbs.add_cross_ref_db(afdb_xref_obj)
+                        for alphafold in protein.alphafold:
+                            afdb_xref_obj = cross_ref_db(source="AlphaFold DB", accession_id=alphafold.unip_id, provenance=alphafold.provenance)
+                            cross_ref_dbs.add_cross_ref_db(afdb_xref_obj)
                     if cross_ref_dbs.hasContent_():
-                        macromolecule = macromoleculeType(type_="protein", id=protein.sample_id, copies=protein.sample_copies,
-                            provenance="EMDB", name=protein.sample_name, cross_ref_dbs=cross_ref_dbs)
+                        macromolecule = macromoleculeType(type_="protein", id=int(protein.sample_id), copies=int(protein.sample_copies), provenance="EMDB", name=protein.sample_name, cross_ref_dbs=cross_ref_dbs)
                         macromolecules.add_macromolecule(macromolecule)
         if "LIGANDS" in packed_models:
             ligand_obj = packed_models["LIGANDS"]
@@ -165,7 +167,7 @@ class EmicssXML:
                         cross_ref_dbs = cross_ref_dbsType()
                         if emdb_complex.cpx_list:
                             for cpx in emdb_complex.cpx_list:
-                                cpx_obj = cross_ref_db(name=cpx.name, source="Complex Portal", accession_id=cpx.cpx_id, provenance=emdb_complex.provenance, score=round(emdb_complex.score,2))
+                                cpx_obj = cross_ref_db(name=cpx[1], source="Complex Portal", accession_id=cpx[0], provenance=emdb_complex.provenance, score=round(emdb_complex.score,2))
                                 cross_ref_dbs.add_cross_ref_db(cpx_obj)
                             if cross_ref_dbs.hasContent_():
                                 sample_id = emdb_complex.sample_id.split('_')[1]

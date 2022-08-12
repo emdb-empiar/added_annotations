@@ -243,7 +243,9 @@ class GO:
     """
     Define the GO terms for the sample in the EMDB entry
     """
-    def __init__(self, id="", namespace="", type="", unip_id="", provenance=""):
+    def __init__(self, emdb_id="", sample_id="", id="", namespace="", type="", unip_id="", provenance=""):
+        self.emdb_id = emdb_id
+        self.sample_id = sample_id
         self.id = id
         self.namespace = namespace
         self.type = type
@@ -295,7 +297,9 @@ class Interpro:
     """
     Define the InterPro terms for the sample in the EMDB entry
     """
-    def __init__(self, id="", namespace="", unip_id="", provenance="", start=0, end=0, unp_start=0, unp_end=0):
+    def __init__(self, emdb_id="", sample_id="", id="", namespace="", unip_id="", provenance="", start=0, end=0, unp_start=0, unp_end=0):
+        self.emdb_id = emdb_id
+        self.sample_id = sample_id
         self.id = id
         self.namespace = namespace
         self.unip_id = unip_id
@@ -344,7 +348,9 @@ class Pfam:
     """
     Define the Pfam domains for the sample in the EMDB entry
     """
-    def __init__(self, id="", namespace="", unip_id="", provenance="", start=0, end=0, unp_start=0, unp_end=0):
+    def __init__(self, emdb_id="", sample_id="", id="", namespace="", unip_id="", provenance="", start=0, end=0, unp_start=0, unp_end=0):
+        self.emdb_id = emdb_id
+        self.sample_id = sample_id
         self.id = id
         self.namespace = namespace
         self.unip_id = unip_id
@@ -392,7 +398,9 @@ class Cath:
     """
     Define the CATH domains for the sample in the EMDB entry
     """
-    def __init__(self, id="", unip_id="", provenance="", start=0, end=0, unp_start=0, unp_end=0):
+    def __init__(self, emdb_id="", sample_id ="", id="", unip_id="", provenance="", start=0, end=0, unp_start=0, unp_end=0):
+        self.emdb_id = emdb_id
+        self.sample_id = sample_id
         self.id = id
         self.unip_id = unip_id
         self.provenance = provenance
@@ -419,7 +427,9 @@ class SCOP:
     """
     Define the SCOP domains for the sample in the EMDB entry
     """
-    def __init__(self, id="", unip_id="", provenance="", start=0, end=0, unp_start=0, unp_end=0):
+    def __init__(self, emdb_id="", sample_id="", id="", unip_id="", provenance="", start=0, end=0, unp_start=0, unp_end=0):
+        self.emdb_id = emdb_id
+        self.sample_id = sample_id
         self.id = id
         self.unip_id = unip_id
         self.provenance = provenance
@@ -446,7 +456,9 @@ class SCOP2:
     """
     Define the SCOP2 domains for the sample in the EMDB entry
     """
-    def __init__(self, id="", unip_id="", provenance="", start=0, end=0, unp_start=0, unp_end=0):
+    def __init__(self, emdb_id="", sample_id="", id="", unip_id="", provenance="", start=0, end=0, unp_start=0, unp_end=0):
+        self.emdb_id = emdb_id
+        self.sample_id = sample_id
         self.id = id
         self.unip_id = unip_id
         self.provenance = provenance
@@ -501,8 +513,10 @@ class Pdbekb:
     """
     Define the PDBeKB terms for the sample in the EMDB entry
     """
-    def __init__(self, uniprot_id, provenance=None):
-        self.unip_id = uniprot_id
+    def __init__(self, unip_id, emdb_id="", sample_id="", provenance=None):
+        self.unip_id = unip_id
+        self.emdb_id = emdb_id
+        self.sample_id = sample_id
         self.provenance = provenance
 
     def __str__(self):
@@ -512,8 +526,10 @@ class Alphafold:
     """
     Define the Alphafold terms for the sample in the EMDB entry
     """
-    def __init__(self, uniprot_id, provenance=None):
-        self.unip_id = uniprot_id
+    def __init__(self, unip_id, emdb_id="", sample_id="", provenance=None):
+        self.unip_id = unip_id
+        self.emdb_id = emdb_id
+        self.sample_id = sample_id
         self.provenance = provenance
 
     def __str__(self):
