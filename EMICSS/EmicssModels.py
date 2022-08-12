@@ -58,39 +58,46 @@ class EmicssModels:
         with open(filechembl, 'r') as fileconts:
             for ln in fileconts.readlines()[1:]:
                 rw = ln.strip('\n').split('\t')
-                hetchembl = {"emdb_id": rw[0], "sample_id": rw[1], "lig_name": rw[3], "lig_copies": rw[4], "chembl_id": rw[5], "provenance_chembl": rw[6]}
-                if rw[2] not in het_dict:
-                    het_dict[rw[2]] = hetchembl
+                hetchembl = {"sample_id": rw[1], "lig_name": rw[3], "lig_copies": rw[4], "chembl_id": rw[5], "provenance_chembl": rw[6]}
+                if rw[0] not in het_dict:
+                    het_dict[rw[0]] = {}
+                if rw[2] not in het_dict[rw[0]]:
+                    het_dict[rw[0]][rw[2]] = hetchembl
         filechebi = os.path.join(self.workDir, 'emdb_chebi.log')
         with open(filechebi, 'r') as filecont:
             for line in filecont.readlines()[1:]:
                 row = line.strip('\n').split('\t')
-                hetchebi = {"emdb_id": row[0], "sample_id": row[1], "lig_name": row[3], "lig_copies": row[4], "chebi_id": row[5], "provenance_chebi": row[6]}
-                if row[2] not in het_dict:
-                    het_dict[row[2]] = hetchebi
+                hetchebi = {"sample_id": row[1], "lig_name": row[3], "lig_copies": row[4], "chebi_id": row[5], "provenance_chebi": row[6]}
+                if row[0] not in het_dict:
+                    het_dict[row[0]] = {}
+                if row[2] not in het_dict[row[0]]:
+                    het_dict[row[0]][row[2]] = hetchebi
                 else:
-                    het_dict[row[2]].update(hetchebi)
+                    het_dict[row[0]][row[2]].update(hetchebi)
         filedb = os.path.join(self.workDir, 'emdb_drugbank.log')
         with open(filedb, 'r') as filecont:
             for line in filecont.readlines()[1:]:
                 rows = line.strip('\n').split('\t')
-                hetdb = {"emdb_id": rows[0], "sample_id": rows[1], "lig_name": rows[3], "lig_copies": rows[4], "drugbank_id": rows[5], "provenance_drugbank": rows[6]}
-                if rows[2] not in het_dict:
-                    het_dict[rows[2]] = hetdb
+                hetdb = {"sample_id": rows[1], "lig_name": rows[3], "lig_copies": rows[4], "drugbank_id": rows[5], "provenance_drugbank": rows[6]}
+                if rows[0] not in het_dict:
+                    het_dict[rows[0]] = {}
+                if rows[2] not in het_dict[rows[0]]:
+                    het_dict[rows[0]][rows[2]] = hetdb
                 else:
-                    het_dict[rows[2]].update(hetdb)
-        for het in list(het_dict.keys()):
-            allkeys = (["emdb_id", "sample_id", "lig_name", "lig_copies", "chembl_id", "provenance_chembl", "chebi_id",
-                       "provenance_chebi", "drugbank_id", "provenance_drugbank"])
-            het_values = het_dict[het]
-            for index in allkeys:
-                if index not in het_values.keys():
-                    het_values[index] = ''
-            lig_db = models.Ligand(emdb_id=het_values['emdb_id'], sample_id=het_values['sample_id'], HET=het, lig_name=het_values['lig_name'],
-                                   lig_copies=het_values['lig_copies'], chembl_id=het_values['chembl_id'], provenance_chembl=het_values['provenance_chembl'],
-                                   chebi_id=het_values['chebi_id'], provenance_chebi=het_values['provenance_chebi'],
-                                   drugbank_id=het_values['drugbank_id'], provenance_drugbank=het_values['provenance_drugbank'])
-            self.generating_dictionary(row[0], "LIGANDS", lig_db)
+                    het_dict[rows[0]][rows[2]].update(hetdb)
+        for em_key in list(het_dict.keys()):
+            for het in list(het_dict[em_key].keys()):
+                allkeys = (["emdb_id", "sample_id", "lig_name", "lig_copies", "chembl_id", "provenance_chembl", "chebi_id",
+                           "provenance_chebi", "drugbank_id", "provenance_drugbank"])
+                het_values = het_dict[em_key][het]
+                for index in allkeys:
+                    if index not in het_values.keys():
+                        het_values[index] = ''
+                lig_db = models.Ligand(emdb_id=het_values['emdb_id'], sample_id=het_values['sample_id'], HET=het, lig_name=het_values['lig_name'],
+                                       lig_copies=het_values['lig_copies'], chembl_id=het_values['chembl_id'], provenance_chembl=het_values['provenance_chembl'],
+                                       chebi_id=het_values['chebi_id'], provenance_chebi=het_values['provenance_chebi'],
+                                       drugbank_id=het_values['drugbank_id'], provenance_drugbank=het_values['provenance_drugbank'])
+                self.generating_dictionary(em_key, "LIGANDS", lig_db)
         # #### COMPLEX
         filecpx = os.path.join(self.workDir, "emdb_cpx.log")
         cpx_dict = {}
@@ -192,6 +199,7 @@ class EmicssModels:
                                        scop=PTres["scop"], scop2=PTres["scop2"], scop2B=PTres["scop2B"], pdbekb=PTres["kb"],
                                        alphafold=PTres["af"], provenance=PTres["uni"])
                 self.generating_dictionary(PT, "PROTEIN-TERMS", PT_db)
+        # print(self.packed_models)
         return self.packed_models
 
     def generating_dictionary(self, emdb_id, db, emicss_values):
