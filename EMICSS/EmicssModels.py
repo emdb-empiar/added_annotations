@@ -136,55 +136,55 @@ class EmicssModels:
         with open(filego, 'r') as filecontents:
             for lin in filecontents.readlines()[1:]:
                 rw = lin.strip('\n').split('\t')
-                go = models.GO(emdb_id=rw[0], sample_id=rw[1], id=rw[2], namespace=rw[3], type=rw[4], provenance=rw[5])
+                go = models.GO(id=rw[2], namespace=rw[3], type=rw[4], provenance=rw[5])
                 self.generating_PT_dictionary(rw[0], rw[1], "go", go)
         fileinter = os.path.join(self.workDir, 'emdb_interpro.log')
         with open(fileinter, 'r') as filecontents:
             for lin in filecontents.readlines()[1:]:
                 rw = lin.strip('\n').split('\t')
-                interpro = models.Interpro(emdb_id=rw[0], sample_id=rw[1], id=rw[2], namespace=rw[3], start=rw[4], end=rw[5], unp_start=rw[6], unp_end=rw[7], provenance=rw[8])
+                interpro = models.Interpro(id=rw[2], namespace=rw[3], start=rw[4], end=rw[5], unp_start=rw[6], unp_end=rw[7], provenance=rw[8])
                 self.generating_PT_dictionary(rw[0], rw[1], "inter", interpro)
         filepfam = os.path.join(self.workDir, 'emdb_pfam.log')
         with open(filepfam, 'r') as filecontents:
             for lin in filecontents.readlines()[1:]:
                 rw = lin.strip('\n').split('\t')
-                pfam = models.Pfam(emdb_id=rw[0], sample_id=rw[1], id=rw[2], namespace=rw[3], start=rw[4], end=rw[5], unp_start=rw[6], unp_end=rw[7], provenance=rw[8])
+                pfam = models.Pfam(id=rw[2], namespace=rw[3], start=rw[4], end=rw[5], unp_start=rw[6], unp_end=rw[7], provenance=rw[8])
                 self.generating_PT_dictionary(rw[0], rw[1], "pfam", pfam)
         filecath = os.path.join(self.workDir, 'emdb_cath.log')
         with open(filecath, 'r') as filecontents:
             for lin in filecontents.readlines()[1:]:
                 rw = lin.strip('\n').split('\t')
-                cath = models.Cath(emdb_id=rw[0], sample_id=rw[1], id=rw[2], start=rw[3], end=rw[4], unp_start=rw[5], unp_end=rw[6], provenance=rw[7])
+                cath = models.Cath(id=rw[2], start=rw[3], end=rw[4], unp_start=rw[5], unp_end=rw[6], provenance=rw[7])
                 self.generating_PT_dictionary(rw[0], rw[1], "cath", cath)
         filescop = os.path.join(self.workDir, 'emdb_scop.log')
         with open(filescop, 'r') as filecontents:
             for lin in filecontents.readlines()[1:]:
                 rw = lin.strip('\n').split('\t')
-                scop = models.SCOP(emdb_id=rw[0], sample_id=rw[1], id=rw[2], start=rw[3], end=rw[4], unp_start=rw[5], unp_end=rw[6], provenance=rw[7])
+                scop = models.SCOP(id=rw[2], start=rw[3], end=rw[4], unp_start=rw[5], unp_end=rw[6], provenance=rw[7])
                 self.generating_PT_dictionary(rw[0], rw[1], "scop", scop)
         filescop2 = os.path.join(self.workDir, 'emdb_scop2.log')
         with open(filescop2, 'r') as filecontents:
             for lin in filecontents.readlines()[1:]:
                 rw = lin.strip('\n').split('\t')
-                scop2 = models.SCOP2(emdb_id=rw[0], sample_id=rw[1], id=rw[2], start=rw[3], end=rw[4], unp_start=rw[5], unp_end=rw[6], provenance=rw[7])
+                scop2 = models.SCOP2(id=rw[2], start=rw[3], end=rw[4], unp_start=rw[5], unp_end=rw[6], provenance=rw[7])
                 self.generating_PT_dictionary(rw[0], rw[1], "scop2", scop2)
         filescop2B = os.path.join(self.workDir, 'emdb_scop2B.log')
         with open(filescop2B, 'r') as filecontents:
             for lin in filecontents.readlines()[1:]:
                 rw = lin.strip('\n').split('\t')
-                scop2B = models.SCOP(emdb_id=rw[0], sample_id=rw[1], id=rw[2], start=rw[3], end=rw[4], unp_start=rw[5], unp_end=rw[6], provenance=rw[7])
+                scop2B = models.SCOP(id=rw[2], start=rw[3], end=rw[4], unp_start=rw[5], unp_end=rw[6], provenance=rw[7])
                 self.generating_PT_dictionary(rw[0], rw[1], "scop2B", scop2B)
         filekb = os.path.join(self.workDir, 'emdb_pdbekb.log')
         with open(filekb, 'r') as filecontents:
             for lin in filecontents.readlines()[1:]:
                 rw = lin.strip('\n').split('\t')
-                pdbekb = models.Pdbekb(unip_id=rw[2], emdb_id=rw[0], sample_id=rw[1], provenance=rw[3])
+                pdbekb = models.Pdbekb(unip_id=rw[2], provenance=rw[3])
                 self.generating_PT_dictionary(rw[0], rw[1], "kb", pdbekb)
         fileaf = os.path.join(self.workDir, 'emdb_alphafold.log')
         with open(fileaf, 'r') as filecontents:
             for lin in filecontents.readlines()[1:]:
                 rw = lin.strip('\n').split('\t')
-                af = models.Alphafold(unip_id=rw[2], emdb_id=rw[0], sample_id=rw[1], provenance=rw[3])
+                af = models.Alphafold(unip_id=rw[2], provenance=rw[3])
                 self.generating_PT_dictionary(rw[0], rw[1], "af", af)
         for PT in list(self.PT_dict.keys()):
             PT_samp = self.PT_dict[PT]
@@ -199,7 +199,6 @@ class EmicssModels:
                                        scop=PTres["scop"], scop2=PTres["scop2"], scop2B=PTres["scop2B"], pdbekb=PTres["kb"],
                                        alphafold=PTres["af"], provenance=PTres["uni"])
                 self.generating_dictionary(PT, "PROTEIN-TERMS", PT_db)
-        # print(self.packed_models)
         return self.packed_models
 
     def generating_dictionary(self, emdb_id, db, emicss_values):
