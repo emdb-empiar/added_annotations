@@ -16,11 +16,9 @@ if __name__ == "__main__":
                                      formatter_class=argparse.RawTextHelpFormatter)
     parser.add_argument("-h", "--help", action="help", help="Show this help message and exit.")
     parser.add_argument('-w', '--workDir', type=Path, help="Main working directory path .")
-    parser.add_argument('-f', '--headerDir', type=Path, help="Directory path to the EMDB version 3.0 header files.")
     parser.add_argument('-t', '--threads', type=int, default=4, help="Number of threads.")
     args = parser.parse_args()
     workDir = args.workDir
-    headerDir = args.headerDir
 
     db_list = ["pdbe", "empiar", "uniprot", "chembl", "chebi", "drugbank", "pubmed", "pubmedcentral", "issn",
                "orcid", "cpx", "go", "interpro", "pfam", "cath", "scop", "scop2", "scop2B", "pdbekb", "alphafold"]
