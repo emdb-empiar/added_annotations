@@ -176,7 +176,6 @@ class Parser:
             for line in filereader.readlines()[1:]:
                 emdb_id, sample_id, interpro_id, interpro_namespace, start, end, uniprot_start, uniprot_end, provenance = line.strip().split('\t')
                 self.emdb_ids.add(emdb_id)
-                emdb_sample_id = f"{emdb_id}_{sample_id}"
                 interpro = Interpro(id=interpro_id, namespace=interpro_namespace, start=int(start), end=int(end),
                                     unp_start=int(uniprot_start), unp_end=int(uniprot_end), provenance=provenance)
                 self.proteins[emdb_id][sample_id].interpro.add(interpro)
@@ -187,7 +186,6 @@ class Parser:
             for line in filereader.readlines()[1:]:
                 emdb_id, sample_id, pfam_id, pfam_namespace, start, end, uniprot_start, uniprot_end, provenance = line.strip().split('\t')
                 self.emdb_ids.add(emdb_id)
-                emdb_sample_id = f"{emdb_id}_{sample_id}"
                 pfam = Pfam(id=pfam_id, namespace=pfam_namespace, start=int(start), end=int(end), unp_start=int(uniprot_start),
                             unp_end=int(uniprot_end), provenance=provenance)
                 self.proteins[emdb_id][sample_id].pfam.add(pfam)
@@ -198,7 +196,6 @@ class Parser:
             for line in filereader.readlines()[1:]:
                 emdb_id, sample_id, cath_id, start, end, uniprot_start, uniprot_end, provenance = line.strip().split('\t')
                 self.emdb_ids.add(emdb_id)
-                emdb_sample_id = f"{emdb_id}_{sample_id}"
                 cath = Cath(id=cath_id, start=int(start), end=int(end), unp_start=int(uniprot_start), unp_end=int(uniprot_end),
                             provenance=provenance)
                 self.proteins[emdb_id][sample_id].cath.add(cath)
@@ -209,7 +206,6 @@ class Parser:
             for line in filereader.readlines()[1:]:
                 emdb_id, sample_id, scop_id, start, end, uniprot_start, uniprot_end, provenance = line.strip().split('\t')
                 self.emdb_ids.add(emdb_id)
-                emdb_sample_id = f"{emdb_id}_{sample_id}"
                 scop = SCOP(id=scop_id, start=int(start), end=int(end), unp_start=int(uniprot_start), unp_end=int(uniprot_end),
                             provenance=provenance)
                 self.proteins[emdb_id][sample_id].scop.add(scop)
@@ -220,7 +216,6 @@ class Parser:
             for line in filereader.readlines()[1:]:
                 emdb_id, sample_id, scop_id, start, end, uniprot_start, uniprot_end, provenance = line.strip().split('\t')
                 self.emdb_ids.add(emdb_id)
-                emdb_sample_id = f"{emdb_id}_{sample_id}"
                 scop2 = SCOP2(id=scop_id, start=int(start), end=int(end), unp_start=int(uniprot_start), unp_end=int(uniprot_end),
                             provenance=provenance)
                 self.proteins[emdb_id][sample_id].scop2.add(scop2)
@@ -231,7 +226,6 @@ class Parser:
             for line in filereader.readlines()[1:]:
                 emdb_id, sample_id, scop_id, start, end, uniprot_start, uniprot_end, provenance = line.strip().split('\t')
                 self.emdb_ids.add(emdb_id)
-                emdb_sample_id = f"{emdb_id}_{sample_id}"
                 scop2b = SCOP2B(id=scop_id, start=int(start), end=int(end), unp_start=int(uniprot_start), unp_end=int(uniprot_end),
                             provenance=provenance)
                 self.proteins[emdb_id][sample_id].scop2b.add(scop2b)
@@ -242,7 +236,6 @@ class Parser:
             for line in filereader.readlines()[1:]:
                 emdb_id, sample_id, pdbekb_id, provenance = line.strip().split('\t')
                 self.emdb_ids.add(emdb_id)
-                emdb_sample_id = f"{emdb_id}_{sample_id}"
                 pdbekb = Pdbekb(uniprot_id=pdbekb_id, provenance=provenance)
                 self.proteins[emdb_id][sample_id].pdbekb = pdbekb
 
@@ -252,7 +245,6 @@ class Parser:
             for line in filereader.readlines()[1:]:
                 emdb_id, sample_id, afdb_id, provenance = line.strip().split('\t')
                 self.emdb_ids.add(emdb_id)
-                emdb_sample_id = f"{emdb_id}_{sample_id}"
                 afdb = Alphafold(uniprot_id=afdb_id, provenance=provenance)
                 self.proteins[emdb_id][sample_id].alphafold = afdb
 
