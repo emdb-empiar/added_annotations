@@ -6,7 +6,8 @@ class Parser:
     """
     Read log files and create emicss objects
     """
-    def __init__(self, version):
+    def __init__(self, workDir, version):
+        self.workDir = workDir
         self.emdb_ids = set()
         self.proteins = {}
         self.empiars = {}
@@ -41,9 +42,11 @@ class Parser:
             for line in filereader.readlines()[1:]:
                 emdb_id, sample_id, sample_name, copies, ncbi_id, uniprot_id, provenance, sample_complex_ids = line.strip().split('\t')
                 self.emdb_ids.add(emdb_id)
-                emdb_sample_id = f"{emdb_id}_{sample_id}"
                 protein = Protein(emdb_id=emdb_id, sample_id=sample_id, sample_name=sample_name, sample_copies=copies, sample_organism=ncbi_id, uniprot_id=uniprot_id, provenance=provenance)
-                self.entries[emdb_sample_id] = protein
+                if emdb_id in self.proteins:
+                    self.proteins[emdb_id][sample_id] = protein
+                else:
+                    self.proteins[emdb_id] = {sample_id: protein}
 
     def __parse_empiar(self):
         fileempiar = os.path.join(self.workDir, "emdb_empiar.log")
@@ -101,14 +104,10 @@ class Parser:
             for line in filereader.readlines()[1:]:
                 emdb_id, sample_id, het_code, ligand_name, copies, chembl_id, provenance = line.strip().split('\t')
                 self.emdb_ids.add(emdb_id)
-                emdb_sample_id = f"{emdb_id}_{sample_id}"
-                if emdb_sample_id in self.ligands:
-                    self.ligands[emdb_sample_id].chembl_id = chembl_id
-                    self.ligands[emdb_sample_id].provenance_chembl = provenance
-                else:
-                    ligand = Ligand(emdb_id=emdb_id, sample_id=sample_id, chembl_id=chembl_id, 
-                        provenance_chembl=provenance, HET=het_code, lig_name=ligand_name, lig_copies=copies)
-                    self.ligands[emdb_sample_id] = ligand
+                ligand = Ligand(emdb_id=emdb_id, sample_id=sample_id, chembl_id=chembl_id,
+                                provenance_chembl=provenance, HET=het_code, lig_name=ligand_name,
+                                lig_copies=copies)
+                self.__add_ligand(emdb_id, sample_id, ligand, chembl_id, provenance)
 
     def __parse_chebi(self):
         filechebi = os.path.join(self.workDir, 'emdb_chebi.log')
@@ -116,14 +115,9 @@ class Parser:
             for line in filereader.readlines()[1:]:
                 emdb_id, sample_id, het_code, ligand_name, copies, chebi_id, provenance = line.strip().split('\t')
                 self.emdb_ids.add(emdb_id)
-                emdb_sample_id = f"{emdb_id}_{sample_id}"
-                if emdb_sample_id in self.ligands:
-                    self.ligands[emdb_sample_id].chebi_id = chebi_id
-                    self.ligands[emdb_sample_id].provenance_chebi = provenance
-                else:
-                    ligand = Ligand(emdb_id=emdb_id, sample_id=sample_id, chebi_id=chebi_id,
-                        provenance_chebi=provenance, HET=het_code, lig_name=ligand_name, lig_copies=copies)
-                    self.ligands[emdb_sample_id] = ligand
+                ligand = Ligand(emdb_id=emdb_id, sample_id=sample_id, chebi_id=chebi_id,
+                                provenance_chebi=provenance, HET=het_code, lig_name=ligand_name, lig_copies=copies)
+                self.__add_ligand(emdb_id, sample_id, ligand, chebi_id, provenance)
 
     def __parse_drugbank(self):
         filedb = os.path.join(self.workDir, 'emdb_drugbank.log')
@@ -131,14 +125,9 @@ class Parser:
             for line in filereader.readlines()[1:]:
                 emdb_id, sample_id, het_code, ligand_name, copies, db_id, provenance = line.strip().split('\t')
                 self.emdb_ids.add(emdb_id)
-                emdb_sample_id = f"{emdb_id}_{sample_id}"
-                if emdb_sample_id in self.ligands:
-                    self.ligands[emdb_sample_id].drugbank_id = db_id
-                    self.ligands[emdb_sample_id].provenance_drugbank = provenance
-                else:
-                    ligand = Ligand(emdb_id=emdb_id, sample_id=sample_id, drugbank_id=db_id,
-                        provenance_drugbank=provenance, HET=het_code, lig_name=ligand_name, lig_copies=copies)
-                    self.ligands[emdb_sample_id] = ligand
+                ligand = Ligand(emdb_id=emdb_id, sample_id=sample_id, drugbank_id=db_id,
+                                provenance_drugbank=provenance, HET=het_code, lig_name=ligand_name, lig_copies=copies)
+                self.__add_ligand(emdb_id, sample_id, ligand, db_id, provenance)
 
     def __parse_complex(self):
         filecpx = os.path.join(self.workDir, "emdb_cpx.log")
@@ -149,12 +138,10 @@ class Parser:
                 self.emdb_ids.add(emdb_id)
                 emdb_sample_id = f"{emdb_id}_{sample_id}"
                 cpx = CPX([cpx_id, cpx_title, "", "", "", "", "", "", ""])
-                if emdb_sample_id in self.complexes:
-                    self.complexes[emdb_sample_id].cpx_list.append(cpx)
-                else:
-                    self.complexes[emdb_sample_id] = EMDB_complex(emdb_id=emdb_id, sample_id=emdb_sample_id, supra_name=sample_name,
-                                                                  sample_copies=copies, complex_sample_id=sample_id, cpx_list=[cpx],
-                                                                  proteins=None,provenance=provenance, score=float(score))
+                emdb_complex = EMDB_complex(emdb_id=emdb_id, sample_id=emdb_sample_id, supra_name=sample_name,
+                             sample_copies=copies, complex_sample_id=sample_id, cpx_list=[cpx],
+                             proteins=None, provenance=provenance, score=float(score))
+                self.__add_complex(emdb_id, sample_id, emdb_complex, cpx)
 
     def __parse_go(self):
         filego = os.path.join(self.workDir, 'emdb_go.log')
@@ -162,9 +149,8 @@ class Parser:
             for line in filereader.readlines()[1:]:
                 emdb_id, sample_id, go_id, go_namespace, go_type, provenance = line.strip().split('\t')
                 self.emdb_ids.add(emdb_id)
-                emdb_sample_id = f"{emdb_id}_{sample_id}"
                 go = GO(id=go_id, namespace=go_namespace, type=go_type, provenance=provenance)
-                self.proteins[emdb_sample_id].go.add(go)
+                self.proteins[emdb_id][sample_id].go.add(go)
 
     def __parse_interpro(self):
         fileinterpro = os.path.join(self.workDir, 'emdb_interpro.log')
@@ -175,7 +161,7 @@ class Parser:
                 emdb_sample_id = f"{emdb_id}_{sample_id}"
                 interpro = Interpro(id=interpro_id, namespace=interpro_namespace, start=int(start), end=int(end),
                                     unp_start=int(uniprot_start), unp_end=int(uniprot_end), provenance=provenance)
-                self.proteins[emdb_sample_id].interpro.add(interpro)
+                self.proteins[emdb_id][sample_id].interpro.add(interpro)
 
     def __parse_pfam(self):
         filepfam = os.path.join(self.workDir, 'emdb_pfam.log')
@@ -186,7 +172,7 @@ class Parser:
                 emdb_sample_id = f"{emdb_id}_{sample_id}"
                 pfam = Pfam(id=pfam_id, namespace=pfam_namespace, start=int(start), end=int(end), unp_start=int(uniprot_start),
                             unp_end=int(uniprot_end), provenance=provenance)
-                self.proteins[emdb_sample_id].pfam.add(pfam)
+                self.proteins[emdb_id][sample_id].pfam.add(pfam)
 
     def __parse_cath(self):
         filecath = os.path.join(self.workDir, 'emdb_cath.log')
@@ -197,7 +183,7 @@ class Parser:
                 emdb_sample_id = f"{emdb_id}_{sample_id}"
                 cath = Cath(id=cath_id, start=int(start), end=int(end), unp_start=int(uniprot_start), unp_end=int(uniprot_end),
                             provenance=provenance)
-                self.proteins[emdb_sample_id].cath.add(cath)
+                self.proteins[emdb_id][sample_id].cath.add(cath)
 
     def __parse_scop(self):
         filescop = os.path.join(self.workDir, 'emdb_scop.log')
@@ -208,7 +194,7 @@ class Parser:
                 emdb_sample_id = f"{emdb_id}_{sample_id}"
                 scop = SCOP(id=scop_id, start=int(start), end=int(end), unp_start=int(uniprot_start), unp_end=int(uniprot_end),
                             provenance=provenance)
-                self.proteins[emdb_sample_id].scop.add(scop)
+                self.proteins[emdb_id][sample_id].scop.add(scop)
 
     def __parse_scop2(self):
         filescop = os.path.join(self.workDir, 'emdb_scop2.log')
@@ -219,7 +205,7 @@ class Parser:
                 emdb_sample_id = f"{emdb_id}_{sample_id}"
                 scop2 = SCOP2(id=scop_id, start=int(start), end=int(end), unp_start=int(uniprot_start), unp_end=int(uniprot_end),
                             provenance=provenance)
-                self.proteins[emdb_sample_id].scop2.add(scop2)
+                self.proteins[emdb_id][sample_id].scop2.add(scop2)
 
     def __parse_scop2B(self):
         filescop = os.path.join(self.workDir, 'emdb_scop2B.log')
@@ -230,7 +216,7 @@ class Parser:
                 emdb_sample_id = f"{emdb_id}_{sample_id}"
                 scop2b = SCOP2B(id=scop_id, start=int(start), end=int(end), unp_start=int(uniprot_start), unp_end=int(uniprot_end),
                             provenance=provenance)
-                self.proteins[emdb_sample_id].scop2b.add(scop2b)
+                self.proteins[emdb_id][sample_id].scop2b.add(scop2b)
 
     def __parse_pdbekb(self):
         filepdbekb = os.path.join(self.workDir, 'emdb_pdbekb.log')
@@ -240,7 +226,7 @@ class Parser:
                 self.emdb_ids.add(emdb_id)
                 emdb_sample_id = f"{emdb_id}_{sample_id}"
                 pdbekb = Pdbekb(uniprot_id=pdbekb_id, provenance=provenance)
-                self.proteins[emdb_sample_id].pdbekb = pdbekb
+                self.proteins[emdb_id][sample_id].pdbekb = pdbekb
 
     def __parse_afdb(self):
         fileafdb = os.path.join(self.workDir, 'emdb_alphafold.log')
@@ -250,13 +236,32 @@ class Parser:
                 self.emdb_ids.add(emdb_id)
                 emdb_sample_id = f"{emdb_id}_{sample_id}"
                 afdb = Alphafold(uniprot_id=afdb_id, provenance=provenance)
-                self.proteins[emdb_sample_id].alphafold = afdb
+                self.proteins[emdb_id][sample_id].alphafold = afdb
+
+    def __add_ligand(self, emdb_id, sample_id, ligand, ligand_id, provenance):
+        if emdb_id in self.ligands:
+            if sample_id in self.ligands:
+                self.ligands[emdb_id][sample_id].chembl_id = ligand_id
+                self.ligands[emdb_id][sample_id].provenance_chembl = provenance
+            else:
+                self.ligands[emdb_id][sample_id] = ligand
+        else:
+            self.ligands[emdb_id] = {sample_id: ligand}
+
+    def __add_complex(self, emdb_id, sample_id, emdb_complex, cpx):
+        if emdb_id in self.complexes:
+            if sample_id in self.complexes:
+                self.complexes[emdb_id][sample_id].cpx_list.append(cpx)
+            else:
+                self.complexes[emdb_id][sample_id] = emdb_complex
+        else:
+            self.complexes[emdb_id] = {sample_id: emdb_complex}
 
 
 
 class EmicssXML:
     """
-    Store and Write EMICSS data
+    Store and Write single EMICSS data
     """
     def __init__(self, emdb_id, version):
         self.emdb_id = emdb_id
