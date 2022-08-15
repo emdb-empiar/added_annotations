@@ -1,10 +1,7 @@
 import argparse
 from pathlib import Path
 from EMICSS.DBVersion import Version 
-from EMICSS.EmicssGenerator import Parser
-
-# TODO: These imports will change
-from EMICSS.EmicssXML import EmicssXML
+from EMICSS.EmicssGenerator import Parser, EmicssXML
 
 if __name__ == "__main__":
     prog = "Write EMICSS annotations to XML files"
@@ -21,29 +18,10 @@ if __name__ == "__main__":
     args = parser.parse_args()
     workDir = args.workDir
 
-    # Removed db_list
-    # 
-
     db_version = Version()
-    generator = Parser(db_version)
+    generator = Parser(workDir)
     for emdb_id in generator.emdb_ids:
         print(f"Writing {emdb_id} XML")
-        # TODO: Create XML
-
-
-
-
-    # emicss_models = EmicssModels(workDir)
-    # model_dict = emicss_models.worker()
-    # for emdb_id in list(model_dict.keys()):
-    #     print(f"Writing {emdb_id} XML")
-    #     packed_models = model_dict[emdb_id]
-    #     write_annotation_xml = EmicssXML(emdb_id, workDir, db_version)
-    #     write_annotation_xml.write(packed_models)
-
-
-
-
-
-
-    
+        packed_data = generator.get_packed_data(emdb_id)
+        emicss = EmicssXML(emdb_id, db_version, packed_data)
+        emicss.write_xml(workDir)

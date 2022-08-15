@@ -22,6 +22,7 @@ class Version:
         self.scop = "1.7.5" # TODO: Create methods to obtain version
         self.scop2 = "2.0" # TODO: Create methods to obtain version
         self.alphafold = "2.0" # TODO: Create methods to obtain version
+        self.scop2b = None # TODO: Add version
         self.chebi = None # TODO: Add version
         self.empiar = None # TODO: Add version
         self.pdbekb = None # TODO: Add version
@@ -29,6 +30,20 @@ class Version:
         self.pmc = None # TODO: Add version
         self.today = date.today().strftime("%Y-%m-%d")
 
+    def get_all_versions(self):
+        return {
+            'Complex Portal': self.cpx,
+            'DrugBank': self.drugbank,
+            'Pfam': self.pfam,
+            'InterPro': self.interpro,
+            'CATH': self.cath,
+            'ChEMBL': self.chembl,
+            'GO': self.go,
+            'UniProt': self.uniprot,
+            'SCOP': self.scop,
+            'SCOP2': self.scop2,
+            'AlphaFold DB': self.alphafold
+        }
 
     def __find_cpx_version(self):
         url = "http://ftp.ebi.ac.uk/pub/databases/intact/complex/current/"
