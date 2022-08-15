@@ -57,5 +57,6 @@ class PublicationMapping:
         if self.citation.pmedid or self.citation.doi:
             pubmed_logger.info(str(self.citation))
         for author in self.citation.authors:
+            author_logger.info(f"{self.citation.emdb_id}\t{str(author)}")
             if author.orcid:
                 orcid_logger.info(f"{self.citation.emdb_id}\t{str(author)}")

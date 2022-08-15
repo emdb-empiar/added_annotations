@@ -96,9 +96,10 @@ def run(filename):
     if pmc or orcid:
         pubmed_log = start_logger_if_necessary("pubmed_logger", pubmed_log_file) if pmc else None
         orcid_log = start_logger_if_necessary("orcid_logger", orcid_log_file) if orcid else None
+        author_log = start_logger_if_necessary("author_logger", author_log_file) if pmc else None
         pmc_mapping = PublicationMapping(xml.citation)
         pmc_map = pmc_mapping.execute(pubmed_dict)
-        pmc_mapping.export_tsv(pubmed_log, orcid_log)
+        pmc_mapping.export_tsv(pubmed_log, orcid_log, author_log)
         packed_models["CITATION"] = pmc_map
     if go or interpro or pfam or cath or scop or scop2 or scop2B or pdbekb:
         go_log = start_logger_if_necessary("go_logger", go_log_file) if go else None
@@ -296,6 +297,9 @@ if __name__ == "__main__":
         pubmed_log_file = os.path.join(args.workDir, 'emdb_pubmed.log')
         pubmed_log = setup_logger('pubmed_logger', pubmed_log_file)
         pubmed_log.info("EMDB_ID\tPUBMED_ID\tPUBMED_PROVENANCE\tPUBMEDCENTRAL_ID\tPUBMEDCENTRAL_PROVENANCE\tISSN\tISSN_PROVENANCE\tDOI\tDOI_PROVENANCE\tJOURNAL_NAME\tJOURNAL_ABBV")
+        author_log_file = os.path.join(args.workDir, 'emdb_author.log')
+        author_log = setup_logger('author_logger', author_log_file)
+        author_log.info("EMDB_ID\tAUTHOR_NAME\tAUTHOR_ORDER\tPROVENANCE")
     if orcid:
         orcid_log_file = os.path.join(args.workDir, 'emdb_orcid.log')
         orcid_log = setup_logger('orcid_logger', orcid_log_file)
