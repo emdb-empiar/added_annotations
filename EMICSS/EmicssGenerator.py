@@ -52,7 +52,7 @@ class Parser:
         fileuniprot = os.path.join(self.workDir, 'emdb_uniprot.log')
         with open(fileuniprot, 'r') as filereader:
             for line in filereader.readlines()[1:]:
-                emdb_id, sample_id, sample_name, copies, ncbi_id, uniprot_id, provenance, sample_complex_ids = line.strip().split('\t')
+                emdb_id, sample_id, sample_name, copies, ncbi_id, uniprot_id, provenance, sample_complex_ids = line.strip('\n').split('\t')
                 self.emdb_ids.add(emdb_id)
                 protein = Protein(emdb_id=emdb_id, sample_id=sample_id, sample_name=sample_name, sample_copies=copies, sample_organism=ncbi_id, uniprot_id=uniprot_id, provenance=provenance)
                 if emdb_id in self.proteins:
@@ -64,7 +64,7 @@ class Parser:
         fileempiar = os.path.join(self.workDir, "emdb_empiar.log")
         with open(fileempiar, 'r') as filereader:
             for line in filereader.readlines()[1:]:
-                emdb_id, empiar_id, provenance = line.strip().split('\t')
+                emdb_id, empiar_id, provenance = line.strip('\n').split('\t')
                 self.emdb_ids.add(emdb_id)
                 empiar = Empiar(emdb_id=emdb_id, empiar_id=empiar_id)
                 if emdb_id in self.empiars:
@@ -76,7 +76,7 @@ class Parser:
         filemw = os.path.join(self.workDir, "overall_mw.log")
         with open(filemw, 'r') as filereader:
             for line in filereader.readlines()[1:]:
-                emdb_id, mw = line.strip().split('\t')
+                emdb_id, mw = line.strip('\n').split('\t')
                 self.emdb_ids.add(emdb_id)
                 weight = Weight(emdb_id=emdb_id, overall_mw=float(mw), units="MDa", provenance="EMDB")
                 self.weights[emdb_id] = weight
@@ -85,11 +85,11 @@ class Parser:
         filemodel = os.path.join(self.workDir, "emdb_model.log")
         with open(filemodel, 'r') as filereader:
             for line in filereader.readlines()[1:]:
-                emdb_id, pdb_id, assembly, mw = line.strip().split('\t')
+                emdb_id, pdb_id, assembly, mw = line.strip('\n').split('\t')
                 self.emdb_ids.add(emdb_id)
                 model = Model(emdb_id=emdb_id, pdb_id=pdb_id, assembly=assembly, molecular_weight=float(mw))
                 if emdb_id in self.models:
-                    self.models.append(model)
+                    self.models[emdb_id].append(model)
                 else:
                     self.models[emdb_id] = [model]
 
@@ -98,7 +98,7 @@ class Parser:
         fileauthor = os.path.join(self.workDir, 'emdb_author.log')
         with open(fileauthor, 'r') as filereader:
             for line in filereader.readlines()[1:]:
-                emdb_id, author_name, orcid_id, order, provenance = line.strip().split('\t')
+                emdb_id, author_name, orcid_id, order, provenance = line.strip('\n').split('\t')
                 self.emdb_ids.add(emdb_id)
                 author = Author(name=author_name, orcid=orcid_id, order=order, provenance=provenance)
                 if emdb_id in author_dict:
@@ -108,7 +108,7 @@ class Parser:
         filepubmed = os.path.join(self.workDir, "emdb_pubmed.log")
         with open(filepubmed, 'r') as filereader:
             for line in filereader.readlines()[1:]:
-                emdb_id, pubmed_id, pubmed_provenance, pmc_id, pmc_provenance, issn, issn_provenance, doi, doi_provenance, journal_name, journal_abbv = line.strip().split('\t')
+                emdb_id, pubmed_id, pubmed_provenance, pmc_id, pmc_provenance, issn, issn_provenance, doi, doi_provenance, journal_name, journal_abbv = line.strip('\n').split('\t')
                 self.emdb_ids.add(emdb_id)
                 authors_list = author_dict[emdb_id]
                 citation = Citation(emdb_id=emdb_id, pmedid=pubmed_id, provenance_pm=pubmed_provenance, pmcid=pmc_id, 
@@ -120,7 +120,7 @@ class Parser:
         filechembl = os.path.join(self.workDir, 'emdb_chembl.log')
         with open(filechembl, 'r') as filereader:
             for line in filereader.readlines()[1:]:
-                emdb_id, sample_id, het_code, ligand_name, copies, chembl_id, provenance = line.strip().split('\t')
+                emdb_id, sample_id, het_code, ligand_name, copies, chembl_id, provenance = line.strip('\n').split('\t')
                 self.emdb_ids.add(emdb_id)
                 ligand = Ligand(emdb_id=emdb_id, sample_id=sample_id, chembl_id=chembl_id,
                                 provenance_chembl=provenance, HET=het_code, lig_name=ligand_name,
@@ -131,7 +131,7 @@ class Parser:
         filechebi = os.path.join(self.workDir, 'emdb_chebi.log')
         with open(filechebi, 'r') as filereader:
             for line in filereader.readlines()[1:]:
-                emdb_id, sample_id, het_code, ligand_name, copies, chebi_id, provenance = line.strip().split('\t')
+                emdb_id, sample_id, het_code, ligand_name, copies, chebi_id, provenance = line.strip('\n').split('\t')
                 self.emdb_ids.add(emdb_id)
                 ligand = Ligand(emdb_id=emdb_id, sample_id=sample_id, chebi_id=chebi_id,
                                 provenance_chebi=provenance, HET=het_code, lig_name=ligand_name, lig_copies=copies)
@@ -141,7 +141,7 @@ class Parser:
         filedb = os.path.join(self.workDir, 'emdb_drugbank.log')
         with open(filedb, 'r') as filereader:
             for line in filereader.readlines()[1:]:
-                emdb_id, sample_id, het_code, ligand_name, copies, db_id, provenance = line.strip().split('\t')
+                emdb_id, sample_id, het_code, ligand_name, copies, db_id, provenance = line.strip('\n').split('\t')
                 self.emdb_ids.add(emdb_id)
                 ligand = Ligand(emdb_id=emdb_id, sample_id=sample_id, drugbank_id=db_id,
                                 provenance_drugbank=provenance, HET=het_code, lig_name=ligand_name, lig_copies=copies)
@@ -152,7 +152,7 @@ class Parser:
         cpx_dict = {}
         with open(filecpx, 'r') as filereader:
             for line in filereader.readlines()[1:]:
-                emdb_id, sample_id, sample_name, copies, cpx_id, cpx_title, provenance, score = line.strip().split('\t')
+                emdb_id, sample_id, sample_name, copies, cpx_id, cpx_title, provenance, score = line.strip('\n').split('\t')
                 self.emdb_ids.add(emdb_id)
                 emdb_sample_id = f"{emdb_id}_{sample_id}"
                 cpx = CPX([cpx_id, cpx_title, "", "", "", "", "", "", ""])
@@ -165,7 +165,7 @@ class Parser:
         filego = os.path.join(self.workDir, 'emdb_go.log')
         with open(filego, 'r') as filereader:
             for line in filereader.readlines()[1:]:
-                emdb_id, sample_id, go_id, go_namespace, go_type, provenance = line.strip().split('\t')
+                emdb_id, sample_id, go_id, go_namespace, go_type, provenance = line.strip('\n').split('\t')
                 self.emdb_ids.add(emdb_id)
                 go = GO(id=go_id, namespace=go_namespace, type=go_type, provenance=provenance)
                 self.proteins[emdb_id][sample_id].go.add(go)
@@ -174,7 +174,7 @@ class Parser:
         fileinterpro = os.path.join(self.workDir, 'emdb_interpro.log')
         with open(fileinterpro, 'r') as filereader:
             for line in filereader.readlines()[1:]:
-                emdb_id, sample_id, interpro_id, interpro_namespace, start, end, uniprot_start, uniprot_end, provenance = line.strip().split('\t')
+                emdb_id, sample_id, interpro_id, interpro_namespace, start, end, uniprot_start, uniprot_end, provenance = line.strip('\n').split('\t')
                 self.emdb_ids.add(emdb_id)
                 interpro = Interpro(id=interpro_id, namespace=interpro_namespace, start=int(start), end=int(end),
                                     unp_start=int(uniprot_start), unp_end=int(uniprot_end), provenance=provenance)
@@ -184,7 +184,7 @@ class Parser:
         filepfam = os.path.join(self.workDir, 'emdb_pfam.log')
         with open(filepfam, 'r') as filereader:
             for line in filereader.readlines()[1:]:
-                emdb_id, sample_id, pfam_id, pfam_namespace, start, end, uniprot_start, uniprot_end, provenance = line.strip().split('\t')
+                emdb_id, sample_id, pfam_id, pfam_namespace, start, end, uniprot_start, uniprot_end, provenance = line.strip('\n').split('\t')
                 self.emdb_ids.add(emdb_id)
                 pfam = Pfam(id=pfam_id, namespace=pfam_namespace, start=int(start), end=int(end), unp_start=int(uniprot_start),
                             unp_end=int(uniprot_end), provenance=provenance)
@@ -194,7 +194,7 @@ class Parser:
         filecath = os.path.join(self.workDir, 'emdb_cath.log')
         with open(filecath, 'r') as filereader:
             for line in filereader.readlines()[1:]:
-                emdb_id, sample_id, cath_id, start, end, uniprot_start, uniprot_end, provenance = line.strip().split('\t')
+                emdb_id, sample_id, cath_id, start, end, uniprot_start, uniprot_end, provenance = line.strip('\n').split('\t')
                 self.emdb_ids.add(emdb_id)
                 cath = Cath(id=cath_id, start=int(start), end=int(end), unp_start=int(uniprot_start), unp_end=int(uniprot_end),
                             provenance=provenance)
@@ -204,7 +204,7 @@ class Parser:
         filescop = os.path.join(self.workDir, 'emdb_scop.log')
         with open(filescop, 'r') as filereader:
             for line in filereader.readlines()[1:]:
-                emdb_id, sample_id, scop_id, start, end, uniprot_start, uniprot_end, provenance = line.strip().split('\t')
+                emdb_id, sample_id, scop_id, start, end, uniprot_start, uniprot_end, provenance = line.strip('\n').split('\t')
                 self.emdb_ids.add(emdb_id)
                 scop = SCOP(id=scop_id, start=int(start), end=int(end), unp_start=int(uniprot_start), unp_end=int(uniprot_end),
                             provenance=provenance)
@@ -214,7 +214,7 @@ class Parser:
         filescop = os.path.join(self.workDir, 'emdb_scop2.log')
         with open(filescop, 'r') as filereader:
             for line in filereader.readlines()[1:]:
-                emdb_id, sample_id, scop_id, start, end, uniprot_start, uniprot_end, provenance = line.strip().split('\t')
+                emdb_id, sample_id, scop_id, start, end, uniprot_start, uniprot_end, provenance = line.strip('\n').split('\t')
                 self.emdb_ids.add(emdb_id)
                 scop2 = SCOP2(id=scop_id, start=int(start), end=int(end), unp_start=int(uniprot_start), unp_end=int(uniprot_end),
                             provenance=provenance)
@@ -224,7 +224,7 @@ class Parser:
         filescop = os.path.join(self.workDir, 'emdb_scop2B.log')
         with open(filescop, 'r') as filereader:
             for line in filereader.readlines()[1:]:
-                emdb_id, sample_id, scop_id, start, end, uniprot_start, uniprot_end, provenance = line.strip().split('\t')
+                emdb_id, sample_id, scop_id, start, end, uniprot_start, uniprot_end, provenance = line.strip('\n').split('\t')
                 self.emdb_ids.add(emdb_id)
                 scop2b = SCOP2B(id=scop_id, start=int(start), end=int(end), unp_start=int(uniprot_start), unp_end=int(uniprot_end),
                             provenance=provenance)
@@ -234,7 +234,7 @@ class Parser:
         filepdbekb = os.path.join(self.workDir, 'emdb_pdbekb.log')
         with open(filepdbekb, 'r') as filereader:
             for line in filereader.readlines()[1:]:
-                emdb_id, sample_id, pdbekb_id, provenance = line.strip().split('\t')
+                emdb_id, sample_id, pdbekb_id, provenance = line.strip('\n').split('\t')
                 self.emdb_ids.add(emdb_id)
                 pdbekb = Pdbekb(uniprot_id=pdbekb_id, provenance=provenance)
                 self.proteins[emdb_id][sample_id].pdbekb = pdbekb
@@ -243,7 +243,7 @@ class Parser:
         fileafdb = os.path.join(self.workDir, 'emdb_alphafold.log')
         with open(fileafdb, 'r') as filereader:
             for line in filereader.readlines()[1:]:
-                emdb_id, sample_id, afdb_id, provenance = line.strip().split('\t')
+                emdb_id, sample_id, afdb_id, provenance = line.strip('\n').split('\t')
                 self.emdb_ids.add(emdb_id)
                 afdb = Alphafold(uniprot_id=afdb_id, provenance=provenance)
                 self.proteins[emdb_id][sample_id].alphafold = afdb
@@ -266,8 +266,6 @@ class Parser:
                 self.complexes[emdb_id][sample_id] = emdb_complex
         else:
             self.complexes[emdb_id] = {sample_id: emdb_complex}
-
-
 
 class EmicssXML:
     """
