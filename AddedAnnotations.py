@@ -8,8 +8,6 @@ from resources.StructureMapping import StructureMapping
 from resources.EMPIARMapping import EMPIARMapping, generate_emp_dictionary
 from resources.PublicationMapping import PublicationMapping, generate_pubmed_dictionary
 from resources.ProteinTermsMapping import ProteinTermsMapping
-from EMICSS.DBVersion import get_db_versions
-from EMICSS.EmicssXML import EmicssXML
 from XMLParser import XMLParser
 from glob import glob
 import logging
@@ -96,9 +94,10 @@ def run(filename):
     if pmc or orcid:
         pubmed_log = start_logger_if_necessary("pubmed_logger", pubmed_log_file) if pmc else None
         orcid_log = start_logger_if_necessary("orcid_logger", orcid_log_file) if orcid else None
+        author_log = start_logger_if_necessary("author_logger", author_log_file) if pmc else None
         pmc_mapping = PublicationMapping(xml.citation)
         pmc_map = pmc_mapping.execute(pubmed_dict)
-        pmc_mapping.export_tsv(pubmed_log, orcid_log)
+        pmc_mapping.export_tsv(pubmed_log, orcid_log, author_log)
         packed_models["CITATION"] = pmc_map
     if go or interpro or pfam or cath or scop or scop2 or scop2B or pdbekb:
         go_log = start_logger_if_necessary("go_logger", go_log_file) if go else None
@@ -113,9 +112,6 @@ def run(filename):
         proteins_map = PT_mapping.execute(uniprot_with_models)
         PT_mapping.export_tsv(go_log, interpro_log, pfam_log, cath_log, scop_log, scop2_log, scop2B_log, pdbekb_log)
         packed_models["PROTEIN-TERMS"] = proteins_map
-    if emicss:
-        write_annotation_xml = EmicssXML(args.workDir, db_version)
-        write_annotation_xml.write(packed_models)
 
 """
 List of things to do:
@@ -134,7 +130,7 @@ if __name__ == "__main__":
             -f '[{"/path/to/EMDB/header/files/folder"}]'
             -p '[{"/path/to/PDBe/files/folder"}]'
             --download_uniprot --uniprot --CPX --component --model --weight --empiar --pmc --GO --interpro --pfam --pbdekb 
-            --cath --scop --scop2 --scop2B --emicss
+            --cath --scop --scop2 --scop2B
           """
 
     parser = argparse.ArgumentParser(prog=prog, usage=usage, add_help=False,
@@ -162,7 +158,6 @@ if __name__ == "__main__":
     parser.add_argument("--scop2", type=bool, nargs='?', const=True, default=False, help="Mapping SCOP2 domains to EMDB entries")
     parser.add_argument("--scop2B", type=bool, nargs='?', const=True, default=False, help="Mapping SCOP2B domains to EMDB entries")
     parser.add_argument("--pdbekb", type=bool, nargs='?', const=True, default=False, help="Mapping PDBeKB links to EMDB entries")
-    parser.add_argument("--emicss", type=bool, nargs='?', const=True, default=False, help="writting EMICSS XML file for each EMDB entry")
     args = parser.parse_args()
 
     packed_models = {}
@@ -184,7 +179,6 @@ if __name__ == "__main__":
     scop2 = args.scop2
     scop2B = args.scop2B
     pdbekb = args.pdbekb
-    emicss = False # args.emicss Temporary false
     input_json = args.json
     uniprot_dictionary = {}
 
@@ -242,7 +236,6 @@ if __name__ == "__main__":
         scop2 = True
         scop2B = True
         pdbekb = True
-        emicss = False # TODO: Temporary
         db_list.extend(["pdbe", "empiar", "uniprot", "chembl", "chebi", "drugbank", "pubmed", "pubmedcentral", "issn",
                         "orcid", "cpx", "go", "interpro", "pfam", "cath", "scop", "scop2", "scop2B", "pdbekb"])
 
@@ -296,6 +289,9 @@ if __name__ == "__main__":
         pubmed_log_file = os.path.join(args.workDir, 'emdb_pubmed.log')
         pubmed_log = setup_logger('pubmed_logger', pubmed_log_file)
         pubmed_log.info("EMDB_ID\tPUBMED_ID\tPUBMED_PROVENANCE\tPUBMEDCENTRAL_ID\tPUBMEDCENTRAL_PROVENANCE\tISSN\tISSN_PROVENANCE\tDOI\tDOI_PROVENANCE\tJOURNAL_NAME\tJOURNAL_ABBV")
+        author_log_file = os.path.join(args.workDir, 'emdb_author.log')
+        author_log = setup_logger('author_logger', author_log_file)
+        author_log.info("EMDB_ID\tAUTHOR_NAME\tAUTHOR_ORDER\tPROVENANCE")
     if orcid:
         orcid_log_file = os.path.join(args.workDir, 'emdb_orcid.log')
         orcid_log = setup_logger('orcid_logger', orcid_log_file)
@@ -332,9 +328,6 @@ if __name__ == "__main__":
         pdbekb_log_file = os.path.join(args.workDir, 'emdb_pdbekb.log')
         pdbekb_log = setup_logger('pdbekb_logger', pdbekb_log_file)
         pdbekb_log.info("EMDB_ID\tEMDB_SAMPLE_ID\tPDBeKB_ID\tPROVENANCE")
-    if emicss:
-        emicss_log_file = os.path.join(args.workDir, 'emdb_emicss.log')
-        emicss_log = setup_logger('emicss_logger', emicss_log_file)
 
     if args.download_uniprot:
             download_uniprot(uniprot_tab)
@@ -345,8 +338,6 @@ if __name__ == "__main__":
     if component:
         chembl_map, chebi_map, drugbank_map = parseCCD(components_cif)
     pubmed_dict = generate_pubmed_dictionary(args.workDir) if pmc else {}
-    if emicss:
-        db_version = get_db_versions(db_list)
     if input_json:
         files = read_json(input_json, args.headerDir)
     else:
