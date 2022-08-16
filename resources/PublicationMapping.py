@@ -53,7 +53,7 @@ class PublicationMapping:
         return self.citation
 
 
-    def export_tsv(self, pubmed_logger, orcid_logger):
+    def export_tsv(self, pubmed_logger, orcid_logger, author_logger):
         if self.citation.pmedid or self.citation.doi:
             pubmed_logger.info(str(self.citation))
         for author in self.citation.authors:
