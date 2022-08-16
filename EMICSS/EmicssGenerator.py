@@ -125,7 +125,7 @@ class Parser:
                 ligand = Ligand(emdb_id=emdb_id, sample_id=sample_id, chembl_id=chembl_id,
                                 provenance_chembl=provenance, HET=het_code, lig_name=ligand_name,
                                 lig_copies=copies)
-                self.__add_ligand(emdb_id, sample_id, ligand, chembl_id, provenance)
+                self.__add_ligand(emdb_id, sample_id, ligand, chembl_id, provenance, "ChEMBL")
 
     def __parse_chebi(self):
         filechebi = os.path.join(self.workDir, 'emdb_chebi.log')
@@ -135,7 +135,7 @@ class Parser:
                 self.emdb_ids.add(emdb_id)
                 ligand = Ligand(emdb_id=emdb_id, sample_id=sample_id, chebi_id=chebi_id,
                                 provenance_chebi=provenance, HET=het_code, lig_name=ligand_name, lig_copies=copies)
-                self.__add_ligand(emdb_id, sample_id, ligand, chebi_id, provenance)
+                self.__add_ligand(emdb_id, sample_id, ligand, chebi_id, provenance, "ChEBI")
 
     def __parse_drugbank(self):
         filedb = os.path.join(self.workDir, 'emdb_drugbank.log')
@@ -145,7 +145,7 @@ class Parser:
                 self.emdb_ids.add(emdb_id)
                 ligand = Ligand(emdb_id=emdb_id, sample_id=sample_id, drugbank_id=db_id,
                                 provenance_drugbank=provenance, HET=het_code, lig_name=ligand_name, lig_copies=copies)
-                self.__add_ligand(emdb_id, sample_id, ligand, db_id, provenance)
+                self.__add_ligand(emdb_id, sample_id, ligand, db_id, provenance, "DrugBank")
 
     def __parse_complex(self):
         filecpx = os.path.join(self.workDir, "emdb_cpx.log")
@@ -246,11 +246,18 @@ class Parser:
                 afdb = Alphafold(uniprot_id=afdb_id, provenance=provenance)
                 self.proteins[emdb_id][sample_id].alphafold = afdb
 
-    def __add_ligand(self, emdb_id, sample_id, ligand, ligand_id, provenance):
+    def __add_ligand(self, emdb_id, sample_id, ligand, ligand_id, provenance, ligand_type):
         if emdb_id in self.ligands:
             if sample_id in self.ligands:
-                self.ligands[emdb_id][sample_id].chembl_id = ligand_id
-                self.ligands[emdb_id][sample_id].provenance_chembl = provenance
+                if ligand_type == "ChEMBL":
+                    self.ligands[emdb_id][sample_id].chembl_id = ligand_id
+                    self.ligands[emdb_id][sample_id].provenance_chembl = provenance
+                elif ligand_type == "ChEBI":
+                    self.ligands[emdb_id][sample_id].chebi_id = ligand_id
+                    self.ligands[emdb_id][sample_id].provenance_chebi = provenance
+                elif ligand_type == "DrugBank":
+                    self.ligands[emdb_id][sample_id].drugbank_id = ligand_id
+                    self.ligands[emdb_id][sample_id].provenance_drugbank = provenance
             else:
                 self.ligands[emdb_id][sample_id] = ligand
         else:
