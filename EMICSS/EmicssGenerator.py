@@ -265,7 +265,7 @@ class Parser:
 
     def __add_complex(self, emdb_id, sample_id, emdb_complex, cpx):
         if emdb_id in self.complexes:
-            if sample_id in self.complexes:
+            if sample_id in self.complexes[emdb_id]:
                 self.complexes[emdb_id][sample_id].cpx_list.append(cpx)
             else:
                 self.complexes[emdb_id][sample_id] = emdb_complex
