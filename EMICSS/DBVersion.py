@@ -11,6 +11,8 @@ class Version:
     Database versions for all mapped external resources
     """
     def __init__(self):
+        self.emdb = None
+        self.pdbe = None
         self.drugbank = self.__find_db_version()
         self.pfam = self.__find_pfam_version()
         self.interpro = self.__find_ipr_version()
@@ -32,15 +34,22 @@ class Version:
 
     def get_all_versions(self):
         return {
+            'EMDB': self.emdb,
+            'EMPIAR': self.empiar,
+            'PDBe': self.pdbe,
+            'PDBe-KB': self.pdbekb,
+            'Complex Portal': self.cpx,
+            'ChEMBL': self.chembl,
+            'ChEBI': self.chebi,
             'DrugBank': self.drugbank,
+            'UniProt': self.uniprot,
+            'GO': self.go,
             'Pfam': self.pfam,
             'InterPro': self.interpro,
             'CATH': self.cath,
-            'ChEMBL': self.chembl,
-            'GO': self.go,
-            'UniProt': self.uniprot,
             'SCOP': self.scop,
             'SCOP2': self.scop2,
+            'SCOP2B':self.scop2b,
             'AlphaFold DB': self.alphafold
         }
 
