@@ -11,7 +11,6 @@ class Version:
     Database versions for all mapped external resources
     """
     def __init__(self):
-        self.cpx = self.__find_cpx_version()
         self.drugbank = self.__find_db_version()
         self.pfam = self.__find_pfam_version()
         self.interpro = self.__find_ipr_version()
@@ -19,9 +18,10 @@ class Version:
         self.chembl = self.__find_chembl_version()
         self.go = self.__find_go_version()
         self.uniprot = self.__find_unp_version()
+        self.alphafold = self.__find_afdb_version()  # TODO: Version is currently fixed to all entries
         self.scop = "1.7.5" # TODO: Create methods to obtain version
         self.scop2 = "2.0" # TODO: Create methods to obtain version
-        self.alphafold = "2.0" # TODO: Create methods to obtain version
+        self.cpx = None  # TODO: Add version
         self.scop2b = None # TODO: Add version
         self.chebi = None # TODO: Add version
         self.empiar = None # TODO: Add version
@@ -32,7 +32,6 @@ class Version:
 
     def get_all_versions(self):
         return {
-            'Complex Portal': self.cpx,
             'DrugBank': self.drugbank,
             'Pfam': self.pfam,
             'InterPro': self.interpro,
@@ -44,6 +43,21 @@ class Version:
             'SCOP2': self.scop2,
             'AlphaFold DB': self.alphafold
         }
+
+    def __find_afdb_version(self):
+        url = "https://alphafold.ebi.ac.uk/api/prediction/Q5VSL9"
+        try:
+            response = requests.get(url, timeout=10)
+        except (requests.exceptions.ConnectTimeout, requests.exceptions.ReadTimeout) as e:
+            return None
+        else:
+            if response.status_code == 200 and response.content:
+                res_text = response.text
+                data = json.loads(res_text)
+                if data:
+                    return data[0]["latestVersion"]
+            return None
+
 
     def __find_cpx_version(self):
         url = "http://ftp.ebi.ac.uk/pub/databases/intact/complex/current/"

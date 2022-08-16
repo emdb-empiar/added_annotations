@@ -297,6 +297,8 @@ class EmicssXML:
         self.__read_ligands(packed_data.get("ligands"))
         self.__read_complexes(packed_data.get("complexes"))
 
+        self.__create_dbs()
+
         if self.all_db:
             self.headerXML.set_dbs(self.dbs)
         if self.entry_ref_dbs.hasContent_():
@@ -491,7 +493,7 @@ class EmicssXML:
                             self.supramolecules.add_supramolecule(supramolecule)
 
     def __create_dbs(self):
-        version_list = self.versions
+        version_list = self.versions.get_all_versions()
         for database in self.all_db:
             if database in version_list:
                 version = version_list[database]
