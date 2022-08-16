@@ -149,14 +149,12 @@ class Parser:
 
     def __parse_complex(self):
         filecpx = os.path.join(self.workDir, "emdb_cpx.log")
-        cpx_dict = {}
         with open(filecpx, 'r') as filereader:
             for line in filereader.readlines()[1:]:
                 emdb_id, sample_id, sample_name, copies, cpx_id, cpx_title, provenance, score = line.strip('\n').split('\t')
                 self.emdb_ids.add(emdb_id)
-                emdb_sample_id = f"{emdb_id}_{sample_id}"
                 cpx = CPX([cpx_id, cpx_title, "", "", "", "", "", "", ""])
-                emdb_complex = EMDB_complex(emdb_id=emdb_id, sample_id=emdb_sample_id, supra_name=sample_name,
+                emdb_complex = EMDB_complex(emdb_id=emdb_id, sample_id=sample_id, supra_name=sample_name,
                              sample_copies=copies, complex_sample_id=sample_id, cpx_list=[cpx],
                              proteins=None, provenance=provenance, score=float(score))
                 self.__add_complex(emdb_id, sample_id, emdb_complex, cpx)
@@ -228,7 +226,7 @@ class Parser:
                 self.emdb_ids.add(emdb_id)
                 scop2b = SCOP2B(id=scop_id, start=int(start), end=int(end), unp_start=int(uniprot_start), unp_end=int(uniprot_end),
                             provenance=provenance)
-                self.proteins[emdb_id][sample_id].scop2b.add(scop2b)
+                self.proteins[emdb_id][sample_id].scop2B.add(scop2b)
 
     def __parse_pdbekb(self):
         filepdbekb = os.path.join(self.workDir, 'emdb_pdbekb.log')
@@ -375,7 +373,7 @@ class EmicssXML:
                     unp_xref_obj = cross_ref_db(source="UniProt", accession_id=protein.uniprot_id,
                                                 provenance=protein.provenance)
                     cross_ref_dbs.add_cross_ref_db(unp_xref_obj)
-                if protein.go > 0:
+                if protein.go:
                     self.all_db.add("GO")
                     for go in protein.go:
                         go_xref_obj = cross_ref_db(name=go.namespace, source="GO", accession_id=go.id,
@@ -387,38 +385,38 @@ class EmicssXML:
                         elif go.type == "F":
                             go_xref_obj.set_type("molecular function")
                         cross_ref_dbs.add_cross_ref_db(go_xref_obj)
-                if protein.interpro > 0:
+                if protein.interpro:
                     self.all_db.add("InterPro")
                     for ipr in protein.interpro:
                         ipr_xref_obj = cross_ref_db(name=ipr.namespace, source="InterPro", accession_id=ipr.id,
                                                     uniprot_start=ipr.start, uniprot_end=ipr.end, provenance=ipr.provenance)
                         cross_ref_dbs.add_cross_ref_db(ipr_xref_obj)
-                if protein.pfam > 0:
+                if protein.pfam:
                     self.all_db.add("Pfam")
                     for pfam in protein.pfam:
                         pfam_xref_obj = cross_ref_db(name=pfam.namespace, source="Pfam", accession_id=pfam.id,
                                                      uniprot_start=pfam.start, uniprot_end=pfam.end,
                                                      provenance=pfam.provenance)
                         cross_ref_dbs.add_cross_ref_db(pfam_xref_obj)
-                if protein.cath > 0:
+                if protein.cath:
                     self.all_db.add("CATH")
                     for cath in protein.cath:
                         cath_xref_obj = cross_ref_db(source="CATH", accession_id=cath.id, uniprot_start=cath.start,
                                                      uniprot_end=cath.end, provenance=cath.provenance)
                         cross_ref_dbs.add_cross_ref_db(cath_xref_obj)
-                if protein.scop > 0:
+                if protein.scop:
                     self.all_db.add("SCOP")
                     for scop in protein.scop:
                         scop_xref_obj = cross_ref_db(source="SCOP", accession_id=scop.id, uniprot_start=scop.start,
                                                      uniprot_end=scop.end, provenance=scop.provenance)
                         cross_ref_dbs.add_cross_ref_db(scop_xref_obj)
-                if protein.scop2 > 0:
+                if protein.scop2:
                     self.all_db.add("SCOP2")
                     for scop2 in protein.scop2:
                         scop2_xref_obj = cross_ref_db(source="SCOP2", accession_id=scop2.id, uniprot_start=scop2.start,
                                                       uniprot_end=scop2.end, provenance=scop2.provenance)
                         cross_ref_dbs.add_cross_ref_db(scop2_xref_obj)
-                if protein.scop2B > 0:
+                if protein.scop2B:
                     self.all_db.add("SCOP2")
                     for scop2B in protein.scop2B:
                         scop2B_xref_obj = cross_ref_db(source="SCOP2B", accession_id=scop2B.id, uniprot_start=scop2B.start,
@@ -468,7 +466,7 @@ class EmicssXML:
     def __read_complexes(self, complexes):
         if complexes:
             self.all_db.add("Complex Portal")
-            for emdb_complex in complexes:
+            for sample_id, emdb_complex in complexes.items():
                 if emdb_complex:
                     cross_ref_dbs = cross_ref_dbsType()
                     if emdb_complex.cpx_list:
