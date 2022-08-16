@@ -6,26 +6,28 @@ class Protein:
     """
     Defines the attributes of a protein sample in a EMDB entry
     """
-    def __init__(self, emdb_id, sample_id):
+    def __init__(self, emdb_id, sample_id, sample_name="", sample_organism=None, pdb=None, sample_complexes=None, uniprot_id=None,
+                 provenance=None, sequence="", sample_copies="", go=None, interpro=None, pfam=None, cath=None, scop=None,
+                 scop2=None, scop2B=None, pdbekb=None, alphafold=None):
         self.emdb_id = emdb_id
         self.sample_id = sample_id
-        self.sample_name = ""
-        self.sample_organism = None
-        self.pdb = []
-        self.sample_complexes = []
-        self.uniprot_id = None
-        self.provenance = None
-        self.sequence = ""
-        self.sample_copies = ""
-        self.go = set()
-        self.interpro = set()
-        self.pfam = set()
-        self.cath = set()
-        self.scop = set()
-        self.scop2 = set()
-        self.scop2B = set()
-        self.pdbekb = None
-        self.alphafold = None
+        self.sample_name = sample_name
+        self.sample_organism = sample_organism
+        self.pdb = [] if pdb is None else pdb
+        self.sample_complexes = [] if sample_complexes is None else sample_complexes
+        self.uniprot_id = uniprot_id
+        self.provenance = provenance
+        self.sequence = sequence
+        self.sample_copies = sample_copies
+        self.go = set() if go is None else go
+        self.interpro = set() if interpro is None else interpro
+        self.pfam = set() if pfam is None else pfam
+        self.cath = set() if cath is None else cath
+        self.scop = set() if scop is None else scop
+        self.scop2 = set() if scop2 is None else scop2
+        self.scop2B = set() if scop2B is None else scop2B
+        self.pdbekb = pdbekb
+        self.alphafold = alphafold
 
     def __str__(self):
         return "%s (%s)\n%s (%s) %s - %s [%s]\nComplexes: %s\nPDB: \n%s\n%s\n%s\n  %s\n%s\n" % (self.sample_name, self.sample_organism,
@@ -91,11 +93,11 @@ class Supra:
     """
     Defines the attributes of a supra_molecules in a EMDB entry
     """
-    def __init__(self, emdb_id, supra_id):
+    def __init__(self, emdb_id, supra_id, supra_name="", kind=""):
         self.emdb_id = emdb_id
         self.supra_id = supra_id
-        self.supra_name = ""
-        self.kind = ""
+        self.supra_name = supra_name
+        self.kind = kind
 
     def __str__(self):
         return "%s\t%s\t%s\t%s" % (self.emdb_id, self.supra_id, self.supra_name, self.kind)
@@ -105,16 +107,17 @@ class EMDB_complex:
     EMDB complex sample obtained from the header files in the Uniprot mapping
     """
 
-    def __init__(self, emdb_id, sample_id, supra_name, sample_copies, complex_sample_id):
+    def __init__(self, emdb_id, sample_id, supra_name, sample_copies, complex_sample_id, cpx_list=None, proteins=None,
+                 provenance="", score=0.0):
         self.emdb_id = emdb_id
         self.sample_id = emdb_id+"_"+sample_id
         self.supra_name = supra_name
         self.sample_copies = sample_copies
         self.complex_sample_id = complex_sample_id
-        self.cpx_list = []
-        self.proteins = set()
-        self.provenance = ""
-        self.score = 0.0
+        self.cpx_list = [] if cpx_list is None else cpx_list
+        self.proteins = set() if proteins is None else proteins
+        self.provenance = provenance
+        self.score = score
 
     def add_protein(self, uniprot_id):
         self.proteins.add(uniprot_id)
@@ -123,18 +126,19 @@ class Ligand:
     """
     Defines the attributes of a ligands sample in a EMDB entry
     """
-    def __init__(self, emdb_id, sample_id):
+    def __init__(self, emdb_id, sample_id, chembl_id="", chebi_id="", drugbank_id="", provenance_chembl="", provenance_chebi="",
+                 provenance_drugbank="", HET="", lig_name="", lig_copies=""):
         self.emdb_id = emdb_id
         self.sample_id = sample_id
-        self.provenance_chebi = ""
-        self.provenance_chembl = ""
-        self.provenance_drugbank = ""
-        self.HET = ""
-        self.lig_name = ""
-        self.chembl_id = ""
-        self.chebi_id = ""
-        self.drugbank_id = ""
-        self.lig_copies = ""
+        self.provenance_chebi = provenance_chebi
+        self.provenance_chembl = provenance_chembl
+        self.provenance_drugbank = provenance_drugbank
+        self.HET = HET
+        self.lig_name = lig_name
+        self.chembl_id = chembl_id
+        self.chebi_id = chebi_id
+        self.drugbank_id = drugbank_id
+        self.lig_copies = lig_copies
 
     def get_chembl_tsv(self):
         if self.chembl_id:
@@ -158,11 +162,11 @@ class Model:
     """
     Define the PDB model, preferred assembly and molecular weight
     """
-    def __init__(self, emdb_id, pdb_id):
+    def __init__(self, emdb_id, pdb_id, assembly=1, molecular_weight=0.0):
         self.emdb_id = emdb_id
         self.pdb_id = pdb_id
-        self.assembly = 1
-        self.molecular_weight = 0.0 #Dalton
+        self.assembly = assembly
+        self.molecular_weight = molecular_weight #Dalton
 
     def __str__(self):
         return ("{}\t{}\t{}\t{:0.3f}".format(self.emdb_id, self.pdb_id, self.assembly, self.molecular_weight))
@@ -171,11 +175,11 @@ class Weight:
     """
     Total weight of the sample provided by author
     """
-    def __init__(self, emdb_id):
+    def __init__(self, emdb_id, overall_mw=0.0, units="", provenance=""):
         self.emdb_id = emdb_id
-        self.overall_mw = 0.0
-        self.units = ""
-        self.provenance = ""
+        self.overall_mw = overall_mw
+        self.units = units
+        self.provenance = provenance
 
     def __str__(self):
             return ("%s\t%s\t%s\t%s\n" % (self.emdb_id, self.overall_mw, self.units, self.provenance))
@@ -184,9 +188,9 @@ class Empiar:
     """
     Defines the EMPIAR ID in a EMDB entry
     """
-    def __init__(self, emdb_id):
+    def __init__(self, emdb_id, empiar_id=""):
         self.emdb_id = emdb_id
-        self.empiar_id = ""
+        self.empiar_id = empiar_id
 
     def __str__(self):
         return "%s\t%s\n" % (self.emdb_id, self.empiar_id)
@@ -207,23 +211,25 @@ class Citation:
     """
     Defines the attributes of a publication in a EMDB entry
     """
-    def __init__(self, emdb_id):
+    def __init__(self, emdb_id, pmedid="", pmcid="", doi="", issn="", journal="", journal_abbv="", authors=None, status="",
+                 title="", provenance_pm="", provenance_pmc="", provenance_issn="", provenance_doi="", provenance_orcid="",
+                 url=""):
         self.emdb_id = emdb_id
-        self.pmedid = ""
-        self.pmcid = ""
-        self.doi = ""
-        self.issn = ""
-        self.journal = ""
-        self.journal_abbv = ""
-        self.authors = []
-        self.status = ""
-        self.title = ""
-        self.provenance_pm = ""
-        self.provenance_pmc = ""
-        self.provenance_issn = ""
-        self.provenance_doi = ""
-        self.provenance_orcid = ""
-        self.url = ""
+        self.pmedid = pmedid
+        self.pmcid = pmcid
+        self.doi = doi
+        self.issn = issn
+        self.journal = journal
+        self.journal_abbv = journal_abbv
+        self.authors = [] if authors is None else authors
+        self.status = status
+        self.title = title
+        self.provenance_pm = provenance_pm
+        self.provenance_pmc = provenance_pmc
+        self.provenance_issn = provenance_issn
+        self.provenance_doi = provenance_doi
+        self.provenance_orcid = provenance_orcid
+        self.url = url
 
     def __str__(self):
         return f"{self.emdb_id}\t{self.pmedid}\t{self.provenance_pm}\t{self.pmcid}\t{self.provenance_pmc}\t{self.issn}\t{self.provenance_issn}\t{self.doi}\t{self.provenance_doi}\t{self.journal}\t{self.journal_abbv}"
@@ -237,12 +243,12 @@ class GO:
     """
     Define the GO terms for the sample in the EMDB entry
     """
-    def __init__(self):
-        self.id = ""
-        self.namespace = ""
-        self.type = ""
-        self.unip_id = ""
-        self.provenance = ""
+    def __init__(self, id="", namespace="", type="", unip_id="", provenance=""):
+        self.id = id
+        self.namespace = namespace
+        self.type = type
+        self.unip_id = unip_id
+        self.provenance = provenance
 
     def __eq__(self, other):
         return (isinstance(other, self.__class__) and
@@ -289,15 +295,15 @@ class Interpro:
     """
     Define the InterPro terms for the sample in the EMDB entry
     """
-    def __init__(self):
-        self.id = ""
-        self.namespace = ""
-        self.unip_id = ""
-        self.provenance = ""
-        self.start = 0
-        self.end = 0
-        self.unp_start = 0
-        self.unp_end = 0
+    def __init__(self, id="", namespace="", unip_id="", provenance="", start=0, end=0, unp_start=0, unp_end=0):
+        self.id = id
+        self.namespace = namespace
+        self.unip_id = unip_id
+        self.provenance = provenance
+        self.start = start
+        self.end = end
+        self.unp_start = unp_start
+        self.unp_end = unp_end
 
     def __eq__(self, other):
         return (isinstance(other, self.__class__) and
@@ -338,15 +344,15 @@ class Pfam:
     """
     Define the Pfam domains for the sample in the EMDB entry
     """
-    def __init__(self):
-        self.id = ""
-        self.namespace = ""
-        self.unip_id = ""
-        self.provenance = ""
-        self.start = 0
-        self.end = 0
-        self.unp_start = 0
-        self.unp_end = 0
+    def __init__(self, id="", namespace="", unip_id="", provenance="", start=0, end=0, unp_start=0, unp_end=0):
+        self.id = id
+        self.namespace = namespace
+        self.unip_id = unip_id
+        self.provenance = provenance
+        self.start = start
+        self.end = end
+        self.unp_start = unp_start
+        self.unp_end = unp_end
 
     def __eq__(self, other):
         return (isinstance(other, self.__class__) and
@@ -386,14 +392,14 @@ class Cath:
     """
     Define the CATH domains for the sample in the EMDB entry
     """
-    def __init__(self):
-        self.id = ""
-        self.unip_id = ""
-        self.provenance = ""
-        self.start = 0
-        self.end = 0
-        self.unp_start = 0
-        self.unp_end = 0
+    def __init__(self, id="", unip_id="", provenance="", start=0, end=0, unp_start=0, unp_end=0):
+        self.id = id
+        self.unip_id = unip_id
+        self.provenance = provenance
+        self.start = start
+        self.end = end
+        self.unp_start = unp_start
+        self.unp_end = unp_end
 
     def __eq__(self, other):
         return (isinstance(other, self.__class__) and
@@ -413,14 +419,14 @@ class SCOP:
     """
     Define the SCOP domains for the sample in the EMDB entry
     """
-    def __init__(self):
-        self.id = ""
-        self.unip_id = ""
-        self.provenance = ""
-        self.start = 0
-        self.end = 0
-        self.unp_start = 0
-        self.unp_end = 0
+    def __init__(self, id="", unip_id="", provenance="", start=0, end=0, unp_start=0, unp_end=0):
+        self.id = id
+        self.unip_id = unip_id
+        self.provenance = provenance
+        self.start = start
+        self.end = end
+        self.unp_start = unp_start
+        self.unp_end = unp_end
 
     def __eq__(self, other):
         return (isinstance(other, self.__class__) and
@@ -440,14 +446,14 @@ class SCOP2:
     """
     Define the SCOP2 domains for the sample in the EMDB entry
     """
-    def __init__(self):
-        self.id = ""
-        self.unip_id = ""
-        self.provenance = ""
-        self.start = 0
-        self.end = 0
-        self.unp_start = 0
-        self.unp_end = 0
+    def __init__(self, id="", unip_id="", provenance="", start=0, end=0, unp_start=0, unp_end=0):
+        self.id = id
+        self.unip_id = unip_id
+        self.provenance = provenance
+        self.start = start
+        self.end = end
+        self.unp_start = unp_start
+        self.unp_end = unp_end
 
     def __eq__(self, other):
         return (isinstance(other, self.__class__) and
@@ -467,14 +473,14 @@ class SCOP2B:
     """
     Define the SCOP2B domains for the sample in the EMDB entry
     """
-    def __init__(self):
-        self.id = ""
-        self.unip_id = ""
-        self.provenance = ""
-        self.start = 0
-        self.end = 0
-        self.unp_start = 0
-        self.unp_end = 0
+    def __init__(self, id="", unip_id="", provenance="", start=0, end=0, unp_start=0, unp_end=0):
+        self.id = id
+        self.unip_id = unip_id
+        self.provenance = provenance
+        self.start = start
+        self.end = end
+        self.unp_start = unp_start
+        self.unp_end = unp_end
 
     def __eq__(self, other):
         return (isinstance(other, self.__class__) and
@@ -495,7 +501,7 @@ class Pdbekb:
     """
     Define the PDBeKB terms for the sample in the EMDB entry
     """
-    def __init__(self, uniprot_id, provenance):
+    def __init__(self, uniprot_id, provenance=None):
         self.unip_id = uniprot_id
         self.provenance = provenance
 
@@ -506,7 +512,7 @@ class Alphafold:
     """
     Define the Alphafold terms for the sample in the EMDB entry
     """
-    def __init__(self, uniprot_id, provenance):
+    def __init__(self, uniprot_id, provenance=None):
         self.unip_id = uniprot_id
         self.provenance = provenance
 
