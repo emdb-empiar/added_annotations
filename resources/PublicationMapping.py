@@ -7,7 +7,7 @@ def generate_pubmed_dictionary(workDir):
     with open(epmc_pubmed, 'r') as f:
         for line in f.readlines()[1:]:
             row = line.strip('\n').split('\t')
-            pubmed_dict[row[0]] = {'pmid': row[0], 'pmcid': row[1], 'doi': row[2], 'issn': row[3], 'authors': row[4:]}
+            pubmed_dict[row[0]] = {'pmid': row[0], 'pmcid': row[1], 'doi': row[2], 'issn': row[3], 'journal': row[4], 'journal_abbv': row[5], 'authors': row[6:]}
     return pubmed_dict
 
 class PublicationMapping:
@@ -45,7 +45,13 @@ class PublicationMapping:
                 if pm['issn']:
                     self.citation.issn = pm['issn']
                     self.citation.provenance_issn = "EuropePMC"
+
+                if pm['journal']:
+                    self.citation.journal = pm['journal']
+                if pm['journal_abbv']:
+                    self.citation.journal_abbv = pm['journal_abbv']
         return self.citation
+
 
     def export_tsv(self, pubmed_logger, orcid_logger):
         if self.citation.pmedid or self.citation.doi:
