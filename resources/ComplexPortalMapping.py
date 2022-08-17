@@ -141,5 +141,5 @@ class CPMapping:
         for emcpx in self.annotations:
             if emcpx:
                 for cpx in emcpx.cpx_list:
-                    cpx_logger.info("%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s" % (emcpx.emdb_id, (emcpx.sample_id).split("_")[1], emcpx.supra_name.strip("\n"),
+                    cpx_logger.info("%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s" % (emcpx.emdb_id, (emcpx.sample_id).split("_")[1], emcpx.supra_name.replace("\n", ""),
                                                                   emcpx.sample_copies, cpx.cpx_id, cpx.name, emcpx.provenance, emcpx.score))
