@@ -5,7 +5,6 @@ from Bio import Align
 import copy
 import xmltodict
 
-
 class ProteinTermsMapping:
     """
     Extract GO, InterPro, Pfam, CATH, SCOP, SCOP2 and SCOP2B terms from SIFTS
@@ -152,7 +151,6 @@ class ProteinTermsMapping:
                                   namespaces=namespaces)
         end_tag = segment.xpath(f".//x:residue[@dbResNum='{pdb_end}']/x:crossRefDb[@dbSource='UniProt']/@dbResNum",
                                 namespaces=namespaces)
-
         start = int(start_tag[0]) if len(start_tag) > 0 else None
         end = int(end_tag[0]) if len(end_tag) > 0 else None
         return start, end
@@ -267,10 +265,8 @@ class ProteinTermsMapping:
                                         start, end = self.extract_uniprot_position(scop2B, segment)
                                         if start and end:
                                             scop2B_matches.add((scop2B_id, start, end))
-
             except (FileNotFoundError, ET.XMLSyntaxError):
                 continue
-
         return go_matches, ipr_matches, pfam_matches, cath_matches, scop_matches, scop2_matches, scop2B_matches
 
     def pfam_api_maponly(self, protein):

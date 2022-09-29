@@ -2,7 +2,6 @@ import os, re, subprocess
 import lxml.etree as ET
 import logging
 from fuzzywuzzy import fuzz
-from models import Protein, Model
 
 uniprot_api = "www.uniprot.org/uniprot/?query=\"%s\" AND database:(type:pdb %s)&format=tab&limit=100&columns=id,organism-id&sort=score"
 
@@ -62,8 +61,6 @@ class UniprotMapping:
 	def execute(self):
 		for protein in self.proteins:
 			protein = self.worker(protein)
-		# for p in self.proteins:
-		# 	print(p.__dict__)
 		return self.proteins
 
 	def worker(self, protein):
