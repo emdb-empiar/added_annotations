@@ -341,6 +341,6 @@ if __name__ == "__main__":
     if input_json:
         files = read_json(input_json, args.headerDir)
     else:
-        files = glob(os.path.join(args.headerDir, '*'))
+        files = glob(os.path.join(args.headerDir, 'EMD-*'))
 
     Parallel(n_jobs=args.threads)(delayed(run)(file) for file in files)
