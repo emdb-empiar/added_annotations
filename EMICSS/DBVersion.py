@@ -96,7 +96,8 @@ class Version:
             return None
 
     def __find_pfam_version(self):
-        url = "http://pfam.xfam.org/family/Piwi/acc?output=xml"
+        # Pfam will be decomissioned in Jan. 2023
+        url = "http://pfam-legacy.xfam.org/family/Piwi/acc?output=xml"
         try:
             response = requests.get(url, timeout=10)
         except (requests.exceptions.ConnectTimeout, requests.exceptions.ReadTimeout) as e:
