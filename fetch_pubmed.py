@@ -79,15 +79,17 @@ def call_ePubmedCentral(pubmed_list, uri):
 def get_pubmed_ids(header_dir):
     pubmed_list = set()
     for xml_dirpath in glob(os.path.join(str(header_dir), '*')):
-        id_num = xml_dirpath.split('-')[1]
-        emdb_id = f"EMD-{id_num}"
-        xml_filepath = os.path.join(xml_dirpath, f"header/emd-{id_num}-v30.xml")
-        tree = ET.parse(xml_filepath)
+        split_dir = xml_dirpath.split('-')
+        if len(split_dir) == 2:
+            id_num = xml_dirpath.split('-')[1]
+            emdb_id = f"EMD-{id_num}"
+            xml_filepath = os.path.join(xml_dirpath, f"header/emd-{id_num}-v30.xml")
+            tree = ET.parse(xml_filepath)
 
-        xrefs = tree.xpath("//crossreferences/citation_list/primary_citation/*/external_references")
-        for ref in xrefs:
-            if ref.attrib['type'] == "PUBMED":
-                pubmed_list.add(ref.text)
+            xrefs = tree.xpath("//crossreferences/citation_list/primary_citation/*/external_references")
+            for ref in xrefs:
+                if ref.attrib['type'] == "PUBMED":
+                    pubmed_list.add(ref.text)
     
     return list(pubmed_list)
 
