@@ -3,7 +3,7 @@ from pathlib import Path
 import models
 from resources.ComplexPortalMapping import CPMapping
 from resources.ComponentsMapping import ComponentsMapping, parseCCD
-from resources.UniprotMapping import UniprotMapping, generate_unp_dictionary, download_uniprot
+from resources.UniprotMapping import UniprotMapping, generate_unp_dictionary
 from resources.StructureMapping import StructureMapping
 from resources.EMPIARMapping import EMPIARMapping, generate_emp_dictionary
 from resources.PublicationMapping import PublicationMapping, generate_pubmed_dictionary
@@ -129,7 +129,7 @@ if __name__ == "__main__":
             python AddedAnnotations.py -w '[{"/path/to/working/folder"}]'
             -f '[{"/path/to/EMDB/header/files/folder"}]'
             -p '[{"/path/to/PDBe/files/folder"}]'
-            --download_uniprot --uniprot --CPX --component --model --weight --empiar --pmc --GO --interpro --pfam --pbdekb 
+            --uniprot --CPX --component --model --weight --empiar --pmc --GO --interpro --pfam --pbdekb 
             --cath --scop --scop2 --scop2B
           """
 
@@ -142,7 +142,6 @@ if __name__ == "__main__":
     parser.add_argument('-t', '--threads', type=int, default=4, help="Number of threads.")
     parser.add_argument('--json', type=Path, help="Path to release json file.")
     parser.add_argument("--all", type=bool, nargs='?', const=True, default=False, help="Fetch all external resources.")
-    parser.add_argument("--download_uniprot", type=bool, nargs='?', const=True, default=False, help="Download uniprot tab file.")
     parser.add_argument("--uniprot", type=bool, nargs='?', const=True, default=False, help="Mapping to Complex Portal.")
     parser.add_argument("--CPX", type=bool, nargs='?', const=True, default=False, help="Mapping to Complex Portal.")
     parser.add_argument("--component", type=bool, nargs='?', const=True, default=False, help="Mapping to ChEMBL, ChEBI and DrugBank.")
@@ -329,8 +328,6 @@ if __name__ == "__main__":
         pdbekb_log = setup_logger('pdbekb_logger', pdbekb_log_file)
         pdbekb_log.info("EMDB_ID\tEMDB_SAMPLE_ID\tPDBeKB_ID\tPROVENANCE")
 
-    if args.download_uniprot:
-            download_uniprot(uniprot_tab)
     if uniprot:
         uniprot_dictionary, uniprot_with_models = generate_unp_dictionary(uniprot_tab)
     if empiar:

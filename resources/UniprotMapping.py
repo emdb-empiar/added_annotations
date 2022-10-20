@@ -38,9 +38,6 @@ def generate_unp_dictionary(uniprot_tab):
 					uniprot[pdb_id] = [(uniprot_id, protein_names)]
 	return uniprot, uniprot_with_models
 
-def download_uniprot(uniprot_tab):
-	os.system('wget "https://www.uniprot.org/uniprot/?query=database:(type:pdb)&format=tab&limit=100000&columns=id,'
-                  'database(PDB),protein names&sort=score" -O %s' % uniprot_tab)
 
 class UniprotMapping:
 	"""

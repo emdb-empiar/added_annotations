@@ -328,7 +328,7 @@ class ProteinTermsMapping:
         go_data = {}
         interpro_data = {}
         pfam_data = {}
-        url = f"https://www.uniprot.org/uniprot/{uid}.xml"
+        url = f"https://www.uniprot.org/uniprotkb/{uid}.xml"
         namespace = {'x': 'http://uniprot.org/uniprot'}
         response = requests.get(url)
         if response.status_code == 200 and response.content:
