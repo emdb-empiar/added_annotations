@@ -31,7 +31,7 @@ class TestUniprotMapping(unittest.TestCase):
         R4GRT5	3ZKT;	Tau-cnva""")
         uniprot = {'5aft': [('A0A0J9X294', 'Dynactin subunit 2')], '6ee9': [('A0A5S8WF48', 'Stress-response Peptide-1')], '3zkt': [('R4GRT5','Tau-cnva')]}
         uniprot_with_models = {'A0A0J9X294', 'A0A5S8WF48', 'R4GRT5'}
-        self.assertEqual(resources.UniprotMapping.generate_unp_dictionary("filename"), (uniprot, uniprot_with_models))
+        self.assertEqual(resources.UniprotMapping.generate_unp_dictionary(file_mock), (uniprot, uniprot_with_models))
 
     def test_worker(self):
         ProteinMap = resources.UniprotMapping.UniprotMapping(self.workDir, self.proteins, self.uniprot_dict, self.blast_db, self.blastp_bin)

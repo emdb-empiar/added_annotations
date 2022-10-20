@@ -1,6 +1,5 @@
 import argparse, configparser, os, json
 from pathlib import Path
-import logging
 import requests
 from glob import glob
 import lxml.etree as ET
@@ -94,13 +93,12 @@ def get_pubmed_ids(header_dir):
     return list(pubmed_list)
 
 if __name__ == "__main__":
-    prog = "EMDBAddedAnnotations(EMICSS)"
+    prog = "Publication (EMICSS)"
     usage = """
-            Collect citation information be read by added annotations
+            Collect Publication and author EMICSS
             Example:
             python fetch_pubmed.py -w '[{"/path/to/working/folder"}]'
-            -f '[{"/path/to/EMDB/header/files/folder"}]'
-            --citation
+            -f '[{"/path/to/EMDB/header/files/folder"}]' -N 400
           """
 
     parser = argparse.ArgumentParser(prog=prog, usage=usage, add_help=False,

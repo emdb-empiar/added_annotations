@@ -4,7 +4,6 @@ from models import CPX
 import mock
 from models import Protein, Model, Supra, EMDB_complex
 
-
 class TestComplexPortalMapping(unittest.TestCase):
     """
     UnitTest for Complex Portal annotations
@@ -38,7 +37,6 @@ class TestComplexPortalMapping(unittest.TestCase):
                         EMDB_complex('EMD-0001', 'EMD-0001_4', 'DNA', '1', '', proteins={'P0987'})]
 
 
-    # @patch.object(resources.ComplexPortalMapping.CPX_database, 'cpx_database', return_value='cpx_db')
     @mock.patch("resources.ComplexPortalMapping.CPX_database.get_from_cpx")
     @mock.patch("resources.ComplexPortalMapping.CPX_database.get_from_uniprot")
     def test_worker(self, uniprot_mock, cpx_mock):
