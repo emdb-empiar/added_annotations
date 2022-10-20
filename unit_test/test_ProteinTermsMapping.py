@@ -10,15 +10,15 @@ class TestProteinTermsMapping(unittest.TestCase):
     def setUp(self):
         super(TestProteinTermsMapping, self).setUp()
         self.sifts_prefix = "/sifts_path"
-        self.is_interpro = "/dummy"
-        self.is_go = "/dummy"
-        self.is_pfam = "/dummy"
-        self.is_cath = "/dummy"
-        self.is_scop = "/dummy"
-        self.is_scop2 = "/dummy"
-        self.is_scop2B = "/dummy"
-        self.is_pdbekb = "/dummy"
-        self.uniprot_with_models = {'A0A0J9X294', 'P0A7Z4', 'P0A800', 'R4GRT5'}
+
+        self.is_interpro = True
+        self.is_go = True
+        self.is_pfam = True
+        self.is_cath = True
+        self.is_scop = True
+        self.is_scop2 = True
+        self.is_scop2B = True
+        self.is_pdbekb = True
         model = Model("EMD-0001", '6GH5')
         self.proteins = [
             Protein("EMD-0001", "1", sample_name="DNA-directed RNA polymerase subunit alpha", sample_organism="83333", pdb=[model], uniprot_id="P0A7Z4",
@@ -83,6 +83,7 @@ class TestProteinTermsMapping(unittest.TestCase):
             </segment>
         </entry>""")
 
+        self.uniprot_with_models = {'A0A0J9X294', 'P0A7Z4', 'P0A800', 'R4GRT5'}
         ProteinMap = resources.ProteinTermsMapping.ProteinTermsMapping(self.proteins, self.sifts_prefix, self.is_go, self.is_interpro,
                                                                        self.is_pfam, self.is_cath, self.is_scop,
                                                                        self.is_scop2, self.is_scop2B, self.is_pdbekb)
