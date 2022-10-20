@@ -83,7 +83,7 @@ class TestProteinTermsMapping(unittest.TestCase):
             </segment>
         </entry>""")
 
-        self.uniprot_with_models = {'A0A0J9X294', 'P0A7Z4', 'P0A800', 'R4GRT5'}
+        uniprot_with_models = {'A0A0J9X294', 'P0A7Z4', 'P0A800', 'R4GRT5'}
         ProteinMap = resources.ProteinTermsMapping.ProteinTermsMapping(self.proteins, self.sifts_prefix, self.is_go, self.is_interpro,
                                                                        self.is_pfam, self.is_cath, self.is_scop,
                                                                        self.is_scop2, self.is_scop2B, self.is_pdbekb)
@@ -94,7 +94,7 @@ class TestProteinTermsMapping(unittest.TestCase):
 
         pdbekb = [('P0A7Z4', 'UniProt'), ('P0A800', 'UniProt')]
         for n in range(len(self.proteins)):
-            PT = ProteinMap.execute(self.uniprot_with_models)
+            PT = ProteinMap.execute(uniprot_with_models)
             for i in PT[n].go:
                 self.assertEqual(i.id, go[n][0])
                 self.assertEqual(i.namespace, go[n][1])
