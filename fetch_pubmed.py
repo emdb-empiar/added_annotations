@@ -26,6 +26,7 @@ class PubRef:
             return f"{self.pubmed}\t{self.pmc}\t{self.doi}\t{self.issn}\t{self.journal}\t{self.journal_abbreviation}"
         return f"{self.pubmed}\t{self.pmc}\t{self.doi}\t{self.issn}\t{self.journal}\t{self.journal_abbreviation}\t" + '\t'.join(self.authors)
 
+
 def call_ePubmedCentral(pubmed_list, uri):
     publications = []
 
