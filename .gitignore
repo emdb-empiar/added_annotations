@@ -10,3 +10,5 @@ venv/
 **.jpeg
 **.gif
 **.xsd
+.github
+.coverage
