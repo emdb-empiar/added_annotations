@@ -83,7 +83,7 @@ for latest_file_path in pathlib.Path(latest_data_path).glob('*.log'):
 	if resource in resources_2_column:
 		column_name = resources_2_column[resource]
 		resources_count[column_name] = count_latest
-	previous_file_path = previous_data_path + filename.replace('log','tab')
+	previous_file_path = previous_data_path + filename.replace('log','tsv')
 	if pathlib.Path(previous_file_path).is_file():
 		count_previous = count_unique(str(previous_file_path))
 		diff = count_latest-count_previous
