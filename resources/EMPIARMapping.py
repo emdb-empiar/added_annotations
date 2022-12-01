@@ -5,8 +5,11 @@ def generate_emp_dictionary(emdb_empiar_list):
     empiar_dictionary = {}
     with open(emdb_empiar_list, "r") as file:
         data = json.load(file)
-        for emdb, empiar_list in data.items():
-            empiar_dictionary[emdb] = empiar_list
+        results = data["response"]["docs"]
+        for result in results:
+            emdb_id = result["emdb_id"]
+            empiar_list = result["xref_EMPIAR"]
+            empiar_dictionary[emdb_id] = empiar_list
     return empiar_dictionary
 
 class EMPIARMapping:
