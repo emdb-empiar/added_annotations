@@ -14,7 +14,6 @@ class XMLParser:
 		self.supras = []
 		self.ligands = []
 		self.models = []
-		self.weights = []
 		self.citation = None
 		self.overall_mw = 0.0
 		self.read_xml()
@@ -88,11 +87,14 @@ class XMLParser:
 			a = root.attrib
 			self.emdb_id = a.get('emdb_id')
 			prt_cpx = {} #Macromolecule -> Supramolecule
+
+			# Iterate over models
 			for x in list(root.iter('pdb_reference')):
 				pdb_id = x.find('pdb_id').text.lower()
 				model = Model(self.emdb_id, pdb_id)
 				self.models.append(model)
 
+			# Iterate over complexes
 			if list(root.iter('complex_supramolecule')):			
 				for x in list(root.iter('complex_supramolecule')):
 					complex_id = x.attrib['supramolecule_id']
@@ -111,6 +113,7 @@ class XMLParser:
 						else:
 							prt_cpx[protein_id] = set(complex_id)
 
+			# Iterate over proteins and peptides
 			if list(root.iter('protein_or_peptide')):
 				for x in list(root.iter('protein_or_peptide')):
 					sample_id = x.attrib['macromolecule_id']
@@ -161,16 +164,7 @@ class XMLParser:
 						protein.sequence = seq
 					self.proteins.append(protein)
 
-			supramolecule_list = ["cell_supramolecule", "complex_supramolecule", "organelle_or_cellular_component_supramolecule",
-								  "sample_supramolecule", "virus_supramolecule"]
-			for element in supramolecule_list:
-				if list(root.iter(element)):
-					for x in list(root.iter(element)):
-						weight = Weight(self.emdb_id)
-						weight.provenance = "EMDB"
-						# t.macro_exp_unit = exp_weight_unit
-						self.weights.append(weight)
-
+			# Iterate over Ligands
 			if list(root.iter('ligand')):
 				for x in list(root.iter('ligand')):
 					if x is not None:
@@ -204,6 +198,7 @@ class XMLParser:
 									ligand.provenance_drugbank = "EMDB"
 							self.ligands.append(ligand)
 
+			# Iterate over primary citation
 			if list(root.iter('primary_citation')):
 				for y in list(root.iter('primary_citation')):
 					citation = Citation(self.emdb_id)
