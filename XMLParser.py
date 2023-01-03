@@ -89,8 +89,9 @@ class XMLParser:
 			prt_cpx = {} #Macromolecule -> Supramolecule
 
 			# Iterate over models
-			for x in list(root.iter('pdb_reference')):
-				pdb_id = x.find('pdb_id').text.lower()
+			models = root.xpath(".//pdb_list/pdb_reference/pdb_id/text()")
+			for pdb_id in models:
+				pdb_id = pdb_id.lower()
 				model = Model(self.emdb_id, pdb_id)
 				self.models.append(model)
 
