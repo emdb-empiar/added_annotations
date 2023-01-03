@@ -199,38 +199,32 @@ class XMLParser:
 							self.ligands.append(ligand)
 
 			# Iterate over primary citation
-			if list(root.iter('primary_citation')):
-				for y in list(root.iter('primary_citation')):
-					citation = Citation(self.emdb_id)
-					pub = y.find('journal_citation')
-					for auth in y.iter('author'):
-						author = Author(auth.text, int(auth.attrib['order']))
-						if 'ORCID' in auth.attrib:
-							author.orcid = auth.attrib['ORCID']
-						citation.authors.append(author)
-					nas = pub.find('title').text
-					title = nas.split('\n\n', 1)[0]
-					citation.title = title
-					pubStatus = pub.attrib['published']
-					if pubStatus == 'true':
-						citation.status = "published"
-					if pubStatus is None:
-						continue
-					for child in pub:
-						pmedid = child.text
-						pmedty = (child.attrib).get('type')
-						if pmedty is not None:
-							if pmedty == 'PUBMED':
-								citation.pmedid = pmedid
-								citation.provenance_pm = "EMDB"
-							if pmedty == 'DOI':
-								doi = pmedid.split(":")[1]
-								citation.doi = doi
-								citation.provenance_doi = "EMDB"
-							if pmedty == 'ISSN':
-								citation.issn = pmedid
-								citation.provenance_issn = "EMDB"
-					self.citation = citation
+			primary_citation_list = root.xpath('.//primary_citation/journal_citation')
+			if primary_citation_list:
+				journal_citation = primary_citation_list.pop()
+				citation = Citation(self.emdb_id)
+				for author_tag in journal_citation.iter('author'):
+					author = Author(author_tag.text, int(author_tag.attrib['order']))
+					if 'ORCID' in author_tag.attrib:
+						author.orcid = author_tag.attrib['ORCID']
+					citation.authors.append(author)
+				citation.title = journal_citation.find('title').text.strip()
+				citation.published = True if journal_citation.get("published") == "true" else False
+				citation_refs = journal_citation.xpath("external_references")
+				for xref in citation_refs:
+					ref_value = xref.text
+					ref_db = xref.get('type')
+					if ref_db == "PUBMED":
+						citation.pmedid = ref_value
+						citation.provenance_pm = "EMDB"
+					elif ref_db == "DOI":
+						doi = ref_value.split(":")[1]
+						citation.doi = doi
+						citation.provenance_doi = "EMDB"
+					elif ref_db = "ISSN":
+						citation.issn = ref_value
+						citation.provenance_pm = "EMDB"
+				self.citation = citation_refs
 
 			#MW calculation
 			sample_dic = {}

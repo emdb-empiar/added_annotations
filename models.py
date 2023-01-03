@@ -211,7 +211,7 @@ class Citation:
     """
     Defines the attributes of a publication in a EMDB entry
     """
-    def __init__(self, emdb_id, pmedid="", pmcid="", doi="", issn="", journal="", journal_abbv="", authors=None, status="",
+    def __init__(self, emdb_id, pmedid="", pmcid="", doi="", issn="", journal="", journal_abbv="", authors=None, published=True,
                  title="", provenance_pm="", provenance_pmc="", provenance_issn="", provenance_doi="", provenance_orcid="",
                  url=""):
         self.emdb_id = emdb_id
@@ -222,7 +222,7 @@ class Citation:
         self.journal = journal
         self.journal_abbv = journal_abbv
         self.authors = [] if authors is None else authors
-        self.status = status
+        self.published = status
         self.title = title
         self.provenance_pm = provenance_pm
         self.provenance_pmc = provenance_pmc
