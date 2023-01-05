@@ -89,29 +89,29 @@ class Sample:
     def __str__(self):
         return f"{self.id}: {self.mw} ({self.copies})"
 
-class Supra:
+class Supramolecule:
     """
     Defines the attributes of a supra_molecules in a EMDB entry
     """
-    def __init__(self, emdb_id, supra_id, supra_name="", kind=""):
+    def __init__(self, emdb_id, supramolecule_id, name="", mol_type=""):
+        self.id = supramolecule_id
         self.emdb_id = emdb_id
-        self.supra_id = supra_id
-        self.supra_name = supra_name
-        self.kind = kind
+        self.name = name
+        self.type = mol_type
 
     def __str__(self):
-        return "%s\t%s\t%s\t%s" % (self.emdb_id, self.supra_id, self.supra_name, self.kind)
+        return "%s\t%s\t%s\t%s" % (self.emdb_id, self.id, self.name, self.type)
 
 class EMDB_complex:
     """
     EMDB complex sample obtained from the header files in the Uniprot mapping
     """
 
-    def __init__(self, emdb_id, sample_id, supra_name, sample_copies, complex_sample_id, cpx_list=None, proteins=None,
+    def __init__(self, emdb_id, sample_id, name, sample_copies, complex_sample_id, cpx_list=None, proteins=None,
                  provenance="", score=0.0):
         self.emdb_id = emdb_id
         self.sample_id = emdb_id+"_"+sample_id
-        self.supra_name = supra_name
+        self.name = name
         self.sample_copies = sample_copies
         self.complex_sample_id = complex_sample_id
         self.cpx_list = [] if cpx_list is None else cpx_list
@@ -127,35 +127,35 @@ class Ligand:
     Defines the attributes of a ligands sample in a EMDB entry
     """
     def __init__(self, emdb_id, sample_id, chembl_id="", chebi_id="", drugbank_id="", provenance_chembl="", provenance_chebi="",
-                 provenance_drugbank="", HET="", lig_name="", lig_copies=""):
+                 provenance_drugbank="", HET="", name="", copies=1):
         self.emdb_id = emdb_id
         self.sample_id = sample_id
         self.provenance_chebi = provenance_chebi
         self.provenance_chembl = provenance_chembl
         self.provenance_drugbank = provenance_drugbank
         self.HET = HET
-        self.lig_name = lig_name
+        self.name = name
         self.chembl_id = chembl_id
         self.chebi_id = chebi_id
         self.drugbank_id = drugbank_id
-        self.lig_copies = lig_copies
+        self.copies = copies
 
     def get_chembl_tsv(self):
         if self.chembl_id:
-            return "%s\t%s\t%s\t%s\t%s\t%s\t%s" % (self.emdb_id, self.sample_id, self.HET, self.lig_name,
-                                                     self.lig_copies, self.chembl_id, self.provenance_chembl)
+            return "%s\t%s\t%s\t%s\t%s\t%s\t%s" % (self.emdb_id, self.sample_id, self.HET, self.name,
+                                                     self.copies, self.chembl_id, self.provenance_chembl)
         return ""
 
     def get_chebi_tsv(self):
         if self.chebi_id:
-            return "%s\t%s\t%s\t%s\t%s\t%s\t%s" % (self.emdb_id, self.sample_id, self.HET, self.lig_name,
-                                                     self.lig_copies, self.chebi_id, self.provenance_chebi)
+            return "%s\t%s\t%s\t%s\t%s\t%s\t%s" % (self.emdb_id, self.sample_id, self.HET, self.name,
+                                                     self.copies, self.chebi_id, self.provenance_chebi)
         return ""
 
     def get_drugbank_tsv(self):
         if self.drugbank_id:
-            return "%s\t%s\t%s\t%s\t%s\t%s\t%s" % (self.emdb_id, self.sample_id, self.HET, self.lig_name,
-                                                     self.lig_copies, self.drugbank_id, self.provenance_drugbank)
+            return "%s\t%s\t%s\t%s\t%s\t%s\t%s" % (self.emdb_id, self.sample_id, self.HET, self.name,
+                                                     self.copies, self.drugbank_id, self.provenance_drugbank)
         return ""
 
 class Model:
@@ -211,7 +211,7 @@ class Citation:
     """
     Defines the attributes of a publication in a EMDB entry
     """
-    def __init__(self, emdb_id, pmedid="", pmcid="", doi="", issn="", journal="", journal_abbv="", authors=None, status="",
+    def __init__(self, emdb_id, pmedid="", pmcid="", doi="", issn="", journal="", journal_abbv="", authors=None, published=True,
                  title="", provenance_pm="", provenance_pmc="", provenance_issn="", provenance_doi="", provenance_orcid="",
                  url=""):
         self.emdb_id = emdb_id
@@ -222,7 +222,7 @@ class Citation:
         self.journal = journal
         self.journal_abbv = journal_abbv
         self.authors = [] if authors is None else authors
-        self.status = status
+        self.published = published
         self.title = title
         self.provenance_pm = provenance_pm
         self.provenance_pmc = provenance_pmc

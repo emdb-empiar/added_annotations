@@ -2,7 +2,7 @@ import unittest
 import resources.ComplexPortalMapping
 from models import CPX
 import mock
-from models import Protein, Model, Supra, EMDB_complex
+from models import Protein, Model, Supramolecule, EMDB_complex
 
 class TestComplexPortalMapping(unittest.TestCase):
     """
@@ -27,9 +27,9 @@ class TestComplexPortalMapping(unittest.TestCase):
             Protein("EMD-0001", "2", sample_name="DNA-directed RNA polymerase", sample_organism="83333", pdb=[Model('EMD-0001','6GFW')],
                     sample_complexes=['1', '2'], uniprot_id="P0A8T7", provenance="UNIPROT"),
             Protein("EMD-0001", "4", sample_name="DNA", sample_organism="83333", uniprot_id="P0A7Z4", provenance="UNIPROT")]
-        self.supras = [Supra('EMD-0001', 'supra_1', supra_name='RNA polymerase-sigma54 holoenzyme', kind='supra'),
-                  Supra('EMD-0001', 'supra_2', supra_name='DNA-directed RNA polymerase', kind='supra'),
-                  Supra('EMD-0001', 'supra_4', supra_name='DNA', kind='supra')]
+        self.supramolecules = [Supramolecule('EMD-0001', 'supra_1', name='RNA polymerase-sigma54 holoenzyme', mol_type='supra'),
+                  Supramolecule('EMD-0001', 'supra_2', name='DNA-directed RNA polymerase', mol_type='supra'),
+                  Supramolecule('EMD-0001', 'supra_4', name='DNA', mol_type='supra')]
         self.EMDB_complex = [EMDB_complex('EMD-0001', 'EMD-0001_1', 'RNA polymerase-sigma54 holoenzyme', '1', '', cpx_list=['CPX-4881', 'CPX-4883', 'CPX-4885'],
                                        proteins={'P0A800', 'P0A8T7', 'P0A7Z4'}),
                         EMDB_complex('EMD-0001', 'EMD-0001_2', 'DNA-directed RNA polymerase', '1', '', cpx_list=['CPX-4881', 'CPX-4883', 'CPX-4885'],
@@ -45,7 +45,7 @@ class TestComplexPortalMapping(unittest.TestCase):
         cpx_list = [('CPX-4881', 'CPX-4883', 'CPX-4885'), ('CPX-4881', 'CPX-4883', 'CPX-4885'), '']
         score = (0.6, 0.6, 0.0)
         provenance = ("Complex Portal", "Complex Portal", "")
-        ComplexMap = resources.ComplexPortalMapping.CPMapping(self.proteins, self.supras, "CP_FTP")
+        ComplexMap = resources.ComplexPortalMapping.CPMapping(self.proteins, self.supramolecules, "CP_FTP")
 
         self.assertEqual(len(self.proteins), 3)
         for n in range(len(self.proteins)-1):
