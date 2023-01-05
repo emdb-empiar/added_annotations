@@ -62,7 +62,7 @@ def run(filename):
         packed_models['UNIPROT'] = unip_map
     if cpx:
         cpx_logger = start_logger_if_necessary("cpx_logger", cpx_log_file)
-        cpx_mapping = CPMapping(unp_mapping.proteins, xml.supras, CP_ftp)
+        cpx_mapping = CPMapping(unp_mapping.proteins, xml.supramolecules, CP_ftp)
         cpx_map = cpx_mapping.execute()
         cpx_mapping.export_tsv(cpx_logger)
         packed_models["COMPLEX"] = cpx_map

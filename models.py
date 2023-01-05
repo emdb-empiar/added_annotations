@@ -222,7 +222,7 @@ class Citation:
         self.journal = journal
         self.journal_abbv = journal_abbv
         self.authors = [] if authors is None else authors
-        self.published = status
+        self.published = published
         self.title = title
         self.provenance_pm = provenance_pm
         self.provenance_pmc = provenance_pmc

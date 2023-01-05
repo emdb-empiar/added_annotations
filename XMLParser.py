@@ -104,7 +104,7 @@ class XMLParser:
 				supramolecule.type = "supra" #TODO: Where is it being used?
 				complex_name = complex_tag.find('name').text
 				supramolecule.name = f"{complex_name}_{complex_id}"
-				self.supramolecules.append(supra)
+				self.supramolecules.append(supramolecule)
 
 				for macromolecule_id in complex_tag.xpath("macromolecule_list/macromolecule/macromolecule_id/text()"):
 					if macromolecule_id in protein_cpx:
@@ -121,7 +121,7 @@ class XMLParser:
 				protein.sample_name = protein_tag.find('name').text
 				if sample_id in protein_cpx:
 					protein.sample_complexes = list(protein_cpx[sample_id])
-				if protein_tag.find('number_of_copies'):
+				if protein_tag.find('number_of_copies') is not None:
 					protein.sample_copies = protein_tag.find('number_of_copies').text
 				else:
 					protein.sample_copies = "1"
@@ -177,12 +177,12 @@ class XMLParser:
 				HET = ligand_tag.find('formula')
 				if HET is not None:
 					ligand.HET = HET.text
-					ligand_name = ligand.find('name')
+					ligand_name = ligand_tag.find('name')
 					if ligand_name is not None:
 						ligand.name = ligand_name.text
 					ligand_copies = ligand_tag.find('number_of_copies')
 					if ligand_copies is not None:
-						ligand.copies = ligand_copies
+						ligand.copies = ligand_copies.text
 
 					for xref in ligand_tag.iter('external_references'):
 						if xref.attrib['type'] == 'CHEMBL':
@@ -219,10 +219,10 @@ class XMLParser:
 						doi = ref_value.split(":")[1]
 						citation.doi = doi
 						citation.provenance_doi = "EMDB"
-					elif ref_db = "ISSN":
+					elif ref_db == "ISSN":
 						citation.issn = ref_value
 						citation.provenance_pm = "EMDB"
-				self.citation = citation_refs
+				self.citation = citation
 
 			#MW calculation
 			sample_dic = {}
