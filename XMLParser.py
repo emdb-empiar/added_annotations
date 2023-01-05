@@ -1,5 +1,5 @@
 import lxml.etree as ET
-from models import Protein, Supra, Ligand, Model, Weight, Citation, GO, Sample, Interpro, Pfam, Author
+from models import Protein, Supramolecule, Ligand, Model, Weight, Citation, GO, Sample, Interpro, Pfam, Author
 import re
 
 class XMLParser:
@@ -11,7 +11,7 @@ class XMLParser:
 		self.xml_file = file
 		self.emdb_id = ""
 		self.proteins = []
-		self.supras = []
+		self.supramolecules = []
 		self.ligands = []
 		self.models = []
 		self.citation = None
@@ -86,7 +86,7 @@ class XMLParser:
 			root = tree.getroot()
 			a = root.attrib
 			self.emdb_id = a.get('emdb_id')
-			prt_cpx = {} #Macromolecule -> Supramolecule
+			protein_cpx = {} #Macromolecule -> Supramolecule
 
 			# Iterate over models
 			models = root.xpath(".//pdb_list/pdb_reference/pdb_id/text()")
@@ -96,74 +96,78 @@ class XMLParser:
 				self.models.append(model)
 
 			# Iterate over complexes
-			if list(root.iter('complex_supramolecule')):			
-				for x in list(root.iter('complex_supramolecule')):
-					complex_id = x.attrib['supramolecule_id']
-					supra = Supra(self.emdb_id, complex_id)
-					supra.supra_id = "supra_" + complex_id
-					supra.kind = "supra"
-					if x.find('name') is not None:
-						sup_name = x.find('name').text
-						supra.supra_name = sup_name + "_" + complex_id
-					self.supras.append(supra)
+			complexes = root.xpath(".//complex_supramolecule")
+			for complex_tag in complexes:
+				complex_id = complex_tag.attrib['supramolecule_id']
+				supramolecule = Supramolecule(self.emdb_id, complex_id)
+				supramolecule.id = f"supra_{complex_id}" #TODO: Is this supra_ id used anywhere?
+				supramolecule.type = "supra" #TODO: Where is it being used?
+				complex_name = complex_tag.find('name').text
+				supramolecule.name = f"{complex_name}_{complex_id}"
+				self.supramolecules.append(supra)
 
-					for y in list(x.iter('macromolecule_id')):
-						protein_id = y.text
-						if protein_id in prt_cpx:
-							prt_cpx[protein_id].add(complex_id)
-						else:
-							prt_cpx[protein_id] = set(complex_id)
+				for macromolecule_id in complex_tag.xpath("macromolecule_list/macromolecule/macromolecule_id/text()"):
+					if macromolecule_id in protein_cpx:
+						protein_cpx[macromolecule_id].add(complex_id)
+					else:
+						protein_cpx[macromolecule_id] = set(complex_id)
 
 			# Iterate over proteins and peptides
-			if list(root.iter('protein_or_peptide')):
-				for x in list(root.iter('protein_or_peptide')):
-					sample_id = x.attrib['macromolecule_id']
-					protein = Protein(self.emdb_id,sample_id)
-					protein.pdb = self.models
-					protein.sample_name = x.find('name').text
-					if sample_id in prt_cpx:
-						protein.sample_complexes = list(prt_cpx[sample_id])
-					if x.find('number_of_copies') is not None:
-						protein.sample_copies = x.find('number_of_copies').text
-					else:
-						protein.sample_copies = "1"
+			proteins = root.xpath(".//protein_or_peptide")
+			for protein_tag in proteins:
+				sample_id = protein_tag.attrib['macromolecule_id']
+				protein = Protein(self.emdb_id, sample_id)
+				protein.pdb = self.models
+				protein.sample_name = protein_tag.find('name').text
+				if sample_id in protein_cpx:
+					protein.sample_complexes = list(protein_cpx[sample_id])
+				if protein_tag.find('number_of_copies'):
+					protein.sample_copies = protein_tag.find('number_of_copies').text
+				else:
+					protein.sample_copies = "1"
 
-					if x.find('natural_source') is not None:
-						nat_sor = x.find('natural_source')
-						if nat_sor.find('organism') is not None:
-							if 'ncbi' in nat_sor.find('organism').attrib:
-								ncbi_id = nat_sor.find('organism').attrib['ncbi']
-								protein.sample_organism = ncbi_id
+				organism_ncbi = protein_tag.xpath("natural_source/organism/@ncbi")
+				if organism_ncbi:
+					protein.sample_organism = organism_ncbi[0]
 
-					qs = x.find('sequence')
-					if qs.find('external_references') is not None:
-						if qs.find('external_references').attrib['type'] == 'UNIPROTKB':
-							uniprot_id = qs.find('external_references').text
-							protein.uniprot_id = uniprot_id
-							protein.provenance = "EMDB"
-							for t in list(qs.iter('external_references')):
-								if t.attrib['type'] == 'GO':
-									go = GO()
-									go.add_from_author(t.text, uniprot_id)
-									if go.id and go.namespace and go.type:
-										protein.go.add(go)
-								elif t.attrib['type'] == 'INTERPRO':
-									ipr = Interpro()
-									ipr.add_from_author(t.text, uniprot_id)
-									if ipr.id and ipr.namespace:
-										protein.interpro.add(ipr)
-								elif t.attrib['type'] == 'PFAM':
-									pfam = Pfam()
-									pfam.add_from_author(t.text, uniprot_id)
-									if pfam.id:
-										protein.pfam.add(pfam)
-					if qs.find('string') is not None:
-						seq = qs.find('string').text
-						#seq = re.sub(r'\(\s*UNK\s*\)', 'X', seq)
-						seq = re.sub(r'\(.*?\)', 'X', seq)
-						seq = seq.replace("\n", "")
-						protein.sequence = seq
-					self.proteins.append(protein)
+				uniprot_id = ""
+				go_id = ""
+				ipr_id = ""
+				pfam_id = ""
+				for xref in protein_tag.xpath("sequence/external_references"):
+					if xref.attrib['type'] == 'UNIPROTKB':
+						uniprot_id = xref.text
+					elif xref.attrib['type'] == 'GO':
+						go_id = xref.text
+					elif xref.attrib['type'] == 'INTERPRO':
+						ipr_id = xref.text
+					elif xref.attrib['type'] == 'PFAM':
+						pfam_id = xref.text
+				if uniprot_id:
+					protein.uniprot_id = uniprot_id
+					protein.provenance = "EMDB"
+					if go_id:
+						go = GO()
+						go.add_from_author(go_id, uniprot_id)
+						if go.id and go.namespace and go.type:
+							protein.go.add(go)
+					if ipr_id:
+						ipr = Interpro()
+						ipr.add_from_author(ipr_id, uniprot_id)
+						if ipr.id and ipr.namespace:
+							protein.interpro.add(ipr)
+					if pfam_id:
+						pfam = Pfam()
+						pfam.add_from_author(pfam_id, uniprot_id)
+						if pfam.id:
+							protein.pfam.add(pfam)
+
+				sequence = protein_tag.xpath("sequence/string/text()")
+				if sequence:
+					sequence = re.sub(r'\(.*?\)', 'X', sequence[0])
+					sequence = sequence.replace("\n", "")
+					protein.sequence = sequence
+				self.proteins.append(protein)
 
 			# Iterate over Ligands
 			if list(root.iter('ligand')):

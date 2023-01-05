@@ -89,29 +89,29 @@ class Sample:
     def __str__(self):
         return f"{self.id}: {self.mw} ({self.copies})"
 
-class Supra:
+class Supramolecule:
     """
     Defines the attributes of a supra_molecules in a EMDB entry
     """
-    def __init__(self, emdb_id, supra_id, supra_name="", kind=""):
+    def __init__(self, emdb_id, supramolecule_id, name="", mol_type=""):
+        self.id = supramolecule_id
         self.emdb_id = emdb_id
-        self.supra_id = supra_id
-        self.supra_name = supra_name
-        self.kind = kind
+        self.name = name
+        self.type = mol_type
 
     def __str__(self):
-        return "%s\t%s\t%s\t%s" % (self.emdb_id, self.supra_id, self.supra_name, self.kind)
+        return "%s\t%s\t%s\t%s" % (self.emdb_id, self.id, self.name, self.type)
 
 class EMDB_complex:
     """
     EMDB complex sample obtained from the header files in the Uniprot mapping
     """
 
-    def __init__(self, emdb_id, sample_id, supra_name, sample_copies, complex_sample_id, cpx_list=None, proteins=None,
+    def __init__(self, emdb_id, sample_id, name, sample_copies, complex_sample_id, cpx_list=None, proteins=None,
                  provenance="", score=0.0):
         self.emdb_id = emdb_id
         self.sample_id = emdb_id+"_"+sample_id
-        self.supra_name = supra_name
+        self.name = name
         self.sample_copies = sample_copies
         self.complex_sample_id = complex_sample_id
         self.cpx_list = [] if cpx_list is None else cpx_list

@@ -91,7 +91,7 @@ class CPMapping:
                 supra_name = []
                 for supra in supras:
                     if supra.emdb_id == emdb_id:
-                        supra_name.append(supra.supra_name)
+                        supra_name.append(supra.name)
                 sample_copies = protein.sample_copies
                 for complex_id in protein.sample_complexes:
                     emdb_complex_id = emdb_id + "_" + str(complex_id)
@@ -141,5 +141,5 @@ class CPMapping:
         for emcpx in self.annotations:
             if emcpx:
                 for cpx in emcpx.cpx_list:
-                    cpx_logger.info("%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s" % (emcpx.emdb_id, (emcpx.sample_id).split("_")[1], emcpx.supra_name.replace("\n", ""),
+                    cpx_logger.info("%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s" % (emcpx.emdb_id, (emcpx.sample_id).split("_")[1], emcpx.name.replace("\n", ""),
                                                                   emcpx.sample_copies, cpx.cpx_id, cpx.name, emcpx.provenance, emcpx.score))

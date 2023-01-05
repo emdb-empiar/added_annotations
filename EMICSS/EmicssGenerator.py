@@ -154,7 +154,7 @@ class Parser:
                 emdb_id, sample_id, sample_name, copies, cpx_id, cpx_title, provenance, score = line.strip('\n').split('\t')
                 self.emdb_ids.add(emdb_id)
                 cpx = CPX([cpx_id, cpx_title, "", "", "", "", "", "", ""])
-                emdb_complex = EMDB_complex(emdb_id=emdb_id, sample_id=sample_id, supra_name=sample_name,
+                emdb_complex = EMDB_complex(emdb_id=emdb_id, sample_id=sample_id, name=sample_name,
                              sample_copies=copies, complex_sample_id=sample_id, cpx_list=[cpx],
                              proteins=None, provenance=provenance, score=float(score))
                 self.__add_complex(emdb_id, sample_id, emdb_complex, cpx)
@@ -489,7 +489,7 @@ class EmicssXML:
                             supramolecule = supramoleculeType(type_="complex", id=sample_id,
                                                               copies=emdb_complex.sample_copies,
                                                               provenance=emdb_complex.provenance,
-                                                              name=emdb_complex.supra_name, cross_ref_dbs=cross_ref_dbs)
+                                                              name=emdb_complex.name, cross_ref_dbs=cross_ref_dbs)
                             self.supramolecules.add_supramolecule(supramolecule)
 
     def __create_dbs(self):
