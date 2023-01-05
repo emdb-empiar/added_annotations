@@ -127,35 +127,35 @@ class Ligand:
     Defines the attributes of a ligands sample in a EMDB entry
     """
     def __init__(self, emdb_id, sample_id, chembl_id="", chebi_id="", drugbank_id="", provenance_chembl="", provenance_chebi="",
-                 provenance_drugbank="", HET="", lig_name="", lig_copies=""):
+                 provenance_drugbank="", HET="", name="", copies=1):
         self.emdb_id = emdb_id
         self.sample_id = sample_id
         self.provenance_chebi = provenance_chebi
         self.provenance_chembl = provenance_chembl
         self.provenance_drugbank = provenance_drugbank
         self.HET = HET
-        self.lig_name = lig_name
+        self.name = name
         self.chembl_id = chembl_id
         self.chebi_id = chebi_id
         self.drugbank_id = drugbank_id
-        self.lig_copies = lig_copies
+        self.copies = copies
 
     def get_chembl_tsv(self):
         if self.chembl_id:
-            return "%s\t%s\t%s\t%s\t%s\t%s\t%s" % (self.emdb_id, self.sample_id, self.HET, self.lig_name,
-                                                     self.lig_copies, self.chembl_id, self.provenance_chembl)
+            return "%s\t%s\t%s\t%s\t%s\t%s\t%s" % (self.emdb_id, self.sample_id, self.HET, self.name,
+                                                     self.copies, self.chembl_id, self.provenance_chembl)
         return ""
 
     def get_chebi_tsv(self):
         if self.chebi_id:
-            return "%s\t%s\t%s\t%s\t%s\t%s\t%s" % (self.emdb_id, self.sample_id, self.HET, self.lig_name,
-                                                     self.lig_copies, self.chebi_id, self.provenance_chebi)
+            return "%s\t%s\t%s\t%s\t%s\t%s\t%s" % (self.emdb_id, self.sample_id, self.HET, self.name,
+                                                     self.copies, self.chebi_id, self.provenance_chebi)
         return ""
 
     def get_drugbank_tsv(self):
         if self.drugbank_id:
-            return "%s\t%s\t%s\t%s\t%s\t%s\t%s" % (self.emdb_id, self.sample_id, self.HET, self.lig_name,
-                                                     self.lig_copies, self.drugbank_id, self.provenance_drugbank)
+            return "%s\t%s\t%s\t%s\t%s\t%s\t%s" % (self.emdb_id, self.sample_id, self.HET, self.name,
+                                                     self.copies, self.drugbank_id, self.provenance_drugbank)
         return ""
 
 class Model:

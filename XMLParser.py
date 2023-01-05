@@ -170,38 +170,31 @@ class XMLParser:
 				self.proteins.append(protein)
 
 			# Iterate over Ligands
-			if list(root.iter('ligand')):
-				for x in list(root.iter('ligand')):
-					if x is not None:
-						ligand_id = x.attrib['macromolecule_id']
-						ligand = Ligand(self.emdb_id, ligand_id)
-						HET = x.find('formula')
-						if HET is not None:
-							ligand.HET = HET.text
-							lig_name = x.find('name').text
-							if lig_name:
-								ligand.lig_name = lig_name
-							if x.find('number_of_copies') is not None:
-								lig_copies = x.find('number_of_copies').text
-								if lig_copies:
-									ligand.lig_copies = lig_copies
-								else:
-									ligand.lig_copies = "1"
+			ligands = root.xpath(".//ligand")
+			for ligand_tag in ligands:
+				ligand_id = ligand_tag.attrib['macromolecule_id']
+				ligand = Ligand(self.emdb_id, ligand_id)
+				HET = ligand_tag.find('formula')
+				if HET is not None:
+					ligand.HET = HET.text
+					ligand_name = ligand.find('name')
+					if ligand_name is not None:
+						ligand.name = ligand_name.text
+					ligand_copies = ligand_tag.find('number_of_copies')
+					if ligand_copies is not None:
+						ligand.copies = ligand_copies
 
-							for ref in x.iter('external_references'):
-								if ref.attrib['type'] == 'CHEMBL':
-									chembl_id = ref.text
-									ligand.chembl_id = chembl_id
-									ligand.provenance_chembl = "EMDB"
-								if ref.attrib['type'] == 'CHEBI':
-									chebi_id = ref.text
-									ligand.chebi_id = chebi_id
-									ligand.provenance_chebi = "EMDB"
-								if ref.attrib['type'] == 'DRUGBANK':
-									drugbank_id = ref.text
-									ligand.drugbank_id = drugbank_id
-									ligand.provenance_drugbank = "EMDB"
-							self.ligands.append(ligand)
+					for xref in ligand_tag.iter('external_references'):
+						if xref.attrib['type'] == 'CHEMBL':
+							ligand.chembl_id = xref.text
+							ligand.provenance_chembl = "EMDB"
+						if xref.attrib['type'] == 'CHEBI':
+							ligand.chebi_id = xref.text
+							ligand.provenance_chebi = "EMDB"
+						if xref.attrib['type'] == 'DRUGBANK':
+							ligand.drugbank_id = xref.text
+							ligand.provenance_drugbank = "EMDB"
+					self.ligands.append(ligand)
 
 			# Iterate over primary citation
 			primary_citation_list = root.xpath('.//primary_citation/journal_citation')

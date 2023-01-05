@@ -123,8 +123,8 @@ class Parser:
                 emdb_id, sample_id, het_code, ligand_name, copies, chembl_id, provenance = line.strip('\n').split('\t')
                 self.emdb_ids.add(emdb_id)
                 ligand = Ligand(emdb_id=emdb_id, sample_id=sample_id, chembl_id=chembl_id,
-                                provenance_chembl=provenance, HET=het_code, lig_name=ligand_name,
-                                lig_copies=copies)
+                                provenance_chembl=provenance, HET=het_code, name=ligand_name,
+                                copies=copies)
                 self.__add_ligand(emdb_id, sample_id, ligand, chembl_id, provenance, "ChEMBL")
 
     def __parse_chebi(self):
@@ -134,7 +134,7 @@ class Parser:
                 emdb_id, sample_id, het_code, ligand_name, copies, chebi_id, provenance = line.strip('\n').split('\t')
                 self.emdb_ids.add(emdb_id)
                 ligand = Ligand(emdb_id=emdb_id, sample_id=sample_id, chebi_id=chebi_id,
-                                provenance_chebi=provenance, HET=het_code, lig_name=ligand_name, lig_copies=copies)
+                                provenance_chebi=provenance, HET=het_code, name=ligand_name, copies=copies)
                 self.__add_ligand(emdb_id, sample_id, ligand, chebi_id, provenance, "ChEBI")
 
     def __parse_drugbank(self):
@@ -144,7 +144,7 @@ class Parser:
                 emdb_id, sample_id, het_code, ligand_name, copies, db_id, provenance = line.strip('\n').split('\t')
                 self.emdb_ids.add(emdb_id)
                 ligand = Ligand(emdb_id=emdb_id, sample_id=sample_id, drugbank_id=db_id,
-                                provenance_drugbank=provenance, HET=het_code, lig_name=ligand_name, lig_copies=copies)
+                                provenance_drugbank=provenance, HET=het_code, name=ligand_name, copies=copies)
                 self.__add_ligand(emdb_id, sample_id, ligand, db_id, provenance, "DrugBank")
 
     def __parse_complex(self):
@@ -467,8 +467,8 @@ class EmicssXML:
                                                 provenance=ligand.provenance_drugbank)
                     cross_ref_dbs.add_cross_ref_db(drugbank_obj)
                 if cross_ref_dbs.hasContent_():
-                    macromolecule = macromoleculeType(type_="ligand", id=ligand.sample_id, copies=ligand.lig_copies,
-                                                      provenance="EMDB", name=ligand.lig_name, ccd_id=ligand.HET,
+                    macromolecule = macromoleculeType(type_="ligand", id=ligand.sample_id, copies=ligand.copies,
+                                                      provenance="EMDB", name=ligand.name, ccd_id=ligand.HET,
                                                       cross_ref_dbs=cross_ref_dbs)
                     self.macromolecules.add_macromolecule(macromolecule)
 
