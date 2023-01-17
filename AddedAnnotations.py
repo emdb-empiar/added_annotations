@@ -52,6 +52,9 @@ def run(filename):
     id_num = filename.split('-')[1]
     print(f"Running EMD-{id_num}")
     xml_filepath = os.path.join(filename, f"header/emd-{id_num}-v30.xml")
+    if not os.path.isfile(xml_filepath):
+        print(f"{xml_filepath} not found.")
+        return None
     xml = XMLParser(xml_filepath)
     packed_models['HEADER'] = xml
     if uniprot:

@@ -83,6 +83,9 @@ def get_pubmed_ids(header_dir):
             id_num = xml_dirpath.split('-')[1]
             emdb_id = f"EMD-{id_num}"
             xml_filepath = os.path.join(xml_dirpath, f"header/emd-{id_num}-v30.xml")
+            if not os.path.isfile(xml_filepath):
+                print(f"{xml_filepath} not found.")
+                continue
             tree = ET.parse(xml_filepath)
 
             xrefs = tree.xpath("//crossreferences/citation_list/primary_citation/*/external_references")
