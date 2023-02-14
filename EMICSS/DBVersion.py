@@ -128,7 +128,7 @@ class Version:
         url = "https://www.cathdb.info/"
         try:
             response = requests.get(url, timeout=10)
-        except (requests.exceptions.ConnectTimeout, requests.exceptions.ReadTimeout) as e:
+        except (requests.exceptions.ConnectTimeout, requests.exceptions.ReadTimeout, requests.exceptions.SSLError) as e:
             return None
         else:
             if response.status_code == 200 and response.content:
