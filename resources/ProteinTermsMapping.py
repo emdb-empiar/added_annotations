@@ -328,43 +328,46 @@ class ProteinTermsMapping:
         namespace = {'x': 'http://uniprot.org/uniprot'}
         response = requests.get(url)
         if response.status_code == 200 and response.content:
-            root = ET.fromstring(response.content)
-            sequence_tag = root.xpath("//x:entry/x:sequence", namespaces=namespace)
-            if sequence_tag:
-                sequence = sequence_tag[0].text
+            try:
+                root = ET.fromstring(response.content)
+                sequence_tag = root.xpath("//x:entry/x:sequence", namespaces=namespace)
+                if sequence_tag:
+                    sequence = sequence_tag[0].text
 
-                if self.is_go:
-                    go_elements = root.findall(".//{http://uniprot.org/uniprot}dbReference[@type='GO']")
-                    for element in go_elements:
-                        go = GO()
-                        go.id = element.get("id")
-                        go.unip_id = uid
-                        terms = element.findall("{http://uniprot.org/uniprot}property[@type='term']")
-                        if terms:
-                            term_text = terms[0].get("value")
-                            go.type = term_text[0]
-                            go.namespace = term_text[2:]
-                            go_data[go.id] = go
-                if self.is_interpro:
-                    interpro_elements = root.findall(".//{http://uniprot.org/uniprot}dbReference[@type='InterPro']")
-                    for element in interpro_elements:
-                        interpro = Interpro()
-                        interpro.id = element.get("id")
-                        interpro.unip_id = uid
-                        terms = element.findall("{http://uniprot.org/uniprot}property[@type='entry name']")
-                        if terms:
-                            interpro.namespace = terms[0].get("value")
-                            interpro_data[interpro.id] = interpro
-                if self.is_pfam:
-                    pfam_elements = root.findall(".//{http://uniprot.org/uniprot}dbReference[@type='Pfam']")
-                    for element in pfam_elements:
-                        pfam = Pfam()
-                        pfam.id = element.get("id")
-                        pfam.unip_id = uid
-                        terms = element.findall("{http://uniprot.org/uniprot}property[@type='entry name']")
-                        if terms:
-                            pfam.namespace = terms[0].get("value")
-                            pfam_data[pfam.id] = pfam
+                    if self.is_go:
+                        go_elements = root.findall(".//{http://uniprot.org/uniprot}dbReference[@type='GO']")
+                        for element in go_elements:
+                            go = GO()
+                            go.id = element.get("id")
+                            go.unip_id = uid
+                            terms = element.findall("{http://uniprot.org/uniprot}property[@type='term']")
+                            if terms:
+                                term_text = terms[0].get("value")
+                                go.type = term_text[0]
+                                go.namespace = term_text[2:]
+                                go_data[go.id] = go
+                    if self.is_interpro:
+                        interpro_elements = root.findall(".//{http://uniprot.org/uniprot}dbReference[@type='InterPro']")
+                        for element in interpro_elements:
+                            interpro = Interpro()
+                            interpro.id = element.get("id")
+                            interpro.unip_id = uid
+                            terms = element.findall("{http://uniprot.org/uniprot}property[@type='entry name']")
+                            if terms:
+                                interpro.namespace = terms[0].get("value")
+                                interpro_data[interpro.id] = interpro
+                    if self.is_pfam:
+                        pfam_elements = root.findall(".//{http://uniprot.org/uniprot}dbReference[@type='Pfam']")
+                        for element in pfam_elements:
+                            pfam = Pfam()
+                            pfam.id = element.get("id")
+                            pfam.unip_id = uid
+                            terms = element.findall("{http://uniprot.org/uniprot}property[@type='entry name']")
+                            if terms:
+                                pfam.namespace = terms[0].get("value")
+                                pfam_data[pfam.id] = pfam
+            except ET.XMLSyntaxError:
+                print(f"Failed to parse {uid}")
 
         return sequence, go_data, interpro_data, pfam_data
 
