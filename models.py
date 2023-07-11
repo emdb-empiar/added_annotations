@@ -8,7 +8,7 @@ class Protein:
     """
     def __init__(self, emdb_id, sample_id, sample_name="", sample_organism=None, pdb=None, sample_complexes=None, uniprot_id=None,
                  provenance=None, sequence="", sample_copies="", go=None, interpro=None, pfam=None, cath=None, scop=None,
-                 scop2=None, scop2B=None, pdbekb=None, alphafold=None):
+                 scop2=None, scop2B=None, pdbekb=None, alphafold=None, bmrb=None):
         self.emdb_id = emdb_id
         self.sample_id = sample_id
         self.sample_name = sample_name
@@ -28,13 +28,14 @@ class Protein:
         self.scop2B = set() if scop2B is None else scop2B
         self.pdbekb = pdbekb
         self.alphafold = alphafold
+        self.bmrb = bmrb
 
     def __str__(self):
-        return "%s (%s)\n%s (%s) %s - %s [%s]\nComplexes: %s\nPDB: \n%s\n%s\n%s\n  %s\n%s\n" % (self.sample_name, self.sample_organism,
+        return "%s (%s)\n%s (%s) %s - %s [%s]\nComplexes: %s\nPDB: \n%s\n%s\n%s\n  %s\n%s\nBMRB: %s\n" % (self.sample_name, self.sample_organism,
                                                                               self.emdb_id, self.sample_id, self.sample_copies,
                                                                               self.uniprot_id, self.provenance, str(self.sample_complexes),
                                                                               str(self.go), str(self.interpro), str(self.pfam),
-                                                                              str(self.pdbekb), str(self.alphafold))
+                                                                              str(self.pdbekb), str(self.alphafold), str(self.bmrb))
 
     def get_tsv(self):
         complex_str = ';'.join([str(elem) for elem in self.sample_complexes])
@@ -519,3 +520,15 @@ class Alphafold:
     def __str__(self):
         return f"{self.unip_id}\t{self.provenance}"
 
+class BMRB:
+    """
+    Defines the BMRB ID in a EMDB entry
+    """
+    def __init__(self, bmrb_id="", pdb_id="", unip_id="", provenance=None):
+        self.bmrb_id = bmrb_id
+        self.pdb_id = pdb_id
+        self.unip_id = unip_id
+        self.provenance = provenance
+
+    def __str__(self):
+        return "%s\t%s\n" % (self.bmrb_id, self.unip_id)

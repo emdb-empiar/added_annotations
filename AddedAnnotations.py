@@ -8,6 +8,7 @@ from resources.StructureMapping import StructureMapping
 from resources.EMPIARMapping import EMPIARMapping, generate_emp_dictionary
 from resources.PublicationMapping import PublicationMapping, generate_pubmed_dictionary
 from resources.ProteinTermsMapping import ProteinTermsMapping
+from resources.BMRBMapping import BMRBMapping, generate_bmrb_dictionary, generate_bmrb_uni_dictionary
 from XMLParser import XMLParser
 from glob import glob
 import logging
@@ -115,6 +116,11 @@ def run(filename):
         proteins_map = PT_mapping.execute(uniprot_with_models)
         PT_mapping.export_tsv(go_log, interpro_log, pfam_log, cath_log, scop_log, scop2_log, scop2B_log, pdbekb_log)
         packed_models["PROTEIN-TERMS"] = proteins_map
+    if bmrb:
+        bmrb_logger = start_logger_if_necessary("bmrb_logger", bmrb_log_file)
+        bmrb_mapping = BMRBMapping(xml.emdb_id, bmrb_dictionary, bmrb_logger)
+        bmrb_map = bmrb_mapping.execute(unp_mapping.proteins)
+        packed_models["BMRB"] = bmrb_map
 
 """
 List of things to do:
@@ -132,8 +138,8 @@ if __name__ == "__main__":
             python AddedAnnotations.py -w '[{"/path/to/working/folder"}]'
             -f '[{"/path/to/EMDB/header/files/folder"}]'
             -p '[{"/path/to/PDBe/files/folder"}]'
-            --uniprot --CPX --component --model --weight --empiar --pmc --GO --interpro --pfam --pbdekb 
-            --cath --scop --scop2 --scop2B
+            --uniprot --CPX --component --model --weight --empiar --pmc --GO --interpro --pfam --pdbekb 
+            --cath --scop --scop2 --scop2B --bmrb
           """
 
     parser = argparse.ArgumentParser(prog=prog, usage=usage, add_help=False,
@@ -160,6 +166,7 @@ if __name__ == "__main__":
     parser.add_argument("--scop2", type=bool, nargs='?', const=True, default=False, help="Mapping SCOP2 domains to EMDB entries")
     parser.add_argument("--scop2B", type=bool, nargs='?', const=True, default=False, help="Mapping SCOP2B domains to EMDB entries")
     parser.add_argument("--pdbekb", type=bool, nargs='?', const=True, default=False, help="Mapping PDBeKB links to EMDB entries")
+    parser.add_argument("--bmrb", type=bool, nargs='?', const=True, default=False, help="Mapping BMRB ids to EMDB entries")
     args = parser.parse_args()
 
     packed_models = {}
@@ -181,6 +188,7 @@ if __name__ == "__main__":
     scop2 = args.scop2
     scop2B = args.scop2B
     pdbekb = args.pdbekb
+    bmrb = args.bmrb
     input_json = args.json
     uniprot_dictionary = {}
 
@@ -221,6 +229,9 @@ if __name__ == "__main__":
     if pdbekb:
         uniprot = True
         db_list.append("pdbekb")
+    if bmrb:
+        uniprot = True
+        db_list.append("bmrb")
     if args.all:
         uniprot = True
         cpx = True
@@ -238,8 +249,9 @@ if __name__ == "__main__":
         scop2 = True
         scop2B = True
         pdbekb = True
+        bmrb = True
         db_list.extend(["pdbe", "empiar", "uniprot", "chembl", "chebi", "drugbank", "pubmed", "pubmedcentral", "issn",
-                        "orcid", "cpx", "go", "interpro", "pfam", "cath", "scop", "scop2", "scop2B", "pdbekb"])
+                        "orcid", "cpx", "go", "interpro", "pfam", "cath", "scop", "scop2", "scop2B", "pdbekb", "bmrb"])
 
     #Get config variables:
     config = configparser.ConfigParser()
@@ -255,6 +267,8 @@ if __name__ == "__main__":
     uniprot_tab = config.get("file_paths", "uniprot_tab")
     #GO_obo = config.get("file_paths", "GO_obo")
     sifts_path = config.get("file_paths", "sifts")
+    bmrb_pdb_file = config.get("file_paths", "bmrb_pdb")
+    bmrb_uni_file = config.get("file_paths", "bmrb_uni")
 
     #Start loggers
     if uniprot:
@@ -330,6 +344,10 @@ if __name__ == "__main__":
         pdbekb_log_file = os.path.join(args.workDir, 'emdb_pdbekb.log')
         pdbekb_log = setup_logger('pdbekb_logger', pdbekb_log_file)
         pdbekb_log.info("EMDB_ID\tEMDB_SAMPLE_ID\tPDBeKB_ID\tPROVENANCE")
+    if bmrb:
+        bmrb_log_file = os.path.join(args.workDir, 'emdb_bmrb.log')
+        bmrb_log = setup_logger('bmrb_logger', bmrb_log_file)
+        bmrb_log.info("EMDB_ID\tSAMPLE_ID\tBMRB_ID\tPDB_ID\tUNIPROT_ID\tPROVENANCE")
 
     if uniprot:
         uniprot_dictionary, uniprot_with_models = generate_unp_dictionary(uniprot_tab)
@@ -338,6 +356,10 @@ if __name__ == "__main__":
     if component:
         chembl_map, chebi_map, drugbank_map = parseCCD(components_cif)
     pubmed_dict = generate_pubmed_dictionary(args.workDir) if pmc else {}
+    if bmrb:
+        bmrb_dictionary = generate_bmrb_dictionary(bmrb_pdb_file)
+        bmrb_uni_dictioanry = generate_bmrb_uni_dictionary(bmrb_uni_file)
+
     if input_json:
         files = read_json(input_json, args.headerDir)
     else:

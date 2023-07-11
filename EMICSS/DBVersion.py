@@ -30,6 +30,7 @@ class Version:
         self.pdbekb = None # TODO: Add version
         self.pubmed = None # TODO: Add version
         self.pmc = None # TODO: Add version
+        self.bmrb = None
         self.today = date.today().strftime("%Y-%m-%d")
 
     def get_all_versions(self):
@@ -50,7 +51,8 @@ class Version:
             'SCOP': self.scop,
             'SCOP2': self.scop2,
             'SCOP2B':self.scop2b,
-            'AlphaFold DB': self.alphafold
+            'AlphaFold DB': self.alphafold,
+            'BMRB' : self.bmrb
         }
 
     def __find_afdb_version(self):

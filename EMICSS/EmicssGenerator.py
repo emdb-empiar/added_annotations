@@ -35,6 +35,7 @@ class Parser:
         self.__parse_scop2B()
         self.__parse_pdbekb()
         self.__parse_afdb()
+        self.__parse_bmrb()
 
     def get_packed_data(self, emdb_id):
         return {
@@ -45,7 +46,7 @@ class Parser:
             'models': self.models.get(emdb_id), # [Model]
             'citation': self.citations.get(emdb_id), # Citation
             'ligands': self.ligands.get(emdb_id), # {sample_id: Ligand}
-            'complexes': self.complexes.get(emdb_id) # {sample_id: EMDB_Complex}
+            'complexes': self.complexes.get(emdb_id), # {sample_id: EMDB_Complex}
         }
 
     def __parse_uniprot(self):
@@ -246,6 +247,26 @@ class Parser:
                 afdb = Alphafold(uniprot_id=afdb_id, provenance=provenance)
                 self.proteins[emdb_id][sample_id].alphafold = afdb
 
+    def __parse_bmrb(self):
+        filebmrb = os.path.join(self.workDir, 'emdb_bmrb.log')
+        with open(filebmrb, 'r') as filereader:
+            for line in filereader.readlines()[1:]:
+                emdb_id, sample_id, bmrb_id, pdb_id, unip_id, provenance = line.strip('\n').split('\t')
+                self.emdb_ids.add(emdb_id)
+                bmrb = BMRB(bmrb_id=bmrb_id, pdb_id=pdb_id, unip_id=unip_id, provenance=provenance)
+                self.proteins[emdb_id][sample_id].bmrb = bmrb
+
+        # filebmrb = os.path.join(self.workDir, "emdb_bmrb.log")
+        # with open(filebmrb, 'r') as filereader:
+        #     for line in filereader.readlines()[1:]:
+        #         emdb_id, bmrb_id, pdb_id, unip_id, provenance = line.strip('\n').split('\t')
+        #         self.emdb_ids.add(emdb_id)
+        #         bmrb = BMRB(bmrb_id=bmrb_id, pdb_id=pdb_id, unip_id=unip_id, provenance=provenance)
+        #         if emdb_id in self.bmrb:
+        #             self.bmrb[emdb_id].append(bmrb)
+        #         else:
+        #             self.bmrb[emdb_id] = [bmrb]
+
     def __add_ligand(self, emdb_id, sample_id, ligand, ligand_id, provenance, ligand_type):
         if emdb_id in self.ligands:
             if sample_id in self.ligands:
@@ -296,6 +317,7 @@ class EmicssXML:
         self.__read_proteins(packed_data.get("proteins"))
         self.__read_ligands(packed_data.get("ligands"))
         self.__read_complexes(packed_data.get("complexes"))
+        #self.__read_bmrb(packed_data.get("bmrb"))
 
         self.__create_dbs()
 
@@ -441,6 +463,10 @@ class EmicssXML:
                     afdb_xref_obj = cross_ref_db(source="AlphaFold DB", accession_id=protein.alphafold.unip_id,
                                                  provenance=protein.alphafold.provenance)
                     cross_ref_dbs.add_cross_ref_db(afdb_xref_obj)
+                if protein.bmrb:
+                    self.all_db.add("BMRB")
+                    bmrb_xref_obj = cross_ref_db(source="BMRB", accession_id=protein.bmrb.bmrb_id, provenance=protein.bmrb.provenance)
+                    cross_ref_dbs.add_cross_ref_db(bmrb_xref_obj)
                 if cross_ref_dbs.hasContent_():
                     macromolecule = macromoleculeType(type_="protein", id=protein.sample_id, copies=protein.sample_copies,
                                                       provenance="EMDB", name=protein.sample_name,
