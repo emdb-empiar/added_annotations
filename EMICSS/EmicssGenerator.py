@@ -365,6 +365,8 @@ class EmicssXML:
                     self.primary_citation.add_ref_citation(pmc_citation_obj)
                 if citation.issn:
                     self.all_db.add("ISSN")
+                    if citation.provenance_issn == "":
+                        citation.provenance_issn = "EMDB"
                     issn_citation_obj = ref_citationType(source="ISSN", accession_id=citation.issn,
                                                          provenance=citation.provenance_issn)
                     self.primary_citation.add_ref_citation(issn_citation_obj)
