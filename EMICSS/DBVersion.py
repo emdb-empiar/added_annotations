@@ -14,8 +14,7 @@ class Version:
         self.emdb = None
         self.pdbe = None
         self.drugbank = self.__find_db_version()
-        self.pfam = self.__find_pfam_version()
-        self.interpro = self.__find_ipr_version()
+        self.interpro, self.pfam = self.__find_ipr_pfam_version()
         self.cath = self.__find_cath_version()
         self.chembl = self.__find_chembl_version()
         self.go = self.__find_go_version()
@@ -95,22 +94,7 @@ class Version:
                 return drugbank_ver
             return None
 
-    def __find_pfam_version(self):
-        # Pfam will be decomissioned in Jan. 2023
-        url = "http://pfam-legacy.xfam.org/family/Piwi/acc?output=xml"
-        try:
-            response = requests.get(url, timeout=10)
-        except (requests.exceptions.ConnectTimeout, requests.exceptions.ReadTimeout) as e:
-            return None
-        else:
-            if response.status_code == 200 and response.content:
-                root = ET.fromstring(response.content)
-                for x in list(root.iter('pfam')):
-                    pfam_ver = x.attrib['release']
-                return pfam_ver
-            return None
-
-    def __find_ipr_version(self):
+    def __find_ipr_pfam_version(self):
         url = f"https://www.ebi.ac.uk/interpro/api/"
         try:
             response = requests.get(url, timeout=10)
@@ -121,7 +105,9 @@ class Version:
                 res_text = response.text
                 data = json.loads(res_text)
                 if 'databases' in data:
-                    return data['databases']['interpro']['version']
+                    interpro_ver = data['databases']['interpro']['version']
+                    pfam_ver = data['databases']['pfam']['version']
+                    return interpro_ver, pfam_ver
             return None
 
     def __find_cath_version(self):
