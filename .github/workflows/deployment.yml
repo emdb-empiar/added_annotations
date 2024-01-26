@@ -6,13 +6,13 @@ on:
 
 jobs:
   deployment:
-    runs-on: self-hosted
+    runs-on: 
+      - self-hosted
 
     steps:
-    
-    - name: Echo
-      run:
-        echo "OK"
+      - name: Echo
+        run:
+          echo "OK"
 
     # if: github.event.pull_request.merged == true
     # steps: 
