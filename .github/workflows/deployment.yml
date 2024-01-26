@@ -9,7 +9,8 @@ jobs:
     runs-on: emdb-empiar-cicd
 
     steps:
-      - name: Echo
+    
+    - name: Echo
       run:
         echo "OK"
 
