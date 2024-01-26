@@ -6,12 +6,13 @@ on:
 
 jobs:
   deployment:
-    runs-on: emdb-empiar-cicd
+    runs-on: 
+      - self-hosted
 
     steps:
       - name: Echo
-      run:
-        echo "OK"
+        run:
+          echo "OK"
 
     # if: github.event.pull_request.merged == true
     # steps: 
