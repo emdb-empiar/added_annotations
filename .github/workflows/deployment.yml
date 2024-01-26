@@ -2,17 +2,23 @@ on:
   pull_request:
     branches:
       - main
-    types: [closed]
+    # types: [closed]
 
 jobs:
   deployment:
-    runs-on: ubuntu-latest
-    if: github.event.pull_request.merged == true
-    steps: 
-    - name: HTTP Request Action
-      uses: fjogeleit/http-request-action@v1.11.1
-      with:
-        url: 'https://wwwdev.ebi.ac.uk/emdb/jkn/job/annotations_CD/build?token=emdb_trigger'
-        method: 'POST'
-        username: ${{ secrets.JENKINS_USERNAME }}
-        password: ${{ secrets.JENKINS_API_KEY }}
+    runs-on: emdb-empiar-cicd
+
+    steps:
+      - name: Echo
+      run:
+        echo "OK"
+
+    # if: github.event.pull_request.merged == true
+    # steps: 
+    # - name: HTTP Request Action
+    #   uses: fjogeleit/http-request-action@v1.11.1
+    #   with:
+    #     url: 'https://wwwdev.ebi.ac.uk/emdb/jkn/job/annotations_CD/build?token=emdb_trigger'
+    #     method: 'POST'
+    #     username: ${{ secrets.JENKINS_USERNAME }}
+    #     password: ${{ secrets.JENKINS_API_KEY }}

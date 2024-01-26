@@ -24,4 +24,7 @@ jobs:
         pip install -r requirements.txt
 
     - name: Run unittests
-      run: python -m unittest discover
+      run: python -m coverage run -m unittest
+
+    - name: Coverage report
+      run: python -m coverage report
