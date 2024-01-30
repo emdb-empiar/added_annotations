@@ -2,24 +2,17 @@ on:
   pull_request:
     branches:
       - main
-    # types: [closed]
+    types: [closed]
 
 jobs:
   deployment:
+    if: github.event.pull_request.merged == true
     runs-on: 
       - self-hosted
-
     steps:
-      - name: Echo
+      - name: Pull repository
         run:
-          ls -lthir
-
-    # if: github.event.pull_request.merged == true
-    # steps: 
-    # - name: HTTP Request Action
-    #   uses: fjogeleit/http-request-action@v1.11.1
-    #   with:
-    #     url: 'https://wwwdev.ebi.ac.uk/emdb/jkn/job/annotations_CD/build?token=emdb_trigger'
-    #     method: 'POST'
-    #     username: ${{ secrets.JENKINS_USERNAME }}
-    #     password: ${{ secrets.JENKINS_API_KEY }}
+          ssh ${{ secrets.BSUB_SERVER }} "git -C ${{ secrets.DEPLOY_PATH }} pull"
+      - name: Send e-mail
+        run:
+          echo "The AddedAnnotations repository was pulled and moved to production." | mail -s "[emdb-emicss] addedAnnotations has updated" pdb_em@ebi.ac.uk
