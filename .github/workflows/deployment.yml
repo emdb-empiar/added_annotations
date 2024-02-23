@@ -12,7 +12,7 @@ jobs:
     steps:
       - name: Pull repository
         run:
-          ssh ${{ secrets.BSUB_SERVER }} "git -C ${{ secrets.DEPLOY_PATH }} pull"
+          ssh ${{ secrets.SRUN_SERVER }} "git -C ${{ secrets.DEPLOY_PATH }} pull"
       - name: Send e-mail
         run:
           echo "The AddedAnnotations repository was pulled and moved to production." | mail -s "[emdb-emicss] addedAnnotations has updated" pdb_em@ebi.ac.uk
