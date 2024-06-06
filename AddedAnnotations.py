@@ -89,11 +89,6 @@ def run(filename):
         wgt = models.Weight(xml.emdb_id)
         (wgt.emdb_id, wgt.overall_mw, wgt.units, wgt.provenance) = (xml.emdb_id, xml.overall_mw, "MDa", "EMDB")
         packed_models["WEIGHT"] = wgt
-    if empiar:
-        empiar_logger = start_logger_if_necessary("empiar_logger", empiar_log_file)
-        empiar_mapping = EMPIARMapping(xml.emdb_id, empiar_dictionary, empiar_logger)
-        empiar_map = empiar_mapping.execute()
-        packed_models["EMPIAR"] = empiar_map
     if pmc or orcid:
         pubmed_log = start_logger_if_necessary("pubmed_logger", pubmed_log_file) if pmc else None
         orcid_log = start_logger_if_necessary("orcid_logger", orcid_log_file) if orcid else None
@@ -123,7 +118,7 @@ List of things to do:
 
 if __name__ == "__main__":
     ######### Command : python /Users/amudha/project/git_code/added_annotations/AddedAnnotations.py
-    # -w /Users/amudha/project/ -f /Users/amudha/project/EMD_XML/ --CPX --model --uniprot --weight --empiar --pmc
+    # -w /Users/amudha/project/ -f /Users/amudha/project/EMD_XML/ --CPX --model --uniprot --weight --pmc
 
     prog = "EMDBAddedAnnotations"
     usage = """
@@ -132,7 +127,7 @@ if __name__ == "__main__":
             python AddedAnnotations.py -w '[{"/path/to/working/folder"}]'
             -f '[{"/path/to/EMDB/header/files/folder"}]'
             -p '[{"/path/to/PDBe/files/folder"}]'
-            --uniprot --CPX --component --model --weight --empiar --pmc --GO --interpro --pfam --pbdekb 
+            --uniprot --CPX --component --model --weight --pmc --GO --interpro --pfam --pbdekb 
             --cath --scop --scop2 --scop2B
           """
 
@@ -150,7 +145,6 @@ if __name__ == "__main__":
     parser.add_argument("--component", type=bool, nargs='?', const=True, default=False, help="Mapping to ChEMBL, ChEBI and DrugBank.")
     parser.add_argument("--model", type=bool, nargs='?', const=True, default=False, help="Collect MW from PDBe.")
     parser.add_argument("--weight", type=bool, nargs='?', const=True, default=False, help="Collect sample weight from header file.")
-    parser.add_argument("--empiar", type=bool, nargs='?', const=True, default=False, help="Mapping EMPIAR ID to EMDB entries")
     parser.add_argument("--pmc", type=bool, nargs='?', const=True, default=False, help="Mapping publication ID to EMDB entries")
     parser.add_argument("--GO", type=bool, nargs='?', const=True, default=False, help="Mapping GO ids to EMDB entries")
     parser.add_argument("--interpro", type=bool, nargs='?', const=True, default=False, help="Mapping InterPro ids to EMDB entries")
@@ -170,7 +164,6 @@ if __name__ == "__main__":
     component = args.component
     model = args.model
     weight = args.weight
-    empiar = args.empiar
     pmc = args.pmc
     orcid = pmc
     go = args.GO
@@ -186,8 +179,6 @@ if __name__ == "__main__":
 
     if model:
         db_list.append("pdbe")
-    if empiar:
-        db_list.append("empiar")
     if uniprot:
         db_list.append("uniprot")
     if component:
@@ -227,7 +218,6 @@ if __name__ == "__main__":
         component = True
         model = True
         weight = True
-        empiar = True
         pmc = True
         orcid = True
         go = True
@@ -238,7 +228,7 @@ if __name__ == "__main__":
         scop2 = True
         scop2B = True
         pdbekb = True
-        db_list.extend(["pdbe", "empiar", "uniprot", "chembl", "chebi", "drugbank", "pubmed", "pubmedcentral", "issn",
+        db_list.extend(["pdbe", "uniprot", "chembl", "chebi", "drugbank", "pubmed", "pubmedcentral", "issn",
                         "orcid", "cpx", "go", "interpro", "pfam", "cath", "scop", "scop2", "scop2B", "pdbekb"])
 
     #Get config variables:
@@ -250,7 +240,7 @@ if __name__ == "__main__":
     CP_ftp = config.get("file_paths", "CP_ftp")
     components_cif = config.get("file_paths", "components_cif")
     assembly_ftp = config.get("file_paths", "assembly_ftp")
-    emdb_empiar_list = config.get("file_paths", "emdb_empiar_list")
+    #emdb_empiar_list = config.get("file_paths", "emdb_empiar_list")
     pmc_api = config.get("api", "pmc")
     uniprot_tab = config.get("file_paths", "uniprot_tab")
     #GO_obo = config.get("file_paths", "GO_obo")
@@ -283,10 +273,6 @@ if __name__ == "__main__":
         weight_log_file = os.path.join(args.workDir, 'overall_mw.log')
         weight_log = setup_logger('weight_logger', weight_log_file)
         weight_log.info("EMDB_ID\tOVERALL_MW")
-    if empiar:
-        empiar_log_file = os.path.join(args.workDir, 'emdb_empiar.log')
-        empiar_log = setup_logger('empiar_logger', empiar_log_file)
-        empiar_log.info("EMDB_ID\tEMPIAR_ID\tPROVENANCE")
     if pmc:
         pubmed_log_file = os.path.join(args.workDir, 'emdb_pubmed.log')
         pubmed_log = setup_logger('pubmed_logger', pubmed_log_file)
@@ -333,8 +319,6 @@ if __name__ == "__main__":
 
     if uniprot:
         uniprot_dictionary, uniprot_with_models = generate_unp_dictionary(uniprot_tab)
-    if empiar:
-        empiar_dictionary = generate_emp_dictionary(emdb_empiar_list)
     if component:
         chembl_map, chebi_map, drugbank_map = parseCCD(components_cif)
     pubmed_dict = generate_pubmed_dictionary(args.workDir) if pmc else {}
