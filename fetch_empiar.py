@@ -5,7 +5,6 @@ from pathlib import Path
 import xml.etree.ElementTree as ET
 import csv
 
-
 def empiar_mapping(header_dir, empiar_map_file):
     with open(empiar_map_file, 'w', newline='') as csvfile:
         csv_writer = csv.writer(csvfile, delimiter='\t')
@@ -47,11 +46,3 @@ if __name__ == "__main__":
     config.read(env_file)
 
     empiar_mapping(header_dir, empiar_map_file)
-
-
-
-
-
-
-
-
