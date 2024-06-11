@@ -5,7 +5,6 @@ from resources.ComplexPortalMapping import CPMapping
 from resources.ComponentsMapping import ComponentsMapping, parseCCD
 from resources.UniprotMapping import UniprotMapping, generate_unp_dictionary
 from resources.StructureMapping import StructureMapping
-from resources.EMPIARMapping import EMPIARMapping, generate_emp_dictionary
 from resources.PublicationMapping import PublicationMapping, generate_pubmed_dictionary
 from resources.ProteinTermsMapping import ProteinTermsMapping
 from XMLParser import XMLParser
