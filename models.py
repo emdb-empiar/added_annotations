@@ -534,4 +534,4 @@ class Rfam:
         self.provenance = provenance
 
     def __str__(self):
-        return f"{self.emdb_id}\t{self.sample_id}\t{self.rfam_acc}\t{self.rfam_id}\t{self.provenance}"
+        return f"{self.emdb_id}\t{self.sample_id}\t{self.sample_name}\t{self.num_copies}\t{self.rfam_acc}\t{self.rfam_id}\t{self.provenance}"

@@ -331,7 +331,7 @@ if __name__ == "__main__":
     if rfam:
         rfam_log_file = os.path.join(args.workDir, 'emdb_rfam.log')
         rfam_log = setup_logger('rfam_logger', rfam_log_file)
-        rfam_log.info("EMDB_ID\tEMDB_SAMPLE_ID\tRFAM_ACCESSION\tRFAM_ID\tPROVENANCE")
+        rfam_log.info("EMDB_ID\tEMDB_SAMPLE_ID\tEMDB_SAMPLE_NAME\tNUMBER_OF_COPIES\tRFAM_ACCESSION\tRFAM_ID\tPROVENANCE")
 
     if uniprot:
         uniprot_dictionary, uniprot_with_models = generate_unp_dictionary(uniprot_tab)
