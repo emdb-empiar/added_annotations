@@ -35,6 +35,7 @@ class Parser:
         self.__parse_scop2B()
         self.__parse_pdbekb()
         self.__parse_afdb()
+        self.__parse_rfam()
 
     def get_packed_data(self, emdb_id):
         return {
@@ -47,6 +48,17 @@ class Parser:
             'ligands': self.ligands.get(emdb_id), # {sample_id: Ligand}
             'complexes': self.complexes.get(emdb_id) # {sample_id: EMDB_Complex}
         }
+
+    def __parse_rfam(self):
+        fileafdb = os.path.join(self.workDir, 'emdb_rfam.log')
+        with open(fileafdb, 'r') as filereader:
+            for line in filereader.readlines()[1:]:
+                emdb_id, sample_id,rfam_acc, rfam_id, provenance = line.strip('\n').split('\t')
+                rfam = Rfam(emdb_id=emdb_id, sample_id=sample_id)
+                if emdb_id in self.rfam:
+                    self.empiars[emdb_id].append(empiar)
+                else:
+                    self.empiars[emdb_id] = [empiar]
 
     def __parse_uniprot(self):
         fileuniprot = os.path.join(self.workDir, 'emdb_uniprot.log')

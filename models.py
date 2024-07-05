@@ -519,3 +519,19 @@ class Alphafold:
     def __str__(self):
         return f"{self.unip_id}\t{self.provenance}"
 
+class Rfam:
+    """
+    Define the Rfam accession and id for the sample id in the EMDB entry
+    """
+    def __init__(self, emdb_id, sample_id, sample_name="", num_copies=1, pdb_id=[], rfam_acc="", rfam_id="", provenance=""):
+        self.emdb_id = emdb_id
+        self.sample_id = sample_id
+        self.sample_name = sample_name
+        self.num_copies = num_copies
+        self.pdb_id = pdb_id
+        self.rfam_acc = rfam_acc
+        self.rfam_id = rfam_id
+        self.provenance = provenance
+
+    def __str__(self):
+        return f"{self.emdb_id}\t{self.sample_id}\t{self.rfam_acc}\t{self.rfam_id}\t{self.provenance}"
