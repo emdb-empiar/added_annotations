@@ -17,6 +17,7 @@ class Parser:
         self.citations = {}
         self.ligands = {}
         self.complexes = {}
+        self.rna = {}
         self.__parse_uniprot()
         self.__parse_empiar()
         self.__parse_mw()
@@ -46,19 +47,18 @@ class Parser:
             'models': self.models.get(emdb_id), # [Model]
             'citation': self.citations.get(emdb_id), # Citation
             'ligands': self.ligands.get(emdb_id), # {sample_id: Ligand}
-            'complexes': self.complexes.get(emdb_id) # {sample_id: EMDB_Complex}
+            'complexes': self.complexes.get(emdb_id), # {sample_id: EMDB_Complex}
+            'rna': self.rna.get(emdb_id) # {sample_id: RNA}
         }
 
     def __parse_rfam(self):
         fileafdb = os.path.join(self.workDir, 'emdb_rfam.log')
         with open(fileafdb, 'r') as filereader:
             for line in filereader.readlines()[1:]:
-                emdb_id, sample_id,rfam_acc, rfam_id, provenance = line.strip('\n').split('\t')
-                rfam = Rfam(emdb_id=emdb_id, sample_id=sample_id)
-                if emdb_id in self.rfam:
-                    self.empiars[emdb_id].append(empiar)
-                else:
-                    self.empiars[emdb_id] = [empiar]
+                emdb_id, sample_id, sample_name, num_copies, rfam_acc, rfam_id, provenance = line.strip('\n').split('\t')
+                rna = Rfam(emdb_id=emdb_id, sample_id=sample_id, sample_name=sample_name, num_copies=num_copies, rfam_acc=rfam_acc,
+                            rfam_id=rfam_id, provenance=provenance)
+                self.__add_rna(emdb_id, sample_id, sample_name, num_copies, rna, rfam_acc, rfam_id, provenance)
 
     def __parse_uniprot(self):
         fileuniprot = os.path.join(self.workDir, 'emdb_uniprot.log')
@@ -284,6 +284,19 @@ class Parser:
         else:
             self.complexes[emdb_id] = {sample_id: emdb_complex}
 
+    def __add_rna(self, emdb_id, sample_id, sample_name, num_copies, rna, rfam_acc, rfam_id, provenance):
+        if emdb_id in self.rna:
+            if sample_id in self.rna[emdb_id]:
+                self.rna[emdb_id][sample_id].rfam_acc = rfam_acc
+                self.rna[emdb_id][sample_id].rfam_id = rfam_id
+                self.rna[emdb_id][sample_id].sample_name = sample_name
+                self.rna[emdb_id][sample_id].num_copies = num_copies
+                self.rna[emdb_id][sample_id].provenance = provenance
+            else:
+                self.rna[emdb_id][sample_id] = rna
+        else:
+            self.rna[emdb_id] = {sample_id: rna}
+
 class EmicssXML:
     """
     Store and Write single EMICSS data
@@ -308,6 +321,7 @@ class EmicssXML:
         self.__read_proteins(packed_data.get("proteins"))
         self.__read_ligands(packed_data.get("ligands"))
         self.__read_complexes(packed_data.get("complexes"))
+        self.__read_rna(packed_data.get("rna"))
 
         self.__create_dbs()
 
@@ -458,6 +472,20 @@ class EmicssXML:
                 if cross_ref_dbs.hasContent_():
                     macromolecule = macromoleculeType(type_="protein", id=protein.sample_id, copies=protein.sample_copies,
                                                       provenance="EMDB", name=protein.sample_name,
+                                                      cross_ref_dbs=cross_ref_dbs)
+                    self.macromolecules.add_macromolecule(macromolecule)
+
+    def __read_rna(self, rna):
+        if rna:
+            self.all_db.add("RFam")
+            for sample_id, rfam in rna.items():
+                cross_ref_dbs = cross_ref_dbsType()
+                rfam_xref_obj = cross_ref_db(source="RFAM", accession_id=rfam.rfam_acc,
+                                                 provenance=rfam.provenance)
+                cross_ref_dbs.add_cross_ref_db(rfam_xref_obj)
+                if cross_ref_dbs.hasContent_():
+                    macromolecule = macromoleculeType(type_="rna", id=rfam.sample_id, copies=rfam.num_copies,
+                                                      provenance="EMDB", name=rfam.sample_name,
                                                       cross_ref_dbs=cross_ref_dbs)
                     self.macromolecules.add_macromolecule(macromolecule)
 
