@@ -175,9 +175,13 @@ class XMLParser:
 			for rna_tag in rnas:
 				sample_id = rna_tag.attrib.get('macromolecule_id')
 				rfam = Rfam(self.emdb_id, sample_id)
-				rfam.sample_name = rna_tag.find("name").text
-				rfam.num_copies = rna_tag.find("number_of_copies").text
-				rfam.pdb_id = model.pdb_id
+				sampleName = rna_tag.find("name")
+				if sampleName is not None:
+					rfam.sample_name = sampleName.text
+				numberCopies = rna_tag.find("number_of_copies")
+				if numberCopies is not None:
+					rfam.num_copies = numberCopies.text
+				rfam.pdb_id = self.models
 				self.rfams.append(rfam)
 
 			# Iterate over Ligands

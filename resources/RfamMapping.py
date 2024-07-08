@@ -38,13 +38,15 @@ class RfamMapping:
         return self.rfam
 
     def worker(self, rfam_dictionary, rf):
-        if rf.pdb_id in rfam_dictionary:
-            if rf.sample_id in rfam_dictionary[rf.pdb_id]:
-                rfam_entry = rfam_dictionary[rf.pdb_id][rf.sample_id]
-                rfam_acc, rfam_name = rfam_entry['rfam'].split(":", 1)
-                rf.rfam_id = rfam_entry['rfam_id'].strip()
-                rf.rfam_acc = rfam_acc.strip()
-                rf.provenance = "PDBe"
+        for model in rf.pdb_id:
+            pdb_id = model.pdb_id
+            if pdb_id in rfam_dictionary:
+                if rf.sample_id in rfam_dictionary[pdb_id]:
+                    rfam_entry = rfam_dictionary[pdb_id][rf.sample_id]
+                    rfam_acc, rfam_name = rfam_entry['rfam'].split(":", 1)
+                    rf.rfam_id = rfam_entry['rfam_id'].strip()
+                    rf.rfam_acc = rfam_acc.strip()
+                    rf.provenance = "PDBe"
 
     def export_tsv(self, rfam_logger):
         for rf in self.rfam:
