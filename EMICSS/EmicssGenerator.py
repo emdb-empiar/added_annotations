@@ -477,10 +477,10 @@ class EmicssXML:
 
     def __read_rna(self, rna):
         if rna:
-            self.all_db.add("RFam")
+            self.all_db.add("Rfam")
             for sample_id, rfam in rna.items():
                 cross_ref_dbs = cross_ref_dbsType()
-                rfam_xref_obj = cross_ref_db(source="RFAM", accession_id=rfam.rfam_acc,
+                rfam_xref_obj = cross_ref_db(source="Rfam", accession_id=rfam.rfam_acc,
                                                  provenance=rfam.provenance)
                 cross_ref_dbs.add_cross_ref_db(rfam_xref_obj)
                 if cross_ref_dbs.hasContent_():
