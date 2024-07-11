@@ -22,6 +22,7 @@ class Version:
         self.alphafold = self.__find_afdb_version()  # TODO: Version is currently fixed to all entries
         self.scop = "1.7.5" # TODO: Create methods to obtain version
         self.scop2 = "2.0" # TODO: Create methods to obtain version
+        self.rfam = self.__find_rfam_version()
         self.cpx = None  # TODO: Add version
         self.scop2b = None # TODO: Add version
         self.chebi = None # TODO: Add version
@@ -49,8 +50,26 @@ class Version:
             'SCOP': self.scop,
             'SCOP2': self.scop2,
             'SCOP2B':self.scop2b,
-            'AlphaFold DB': self.alphafold
+            'AlphaFold DB': self.alphafold,
+            'Rfam': self.rfam
         }
+
+    def __find_rfam_version(self):
+        url = "https://ftp.ebi.ac.uk/pub/databases/Rfam/CURRENT/README"
+        try:
+            response = requests.get(url, timeout=10)
+        except (requests.exceptions.ConnectTimeout, requests.exceptions.ReadTimeout) as e:
+            return None
+        else:
+            if response.status_code == 200 and response.content:
+                lines = response.text.split('\n')
+                # Find the first line containing the word "Release"
+                for line in lines:
+                    if "Release" in line:
+                        match = re.search(r'Release (\d+\.\d+)', line)
+                        if match:
+                            return match.group(1)
+            return None
 
     def __find_afdb_version(self):
         url = "https://alphafold.ebi.ac.uk/api/prediction/Q5VSL9"

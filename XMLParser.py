@@ -1,5 +1,5 @@
 import lxml.etree as ET
-from models import Protein, Supramolecule, Ligand, Model, Weight, Citation, GO, Sample, Interpro, Pfam, Author
+from models import Protein, Supramolecule, Ligand, Model, Weight, Citation, GO, Sample, Interpro, Pfam, Author, Rfam
 import re
 
 class XMLParser:
@@ -14,6 +14,7 @@ class XMLParser:
 		self.supramolecules = []
 		self.ligands = []
 		self.models = []
+		self.rfams = []
 		self.citation = None
 		self.overall_mw = 0.0
 		self.read_xml()
@@ -168,6 +169,20 @@ class XMLParser:
 					sequence = sequence.replace("\n", "")
 					protein.sequence = sequence
 				self.proteins.append(protein)
+
+			# Iterate over RNAs
+			rnas = root.xpath(".//rna")
+			for rna_tag in rnas:
+				sample_id = rna_tag.attrib.get('macromolecule_id')
+				rfam = Rfam(self.emdb_id, sample_id)
+				sampleName = rna_tag.find("name")
+				if sampleName is not None:
+					rfam.sample_name = sampleName.text
+				numberCopies = rna_tag.find("number_of_copies")
+				if numberCopies is not None:
+					rfam.num_copies = numberCopies.text
+				rfam.pdb_id = self.models
+				self.rfams.append(rfam)
 
 			# Iterate over Ligands
 			ligands = root.xpath(".//ligand")
