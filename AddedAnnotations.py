@@ -256,7 +256,6 @@ if __name__ == "__main__":
     uniprot_tab = config.get("file_paths", "uniprot_tab")
     #GO_obo = config.get("file_paths", "GO_obo")
     sifts_path = config.get("file_paths", "sifts")
-    #rfam_path = config.get("file_paths", "rfam_ftp")
 
     #Start loggers
     if uniprot:
