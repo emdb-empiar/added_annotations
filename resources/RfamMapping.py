@@ -2,7 +2,8 @@ import os
 import csv
 
 def generate_rfam_dictionary(workdir):
-    rfam_file = os.path.join(workdir, "rfam_solr.csv")
+    new_workdir = workdir.parent / "ftp_input"
+    rfam_file = os.path.join(new_workdir, "emdb_pdb_rfam.csv")
 
     rfam_dictionary = {}
 
