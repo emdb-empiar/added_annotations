@@ -118,7 +118,7 @@ class Version:
         try:
             response = requests.get(url, timeout=10)
         except (requests.exceptions.ConnectTimeout, requests.exceptions.ReadTimeout) as e:
-            return None
+            return None, None
         else:
             if response.status_code == 200:
                 res_text = response.text
@@ -127,7 +127,7 @@ class Version:
                     interpro_ver = data['databases']['interpro']['version']
                     pfam_ver = data['databases']['pfam']['version']
                     return interpro_ver, pfam_ver
-            return None
+            return None, None
 
     def __find_cath_version(self):
         url = "https://www.cathdb.info/"
