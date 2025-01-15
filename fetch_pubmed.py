@@ -41,7 +41,6 @@ def call_ePubmedCentral(pubmed_list, uri):
         if response.status_code == 200:
             try:
                 pmcjdata = json.loads(response.text)
-                #hitCount = pmcjdata['hitCount']
                 if 'result' in pmcjdata['resultList']:
                     result = pmcjdata['resultList']['result']
                     for pub_data in result:
