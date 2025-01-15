@@ -52,8 +52,6 @@ pmc: https://www.ebi.ac.uk/europepmc/webservices/rest/searchPOST
 | chem_comp_list.xml | 	Chemical component list | 	 https://ftp.ebi.ac.uk/pub/databases/msd/pdbechem_v2/ccd/chem_comp_list.xml                                                                       |
 | PMID_PMCID_DOI.csv.gz | 	Europe PMC dataset (compressed) | 	 https://europepmc.org/pub/databases/pmc/DOI/PMID_PMCID_DOI.csv.gz                                                                                |
 | PMID_PMCID_DOI.csv | 	Unzipped version of the Europe PMC dataset | 	 https://ftp.ebi.ac.uk/pub/databases/pmc/DOI/PMID_PMCID_DOI.csv                                                                                   |
-| emdb_pubmed | 	Mapping file created after running PublicationMapping.py | 	 emdb_pubmed.log                                                                                                                                  |
-| emdb_orcid | 	Mapping file created after running PublicationMapping.py | 	 emdb_orcid.log                                                                                                                                   |
 | assembly_ftp | 	PDB assemblies | 	 https://ftp.ebi.ac.uk/pub/databases/msd/assemblies/split/                                                                                        |
 | BLAST_DB | 	UniProt BLAST database | 	 https://ftp.uniprot.org/pub/databases/uniprot/uniprot_sprot/uniprot_sprot.fasta.gz                                                               |    
 | sifts_GO | 	PDB chain Gene Ontology mapping | 	 https://ftp.ebi.ac.uk/pub/databases/msd/sifts/pdb_chain_go.csv                                                                                   |    
