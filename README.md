@@ -19,6 +19,7 @@ pip install -r requirements.txt
 
 The repository uses a config.ini file for configuration, which is not included in the repository. This file should be created in the root directory of the project with the following structure:
 
+```
 [file_paths]
 uniprot_tab: <path_to_file>/uniprot.tsv
 CP_ftp: <path_to_file>/complextab
@@ -40,6 +41,7 @@ rfam_ftp: <path_to_file>/rfam_files_combined.txt
 
 [api]
 pmc: https://www.ebi.ac.uk/europepmc/webservices/rest/searchPOST
+```
 
 #### File Sources and Download Links
 | File        | 	Descritption         | 	Download Link                                                                                                                                     |	
@@ -60,29 +62,37 @@ pmc: https://www.ebi.ac.uk/europepmc/webservices/rest/searchPOST
 | sifts | 	SIFTS data | 	 https://ftp.ebi.ac.uk/pub/databases/msd/sifts/split_xml/                                                                                         |    
 | alphafold_ftp | 	AlphaFold DB accession IDs | 	 https://ftp.ebi.ac.uk/pub/databases/alphafold/accession_ids.csv                                                                                  |    
 | rfam_ftp | 	RFAM files | 	  https://www.ebi.ac.uk/pdbe/search/pdb/select?q=emdb_id:*%20AND%20rfam:%5B*%20TO%20*%5D&wt=csv&fl=emdb_id,pdb_id,rfam,rfam_id,entity_id&rows=9999999 |
-
-Download EMDB metadata files from https://ftp.ebi.ac.uk/pub/databases/emdb/structures/EMD-xxxx/header/emd-xxxx-v30.xml (replace "xxxxx" with correct EMDB accession number)
-Download EMPAIR metadata files from https://ftp.ebi.ac.uk/pub/databases/emtest/empiar/headers/xxxxx.xml (replace "xxxxx" with correct EMPAIR accession number)
-Replace <path_to_file> with the base directory where you store the files locally. Ensure all required files are downloaded and referenced correctly in the config.ini. Make sure your internet connection is active to query api endpoint during execution.
+| emd-xxxx-v30.xml | EMDB metadata | https://ftp.ebi.ac.uk/pub/databases/emdb/ |
+| xxxxx.xml | EMPIAR metadata | https://ftp.ebi.ac.uk/pub/databases/emtest/empiar |
 
 ### Usage
 
-To use the tools and scripts in this repository, follow these steps:
-Clone the repository:
-git clone https://github.com/emdb-empiar/added_annotations.git
-cd added_annotations
-
-Ensure the config.ini file is properly configured as described above.
+To use the tools and scripts in this repository, you just need to clone it and ensure the config.ini file is properly configured as described above.
 
 #### Executing the scripts:
 
 Execute the scripts independently in the following recommended order:
-* fetch_empiar.py: python fetch_empiar.py -w <output_dir_to_store_annotated_empiar_files> -f <path_to_empiar_metadata_files>
-* fetch_pubmed.py: python fetch_pubmed.py -w <output_dir_to_store_annotated_pubmed_files> -f <path_to_emdb_metadata_files>
-* added_annotations.py: python added_annotations.py -w <output_dir_to_store_added_annotations> -f <path_to_emdb_metadata_files> --all -t<number_of_threads>
-* fetch_afdb.py: python fetch_afdb.py -w <output_dir_to_store_annotated_alphafdb_files>
-* write_xml.py: python write_xml.py <output_dir_to_store_EMICSS_xml_files>
+##### EMPIAR mapping
+```
+fetch_empiar.py: python fetch_empiar.py -w <output_dir_to_store_annotated_empiar_files> -f <path_to_empiar_metadata_files>
+```
+##### Publication mapping
+```
+fetch_pubmed.py: python fetch_pubmed.py -w <output_dir_to_store_annotated_pubmed_files> -f <path_to_emdb_metadata_files>
+```
+##### Protein, complexes and ligands mapping
+```
+added_annotations.py: python added_annotations.py -w <output_dir_to_store_added_annotations> -f <path_to_emdb_metadata_files> --all -t <number_of_threads>
+```
+##### AlphaFold DB mapping
+```
+fetch_afdb.py: python fetch_afdb.py -w <output_dir_to_store_annotated_alphafdb_files>
+```
+##### Write files
+```
+write_xml.py: python write_xml.py <output_dir_to_store_EMICSS_xml_files>
+```
 
-### **Landing Page**
+### Further information
 
-For more information about EMICSS, visit the official EMICSS landing page (https://www.ebi.ac.uk/emdb/emicss). This page provides detailed information about the EMDB/EMICSS project.
+For more information about EMICSS, visit the official EMICSS website (https://www.ebi.ac.uk/emdb/emicss). This page provides detailed information about the EMDB/EMICSS project.
