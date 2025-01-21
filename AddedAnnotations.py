@@ -132,7 +132,6 @@ if __name__ == "__main__":
             Example:
             python AddedAnnotations.py -w '[{"/path/to/working/folder"}]'
             -f '[{"/path/to/EMDB/header/files/folder"}]'
-            -p '[{"/path/to/PDBe/files/folder"}]'
             --uniprot --CPX --component --model --weight --pmc --GO --interpro --pfam --pbdekb 
             --cath --scop --scop2 --scop2B --rfam
           """
@@ -142,7 +141,6 @@ if __name__ == "__main__":
     parser.add_argument("-h", "--help", action="help", help="Show this help message and exit.")
     parser.add_argument('-w', '--workDir', type=Path, help="Main working directory path .")
     parser.add_argument('-f', '--headerDir', type=Path, help="Directory path to the EMDB version 3.0 header files.")
-    parser.add_argument('-p', '--PDBeDir', type=Path, default=False,help="Directory path to the PDBe Complex portal mapping files.")
     parser.add_argument('-t', '--threads', type=int, default=4, help="Number of threads.")
     parser.add_argument('--json', type=Path, help="Path to release json file.")
     parser.add_argument("--all", type=bool, nargs='?', const=True, default=False, help="Fetch all external resources.")
