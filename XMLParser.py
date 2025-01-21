@@ -103,7 +103,7 @@ class XMLParser:
 				supramolecule = Supramolecule(self.emdb_id, complex_id)
 				supramolecule.id = f"supra_{complex_id}" #TODO: Is this supra_ id used anywhere?
 				supramolecule.type = "supra" #TODO: Where is it being used?
-				complex_name = complex_tag.find('name').text
+				complex_name = complex_tag.find('name').text.replace('\t', ' ').strip()
 				supramolecule.name = f"{complex_name}_{complex_id}"
 				self.supramolecules.append(supramolecule)
 
@@ -119,7 +119,7 @@ class XMLParser:
 				sample_id = protein_tag.attrib['macromolecule_id']
 				protein = Protein(self.emdb_id, sample_id)
 				protein.pdb = self.models
-				protein.sample_name = protein_tag.find('name').text
+				protein.sample_name = protein_tag.find('name').text.replace('\t', ' ').strip()
 				if sample_id in protein_cpx:
 					protein.sample_complexes = list(protein_cpx[sample_id])
 				if protein_tag.find('number_of_copies') is not None:
