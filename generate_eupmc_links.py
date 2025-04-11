@@ -106,13 +106,8 @@ def upload_file_via_ftp(
 def main():
     setup_logging()
 
-    parser = argparse.ArgumentParser()
-    parser.add_argument('-w', '--workDir', type=str, help="Main working directory path .")
-    args = parser.parse_args()
-    base_dir = args.workDir
-
-    input_tsv = os.path.join(base_dir, "tab-files/emdb_pubmed.tab")
-    output_xml = os.path.join(base_dir, "EMDB_linkFile_providerID_2057.xml")
+    input_tsv = "/nfs/ftp/public/databases/em_ebi/emdb_related/emicss/resources/emdb_pubmed.tsv"
+    output_xml = "/hps/nobackup/gerard/emdb/annotations/output/EMDB_linkFile_providerID_2057.xml"
 
     data = read_tsv(input_tsv)
     xml_root = build_xml(data)
