@@ -117,15 +117,8 @@ def run(filename):
         rfam_mapping.export_tsv(rfam_logger)
         packed_models["RFAM"] = rfam_map
 
-"""
-List of things to do:
-  - Adapt the unit tests to work with this version
-"""
 
 if __name__ == "__main__":
-    ######### Command : python /Users/amudha/project/git_code/added_annotations/AddedAnnotations.py
-    # -w /Users/amudha/project/ -f /Users/amudha/project/EMD_XML/ --CPX --model --uniprot --weight --pmc
-
     prog = "EMDBAddedAnnotations"
     usage = """
             Mapping EMDB entries to Complex portal, UNIPROT, chEMBL.
