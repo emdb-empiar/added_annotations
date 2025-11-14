@@ -8,7 +8,9 @@ import configparser
 import os
 from ftplib import FTP
 from pathlib import Path
-import os
+
+
+BATCH_SIZE = 5000  # number of links per XML file
 
 
 def setup_logging():
@@ -28,8 +30,7 @@ def read_tsv(file_path: str) -> List[Dict[str, str]]:
 
 
 def build_xml(data: List[Dict[str, str]]) -> ET.Element:
-    """Build the XML structure from the TSV data."""
-    logging.info("Building XML structure")
+    """Build XML for a batch of TSV rows."""
     root = ET.Element("links")
     for row in data:
         emdb_id = row["EMDB_ID"]
@@ -49,12 +50,10 @@ def build_xml(data: List[Dict[str, str]]) -> ET.Element:
 
 
 def prettify_xml(elem: ET.Element) -> str:
-    """Return a pretty-printed XML string for the Element."""
     return minidom.parseString(ET.tostring(elem, 'utf-8')).toprettyxml(indent="  ")
 
 
 def write_xml(xml_root: ET.Element, output_file: str) -> None:
-    """Write the XML tree to a file with pretty formatting."""
     logging.info(f"Writing XML to file: {output_file}")
     pretty_xml = prettify_xml(xml_root)
     with open(output_file, "w", encoding='utf-8') as f:
@@ -69,17 +68,6 @@ def upload_file_via_ftp(
     remote_dir: str = ".",
     remote_filename: str = None
 ) -> None:
-    """
-    Upload a file to an FTP server. It uses port 21 by default.
-
-    Args:
-        server (str): FTP server address.
-        username (str): FTP username.
-        password (str): FTP password.
-        local_file_path (str): Path to the local file to upload.
-        remote_dir (str): Remote directory to upload the file to. Default is root.
-        remote_filename (str): Optional name to give the uploaded file. Defaults to same as local file.
-    """
     if not os.path.exists(local_file_path):
         logging.error(f"Local file does not exist: {local_file_path}")
         return
@@ -97,26 +85,28 @@ def upload_file_via_ftp(
 
             with open(local_file_path, "rb") as file:
                 ftp.storbinary(f"STOR {remote_filename}", file)
-                logging.info(f"File uploaded successfully as {remote_filename}")
+                logging.info(f"Uploaded: {remote_filename}")
     except Exception as e:
         logging.error(f"FTP upload failed: {e}")
-        return
+
+
+def split_into_batches(data: List[Dict[str, str]], batch_size: int):
+    """Yield chunks of data of size batch_size."""
+    for i in range(0, len(data), batch_size):
+        yield data[i:i + batch_size]
 
 
 def main():
     setup_logging()
 
     input_tsv = "/nfs/ftp/public/databases/em_ebi/emdb_related/emicss/resources/emdb_pubmed.tsv"
-    output_xml = "/hps/nobackup/gerard/emdb/annotations/output/EPMC/EMDB_linkFile_providerID_2057.xml"
+    output_dir = "/hps/nobackup/gerard/emdb/annotations/output/EPMC"
 
     data = read_tsv(input_tsv)
-    xml_root = build_xml(data)
-    write_xml(xml_root, output_xml)
+    total = len(data)
+    logging.info(f"Total links: {total}")
 
-    logging.info(f"XML file generated: {output_xml}")
-
-    # Upload the XML file to the FTP server
-    logging.info("Uploading XML file to FTP server")
+    # Load FTP configuration
     config = configparser.ConfigParser()
     env_file = os.path.join(Path(__file__).parent.absolute(), "config.ini")
     config.read(env_file)
@@ -125,15 +115,32 @@ def main():
     ftp_pass = config.get("epmc_ftp", "password")
     ftp_dir = config.get("epmc_ftp", "directory")
 
-    upload_file_via_ftp(
-        server=ftp_server,
-        username=ftp_user,
-        password=ftp_pass,
-        local_file_path=output_xml,
-        remote_dir=ftp_dir
-    )
+    # Process and upload batches
+    part = 1
+    for batch in split_into_batches(data, BATCH_SIZE):
+        logging.info(f"Processing batch {part} ({len(batch)} records)")
 
-    logging.info("Processing complete.")
+        xml_root = build_xml(batch)
+
+        output_file = os.path.join(
+            output_dir,
+            f"EMDB_linkFile_providerID_2057_part{part}.xml"
+        )
+
+        write_xml(xml_root, output_file)
+
+        upload_file_via_ftp(
+            server=ftp_server,
+            username=ftp_user,
+            password=ftp_pass,
+            local_file_path=output_file,
+            remote_dir=ftp_dir
+        )
+
+        logging.info(f"Batch {part} completed.")
+        part += 1
+
+    logging.info("All batches processed successfully.")
 
 
 if __name__ == "__main__":
