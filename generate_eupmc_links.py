@@ -107,7 +107,7 @@ def main():
     setup_logging()
 
     input_tsv = "/nfs/ftp/public/databases/em_ebi/emdb_related/emicss/resources/emdb_pubmed.tsv"
-    output_xml = "/hps/nobackup/gerard/emdb/annotations/output/EMDB_linkFile_providerID_2057.xml"
+    output_xml = "/hps/nobackup/gerard/emdb/annotations/output/EPMC/EMDB_linkFile_providerID_2057.xml"
 
     data = read_tsv(input_tsv)
     xml_root = build_xml(data)
