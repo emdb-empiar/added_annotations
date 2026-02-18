@@ -55,6 +55,9 @@ rfam_ftp = <path_to_file>/rfam_files_combined.txt
 
 [api]
 pmc = https://www.ebi.ac.uk/europepmc/webservices/rest/searchPOST
+
+[params]
+minimal_map_fragment_length = 15
 ```
 
 #### Docker Configuration
@@ -87,7 +90,7 @@ minimal_map_fragment_length = 15
 **Note:** The paths in the Docker config should match the container mount points (e.g., `/data/...`), not the host paths.
 
 #### File Sources and Download Links
-| File        | 	Descritption         | 	Download Link                                                                                                                                     |	
+| File        | 	Description         | 	Download Link                                                                                                                                     |	
 |-------------|-----------------------|----------------------------------------------------------------------------------------------------------------------------------------------------|
 | uniprot.tsv | 	UniProt annpotations | 	 https://rest.uniprot.org/uniprotkb/stream?fields=accession,xref_pdb,protein_name&query=((database:pdb))&format=tsv&compressed=false              |
 | complextab | 	Complex Portal data | 	 https://ftp.ebi.ac.uk/pub/databases/complexportal/complexes.tab.gz                                                                               |
