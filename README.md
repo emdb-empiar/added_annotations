@@ -59,7 +59,7 @@ pmc: https://www.ebi.ac.uk/europepmc/webservices/rest/searchPOST
 
 #### Docker Configuration
 
-When using Docker, the config.ini file should use container paths. Create a config file at `/path/on/host/config.ini` with the following structure:
+When using Docker, the config.ini file should use container paths. An example configuration file is provided in `config.ini.docker-example`. Create your own config file on the host machine with the following structure:
 
 ```
 [file_paths]
