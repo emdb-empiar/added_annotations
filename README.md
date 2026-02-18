@@ -35,26 +35,26 @@ The repository uses a config.ini file for configuration, which is not included i
 
 ```
 [file_paths]
-uniprot_tab: <path_to_file>/uniprot.tsv
-CP_ftp: <path_to_file>/complextab
-components_cif: <path_to_file>/components.cif
-chem_comp_list: <path_to_file>/chem_comp_list.xml
-pmc_ftp_gz: <path_to_file>/PMID_PMCID_DOI.csv.gz
-pmc_ftp: <path_to_file>/PMID_PMCID_DOI.csv
-emdb_pubmed: <path_to_file>/emdb_pubmed.log
-emdb_orcid: <path_to_file>/emdb_orcid.log
-assembly_ftp: <path_to_file>/assembly/
-BLAST_DB: <path_to_file>/ncbi-blast-2.13.0+/database/uniprot_sprot
-BLASTP_BIN: blastp
-sifts_GO: <path_to_file>/pdb_chain_go.csv
-GO_obo: <path_to_file>/go.obo
-GO_interpro: /nfs/ftp/pub/databases/GO/goa/external2go/interpro2go
-sifts: <path_to_file>/split_xml/
-alphafold_ftp: <path_to_file>/accession_ids.txt
-rfam_ftp: <path_to_file>/rfam_files_combined.txt
+uniprot_tab = <path_to_file>/uniprot.tsv
+CP_ftp = <path_to_file>/complextab
+components_cif = <path_to_file>/components.cif
+chem_comp_list = <path_to_file>/chem_comp_list.xml
+pmc_ftp_gz = <path_to_file>/PMID_PMCID_DOI.csv.gz
+pmc_ftp = <path_to_file>/PMID_PMCID_DOI.csv
+emdb_pubmed = <path_to_file>/emdb_pubmed.log
+emdb_orcid = <path_to_file>/emdb_orcid.log
+assembly_ftp = <path_to_file>/assembly/
+BLAST_DB = <path_to_file>/ncbi-blast-2.13.0+/database/uniprot_sprot
+BLASTP_BIN = blastp
+sifts_GO = <path_to_file>/pdb_chain_go.csv
+GO_obo = <path_to_file>/go.obo
+GO_interpro = /nfs/ftp/pub/databases/GO/goa/external2go/interpro2go
+sifts = <path_to_file>/split_xml/
+alphafold_ftp = <path_to_file>/accession_ids.txt
+rfam_ftp = <path_to_file>/rfam_files_combined.txt
 
 [api]
-pmc: https://www.ebi.ac.uk/europepmc/webservices/rest/searchPOST
+pmc = https://www.ebi.ac.uk/europepmc/webservices/rest/searchPOST
 ```
 
 #### Docker Configuration
@@ -63,25 +63,25 @@ When using Docker, the config.ini file should use container paths. An example co
 
 ```
 [file_paths]
-CP_ftp: /data/cpx/
-components_cif: /data/components.cif
-pmc_ftp_gz: /data/pmc/PMID_PMCID_DOI.csv.gz
-pmc_ftp: /data/pmc/PMID_PMCID_DOI.csv
-assembly_ftp: /data/pdbe/assembly/
-BLAST_DB: /data/uniprotkb_swissprot
-BLASTP_BIN: blastp
-sifts_GO: /data/pdbe/go/pdb_chain_go.csv
-GO_obo: /data/go.obo
-emdb_empiar_list: /data/emdb_empiar.json
-sifts: /data/sifts/
-alphafold_ftp: /data/accession_ids.txt
-uniprot_tab: /data/uniprot.tsv
+CP_ftp = /data/cpx/
+components_cif = /data/components.cif
+pmc_ftp_gz = /data/pmc/PMID_PMCID_DOI.csv.gz
+pmc_ftp = /data/pmc/PMID_PMCID_DOI.csv
+assembly_ftp = /data/pdbe/assembly/
+BLAST_DB = /data/uniprotkb_swissprot
+BLASTP_BIN = blastp
+sifts_GO = /data/pdbe/go/pdb_chain_go.csv
+GO_obo = /data/go.obo
+emdb_empiar_list = /data/emdb_empiar.json
+sifts = /data/sifts/
+alphafold_ftp = /data/accession_ids.txt
+uniprot_tab = /data/uniprot.tsv
 
 [api]
-pmc: https://www.ebi.ac.uk/europepmc/webservices/rest/searchPOST
+pmc = https://www.ebi.ac.uk/europepmc/webservices/rest/searchPOST
 
 [params]
-minimal_map_fragment_length: 15
+minimal_map_fragment_length = 15
 ```
 
 **Note:** The paths in the Docker config should match the container mount points (e.g., `/data/...`), not the host paths.
