@@ -1,0 +1,26 @@
+# Example config.ini file for Docker usage
+# Copy this file to your host machine and update the paths to match your setup
+# All paths should point to locations inside the container (e.g., /data/...)
+# Mount your actual data directories when running the container
+
+[file_paths]
+# Point to the container mount point, not the host path
+CP_ftp = /data/cpx/
+components_cif = /data/components.cif
+pmc_ftp_gz = /data/pmc/PMID_PMCID_DOI.csv.gz
+pmc_ftp = /data/pmc/PMID_PMCID_DOI.csv
+assembly_ftp = /data/pdbe/assembly/
+BLAST_DB = /data/uniprotkb_swissprot
+BLASTP_BIN = blastp
+sifts_GO = /data/pdbe/go/pdb_chain_go.csv
+GO_obo = /data/go.obo
+emdb_empiar_list = /data/emdb_empiar.json
+sifts = /data/sifts/
+alphafold_ftp = /data/accession_ids.txt
+uniprot_tab = /data/uniprot.tsv
+
+[api]
+pmc = https://www.ebi.ac.uk/europepmc/webservices/rest/searchPOST
+
+[params]
+minimal_map_fragment_length = 15

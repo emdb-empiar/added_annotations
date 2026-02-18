@@ -1,0 +1,44 @@
+# Git
+.git
+.github
+.gitignore
+
+# Config files (users should mount their own)
+config.ini
+*.ini
+!config.ini.docker-example
+
+# Logs
+*.log
+
+# Data files
+*.tsv
+*.csv
+*.gz
+
+# Test files
+.coverage
+unit_test/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+tmp/
