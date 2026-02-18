@@ -5,8 +5,10 @@ This repository provides tools and scripts for extracting and adding annotations
 ### Table of Contents
 
 * Installation
+* Docker Installation
 * Configuration
 * Usage
+* Docker Usage
 * Contributing
 * License
 
@@ -14,6 +16,18 @@ This repository provides tools and scripts for extracting and adding annotations
 
 To install the necessary dependencies, run: 
 pip install -r requirements.txt
+
+### Docker Installation
+
+You can also run the scripts using Docker, which provides a containerized environment with all dependencies pre-installed.
+
+#### Building the Docker Image
+
+```bash
+docker build -t added-annotations .
+```
+
+This will create a Docker image with Python 3.8, BLAST+, and all required Python dependencies.
 
 ### Configuration
 
@@ -42,6 +56,35 @@ rfam_ftp: <path_to_file>/rfam_files_combined.txt
 [api]
 pmc: https://www.ebi.ac.uk/europepmc/webservices/rest/searchPOST
 ```
+
+#### Docker Configuration
+
+When using Docker, the config.ini file should use container paths. Create a config file at `/path/on/host/config.ini` with the following structure:
+
+```
+[file_paths]
+CP_ftp: /data/cpx/
+components_cif: /data/components.cif
+pmc_ftp_gz: /data/pmc/PMID_PMCID_DOI.csv.gz
+pmc_ftp: /data/pmc/PMID_PMCID_DOI.csv
+assembly_ftp: /data/pdbe/assembly/
+BLAST_DB: /data/uniprotkb_swissprot
+BLASTP_BIN: blastp
+sifts_GO: /data/pdbe/go/pdb_chain_go.csv
+GO_obo: /data/go.obo
+emdb_empiar_list: /data/emdb_empiar.json
+sifts: /data/sifts/
+alphafold_ftp: /data/accession_ids.txt
+uniprot_tab: /data/uniprot.tsv
+
+[api]
+pmc: https://www.ebi.ac.uk/europepmc/webservices/rest/searchPOST
+
+[params]
+minimal_map_fragment_length: 15
+```
+
+**Note:** The paths in the Docker config should match the container mount points (e.g., `/data/...`), not the host paths.
 
 #### File Sources and Download Links
 | File        | 	Descritption         | 	Download Link                                                                                                                                     |	
@@ -89,6 +132,94 @@ fetch_afdb.py: python fetch_afdb.py -w <output_dir_to_store_annotated_alphafdb_f
 ##### Write files
 ```
 write_xml.py: python write_xml.py <output_dir_to_store_EMICSS_xml_files>
+```
+
+### Docker Usage
+
+When running the scripts in Docker, you need to mount your data directories and config file as read-only volumes. The general pattern is:
+
+```bash
+docker run --rm \
+  -v /path/on/host/config.ini:/config/config.ini:ro \
+  -v /path/on/host/data:/data:ro \
+  -v /path/on/host/output:/output \
+  added-annotations python <script_name.py> <arguments>
+```
+
+#### Docker Volume Mounting
+
+- `-v /path/on/host/config.ini:/config/config.ini:ro` - Mount your config file as read-only
+- `-v /path/on/host/data:/data:ro` - Mount your data directory containing all required files (cpx, components.cif, etc.) as read-only
+- `-v /path/on/host/output:/output` - Mount output directory for writing results (read-write)
+
+**Important:** 
+- Use `:ro` flag for read-only mounts on data and config to prevent accidental modifications
+- Ensure your config.ini uses container paths (e.g., `/data/...`) that match your volume mounts
+- Map all directories referenced in your config.ini file to appropriate container paths
+
+#### Running Scripts in Docker
+
+Execute the scripts independently in the following recommended order:
+
+##### EMPIAR mapping
+```bash
+docker run --rm \
+  -v /path/on/host/config.ini:/config/config.ini:ro \
+  -v /path/on/host/empiar_metadata:/empiar_metadata:ro \
+  -v /path/on/host/output:/output \
+  added-annotations python fetch_empiar.py -w /output -f /empiar_metadata
+```
+
+##### Publication mapping
+```bash
+docker run --rm \
+  -v /path/on/host/config.ini:/config/config.ini:ro \
+  -v /path/on/host/emdb_metadata:/emdb_metadata:ro \
+  -v /path/on/host/output:/output \
+  added-annotations python fetch_pubmed.py -w /output -f /emdb_metadata
+```
+
+##### Protein, complexes and ligands mapping
+```bash
+docker run --rm \
+  -v /path/on/host/config.ini:/config/config.ini:ro \
+  -v /path/on/host/data:/data:ro \
+  -v /path/on/host/emdb_metadata:/emdb_metadata:ro \
+  -v /path/on/host/output:/output \
+  added-annotations python AddedAnnotations.py -w /output -f /emdb_metadata --all -t 4
+```
+
+##### AlphaFold DB mapping
+```bash
+docker run --rm \
+  -v /path/on/host/config.ini:/config/config.ini:ro \
+  -v /path/on/host/data:/data:ro \
+  -v /path/on/host/output:/output \
+  added-annotations python fetch_afdb.py -w /output
+```
+
+##### Generate Europe PMC Links
+```bash
+docker run --rm \
+  -v /path/on/host/config.ini:/config/config.ini:ro \
+  -v /path/on/host/output:/output \
+  added-annotations python generate_eupmc_links.py
+```
+
+##### Compare Release
+```bash
+docker run --rm \
+  -v /path/on/host/config.ini:/config/config.ini:ro \
+  -v /path/on/host/latest:/latest:ro \
+  -v /path/on/host/previous:/previous:ro \
+  added-annotations python compare_release.py /latest /previous
+```
+
+##### Write XML files
+```bash
+docker run --rm \
+  -v /path/on/host/output:/output \
+  added-annotations python write_xml.py /output
 ```
 
 ### Further information
