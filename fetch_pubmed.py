@@ -108,6 +108,7 @@ if __name__ == "__main__":
     parser.add_argument("-h", "--help", action="help", help="Show this help message and exit.")
     parser.add_argument('-w', '--workDir', type=Path, help="Main working directory path .")
     parser.add_argument('-f', '--headerDir', type=Path, help="Directory path to the EMDB version 3.0 header files.")
+    parser.add_argument('-c', '--config', type=Path, help="Path to the config file. Default is the config.ini file in the same directory as this script.")
     parser.add_argument('-N', default=500, help="Number of simultaneosly papers to be included in a query.")
 
     args = parser.parse_args()
@@ -117,7 +118,10 @@ if __name__ == "__main__":
 
     #Get config variables:
     config = configparser.ConfigParser()
-    env_file = os.path.join(Path(__file__).parent.absolute(), "config.ini")
+    if args.config:
+        env_file = args.config
+    else:
+        env_file = os.path.join(Path(__file__).parent.absolute(), "config.ini")
     config.read(env_file)
     pmc_uri = config.get("api", "pmc")
 

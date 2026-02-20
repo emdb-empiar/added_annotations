@@ -13,6 +13,7 @@ RUN apt-get update && apt-get install -y \
     libxslt-dev \
     libz-dev \
     ncbi-blast+ \
+    procps \
     wget \
     && rm -rf /var/lib/apt/lists/*
 

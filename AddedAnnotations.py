@@ -135,6 +135,7 @@ if __name__ == "__main__":
     parser.add_argument('-w', '--workDir', type=Path, help="Main working directory path .")
     parser.add_argument('-f', '--headerDir', type=Path, help="Directory path to the EMDB version 3.0 header files.")
     parser.add_argument('-t', '--threads', type=int, default=4, help="Number of threads.")
+    parser.add_argument('-c', '--config', type=Path, help="Path to the config file. Default is the config.ini file in the same directory as this script.")
     parser.add_argument('--json', type=Path, help="Path to release json file.")
     parser.add_argument("--all", type=bool, nargs='?', const=True, default=False, help="Fetch all external resources.")
     parser.add_argument("--uniprot", type=bool, nargs='?', const=True, default=False, help="Mapping to Complex Portal.")
@@ -235,7 +236,10 @@ if __name__ == "__main__":
 
     #Get config variables:
     config = configparser.ConfigParser()
-    env_file = os.path.join(Path(__file__).parent.absolute(), "config.ini")
+    if args.config:
+        env_file = args.config
+    else:
+        env_file = os.path.join(Path(__file__).parent.absolute(), "config.ini")
     config.read(env_file)
     blast_db = config.get("file_paths", "BLAST_DB")
     blastp_bin = config.get("file_paths", "BLASTP_BIN")
