@@ -36,7 +36,7 @@ sortedcontainers==2.4.0
 tqdm==4.62.3
 trio==0.19.0
 trio-websocket==0.9.2
-urllib3==1.26.3
+urllib3==2.7.0
 webdriver-manager==3.5.1
 wheel==0.33.6
 wsproto==1.0.0
