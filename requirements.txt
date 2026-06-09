@@ -16,7 +16,7 @@ gemmi==0.4.5
 h11==0.13.0
 idna==2.10
 joblib==1.0.1
-lxml==4.6.3
+lxml==6.1.0
 mock==4.0.3
 mygene==3.2.2
 mysql-connector-python==8.0.29
