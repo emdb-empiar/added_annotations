@@ -3,6 +3,7 @@ from pathlib import Path
 import requests
 from glob import glob
 import lxml.etree as ET
+from time import sleep
 
 class PubRef:
     def __init__(self, pubmed, pmc="", doi="", issn="", journal="", abbv=""):
