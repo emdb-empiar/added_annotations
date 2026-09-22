@@ -71,6 +71,7 @@ def call_ePubmedCentral(pubmed_list, uri):
                 print(f"WARN: Failed to read the result of {queryString}")
         else:
             print(f"WARN: Failed to connect to Europe PMC on {queryString}")
+        sleep(1)
     return publications
 
 
