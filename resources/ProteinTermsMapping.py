@@ -1,4 +1,4 @@
-import requests, re, gzip
+import requests, re, gzip, os, time
 from models import GO, Interpro, Pfam, Cath, SCOP, SCOP2, SCOP2B, Pdbekb
 import lxml.etree as ET
 from Bio import Align
@@ -13,7 +13,7 @@ class ProteinTermsMapping:
     """
 
     def __init__(self, proteins, sifts_prefix, is_go=True, is_interpro=True, is_pfam=True, is_cath=True,
-                 is_scop=True, is_scop2=True, is_scop2B=True, is_pdbekb=True):
+                 is_scop=True, is_scop2=True, is_scop2B=True, is_pdbekb=True, uniprot_xml_prefix=None):
         self.proteins = proteins
 
         self.is_interpro = is_interpro
@@ -25,6 +25,7 @@ class ProteinTermsMapping:
         self.is_scop2B = is_scop2B
         self.is_pdbekb = is_pdbekb
         self.sifts_prefix = sifts_prefix
+        self.uniprot_xml_prefix = uniprot_xml_prefix
 
     def execute(self, uniprot_with_models):
         for protein in self.proteins:
@@ -319,17 +320,44 @@ class ProteinTermsMapping:
 
         return optimal.aligned, optimal.score
 
+    def _read_local_uniprot_xml(self, uid):
+        """Return a locally cached UniProt XML entry, if available.
+
+        Production stores entries as individual XML files.
+        """
+        if not self.uniprot_xml_prefix:
+            return None
+
+        filepath = os.path.join(self.uniprot_xml_prefix, f"{uid}.xml")
+        try:
+            with open(filepath, "rb") as xml_file:
+                return xml_file.read()
+        except FileNotFoundError:
+            pass
+
+        return None
+
     def fetch_uniprot(self, uid):
         sequence = ""
         go_data = {}
         interpro_data = {}
         pfam_data = {}
-        url = f"https://www.uniprot.org/uniprotkb/{uid}.xml"
         namespace = {'x': 'http://uniprot.org/uniprot'}
-        response = requests.get(url)
-        if response.status_code == 200 and response.content:
+        content = self._read_local_uniprot_xml(uid)
+
+        if content is None:
+            url = f"https://rest.uniprot.org/uniprotkb/{uid}.xml"
             try:
-                root = ET.fromstring(response.content)
+                response = requests.get(url)
+                content = response.content if response.status_code == 200 else None
+            finally:
+                # This path is only used for entries missing from the local
+                # Swiss-Prot cache; avoid hammering UniProt from parallel jobs.
+                time.sleep(2)
+
+        if content:
+            try:
+                root = ET.fromstring(content)
                 sequence_tag = root.xpath("//x:entry/x:sequence", namespaces=namespace)
                 if sequence_tag:
                     sequence = sequence_tag[0].text

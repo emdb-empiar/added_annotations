@@ -109,7 +109,10 @@ def run(filename, is_header_file=False):
         scop2_log = start_logger_if_necessary("scop2_logger", scop2_log_file) if scop2 else None
         scop2B_log = start_logger_if_necessary("scop2B_logger", scop2B_log_file) if scop2B else None
         pdbekb_log = start_logger_if_necessary("pdbekb_logger", pdbekb_log_file) if pdbekb else None
-        PT_mapping = ProteinTermsMapping(unp_mapping.proteins, sifts_path, go, interpro, pfam, cath, scop, scop2, scop2B, pdbekb)
+        PT_mapping = ProteinTermsMapping(
+            unp_mapping.proteins, sifts_path, go, interpro, pfam, cath, scop,
+            scop2, scop2B, pdbekb, uniprot_xml_prefix=uniprot_xml_path
+        )
         proteins_map = PT_mapping.execute(uniprot_with_models)
         PT_mapping.export_tsv(go_log, interpro_log, pfam_log, cath_log, scop_log, scop2_log, scop2B_log, pdbekb_log)
         packed_models["PROTEIN-TERMS"] = proteins_map
@@ -257,6 +260,7 @@ if __name__ == "__main__":
     uniprot_tab = config.get("file_paths", "uniprot_tab")
     #GO_obo = config.get("file_paths", "GO_obo")
     sifts_path = config.get("file_paths", "sifts")
+    uniprot_xml_path = config.get("file_paths", "uniprot_xml", fallback=None)
 
     #Start loggers
     if uniprot:
