@@ -342,7 +342,6 @@ class ProteinTermsMapping:
         go_data = {}
         interpro_data = {}
         pfam_data = {}
-        namespace = {'x': 'http://uniprot.org/uniprot'}
         content = self._read_local_uniprot_xml(uid)
 
         if content is None:
@@ -358,39 +357,42 @@ class ProteinTermsMapping:
         if content:
             try:
                 root = ET.fromstring(content)
-                sequence_tag = root.xpath("//x:entry/x:sequence", namespaces=namespace)
+                # The local Swiss-Prot files use the HTTPS namespace while the
+                # UniProt REST endpoint returns the HTTP namespace.  Match by
+                # local element name so both representations are accepted.
+                sequence_tag = root.xpath("//*[local-name()='entry']/*[local-name()='sequence']")
                 if sequence_tag:
                     sequence = sequence_tag[0].text
 
                     if self.is_go:
-                        go_elements = root.findall(".//{http://uniprot.org/uniprot}dbReference[@type='GO']")
+                        go_elements = root.xpath(".//*[local-name()='dbReference' and @type='GO']")
                         for element in go_elements:
                             go = GO()
                             go.id = element.get("id")
                             go.unip_id = uid
-                            terms = element.findall("{http://uniprot.org/uniprot}property[@type='term']")
+                            terms = element.xpath("./*[local-name()='property' and @type='term']")
                             if terms:
                                 term_text = terms[0].get("value")
                                 go.type = term_text[0]
                                 go.namespace = term_text[2:]
                                 go_data[go.id] = go
                     if self.is_interpro:
-                        interpro_elements = root.findall(".//{http://uniprot.org/uniprot}dbReference[@type='InterPro']")
+                        interpro_elements = root.xpath(".//*[local-name()='dbReference' and @type='InterPro']")
                         for element in interpro_elements:
                             interpro = Interpro()
                             interpro.id = element.get("id")
                             interpro.unip_id = uid
-                            terms = element.findall("{http://uniprot.org/uniprot}property[@type='entry name']")
+                            terms = element.xpath("./*[local-name()='property' and @type='entry name']")
                             if terms:
                                 interpro.namespace = terms[0].get("value")
                                 interpro_data[interpro.id] = interpro
                     if self.is_pfam:
-                        pfam_elements = root.findall(".//{http://uniprot.org/uniprot}dbReference[@type='Pfam']")
+                        pfam_elements = root.xpath(".//*[local-name()='dbReference' and @type='Pfam']")
                         for element in pfam_elements:
                             pfam = Pfam()
                             pfam.id = element.get("id")
                             pfam.unip_id = uid
-                            terms = element.findall("{http://uniprot.org/uniprot}property[@type='entry name']")
+                            terms = element.xpath("./*[local-name()='property' and @type='entry name']")
                             if terms:
                                 pfam.namespace = terms[0].get("value")
                                 pfam_data[pfam.id] = pfam
