@@ -128,6 +128,10 @@ fetch_pubmed.py: python fetch_pubmed.py -w <output_dir_to_store_annotated_pubmed
 ```
 added_annotations.py: python added_annotations.py -w <output_dir_to_store_added_annotations> -f <path_to_emdb_metadata_files> --all -t <number_of_threads>
 ```
+##### Single-entry debugging
+```
+AddedAnnotations.py: python AddedAnnotations.py -w <output_dir_to_store_added_annotations> --headerFile <path_to_emd-xxxx-v30.xml> --GO -t 1
+```
 ##### AlphaFold DB mapping
 ```
 fetch_afdb.py: python fetch_afdb.py -w <output_dir_to_store_annotated_alphafdb_files>

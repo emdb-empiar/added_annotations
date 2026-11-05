@@ -48,14 +48,17 @@ def read_json(input_file, headerDir):
 
     return files
 
-def run(filename):
-    id_num = filename.split('-')[1]
-    print(f"Running EMD-{id_num}")
-    xml_filepath = os.path.join(filename, f"header/emd-{id_num}-v30.xml")
+def run(filename, is_header_file=False):
+    if is_header_file:
+        xml_filepath = filename
+    else:
+        id_num = Path(filename).name.split('-', 1)[1]
+        xml_filepath = os.path.join(filename, f"header/emd-{id_num}-v30.xml")
     if not os.path.isfile(xml_filepath):
         print(f"{xml_filepath} not found.")
         return None
     xml = XMLParser(xml_filepath)
+    print(f"Running {xml.emdb_id}")
     packed_models['HEADER'] = xml
     if uniprot:
         uniprot_log = start_logger_if_necessary("uniprot_logger", uniprot_log_file)
@@ -125,6 +128,7 @@ if __name__ == "__main__":
             Example:
             python AddedAnnotations.py -w '[{"/path/to/working/folder"}]'
             -f '[{"/path/to/EMDB/header/files/folder"}]'
+            --headerFile /path/to/emd-xxxx-v30.xml
             --uniprot --CPX --component --model --weight --pmc --GO --interpro --pfam --pbdekb 
             --cath --scop --scop2 --scop2B --rfam
           """
@@ -134,6 +138,8 @@ if __name__ == "__main__":
     parser.add_argument("-h", "--help", action="help", help="Show this help message and exit.")
     parser.add_argument('-w', '--workDir', type=Path, help="Main working directory path .")
     parser.add_argument('-f', '--headerDir', type=Path, help="Directory path to the EMDB version 3.0 header files.")
+    parser.add_argument('--headerFile', '--header-file', type=Path,
+                        help="Path to one EMDB version 3.0 header XML file; useful for debugging a single entry.")
     parser.add_argument('-t', '--threads', type=int, default=4, help="Number of threads.")
     parser.add_argument('-c', '--config', type=Path, help="Path to the config file. Default is the config.ini file in the same directory as this script.")
     parser.add_argument('--json', type=Path, help="Path to release json file.")
@@ -336,9 +342,20 @@ if __name__ == "__main__":
 
     pubmed_dict = generate_pubmed_dictionary(args.workDir) if pmc else {}
 
-    if input_json:
+    if args.headerFile:
+        if input_json or args.headerDir:
+            parser.error("--headerFile cannot be combined with --headerDir or --json")
+        files = [args.headerFile]
+        is_header_file = True
+    elif input_json:
+        if not args.headerDir:
+            parser.error("--headerDir is required with --json")
         files = read_json(input_json, args.headerDir)
+        is_header_file = False
     else:
+        if not args.headerDir:
+            parser.error("provide --headerDir, --headerFile, or --json with --headerDir")
         files = glob(os.path.join(args.headerDir, 'EMD-*'))
+        is_header_file = False
 
-    Parallel(n_jobs=args.threads)(delayed(run)(file) for file in files)
+    Parallel(n_jobs=args.threads)(delayed(run)(file, is_header_file) for file in files)
